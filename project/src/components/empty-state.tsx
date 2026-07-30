@@ -12,8 +12,8 @@ type EmptyStateProps = {
 export function EmptyState({ icon: Icon, title, description, action }: EmptyStateProps) {
   return (
     <div className="flex flex-col items-center rounded-md border-2 border-border bg-card px-8 py-14 text-center shadow-[4px_4px_0_0_var(--border)]">
-      <div className="mb-4 flex size-14 items-center justify-center rounded-full border-2 border-border bg-muted">
-        <Icon className="size-5 text-muted-foreground" strokeWidth={1.5} aria-hidden="true" />
+      <div className="mb-5 flex size-16 rotate-[-3deg] items-center justify-center rounded-md border-2 border-border bg-accent shadow-[3px_3px_0_0_var(--border)]">
+        <Icon className="size-5 text-accent-foreground" strokeWidth={1.5} aria-hidden="true" />
       </div>
       <h2 className="font-heading text-xl font-extrabold tracking-[-0.02em] text-foreground">
         {title}
