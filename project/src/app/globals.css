@@ -1,0 +1,102 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-body);
+  --font-mono: var(--font-mono-custom);
+  --font-heading: var(--font-heading);
+  --color-ring: var(--ring);
+  --color-input: var(--input);
+  --color-border: var(--border);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-accent: var(--accent);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-muted: var(--muted);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-secondary: var(--secondary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary: var(--primary);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-popover: var(--popover);
+  --color-card-foreground: var(--card-foreground);
+  --color-card: var(--card);
+  --radius-sm: 0.875rem;
+  --radius-md: 1.375rem;
+  --radius-lg: 2.25rem;
+  --radius-xl: 2.5rem;
+  --radius-2xl: 3rem;
+  --radius-3xl: 3.5rem;
+  --radius-4xl: 4rem;
+}
+
+:root {
+  /* playful/bold direction — locked in SPEC.md, derived to OKLCH in design-system/MASTER.md */
+  --background: oklch(0.9796 0.0158 73.68); /* #fff7ed */
+  --foreground: oklch(0.1929 0.0691 300.44); /* #1a0a2e */
+  --card: oklch(1 0 0); /* #ffffff */
+  --card-foreground: oklch(0.1929 0.0691 300.44);
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.1929 0.0691 300.44);
+  --primary: oklch(0.5413 0.2466 293.01); /* #7c3aed */
+  --primary-foreground: oklch(1 0 0);
+  --secondary: oklch(0.9619 0.058 95.62); /* #fef3c7 */
+  --secondary-foreground: oklch(0.1929 0.0691 300.44);
+  --muted: oklch(0.9619 0.058 95.62); /* #fef3c7 */
+  --muted-foreground: oklch(0.4383 0.1983 303.72); /* #6b21a8 */
+  --accent: oklch(0.7576 0.159 55.93); /* #fb923c */
+  --accent-foreground: oklch(0.1929 0.0691 300.44); /* never white-on-accent, contrast fails */
+  --destructive: oklch(0.5771 0.2152 27.33); /* #dc2626 */
+  --destructive-foreground: oklch(1 0 0);
+  --border: oklch(0.1929 0.0691 300.44); /* = foreground, for a visible hard border */
+  --input: oklch(0.1929 0.0691 300.44);
+  --ring: oklch(0.5413 0.2466 293.01); /* = primary */
+}
+
+.dark {
+  --background: oklch(0.1929 0.0691 300.44); /* #1a0a2e */
+  --foreground: oklch(0.9696 0.0244 83.42); /* #fdf4e3 */
+  --card: oklch(0.2299 0.0719 303.01); /* #241238 */
+  --card-foreground: oklch(0.9696 0.0244 83.42);
+  --popover: oklch(0.2299 0.0719 303.01);
+  --popover-foreground: oklch(0.9696 0.0244 83.42);
+  --primary: oklch(0.709 0.1592 293.54); /* #a78bfa */
+  --primary-foreground: oklch(0.1929 0.0691 300.44);
+  --secondary: oklch(0.3121 0.0875 304.43); /* #3b2354 */
+  --secondary-foreground: oklch(0.9024 0.0604 306.7); /* #e9d5ff */
+  --muted: oklch(0.3121 0.0875 304.43);
+  --muted-foreground: oklch(0.9024 0.0604 306.7);
+  --accent: oklch(0.8366 0.1165 66.29); /* #fdba74 */
+  --accent-foreground: oklch(0.1929 0.0691 300.44);
+  --destructive: oklch(0.7106 0.1661 22.22); /* #f87171 */
+  --destructive-foreground: oklch(0.1929 0.0691 300.44);
+  --border: oklch(0.9696 0.0244 83.42); /* = foreground (light cream), visible against dark bg */
+  --input: oklch(0.9696 0.0244 83.42);
+  --ring: oklch(0.709 0.1592 293.54); /* = primary */
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+  html {
+    @apply font-sans;
+  }
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    @apply font-heading font-extrabold tracking-[-0.02em];
+  }
+}
