@@ -58,3 +58,5 @@ next-env.d.ts
 # pattern is here defensively in case a user creates a project-local
 # .lazyweb/ folder by accident.
 .lazyweb/
+
+.vercel
