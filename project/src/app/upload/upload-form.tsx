@@ -10,6 +10,11 @@ import { PaywallModal } from "@/components/PaywallModal";
 import { trackEvent } from "@/lib/analytics/track-event";
 import { uploadLetter } from "./actions";
 
+// Kept below the 20mb server-side limit (next.config.ts) to leave headroom
+// for multipart/form-data overhead, and to give a friendly message on the
+// client before ever making a request that would be rejected.
+const MAX_FILE_SIZE_BYTES = 18 * 1024 * 1024;
+
 export function UploadForm() {
   const router = useRouter();
   const [pending, startTransition] = useTransition();
@@ -23,6 +28,16 @@ export function UploadForm() {
   function handleFiles(files: FileList | null) {
     const picked = files?.[0];
     if (!picked) return;
+
+    if (picked.size > MAX_FILE_SIZE_BYTES) {
+      setFile(null);
+      setError({
+        message: "That file is too large.",
+        recovery: "Try a photo under 18MB, or compress it first.",
+      });
+      return;
+    }
+
     setFile(picked);
     setError(null);
     setTrialLimitReached(false);
@@ -37,19 +52,30 @@ export function UploadForm() {
     formData.append("file", file);
 
     startTransition(async () => {
-      const result = await uploadLetter(formData);
-      if (!result.ok) {
-        if (result.error.code === "TRIAL_LIMIT_REACHED") {
-          setTrialLimitReached(true);
-          trackEvent("trial_limit_reached");
+      try {
+        const result = await uploadLetter(formData);
+        if (!result.ok) {
+          if (result.error.code === "TRIAL_LIMIT_REACHED") {
+            setTrialLimitReached(true);
+            trackEvent("trial_limit_reached");
+            return;
+          }
+          setError({ message: result.error.message, recovery: result.error.recovery });
           return;
         }
-        setError({ message: result.error.message, recovery: result.error.recovery });
-        return;
+        trackEvent("letter_uploaded", { file_type: file.type });
+        trackEvent("analysis_completed", { letter_id: result.data.letterId });
+        router.push(`/letters/${result.data.letterId}`);
+      } catch (err) {
+        // Defense in depth: a server action call can fail before our code
+        // ever runs (oversized request, network drop, timeout). Never let
+        // that crash the page — always land on a recoverable message.
+        console.error("Upload request failed", err);
+        setError({
+          message: "Upload failed — try again.",
+          recovery: "Check your connection. If the file is very large, try a smaller photo.",
+        });
       }
-      trackEvent("letter_uploaded", { file_type: file.type });
-      trackEvent("analysis_completed", { letter_id: result.data.letterId });
-      router.push(`/letters/${result.data.letterId}`);
     });
   }
 
