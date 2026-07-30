@@ -8,7 +8,7 @@ type Deadline = { date: string; description: string };
 
 export async function generateMetadata() {
   return {
-    title: "Your letter, translated",
+    title: "Your letter, translated — German Post Letter Reader",
     description: "Plain-language summary, deadlines, and a ready-to-send reply.",
   };
 }

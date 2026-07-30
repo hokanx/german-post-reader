@@ -7,6 +7,7 @@ import { Upload, FileText, Camera } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { ErrorState } from "@/components/error-state";
 import { PaywallModal } from "@/components/PaywallModal";
+import { trackEvent } from "@/lib/analytics/track-event";
 import { uploadLetter } from "./actions";
 
 export function UploadForm() {
@@ -40,11 +41,14 @@ export function UploadForm() {
       if (!result.ok) {
         if (result.error.code === "TRIAL_LIMIT_REACHED") {
           setTrialLimitReached(true);
+          trackEvent("trial_limit_reached");
           return;
         }
         setError({ message: result.error.message, recovery: result.error.recovery });
         return;
       }
+      trackEvent("letter_uploaded", { file_type: file.type });
+      trackEvent("analysis_completed", { letter_id: result.data.letterId });
       router.push(`/letters/${result.data.letterId}`);
     });
   }

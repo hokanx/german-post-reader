@@ -2,6 +2,7 @@ import { NextResponse, type NextRequest } from "next/server";
 import type Stripe from "stripe";
 import { createServiceClient } from "@/lib/supabase/service";
 import { createStripeClient } from "@/lib/stripe";
+import { trackServerEvent } from "@/lib/analytics/track-server-event";
 import { env } from "@/lib/env";
 
 function mapStripeStatus(status: Stripe.Subscription.Status): "trialing" | "active" | "canceled" {
@@ -54,14 +55,24 @@ export async function POST(request: NextRequest) {
       event.type === "customer.subscription.deleted" ? "canceled" : mapStripeStatus(subscription.status);
 
     const service = createServiceClient();
-    const { error } = await service
+    const { data: updated, error } = await service
       .from("profiles")
       .update({ subscription_status: status })
-      .eq("stripe_customer_id", customerId);
+      .eq("stripe_customer_id", customerId)
+      .select("id")
+      .single();
 
     if (error) {
       console.error("Failed to update subscription_status from webhook", error);
       return NextResponse.json({ error: "Failed to update profile" }, { status: 500 });
+    }
+
+    if (updated) {
+      if (status === "active") {
+        await trackServerEvent(updated.id, "subscription_started");
+      } else if (event.type === "customer.subscription.deleted") {
+        await trackServerEvent(updated.id, "subscription_canceled");
+      }
     }
   }
 

@@ -4,14 +4,16 @@ import { Upload, Mail } from "lucide-react";
 import { createClient } from "@/lib/supabase/server";
 import { buttonVariants } from "@/components/ui/button";
 import { EmptyState } from "@/components/empty-state";
+import type { AppLanguage } from "@/lib/letters/types";
 import { LetterList } from "./letter-list";
 import { LogoutButton } from "./logout-button";
 import { ManageSubscriptionLink } from "./manage-subscription-link";
+import { LanguageSwitcher } from "./language-switcher";
 
 const TRIAL_LIMIT = 3;
 
 export const metadata = {
-  title: "Dashboard",
+  title: "Dashboard — German Post Letter Reader",
   robots: { index: false },
 };
 
@@ -28,7 +30,7 @@ export default async function DashboardPage() {
   const [{ data: profile }, { data: letters }] = await Promise.all([
     supabase
       .from("profiles")
-      .select("subscription_status, trial_letters_used")
+      .select("subscription_status, trial_letters_used, language")
       .eq("id", user.id)
       .single(),
     supabase
@@ -45,11 +47,14 @@ export default async function DashboardPage() {
   return (
     <main className="flex-1 bg-background">
       <div className="mx-auto max-w-3xl px-6 py-8">
-        <div className="mb-8 flex items-center justify-between">
+        <div className="mb-8 flex flex-wrap items-center justify-between gap-3">
           <Link href="/" className="font-heading text-lg font-extrabold tracking-[-0.02em] text-foreground">
             German Post, translated.
           </Link>
-          <LogoutButton />
+          <div className="flex items-center gap-3">
+            <LanguageSwitcher current={(profile?.language ?? "en") as AppLanguage} />
+            <LogoutButton />
+          </div>
         </div>
 
         {isSubscribed ? (
