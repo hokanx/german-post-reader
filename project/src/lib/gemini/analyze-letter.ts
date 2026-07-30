@@ -51,6 +51,43 @@ Rules:
 - risk_flags: if any amount, date, or instruction is ambiguous or you are not fully confident you read it correctly, add a plain-language warning here instead of guessing. Never silently guess at a number or date you're unsure about.`;
 }
 
+const RETRYABLE_STATUSES = new Set([429, 503]);
+const RETRY_DELAYS_MS = [500, 1500];
+
+function isRetryableStatus(error: unknown): boolean {
+  const status = (error as { status?: number } | null)?.status;
+  return typeof status === "number" && RETRYABLE_STATUSES.has(status);
+}
+
+function sleep(ms: number) {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
+/**
+ * Gemini occasionally returns 503 ("This model is currently experiencing
+ * high demand... please try again later") or 429 (rate limit) — both
+ * explicitly transient per Google's own error message. Retrying a couple
+ * times with a short backoff turns most of these into a slightly slower
+ * success instead of a user-facing failure that requires a manual retry.
+ */
+async function withRetry<T>(fn: () => Promise<T>): Promise<T> {
+  let lastError: unknown;
+  for (let attempt = 0; attempt <= RETRY_DELAYS_MS.length; attempt++) {
+    try {
+      return await fn();
+    } catch (error) {
+      lastError = error;
+      if (attempt < RETRY_DELAYS_MS.length && isRetryableStatus(error)) {
+        console.warn(`Gemini call failed (attempt ${attempt + 1}), retrying`, error);
+        await sleep(RETRY_DELAYS_MS[attempt]);
+        continue;
+      }
+      throw lastError;
+    }
+  }
+  throw lastError;
+}
+
 async function parseResponse(text: string | undefined): Promise<Result<LetterAnalysis>> {
   if (!text) {
     return {
@@ -82,18 +119,20 @@ export async function analyzeDocument(
 ): Promise<Result<LetterAnalysis>> {
   try {
     const ai = createGeminiClient();
-    const response = await ai.models.generateContent({
-      model: GEMINI_MODEL,
-      contents: [
-        { inlineData: { data: bytes.toString("base64"), mimeType } },
-        "Read this German letter and produce the required JSON analysis.",
-      ],
-      config: {
-        systemInstruction: buildSystemInstruction(language),
-        responseMimeType: "application/json",
-        responseSchema: RESPONSE_SCHEMA,
-      },
-    });
+    const response = await withRetry(() =>
+      ai.models.generateContent({
+        model: GEMINI_MODEL,
+        contents: [
+          { inlineData: { data: bytes.toString("base64"), mimeType } },
+          "Read this German letter and produce the required JSON analysis.",
+        ],
+        config: {
+          systemInstruction: buildSystemInstruction(language),
+          responseMimeType: "application/json",
+          responseSchema: RESPONSE_SCHEMA,
+        },
+      }),
+    );
     return parseResponse(response.text);
   } catch (error) {
     console.error("Gemini analysis failed", error);
