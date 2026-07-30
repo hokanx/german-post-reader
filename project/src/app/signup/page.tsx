@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { FREE_LETTER_LIMIT } from "@/lib/constants";
 import { SignupForm } from "./signup-form";
 
 export const metadata = {
@@ -18,7 +19,7 @@ export default function SignupPage() {
         </Link>
         <div className="rounded-lg border-2 border-border bg-card p-8 shadow-[4px_4px_0_0_var(--border)]">
           <h1 className="text-2xl font-extrabold tracking-[-0.02em] text-foreground">
-            3 letters free, no card needed
+            {FREE_LETTER_LIMIT} letters free, no card needed
           </h1>
           <p className="mt-2 text-sm text-foreground/70">
             Create an account to start reading your German post in plain

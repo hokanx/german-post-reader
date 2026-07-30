@@ -1,5 +1,6 @@
 import { Resend } from "resend";
 import { env } from "@/lib/env";
+import { FREE_LETTER_LIMIT } from "@/lib/constants";
 import { WelcomeEmail } from "@/emails/WelcomeEmail";
 
 /**
@@ -18,7 +19,7 @@ export async function sendWelcomeEmail(to: string) {
     await resend.emails.send({
       from: env.RESEND_FROM_EMAIL,
       to,
-      subject: "Welcome — your first 3 letters are free",
+      subject: `Welcome — your first ${FREE_LETTER_LIMIT} letters are free`,
       react: WelcomeEmail(),
     });
   } catch (error) {

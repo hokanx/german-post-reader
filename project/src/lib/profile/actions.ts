@@ -1,16 +1,9 @@
 "use server";
 
-import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
 import { createClient } from "@/lib/supabase/server";
 import type { Result } from "@/lib/result";
 import type { AppLanguage } from "@/lib/letters/types";
-
-export async function logout() {
-  const supabase = await createClient();
-  await supabase.auth.signOut();
-  redirect("/login");
-}
 
 const LANGUAGES: AppLanguage[] = ["en", "ar", "tr"];
 
@@ -38,5 +31,6 @@ export async function changeLanguage(language: AppLanguage): Promise<Result<null
   }
 
   revalidatePath("/dashboard");
+  revalidatePath("/upload");
   return { ok: true, data: null };
 }

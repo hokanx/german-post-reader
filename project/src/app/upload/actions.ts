@@ -4,10 +4,10 @@ import { randomUUID } from "node:crypto";
 import { createClient } from "@/lib/supabase/server";
 import { createServiceClient } from "@/lib/supabase/service";
 import { analyzeDocument } from "@/lib/gemini/analyze-letter";
+import { FREE_LETTER_LIMIT } from "@/lib/constants";
 import type { AppLanguage } from "@/lib/letters/types";
 import type { Result } from "@/lib/result";
 
-const TRIAL_LIMIT = 3;
 const ACCEPTED_IMAGE_TYPES = new Set(["image/jpeg", "image/png"]);
 
 export async function uploadLetter(
@@ -42,7 +42,7 @@ export async function uploadLetter(
 
   const { data: profile, error: profileError } = await service
     .from("profiles")
-    .select("language, subscription_status, trial_letters_used")
+    .select("language, has_lifetime_access, trial_letters_used")
     .eq("id", user.id)
     .single();
 
@@ -53,13 +53,13 @@ export async function uploadLetter(
     };
   }
 
-  if (profile.subscription_status === "trialing" && profile.trial_letters_used >= TRIAL_LIMIT) {
+  if (!profile.has_lifetime_access && profile.trial_letters_used >= FREE_LETTER_LIMIT) {
     return {
       ok: false,
       error: {
         code: "TRIAL_LIMIT_REACHED",
-        message: "You've used all 3 free letters.",
-        recovery: "Subscribe to keep analyzing letters.",
+        message: `You've used all ${FREE_LETTER_LIMIT} free letters.`,
+        recovery: "Unlock unlimited letters for a one-time €5.99 payment.",
       },
     };
   }
@@ -100,6 +100,8 @@ export async function uploadLetter(
     summary: analysis.summary,
     deadlines: analysis.deadlines,
     reply_draft: analysis.reply_draft,
+    reply_draft_translation: analysis.reply_draft_translation,
+    detected_language_confirmed: analysis.detected_language_confirmed,
     risk_flags: analysis.risk_flags,
     language,
   });

@@ -10,6 +10,7 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
+import { FREE_LETTER_LIMIT, UNLIMITED_PRICE_EUR } from "@/lib/constants";
 
 export function PaywallModal({
   open,
@@ -47,11 +48,11 @@ export function PaywallModal({
             Free trial ended
           </span>
           <DialogTitle className="mt-3 font-heading text-2xl font-extrabold tracking-[-0.02em] text-foreground">
-            You&apos;ve used all 3 free letters
+            You&apos;ve used all {FREE_LETTER_LIMIT} free letters
           </DialogTitle>
           <DialogDescription className="text-sm text-foreground/70">
-            Subscribe for €9.99/month to keep analyzing letters — unlimited
-            summaries, deadlines, and reply drafts.
+            Unlock unlimited letters for a one-time payment of €{UNLIMITED_PRICE_EUR} — no
+            subscription, ever. Pay once, keep analyzing letters for good.
           </DialogDescription>
         </DialogHeader>
 
@@ -67,7 +68,7 @@ export function PaywallModal({
           onClick={handleSubscribe}
           className="h-12 w-full rounded-sm text-base font-bold"
         >
-          {pending ? "Redirecting…" : "Subscribe Now"}
+          {pending ? "Redirecting…" : `Unlock unlimited — €${UNLIMITED_PRICE_EUR}`}
         </Button>
       </DialogContent>
     </Dialog>

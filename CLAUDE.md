@@ -35,7 +35,7 @@ deeper rules live in scoped CLAUDE.md files that load automatically when you wor
 - Next.js (App Router): Full-stack framework: server components for data fetching, server actions for AI pipeline calls, API routes for Stripe webhooks.
 - Supabase: Postgres database (users, letters, analyses), auth (email + password), and storage bucket for uploaded letter images and PDFs.
 - Google Gemini (gemini-flash-latest): Vision + document model: reads letter images AND PDFs directly (native multimodal document understanding — no separate OCR step needed for either), returns structured JSON with summary, deadlines, and reply draft in the user's chosen language. Swapped in from the originally-planned OpenAI GPT-4o for its free tier — same role in the pipeline. Tesseract.js was dropped from the stack: it was originally scoped as the PDF-text-extraction step for the OpenAI pipeline, but Tesseract/Leptonica cannot decode PDF containers at all (image formats only), and Gemini's native PDF support makes that step unnecessary regardless.
-- Stripe: Monthly subscription billing: Stripe Checkout for signup, Customer Portal for cancellation, webhooks to sync subscription state to Supabase.
+- Stripe: One-time payment billing: Stripe Checkout (mode: payment) for the €5.99 unlimited unlock, a webhook (`checkout.session.completed`) to grant lifetime access in Supabase. No subscription, no Customer Portal — the app runs on Gemini's free tier so there's no recurring cost to pass on.
 - Resend: Transactional email: welcome email on signup, trial-limit nudge email.
 - Posthog: Product analytics: track letter uploads, language selections, trial conversions, subscription events.
 - Sentry: Error tracking and performance monitoring for the AI pipeline and upload flow.
@@ -82,16 +82,18 @@ Reference products for visual bar: Arc Browser, Granola, Cron (early), Loops.so,
 Arabic output must render in a right-to-left container (`dir="rtl"`). Any component that displays analysis text or reply drafts must check the user's selected language and set `dir` accordingly. Turkish and English are LTR. Test RTL on every UI step before marking done.
 
 ### AI pipeline rules
-- The analysis server action MUST return structured JSON with these exact keys: `summary` (string), `deadlines` (array of {date, description}), `reply_draft` (string), `detected_language_confirmed` (boolean), `risk_flags` (array of strings for ambiguous amounts or dates).
+- The analysis server action MUST return structured JSON with these exact keys: `summary` (string), `deadlines` (array of {date, description}), `reply_draft` (string), `reply_draft_translation` (string), `detected_language_confirmed` (boolean), `risk_flags` (array of strings for ambiguous amounts or dates).
+- `reply_draft` is ALWAYS written in German — it's the text that actually gets sent to the German recipient (Behörde, bank, insurer, landlord). `reply_draft_translation` is that same reply translated into the user's chosen language, so they know what they're sending before they send it. `summary`, `deadlines`, and `risk_flags` stay in the user's chosen language.
 - Never surface raw OCR output to the user — always pass through the AI pipeline first.
 - If the pipeline takes longer than 25 seconds, surface a loading state with progress copy — never a blank screen.
 - Wrap every Gemini call in a try/catch; on failure, show an explicit "Analysis failed — try again" error state, log to Sentry, and do NOT show partial output.
 
 ### Stripe rules
-- Subscription state is stored in Supabase on the `profiles` table as `subscription_status` (enum: trialing, active, canceled) and `trial_letters_used` (integer).
-- The free trial limit is 3 letters. Enforce server-side in the upload server action — never trust client-side counts.
-- Stripe webhooks (customer.subscription.updated, customer.subscription.deleted) must update `subscription_status` in Supabase via the service role key.
-- Stripe Checkout and Customer Portal URLs are generated server-side. Never pass the Stripe secret key to the client.
+- Access state is stored in Supabase on the `profiles` table as `has_lifetime_access` (boolean) and `trial_letters_used` (integer).
+- The free trial limit is 4 letters (`FREE_LETTER_LIMIT` in `src/lib/constants.ts` — the single source of truth; never hardcode the number elsewhere). Enforce server-side in the upload server action — never trust client-side counts.
+- Unlocking unlimited letters is a one-time payment of €5.99 (`UNLIMITED_PRICE_EUR` in the same constants file) — NOT a subscription. There is no Customer Portal, no cancellation flow, and no recurring billing.
+- The Stripe webhook listens for `checkout.session.completed` and sets `has_lifetime_access = true` via the service role key, matched on `client_reference_id` (the Supabase user id set at Checkout Session creation).
+- Stripe Checkout URLs are generated server-side. Never pass the Stripe secret key to the client.
 
 ### Letter history
 - Each uploaded letter and its analysis is stored in the `letters` table with RLS: users can SELECT/INSERT only their own rows.
@@ -103,7 +105,7 @@ Arabic output must render in a right-to-left container (`dir="rtl"`). Any compon
 - The welcome email is sent from the `onAuthStateChange` server-side hook (or a Supabase auth webhook), not from the client.
 
 ### Analytics rules
-- Posthog events to track: `letter_uploaded`, `analysis_completed`, `language_changed`, `trial_limit_reached`, `subscription_started`, `subscription_canceled`.
+- Posthog events to track: `letter_uploaded`, `analysis_completed`, `language_changed`, `trial_limit_reached`, `unlimited_purchased`.
 - Posthog is initialized client-side in a `<PosthogProvider>` wrapper — never import Posthog in server components.
 
 ### Scope guardrails

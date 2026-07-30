@@ -23,7 +23,7 @@ test.describe("large file upload", () => {
     await admin.from("profiles").upsert({
       id: userId,
       language: "en",
-      subscription_status: "trialing",
+      has_lifetime_access: false,
       trial_letters_used: 0,
     });
   });
@@ -33,6 +33,11 @@ test.describe("large file upload", () => {
   });
 
   test("a real-phone-photo-sized upload (~1.5MB) never crashes the page", async ({ page }) => {
+    // Gemini now generates both reply_draft (German) and reply_draft_translation,
+    // roughly doubling reply-generation output — real calls can run close to 30s,
+    // so the default Playwright test timeout doesn't leave enough margin.
+    test.setTimeout(90_000);
+
     await page.goto("/login");
     await page.getByLabel("Email").fill(email);
     await page.getByLabel("Password").fill("TestPassword123");
@@ -58,8 +63,8 @@ test.describe("large file upload", () => {
     // body-size regression this test guards against). The one outcome that
     // must never happen again is the global crash page or a raw 413.
     await Promise.race([
-      page.waitForURL(/\/letters\/[0-9a-f-]+$/, { timeout: 30_000 }),
-      page.getByText("Analysis failed").waitFor({ timeout: 30_000 }),
+      page.waitForURL(/\/letters\/[0-9a-f-]+$/, { timeout: 80_000 }),
+      page.getByText("Analysis failed").waitFor({ timeout: 80_000 }),
     ]);
     await expect(page.getByText("Something broke on our end")).not.toBeVisible();
     expect(responses.every((status) => status !== 413)).toBe(true);

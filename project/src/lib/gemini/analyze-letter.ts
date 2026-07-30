@@ -24,7 +24,11 @@ const RESPONSE_SCHEMA = {
     },
     reply_draft: {
       type: Type.STRING,
-      description: "A ready-to-send reply letter, in the target language, appropriate to the sender (Behörde, bank, insurer, landlord, etc.).",
+      description: "A ready-to-send reply letter, written in GERMAN (the recipient — Behörde, bank, insurer, landlord, etc. — reads German), appropriate to the sender and formal enough for official correspondence.",
+    },
+    reply_draft_translation: {
+      type: Type.STRING,
+      description: "The reply_draft's meaning translated into the target language, so the reader understands what they're about to send. Not a second reply — a faithful translation of the exact same letter.",
     },
     detected_language_confirmed: {
       type: Type.BOOLEAN,
@@ -36,19 +40,34 @@ const RESPONSE_SCHEMA = {
       description: "Plain-language warnings about any amount, date, or instruction the model is not fully confident it read correctly. Empty array if none.",
     },
   },
-  required: ["summary", "deadlines", "reply_draft", "detected_language_confirmed", "risk_flags"],
-  propertyOrdering: ["summary", "deadlines", "reply_draft", "detected_language_confirmed", "risk_flags"],
+  required: [
+    "summary",
+    "deadlines",
+    "reply_draft",
+    "reply_draft_translation",
+    "detected_language_confirmed",
+    "risk_flags",
+  ],
+  propertyOrdering: [
+    "summary",
+    "deadlines",
+    "reply_draft",
+    "reply_draft_translation",
+    "detected_language_confirmed",
+    "risk_flags",
+  ],
 };
 
 function buildSystemInstruction(language: AppLanguage) {
-  return `You read official German postal letters (Behörde notices, bank mail, insurance, landlord letters) for someone who cannot read German confidently. Extract the letter's content, then respond ONLY with the JSON object matching the required schema, written entirely in ${LANGUAGE_NAMES[language]}.
+  return `You read official German postal letters (Behörde notices, bank mail, insurance, landlord letters) for someone who cannot read German confidently. Extract the letter's content, then respond ONLY with the JSON object matching the required schema.
 
 Rules:
-- summary: plain language, no legal jargon, explain what the letter is about and why it matters.
-- deadlines: list every date the recipient must act by. If no deadline exists, return an empty array.
-- reply_draft: write a complete, ready-to-send reply appropriate to the sender, in ${LANGUAGE_NAMES[language]}.
+- summary: plain language, no legal jargon, explain what the letter is about and why it matters. Written entirely in ${LANGUAGE_NAMES[language]}.
+- deadlines: list every date the recipient must act by. If no deadline exists, return an empty array. Descriptions written in ${LANGUAGE_NAMES[language]}.
+- reply_draft: write a complete, ready-to-send reply appropriate to the sender, formal and correct — written entirely in GERMAN, regardless of the target language, because the recipient reads German.
+- reply_draft_translation: translate reply_draft's exact meaning into ${LANGUAGE_NAMES[language]}, so the person can understand what they're about to send before they send it. This is a translation of reply_draft, not an independent reply.
 - detected_language_confirmed: false if the source text seems too garbled/unclear to be confident it was German.
-- risk_flags: if any amount, date, or instruction is ambiguous or you are not fully confident you read it correctly, add a plain-language warning here instead of guessing. Never silently guess at a number or date you're unsure about.`;
+- risk_flags: if any amount, date, or instruction is ambiguous or you are not fully confident you read it correctly, add a plain-language warning here instead of guessing. Never silently guess at a number or date you're unsure about. Written in ${LANGUAGE_NAMES[language]}.`;
 }
 
 const RETRYABLE_STATUSES = new Set([429, 503]);

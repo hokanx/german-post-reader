@@ -1,16 +1,15 @@
 import { redirect } from "next/navigation";
+import { Suspense } from "react";
 import Link from "next/link";
 import { Upload, Mail } from "lucide-react";
 import { createClient } from "@/lib/supabase/server";
 import { buttonVariants } from "@/components/ui/button";
 import { EmptyState } from "@/components/empty-state";
+import { AppHeader } from "@/components/app-header";
+import { FREE_LETTER_LIMIT } from "@/lib/constants";
 import type { AppLanguage } from "@/lib/letters/types";
 import { LetterList } from "./letter-list";
-import { LogoutButton } from "./logout-button";
-import { ManageSubscriptionLink } from "./manage-subscription-link";
-import { LanguageSwitcher } from "./language-switcher";
-
-const TRIAL_LIMIT = 3;
+import { PurchaseConfirmationToast } from "./purchase-confirmation-toast";
 
 export const metadata = {
   title: "Dashboard — German Post Letter Reader",
@@ -30,7 +29,7 @@ export default async function DashboardPage() {
   const [{ data: profile }, { data: letters }] = await Promise.all([
     supabase
       .from("profiles")
-      .select("subscription_status, trial_letters_used, language")
+      .select("has_lifetime_access, trial_letters_used, language")
       .eq("id", user.id)
       .single(),
     supabase
@@ -40,38 +39,32 @@ export default async function DashboardPage() {
       .order("created_at", { ascending: false }),
   ]);
 
-  const isSubscribed = profile?.subscription_status === "active";
+  const hasLifetimeAccess = profile?.has_lifetime_access ?? false;
   const trialUsed = profile?.trial_letters_used ?? 0;
-  const lettersLeft = Math.max(TRIAL_LIMIT - trialUsed, 0);
+  const lettersLeft = Math.max(FREE_LETTER_LIMIT - trialUsed, 0);
 
   return (
     <main className="flex-1 bg-background">
+      <AppHeader language={(profile?.language ?? "en") as AppLanguage} />
+      <Suspense fallback={null}>
+        <PurchaseConfirmationToast />
+      </Suspense>
       <div className="mx-auto max-w-3xl px-6 py-8">
-        <div className="mb-8 flex flex-wrap items-center justify-between gap-3">
-          <Link href="/" className="font-heading text-lg font-extrabold tracking-[-0.02em] text-foreground">
-            German Post, translated.
-          </Link>
-          <div className="flex items-center gap-3">
-            <LanguageSwitcher current={(profile?.language ?? "en") as AppLanguage} />
-            <LogoutButton />
-          </div>
-        </div>
-
-        {isSubscribed ? (
-          <div className="mb-6 flex flex-wrap items-center justify-between gap-3 rounded-md border-2 border-border bg-muted px-5 py-4">
+        {hasLifetimeAccess ? (
+          <div className="mb-6 flex flex-wrap items-center gap-3 rounded-md border-2 border-border bg-muted px-5 py-4">
             <span className="rounded-full border-2 border-border bg-primary px-3 py-1 text-xs font-bold uppercase tracking-[0.06em] text-primary-foreground">
               Unlimited letters
             </span>
-            <ManageSubscriptionLink />
+            <span className="text-sm text-foreground/70">One-time payment — yours to keep.</span>
           </div>
         ) : (
           <div className="mb-6 rounded-md border-2 border-border bg-accent px-5 py-4">
             <span className="rounded-full border-2 border-border bg-background px-3 py-1 text-xs font-bold uppercase tracking-[0.06em] text-foreground">
-              {trialUsed} of {TRIAL_LIMIT} free letters used
+              {trialUsed} of {FREE_LETTER_LIMIT} free letters used
             </span>
             {lettersLeft === 0 && (
               <p className="mt-2 text-sm font-medium text-accent-foreground">
-                Subscribe to keep analyzing letters.
+                Unlock unlimited letters for a one-time €5.99 payment.
               </p>
             )}
           </div>

@@ -3,8 +3,8 @@
 import { useTransition } from "react";
 import { toast } from "sonner";
 import { trackEvent } from "@/lib/analytics/track-event";
+import { changeLanguage } from "@/lib/profile/actions";
 import type { AppLanguage } from "@/lib/letters/types";
-import { changeLanguage } from "./actions";
 
 const LANGUAGES: { code: AppLanguage; label: string }[] = [
   { code: "en", label: "EN" },

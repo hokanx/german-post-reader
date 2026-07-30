@@ -5,23 +5,6 @@ import { createStripeClient } from "@/lib/stripe";
 import { trackServerEvent } from "@/lib/analytics/track-server-event";
 import { env } from "@/lib/env";
 
-function mapStripeStatus(status: Stripe.Subscription.Status): "trialing" | "active" | "canceled" {
-  switch (status) {
-    case "trialing":
-    case "active":
-    case "past_due":
-    case "incomplete":
-    case "paused":
-      return "active";
-    case "canceled":
-    case "unpaid":
-    case "incomplete_expired":
-      return "canceled";
-    default:
-      return "active";
-  }
-}
-
 export async function POST(request: NextRequest) {
   if (!env.STRIPE_WEBHOOK_SECRET) {
     return NextResponse.json({ error: "Webhook is not configured" }, { status: 503 });
@@ -43,37 +26,33 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: "Invalid signature" }, { status: 400 });
   }
 
-  if (
-    event.type === "customer.subscription.updated" ||
-    event.type === "customer.subscription.deleted"
-  ) {
-    const subscription = event.data.object as Stripe.Subscription;
-    const customerId =
-      typeof subscription.customer === "string" ? subscription.customer : subscription.customer.id;
+  if (event.type === "checkout.session.completed") {
+    const session = event.data.object as Stripe.Checkout.Session;
+    const userId = session.client_reference_id;
 
-    const status =
-      event.type === "customer.subscription.deleted" ? "canceled" : mapStripeStatus(subscription.status);
+    if (!userId) {
+      console.error("checkout.session.completed had no client_reference_id", session.id);
+      return NextResponse.json({ received: true });
+    }
+
+    const customerId =
+      typeof session.customer === "string" ? session.customer : (session.customer?.id ?? null);
 
     const service = createServiceClient();
-    const { data: updated, error } = await service
+    const { error } = await service
       .from("profiles")
-      .update({ subscription_status: status })
-      .eq("stripe_customer_id", customerId)
-      .select("id")
-      .single();
+      .update({
+        has_lifetime_access: true,
+        ...(customerId ? { stripe_customer_id: customerId } : {}),
+      })
+      .eq("id", userId);
 
     if (error) {
-      console.error("Failed to update subscription_status from webhook", error);
+      console.error("Failed to grant lifetime access from webhook", error);
       return NextResponse.json({ error: "Failed to update profile" }, { status: 500 });
     }
 
-    if (updated) {
-      if (status === "active") {
-        await trackServerEvent(updated.id, "subscription_started");
-      } else if (event.type === "customer.subscription.deleted") {
-        await trackServerEvent(updated.id, "subscription_canceled");
-      }
-    }
+    await trackServerEvent(userId, "unlimited_purchased");
   }
 
   return NextResponse.json({ received: true });

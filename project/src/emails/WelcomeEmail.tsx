@@ -8,12 +8,13 @@ import {
   Section,
   Text,
 } from "@react-email/components";
+import { FREE_LETTER_LIMIT, UNLIMITED_PRICE_EUR } from "@/lib/constants";
 
 export function WelcomeEmail() {
   return (
     <Html>
       <Head />
-      <Preview>Your first 3 letters are free — no card required</Preview>
+      <Preview>{`Your first ${FREE_LETTER_LIMIT} letters are free — no card required`}</Preview>
       <Body style={styles.body}>
         <Container style={styles.container}>
           <Section style={styles.header}>
@@ -21,17 +22,22 @@ export function WelcomeEmail() {
           </Section>
           <Section style={styles.section}>
             <Text style={styles.text}>
-              Welcome. Your account is ready — you have 3 free letter
-              analyses to start with, no card required.
+              Welcome. Your account is ready — you have {FREE_LETTER_LIMIT} free
+              letter analyses to start with, no card required.
             </Text>
             <Text style={styles.text}>
               Upload a photo or PDF of any German letter and we&apos;ll give
               you a plain-language summary, flag any deadlines, and draft a
-              reply — in English, Arabic, or Turkish.
+              reply in German — with a translation so you know exactly what
+              it says, in English, Arabic, or Turkish.
             </Text>
             <Text style={styles.text}>
               If a letter mentions an amount or date we&apos;re not fully
               sure about, we&apos;ll say so plainly rather than guess.
+            </Text>
+            <Text style={styles.text}>
+              After your free letters, unlocking unlimited letters is a
+              one-time payment of €{UNLIMITED_PRICE_EUR} — no subscription.
             </Text>
           </Section>
         </Container>

@@ -1,8 +1,9 @@
 import { notFound, redirect } from "next/navigation";
-import { CalendarClock, TriangleAlert } from "lucide-react";
+import { CalendarClock, TriangleAlert, ShieldAlert } from "lucide-react";
 import { createClient } from "@/lib/supabase/server";
-import { CopyReplyButton } from "./copy-reply-button";
-import type { AppLanguage } from "@/lib/letters/types";
+import { AppHeader } from "@/components/app-header";
+import { ReplyDraftCard } from "./reply-draft-card";
+import { LANGUAGE_NAMES, type AppLanguage } from "@/lib/letters/types";
 
 type Deadline = { date: string; description: string };
 
@@ -28,83 +29,134 @@ export default async function LetterPage({
     redirect("/login");
   }
 
-  const { data: letter } = await supabase
-    .from("letters")
-    .select("id, summary, deadlines, reply_draft, risk_flags, language, created_at")
-    .eq("id", id)
-    .eq("user_id", user.id)
-    .single();
+  const [{ data: letter }, { data: profile }] = await Promise.all([
+    supabase
+      .from("letters")
+      .select(
+        "id, summary, deadlines, reply_draft, reply_draft_translation, detected_language_confirmed, risk_flags, language, created_at",
+      )
+      .eq("id", id)
+      .eq("user_id", user.id)
+      .single(),
+    supabase.from("profiles").select("language").eq("id", user.id).single(),
+  ]);
 
   if (!letter) {
     notFound();
   }
 
+  // This letter's own language (drives dir/translation below) is independent
+  // of the account's current language setting (drives the header's switcher)
+  // — a user may have re-analyzed later letters in a different language.
   const language = letter.language as AppLanguage;
+  const accountLanguage = (profile?.language ?? language) as AppLanguage;
   const isRtl = language === "ar";
   const deadlines = (letter.deadlines ?? []) as Deadline[];
   const riskFlags = (letter.risk_flags ?? []) as string[];
+  const lowConfidence = letter.detected_language_confirmed === false;
 
   return (
-    <main className="mx-auto max-w-2xl flex-1 bg-background px-6 py-16">
-      <div dir={isRtl ? "rtl" : "ltr"} className="grid gap-6">
-        <div>
-          <span className="rounded-full border-2 border-border bg-muted px-4 py-1.5 text-xs font-bold uppercase tracking-[0.06em] text-muted-foreground">
-            Analysis complete
-          </span>
-          <h1 className="mt-3 text-3xl font-extrabold tracking-[-0.02em] text-foreground md:text-4xl">
-            {letter.summary}
-          </h1>
-        </div>
+    <main className="flex-1 bg-background">
+      <AppHeader language={accountLanguage} backHref="/dashboard" />
+      <div className="mx-auto max-w-2xl px-6 py-12">
+        <div dir={isRtl ? "rtl" : "ltr"} className="grid gap-6">
+          {lowConfidence && (
+            <div className="flex items-start gap-3 rounded-md border-2 border-destructive bg-destructive/10 px-4 py-3">
+              <ShieldAlert
+                className="mt-0.5 size-5 shrink-0 text-destructive"
+                strokeWidth={1.5}
+                aria-hidden="true"
+              />
+              <p className="text-sm text-foreground">
+                We weren&apos;t fully confident this letter was read correctly — the photo or scan may
+                have been unclear. Double-check everything below before acting on it.
+              </p>
+            </div>
+          )}
 
-        {deadlines.length > 0 && (
-          <section className="rounded-md border-2 border-border bg-card p-6 shadow-[4px_4px_0_0_var(--border)]">
-            <h2 className="flex items-center gap-2 font-heading text-lg font-extrabold tracking-[-0.02em] text-foreground">
-              <CalendarClock className="size-5 text-primary" strokeWidth={1.5} aria-hidden="true" />
-              Deadlines
-            </h2>
-            <ul className="mt-4 grid gap-3">
-              {deadlines.map((deadline, i) => (
-                <li
-                  key={i}
-                  className="flex items-start justify-between gap-4 rounded-sm border-2 border-border bg-muted px-4 py-3"
-                >
-                  <span className="text-sm text-foreground">{deadline.description}</span>
-                  <span className="shrink-0 rounded-full border-2 border-border bg-accent px-3 py-1 text-xs font-bold uppercase tracking-[0.06em] text-accent-foreground">
-                    {deadline.date}
-                  </span>
-                </li>
-              ))}
-            </ul>
-          </section>
-        )}
-
-        {riskFlags.length > 0 && (
-          <section className="rounded-md border-2 border-destructive bg-destructive/10 p-6">
-            <h2 className="flex items-center gap-2 font-heading text-lg font-extrabold tracking-[-0.02em] text-foreground">
-              <TriangleAlert className="size-5 text-destructive" strokeWidth={1.5} aria-hidden="true" />
-              Worth double-checking
-            </h2>
-            <ul className="mt-3 grid gap-2">
-              {riskFlags.map((flag, i) => (
-                <li key={i} className="text-sm text-foreground">
-                  • {flag}
-                </li>
-              ))}
-            </ul>
-          </section>
-        )}
-
-        <section className="rounded-md border-2 border-border bg-card p-6 shadow-[4px_4px_0_0_var(--border)]">
-          <div className="flex items-center justify-between gap-4">
-            <h2 className="font-heading text-lg font-extrabold tracking-[-0.02em] text-foreground">
-              Reply draft
-            </h2>
-            <CopyReplyButton text={letter.reply_draft ?? ""} />
+          <div>
+            <span className="rounded-full border-2 border-border bg-muted px-4 py-1.5 text-xs font-bold uppercase tracking-[0.06em] text-muted-foreground">
+              Analysis complete
+            </span>
+            <h1 className="mt-3 text-3xl font-extrabold tracking-[-0.02em] text-foreground md:text-4xl">
+              {letter.summary}
+            </h1>
           </div>
-          <p className="mt-4 whitespace-pre-wrap text-sm leading-relaxed text-foreground">
-            {letter.reply_draft}
-          </p>
-        </section>
+
+          {(deadlines.length > 0 || riskFlags.length > 0) && (
+            <div className="flex flex-wrap gap-2">
+              {deadlines.length > 0 && (
+                <a
+                  href="#deadlines"
+                  className="flex h-9 items-center gap-1.5 rounded-full border-2 border-border bg-accent px-3 text-xs font-bold uppercase tracking-[0.04em] text-accent-foreground transition-colors hover:bg-accent/80 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                >
+                  <CalendarClock className="size-3.5" strokeWidth={1.5} aria-hidden="true" />
+                  {deadlines.length} {deadlines.length === 1 ? "deadline" : "deadlines"}
+                </a>
+              )}
+              {riskFlags.length > 0 && (
+                <a
+                  href="#risk-flags"
+                  className="flex h-9 items-center gap-1.5 rounded-full border-2 border-destructive bg-destructive/10 px-3 text-xs font-bold uppercase tracking-[0.04em] text-destructive transition-colors hover:bg-destructive/20 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                >
+                  <TriangleAlert className="size-3.5" strokeWidth={1.5} aria-hidden="true" />
+                  {riskFlags.length} to double-check
+                </a>
+              )}
+            </div>
+          )}
+
+          {deadlines.length > 0 && (
+            <section
+              id="deadlines"
+              className="scroll-mt-6 rounded-md border-2 border-border bg-card p-6 shadow-[4px_4px_0_0_var(--border)]"
+            >
+              <h2 className="flex items-center gap-2 font-heading text-lg font-extrabold tracking-[-0.02em] text-foreground">
+                <CalendarClock className="size-5 text-primary" strokeWidth={1.5} aria-hidden="true" />
+                Deadlines
+              </h2>
+              <ul className="mt-4 grid gap-3">
+                {deadlines.map((deadline, i) => (
+                  <li
+                    key={i}
+                    className="flex items-start justify-between gap-4 rounded-sm border-2 border-border bg-muted px-4 py-3"
+                  >
+                    <span className="text-sm text-foreground">{deadline.description}</span>
+                    <span className="shrink-0 rounded-full border-2 border-border bg-accent px-3 py-1 text-xs font-bold uppercase tracking-[0.06em] text-accent-foreground">
+                      {deadline.date}
+                    </span>
+                  </li>
+                ))}
+              </ul>
+            </section>
+          )}
+
+          {riskFlags.length > 0 && (
+            <section
+              id="risk-flags"
+              className="scroll-mt-6 rounded-md border-2 border-destructive bg-destructive/10 p-6"
+            >
+              <h2 className="flex items-center gap-2 font-heading text-lg font-extrabold tracking-[-0.02em] text-foreground">
+                <TriangleAlert className="size-5 text-destructive" strokeWidth={1.5} aria-hidden="true" />
+                Worth double-checking
+              </h2>
+              <ul className="mt-3 grid gap-2">
+                {riskFlags.map((flag, i) => (
+                  <li key={i} className="text-sm text-foreground">
+                    • {flag}
+                  </li>
+                ))}
+              </ul>
+            </section>
+          )}
+
+          <ReplyDraftCard
+            replyDraft={letter.reply_draft ?? ""}
+            translation={letter.reply_draft_translation ?? ""}
+            translationLanguageLabel={LANGUAGE_NAMES[language]}
+            translationDir={isRtl ? "rtl" : "ltr"}
+          />
+        </div>
       </div>
     </main>
   );

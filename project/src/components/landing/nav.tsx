@@ -80,7 +80,7 @@ export function LandingNav() {
                 type="button"
                 onClick={() => setLocale(lang.code)}
                 aria-pressed={locale === lang.code}
-                className={`flex h-11 min-w-11 items-center justify-center rounded-full px-3 text-xs font-bold uppercase tracking-[0.04em] ${
+                className={`flex h-11 min-w-11 items-center justify-center rounded-full px-3 text-xs font-bold uppercase tracking-[0.04em] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring ${
                   locale === lang.code
                     ? "bg-primary text-primary-foreground"
                     : "text-muted-foreground"

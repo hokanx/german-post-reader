@@ -2,7 +2,7 @@
 
 import { useTransition } from "react";
 import { LogOut } from "lucide-react";
-import { logout } from "./actions";
+import { logout } from "@/lib/auth/actions";
 
 export function LogoutButton() {
   const [pending, startTransition] = useTransition();

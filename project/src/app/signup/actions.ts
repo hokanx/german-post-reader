@@ -77,7 +77,7 @@ export async function signup(
   const service = createServiceClient();
   const { error: profileError } = await service.from("profiles").insert({
     id: user.id,
-    subscription_status: "trialing",
+    has_lifetime_access: false,
     trial_letters_used: 0,
   });
 

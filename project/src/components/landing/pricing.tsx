@@ -4,9 +4,11 @@ import Link from "next/link";
 import { motion, useReducedMotion } from "framer-motion";
 import { Check } from "lucide-react";
 import { buttonVariants } from "@/components/ui/button";
+import { FREE_LETTER_LIMIT, UNLIMITED_PRICE_EUR } from "@/lib/constants";
 
 const FEATURES = [
-  "Unlimited letter analyses",
+  "Unlimited letter analyses, forever",
+  "One-time payment — no subscription",
   "Summaries, deadlines, and reply drafts",
   "English, Arabic, and Turkish",
   "Full letter history",
@@ -30,13 +32,13 @@ export function Pricing() {
           className="rounded-lg border-2 border-border bg-card p-8 shadow-[6px_6px_0_0_var(--border)]"
         >
           <span className="rounded-full border-2 border-border bg-accent px-4 py-1.5 text-xs font-bold uppercase tracking-[0.06em] text-accent-foreground">
-            3 free letters, no card
+            {FREE_LETTER_LIMIT} free letters, no card
           </span>
           <div className="mt-5 flex items-baseline gap-1">
             <span className="text-5xl font-extrabold tracking-[-0.02em] text-foreground">
-              €9.99
+              €{UNLIMITED_PRICE_EUR}
             </span>
-            <span className="text-foreground/60">/ month after</span>
+            <span className="text-foreground/60">one time, after</span>
           </div>
           <ul className="mt-6 grid gap-3">
             {FEATURES.map((feature) => (

@@ -19,7 +19,10 @@ type SeedLetter = {
   sender: string;
   summary: string;
   deadlines: { date: string; description: string }[];
+  /** Always German — matches the real pipeline's contract (see CLAUDE.md Stripe/AI pipeline rules). */
   reply_draft: string;
+  /** English translation of reply_draft, shown behind the "show translation" toggle. */
+  reply_draft_translation: string;
   risk_flags: string[];
 };
 
@@ -30,6 +33,8 @@ const LETTERS: SeedLetter[] = [
       "Your 2025 electricity annual statement shows you used more power than your monthly payments covered. You owe an extra 187.42 EUR.",
     deadlines: [{ date: "2026-02-28", description: "Pay the 187.42 EUR balance to Stadtwerke München" }],
     reply_draft:
+      "Sehr geehrte Damen und Herren,\n\nhiermit bestätige ich den Erhalt Ihrer Stromabrechnung vom 15. Januar 2026. Ich werde den ausstehenden Betrag von 187,42 EUR fristgerecht auf das angegebene Konto überweisen.\n\nMit freundlichen Grüßen,",
+    reply_draft_translation:
       "Dear Stadtwerke München,\n\nI am writing to confirm receipt of your electricity settlement dated 15 January 2026. I will transfer the outstanding amount of 187.42 EUR to the account provided before the due date.\n\nKind regards,",
     risk_flags: [],
   },
@@ -39,6 +44,8 @@ const LETTERS: SeedLetter[] = [
       "Your health insurer confirms your monthly contribution is increasing from 1 March 2026 because your reported income changed.",
     deadlines: [{ date: "2026-03-01", description: "New contribution amount takes effect" }],
     reply_draft:
+      "Sehr geehrte Damen und Herren,\n\nvielen Dank für die Mitteilung über den neuen Beitragssatz ab dem 1. März 2026. Ich habe keine Einwände und werde die Zahlung wie gewohnt per Lastschrift fortsetzen.\n\nMit freundlichen Grüßen,",
+    reply_draft_translation:
       "Dear Techniker Krankenkasse,\n\nThank you for informing me of the updated contribution amount effective 1 March 2026. I have no objection and will continue payment via the existing direct debit.\n\nBest regards,",
     risk_flags: [],
   },
@@ -48,6 +55,8 @@ const LETTERS: SeedLetter[] = [
       "The tax office is requesting your 2025 income tax return documents. If you don't respond, they may estimate your tax owed themselves — which is usually higher than the real amount.",
     deadlines: [{ date: "2026-04-15", description: "Submit 2025 tax return documents" }],
     reply_draft:
+      "Sehr geehrte Damen und Herren,\n\nich bereite derzeit meine Einkommensteuererklärung für 2025 vor und werde diese fristgerecht bis zum 15. April 2026 einreichen. Bitte teilen Sie mir mit, falls in der Zwischenzeit weitere Unterlagen erforderlich sind.\n\nMit freundlichen Grüßen,",
+    reply_draft_translation:
       "Dear Finanzamt München,\n\nI am preparing my 2025 income tax return and will submit it before the deadline of 15 April 2026. Please let me know if any additional documentation is required in the meantime.\n\nSincerely,",
     risk_flags: [
       "The letter mentions a reference number that was partially unreadable in the photo — double-check it matches your previous correspondence with the Finanzamt.",
@@ -59,6 +68,8 @@ const LETTERS: SeedLetter[] = [
       "Your landlord's property management company is notifying you of a routine gas heating inspection in your building.",
     deadlines: [{ date: "2026-02-10", description: "Be present or allow access for the heating inspection" }],
     reply_draft:
+      "Sehr geehrte Damen und Herren,\n\nvielen Dank für die Ankündigung der Heizungsinspektion am 10. Februar 2026. Ich bestätige, dass ich anwesend sein werde, um den Zugang zu ermöglichen.\n\nMit freundlichen Grüßen,",
+    reply_draft_translation:
       "Dear Hausverwaltung Schmidt,\n\nThank you for the notice regarding the heating inspection on 10 February 2026. I confirm I will be present to allow access.\n\nKind regards,",
     risk_flags: [],
   },
@@ -68,6 +79,8 @@ const LETTERS: SeedLetter[] = [
       "The immigration office is asking you to book an appointment to renew your residence permit before it expires.",
     deadlines: [{ date: "2026-05-20", description: "Residence permit expires — renew before this date" }],
     reply_draft:
+      "Sehr geehrte Damen und Herren,\n\nich schreibe Ihnen bezüglich meines Aufenthaltstitels, der am 20. Mai 2026 abläuft. Ich möchte so schnell wie möglich einen Termin zur Verlängerung vereinbaren.\n\nMit freundlichen Grüßen,",
+    reply_draft_translation:
       "Dear Ausländerbehörde Berlin,\n\nI am writing regarding my residence permit expiring on 20 May 2026. I would like to book an appointment to begin the renewal process as soon as possible.\n\nBest regards,",
     risk_flags: [
       "The expiry date was clear, but the letter also references an appointment booking portal link that couldn't be read from the photo — check the physical letter for the correct URL.",
@@ -79,6 +92,8 @@ const LETTERS: SeedLetter[] = [
       "This is the mandatory German broadcasting fee (Rundfunkbeitrag) confirming your registration and quarterly payment amount.",
     deadlines: [{ date: "2026-02-15", description: "Quarterly broadcasting fee payment due" }],
     reply_draft:
+      "Sehr geehrte Damen und Herren,\n\nhiermit bestätige ich den Erhalt der Anmeldebestätigung für den Rundfunkbeitrag und werde die Zahlung des vierteljährlichen Betrags bis zum 15. Februar 2026 veranlassen.\n\nMit freundlichen Grüßen,",
+    reply_draft_translation:
       "Dear Beitragsservice,\n\nI confirm receipt of my Rundfunkbeitrag registration and will arrange payment of the quarterly amount before 15 February 2026.\n\nKind regards,",
     risk_flags: [],
   },
@@ -88,6 +103,8 @@ const LETTERS: SeedLetter[] = [
       "Your annual pension contribution statement — this is informational only and shows how much has been paid into your pension so far. No action needed.",
     deadlines: [],
     reply_draft:
+      "Sehr geehrte Damen und Herren,\n\nvielen Dank für die jährliche Renteninformation. Ich habe die Angaben geprüft und habe derzeit keine Rückfragen.\n\nMit freundlichen Grüßen,",
+    reply_draft_translation:
       "Dear Deutsche Rentenversicherung,\n\nThank you for the annual statement of my pension contributions. I have reviewed it and have no questions at this time.\n\nBest regards,",
     risk_flags: [],
   },
@@ -97,6 +114,8 @@ const LETTERS: SeedLetter[] = [
       "The Jobcenter needs updated proof of your current employment status to continue processing your case.",
     deadlines: [{ date: "2026-02-20", description: "Submit updated employment documents" }],
     reply_draft:
+      "Sehr geehrte Damen und Herren,\n\nhiermit bestätige ich, dass ich die angeforderten aktuellen Beschäftigungsnachweise bis zum 20. Februar 2026 einreichen werde. Ich werde die Unterlagen so schnell wie möglich zur Verfügung stellen.\n\nMit freundlichen Grüßen,",
+    reply_draft_translation:
       "Dear Jobcenter Berlin Mitte,\n\nPlease find my request to submit updated employment documentation before 20 February 2026. I will provide the requested paperwork as soon as possible.\n\nSincerely,",
     risk_flags: [],
   },
@@ -106,6 +125,8 @@ const LETTERS: SeedLetter[] = [
       "Confirmation that your address registration (Anmeldung) was successfully processed. Keep this for your records.",
     deadlines: [],
     reply_draft:
+      "Sehr geehrte Damen und Herren,\n\nvielen Dank für die Bestätigung meiner Anmeldung. Von meiner Seite ist keine weitere Handlung erforderlich.\n\nMit freundlichen Grüßen,",
+    reply_draft_translation:
       "Dear Bürgeramt,\n\nThank you for confirming my address registration. No further action is needed from my side.\n\nBest regards,",
     risk_flags: [],
   },
@@ -115,6 +136,8 @@ const LETTERS: SeedLetter[] = [
       "Your bank is notifying you of a change to their account fee schedule starting next quarter.",
     deadlines: [{ date: "2026-04-01", description: "New account fees take effect" }],
     reply_draft:
+      "Sehr geehrte Damen und Herren,\n\nich nehme die neue Gebührenordnung, die ab dem 1. April 2026 gilt, zur Kenntnis und habe keine Einwände.\n\nMit freundlichen Grüßen,",
+    reply_draft_translation:
       "Dear Sparkasse Berlin,\n\nI acknowledge the updated fee schedule taking effect on 1 April 2026 and have no objection.\n\nKind regards,",
     risk_flags: [
       "The new monthly fee amount was printed in a small font and partly obscured by a fold in the letter — confirm the exact figure directly with your branch.",
@@ -126,6 +149,8 @@ const LETTERS: SeedLetter[] = [
       "A parcel delivery attempt failed while you were out. It's being held at a local DHL pickup point for 7 days.",
     deadlines: [{ date: "2026-02-06", description: "Collect parcel from DHL pickup point" }],
     reply_draft:
+      "Für dieses Schreiben ist keine Antwort erforderlich. Bringen Sie die Abholkarte und einen Ausweis bis zum 6. Februar 2026 zur DHL-Packstation.",
+    reply_draft_translation:
       "No reply needed — this is a pickup notice. Bring the card and ID to the DHL pickup point before 6 February 2026.",
     risk_flags: [],
   },
@@ -135,6 +160,8 @@ const LETTERS: SeedLetter[] = [
       "Your child's school is informing you about the upcoming parent-teacher conference and asking you to confirm a time slot.",
     deadlines: [{ date: "2026-02-12", description: "Confirm parent-teacher conference time slot" }],
     reply_draft:
+      "Sehr geehrte Damen und Herren,\n\nvielen Dank für die Einladung zum Elternsprechtag. Ich möchte hiermit meine Teilnahme bestätigen und bitte um einen passenden Termin bis zum 12. Februar 2026.\n\nMit freundlichen Grüßen,",
+    reply_draft_translation:
       "Dear Grundschule am Rathaus,\n\nThank you for the invitation to the parent-teacher conference. I would like to confirm my attendance and request a suitable time slot before 12 February 2026.\n\nKind regards,",
     risk_flags: [],
   },
@@ -144,6 +171,8 @@ const LETTERS: SeedLetter[] = [
       "Your car insurance renewal notice — the annual premium is increasing slightly due to a regional rate adjustment.",
     deadlines: [{ date: "2026-03-15", description: "Renewal takes effect, new premium applies" }],
     reply_draft:
+      "Sehr geehrte Damen und Herren,\n\nich nehme die neue Prämie für die Vertragsverlängerung ab dem 15. März 2026 zur Kenntnis und werde den bestehenden Tarif fortführen.\n\nMit freundlichen Grüßen,",
+    reply_draft_translation:
       "Dear HUK-COBURG,\n\nI acknowledge the updated premium for my policy renewal effective 15 March 2026 and will continue with the existing plan.\n\nBest regards,",
     risk_flags: [],
   },
@@ -153,6 +182,8 @@ const LETTERS: SeedLetter[] = [
       "Your internet provider is notifying you that your promotional discount is ending, and your monthly bill will increase.",
     deadlines: [{ date: "2026-03-01", description: "Standard pricing begins after promotional period ends" }],
     reply_draft:
+      "Sehr geehrte Damen und Herren,\n\nvielen Dank für die Information, dass der Rabatt auf meinen Internettarif zum 1. März 2026 endet. Bitte teilen Sie mir mit, ob aktuell besondere Angebote zur Vertragsverlängerung verfügbar sind.\n\nMit freundlichen Grüßen,",
+    reply_draft_translation:
       "Dear Vodafone,\n\nThank you for informing me that the promotional discount on my internet plan ends before 1 March 2026. Please let me know if there are any current retention offers available.\n\nKind regards,",
     risk_flags: [],
   },
@@ -162,6 +193,8 @@ const LETTERS: SeedLetter[] = [
       "An invoice for electrical repair work completed in your apartment last month.",
     deadlines: [{ date: "2026-02-25", description: "Pay invoice for completed electrical work" }],
     reply_draft:
+      "Sehr geehrte Damen und Herren,\n\nvielen Dank für die Durchführung der Reparaturarbeiten. Ich bestätige die Rechnung und werde die Zahlung bis zum 25. Februar 2026 veranlassen.\n\nMit freundlichen Grüßen,",
+    reply_draft_translation:
       "Dear Elektro Meier,\n\nThank you for completing the repair work. I confirm the invoice and will arrange payment before 25 February 2026.\n\nBest regards,",
     risk_flags: [],
   },
@@ -171,6 +204,8 @@ const LETTERS: SeedLetter[] = [
       "Notice of a small increase to your annual waste collection fee, effective with your next invoice.",
     deadlines: [],
     reply_draft:
+      "Sehr geehrte Damen und Herren,\n\nich nehme die neue Gebühr für die Abfallentsorgung zur Kenntnis und habe derzeit keine Rückfragen.\n\nMit freundlichen Grüßen,",
+    reply_draft_translation:
       "Dear BSR,\n\nI acknowledge the updated waste collection fee and have no questions at this time.\n\nKind regards,",
     risk_flags: [],
   },
@@ -180,6 +215,8 @@ const LETTERS: SeedLetter[] = [
       "Your health insurer is inviting you to a free preventive health checkup available once every two years.",
     deadlines: [],
     reply_draft:
+      "Sehr geehrte Damen und Herren,\n\nvielen Dank für die Einladung zur Vorsorgeuntersuchung. Ich möchte gerne einen Termin nach Verfügbarkeit vereinbaren.\n\nMit freundlichen Grüßen,",
+    reply_draft_translation:
       "Dear AOK Nordost,\n\nThank you for the invitation to the preventive health checkup. I would like to schedule an appointment at my convenience.\n\nBest regards,",
     risk_flags: [],
   },
@@ -189,6 +226,8 @@ const LETTERS: SeedLetter[] = [
       "You are being asked to appear as a witness in a minor civil case. This is a formal court summons, not a fine or accusation against you.",
     deadlines: [{ date: "2026-03-10", description: "Appear at Amtsgericht Berlin-Mitte as a witness" }],
     reply_draft:
+      "Sehr geehrte Damen und Herren,\n\nhiermit bestätige ich den Erhalt der Zeugenladung für den 10. März 2026 und werde wie gewünscht erscheinen. Bitte teilen Sie mir mit, falls Unterlagen mitzubringen sind.\n\nMit freundlichen Grüßen,",
+    reply_draft_translation:
       "Dear Amtsgericht Berlin-Mitte,\n\nI confirm receipt of the witness summons for 10 March 2026 and will attend as requested. Please advise if any documents should be brought.\n\nSincerely,",
     risk_flags: [
       "This is a formal legal summons — the exact courtroom number was hard to read from the photo. Confirm the room number before your appearance date.",
@@ -200,6 +239,8 @@ const LETTERS: SeedLetter[] = [
       "Your annual heating cost statement from the building's metering company. This is informational and shows your share of the building's heating costs.",
     deadlines: [],
     reply_draft:
+      "Sehr geehrte Damen und Herren,\n\nvielen Dank für die jährliche Heizkostenabrechnung. Ich habe die Angaben geprüft und habe keine Rückfragen.\n\nMit freundlichen Grüßen,",
+    reply_draft_translation:
       "Dear Techem,\n\nThank you for the annual heating cost statement. I have reviewed the figures and have no questions.\n\nKind regards,",
     risk_flags: [],
   },
@@ -209,6 +250,8 @@ const LETTERS: SeedLetter[] = [
       "Confirmation that your mail forwarding order to your new address has been set up successfully.",
     deadlines: [],
     reply_draft:
+      "Sehr geehrte Damen und Herren,\n\nvielen Dank für die Bestätigung meines Nachsendeauftrags. Von meiner Seite ist keine weitere Handlung erforderlich.\n\nMit freundlichen Grüßen,",
+    reply_draft_translation:
       "Dear Deutsche Post,\n\nThank you for confirming my mail forwarding order. No further action is needed.\n\nBest regards,",
     risk_flags: [],
   },
@@ -250,7 +293,7 @@ async function main() {
   await supabase.from("profiles").upsert({
     id: userId,
     language: "en",
-    subscription_status: "trialing",
+    has_lifetime_access: false,
     trial_letters_used: 1,
   });
 
@@ -270,6 +313,8 @@ async function main() {
       summary: `${letter.sender}: ${letter.summary}`,
       deadlines: letter.deadlines,
       reply_draft: letter.reply_draft,
+      reply_draft_translation: letter.reply_draft_translation,
+      detected_language_confirmed: true,
       risk_flags: letter.risk_flags,
       language: "en",
       created_at: createdAt,

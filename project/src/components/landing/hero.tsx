@@ -4,6 +4,7 @@ import Link from "next/link";
 import { motion, useReducedMotion } from "framer-motion";
 import { CalendarClock } from "lucide-react";
 import { buttonVariants } from "@/components/ui/button";
+import { FREE_LETTER_LIMIT } from "@/lib/constants";
 import { StampBadge } from "./stamp-badge";
 import { useMarketingLocale, type MarketingLocale } from "./locale-context";
 
@@ -56,7 +57,7 @@ export function Hero() {
         variants={{ show: { transition: { staggerChildren: 0.08 } } }}
       >
         <motion.div variants={fadeRise} className="relative mb-6 w-fit">
-          <StampBadge label="3 FREE LETTERS" className="rotate-[-4deg]" />
+          <StampBadge label={`${FREE_LETTER_LIMIT} FREE LETTERS`} className="rotate-[-4deg]" />
         </motion.div>
         <motion.h1
           variants={fadeRise}
