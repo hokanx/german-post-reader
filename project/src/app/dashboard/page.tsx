@@ -6,6 +6,7 @@ import { buttonVariants } from "@/components/ui/button";
 import { EmptyState } from "@/components/empty-state";
 import { LetterList } from "./letter-list";
 import { LogoutButton } from "./logout-button";
+import { ManageSubscriptionLink } from "./manage-subscription-link";
 
 const TRIAL_LIMIT = 3;
 
@@ -52,10 +53,11 @@ export default async function DashboardPage() {
         </div>
 
         {isSubscribed ? (
-          <div className="mb-6 rounded-md border-2 border-border bg-muted px-5 py-4">
+          <div className="mb-6 flex flex-wrap items-center justify-between gap-3 rounded-md border-2 border-border bg-muted px-5 py-4">
             <span className="rounded-full border-2 border-border bg-primary px-3 py-1 text-xs font-bold uppercase tracking-[0.06em] text-primary-foreground">
               Unlimited letters
             </span>
+            <ManageSubscriptionLink />
           </div>
         ) : (
           <div className="mb-6 rounded-md border-2 border-border bg-accent px-5 py-4">

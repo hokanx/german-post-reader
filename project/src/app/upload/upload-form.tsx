@@ -6,6 +6,7 @@ import { motion, useReducedMotion, AnimatePresence } from "framer-motion";
 import { Upload, FileText, Camera } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { ErrorState } from "@/components/error-state";
+import { PaywallModal } from "@/components/PaywallModal";
 import { uploadLetter } from "./actions";
 
 export function UploadForm() {
@@ -73,20 +74,7 @@ export function UploadForm() {
   }
 
   if (trialLimitReached) {
-    return (
-      <div className="rounded-md border-2 border-border bg-card px-8 py-14 text-center shadow-[4px_4px_0_0_var(--border)]">
-        <span className="inline-block rounded-full border-2 border-border bg-accent px-4 py-1.5 text-xs font-bold uppercase tracking-[0.06em] text-accent-foreground">
-          Free trial ended
-        </span>
-        <h2 className="mt-4 font-heading text-xl font-extrabold tracking-[-0.02em] text-foreground">
-          You&apos;ve used all 3 free letters
-        </h2>
-        <p className="mt-2 text-sm text-foreground/70">
-          Subscribe to keep analyzing letters — billing is coming in the next
-          build step.
-        </p>
-      </div>
-    );
+    return <PaywallModal open={trialLimitReached} onOpenChange={setTrialLimitReached} />;
   }
 
   return (
