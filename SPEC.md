@@ -23,7 +23,7 @@ if a task appears mid-build that exceeds this size, STOP and move it to later_st
 
 - Email + password auth with a post-signup redirect to the onboarding language-picker page works.
 - Letter upload via camera capture (mobile) and file picker (PDF or image) works.
-- OCR extraction + GPT-4o analysis pipeline returns summary, deadline detection, and reply draft in the user's chosen language within 30 seconds works.
+- OCR extraction + Gemini analysis pipeline returns summary, deadline detection, and reply draft in the user's chosen language within 30 seconds works.
 - Language toggle (English, Arabic, Turkish) persists to the user's profile and re-renders the analysis output works.
 - Free trial limit of 3 letters enforced; Stripe Checkout monthly subscription unlocks unlimited letters works.
 - Letter history dashboard listing all past uploads with their summary previews works.
@@ -182,13 +182,13 @@ stage status: `not started` (change to `shipped` once `/next-stage` finishes sta
 ## success metrics
 
 - 30 paying subscribers within 6 weeks of launch.
-- Monthly subscription revenue covers Vercel + Supabase + OpenAI hosting costs within 8 weeks.
+- Monthly subscription revenue covers Vercel + Supabase hosting costs within 8 weeks (Gemini's free tier covers the AI pipeline at v1 volume).
 - Letter analysis pipeline returns a result in under 30 seconds for 95% of uploads.
 - Free-trial to paid conversion rate reaches 15% within the first month.
 
 ## risks
 
 - OCR quality on low-resolution phone photos causes garbled text that makes the AI summary wrong — user loses trust immediately.
-- OpenAI API latency or outage breaks the core flow; no fallback means the app is completely non-functional.
+- Gemini API latency or outage breaks the core flow; no fallback means the app is completely non-functional.
 - Arabic and Turkish RTL layout bugs in the reply draft UI make those language modes unusable on launch day.
-- German letter vocabulary is highly legal and bureaucratic — GPT-4o may hallucinate deadlines or misread amounts, causing real harm to users.
+- German letter vocabulary is highly legal and bureaucratic — Gemini may hallucinate deadlines or misread amounts, causing real harm to users.

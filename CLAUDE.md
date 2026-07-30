@@ -34,8 +34,7 @@ deeper rules live in scoped CLAUDE.md files that load automatically when you wor
 
 - Next.js (App Router): Full-stack framework: server components for data fetching, server actions for AI pipeline calls, API routes for Stripe webhooks.
 - Supabase: Postgres database (users, letters, analyses), auth (email + password), and storage bucket for uploaded letter images and PDFs.
-- OpenAI GPT-4o: Vision + text model: reads OCR'd letter text (or raw image bytes), returns structured JSON with summary, deadlines, and reply draft in the user's chosen language.
-- Tesseract.js (fallback OCR): Client-side OCR for image uploads when a direct image pass to GPT-4o is not viable; extracts raw German text before sending to the AI pipeline.
+- Google Gemini (gemini-flash-latest): Vision + document model: reads letter images AND PDFs directly (native multimodal document understanding — no separate OCR step needed for either), returns structured JSON with summary, deadlines, and reply draft in the user's chosen language. Swapped in from the originally-planned OpenAI GPT-4o for its free tier — same role in the pipeline. Tesseract.js was dropped from the stack: it was originally scoped as the PDF-text-extraction step for the OpenAI pipeline, but Tesseract/Leptonica cannot decode PDF containers at all (image formats only), and Gemini's native PDF support makes that step unnecessary regardless.
 - Stripe: Monthly subscription billing: Stripe Checkout for signup, Customer Portal for cancellation, webhooks to sync subscription state to Supabase.
 - Resend: Transactional email: welcome email on signup, trial-limit nudge email.
 - Posthog: Product analytics: track letter uploads, language selections, trial conversions, subscription events.
@@ -86,7 +85,7 @@ Arabic output must render in a right-to-left container (`dir="rtl"`). Any compon
 - The analysis server action MUST return structured JSON with these exact keys: `summary` (string), `deadlines` (array of {date, description}), `reply_draft` (string), `detected_language_confirmed` (boolean), `risk_flags` (array of strings for ambiguous amounts or dates).
 - Never surface raw OCR output to the user — always pass through the AI pipeline first.
 - If the pipeline takes longer than 25 seconds, surface a loading state with progress copy — never a blank screen.
-- Wrap every OpenAI call in a try/catch; on failure, show an explicit "Analysis failed — try again" error state, log to Sentry, and do NOT show partial output.
+- Wrap every Gemini call in a try/catch; on failure, show an explicit "Analysis failed — try again" error state, log to Sentry, and do NOT show partial output.
 
 ### Stripe rules
 - Subscription state is stored in Supabase on the `profiles` table as `subscription_status` (enum: trialing, active, canceled) and `trial_letters_used` (integer).
@@ -140,7 +139,7 @@ never claim a step is done without running the verify command in *this* response
 - `NEXT_PUBLIC_SUPABASE_URL` (Supabase)
 - `NEXT_PUBLIC_SUPABASE_ANON_KEY` (Supabase)
 - `SUPABASE_SERVICE_ROLE_KEY` (Supabase)
-- `OPENAI_API_KEY` (OpenAI)
+- `GEMINI_API_KEY` (Google Gemini)
 - `STRIPE_SECRET_KEY` (Stripe)
 - `NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY` (Stripe)
 - `STRIPE_WEBHOOK_SECRET` (Stripe)
