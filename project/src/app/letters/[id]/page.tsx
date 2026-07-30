@@ -1,5 +1,5 @@
 import { notFound, redirect } from "next/navigation";
-import { CalendarClock, TriangleAlert, ShieldAlert } from "lucide-react";
+import { CalendarClock, TriangleAlert, ShieldAlert, FileText } from "lucide-react";
 import { createClient } from "@/lib/supabase/server";
 import { AppHeader } from "@/components/app-header";
 import { ReplyDraftCard } from "./reply-draft-card";
@@ -29,27 +29,20 @@ export default async function LetterPage({
     redirect("/login");
   }
 
-  const [{ data: letter }, { data: profile }] = await Promise.all([
-    supabase
-      .from("letters")
-      .select(
-        "id, summary, deadlines, reply_draft, reply_draft_translation, detected_language_confirmed, risk_flags, language, created_at",
-      )
-      .eq("id", id)
-      .eq("user_id", user.id)
-      .single(),
-    supabase.from("profiles").select("language").eq("id", user.id).single(),
-  ]);
+  const { data: letter } = await supabase
+    .from("letters")
+    .select(
+      "id, summary, deadlines, reply_draft, reply_draft_translation, detected_language_confirmed, risk_flags, language, created_at",
+    )
+    .eq("id", id)
+    .eq("user_id", user.id)
+    .single();
 
   if (!letter) {
     notFound();
   }
 
-  // This letter's own language (drives dir/translation below) is independent
-  // of the account's current language setting (drives the header's switcher)
-  // — a user may have re-analyzed later letters in a different language.
   const language = letter.language as AppLanguage;
-  const accountLanguage = (profile?.language ?? language) as AppLanguage;
   const isRtl = language === "ar";
   const deadlines = (letter.deadlines ?? []) as Deadline[];
   const riskFlags = (letter.risk_flags ?? []) as string[];
@@ -57,7 +50,7 @@ export default async function LetterPage({
 
   return (
     <main className="flex-1 bg-background">
-      <AppHeader language={accountLanguage} backHref="/dashboard" />
+      <AppHeader backHref="/dashboard" />
       <div className="mx-auto max-w-2xl px-6 py-12">
         <div dir={isRtl ? "rtl" : "ltr"} className="grid gap-6">
           {lowConfidence && (
@@ -78,10 +71,16 @@ export default async function LetterPage({
             <span className="rounded-full border-2 border-border bg-muted px-4 py-1.5 text-xs font-bold uppercase tracking-[0.06em] text-muted-foreground">
               Analysis complete
             </span>
-            <h1 className="mt-3 text-3xl font-extrabold tracking-[-0.02em] text-foreground md:text-4xl">
-              {letter.summary}
-            </h1>
+            <h1 className="sr-only">Your letter, translated</h1>
           </div>
+
+          <section className="rounded-md border-2 border-border bg-card p-6 shadow-[4px_4px_0_0_var(--border)]">
+            <h2 className="flex items-center gap-2 font-heading text-lg font-extrabold tracking-[-0.02em] text-foreground">
+              <FileText className="size-5 text-primary" strokeWidth={1.5} aria-hidden="true" />
+              Summary
+            </h2>
+            <p className="mt-3 text-xl font-bold leading-snug text-foreground">{letter.summary}</p>
+          </section>
 
           {(deadlines.length > 0 || riskFlags.length > 0) && (
             <div className="flex flex-wrap gap-2">
@@ -151,8 +150,9 @@ export default async function LetterPage({
           )}
 
           <ReplyDraftCard
-            replyDraft={letter.reply_draft ?? ""}
-            translation={letter.reply_draft_translation ?? ""}
+            letterId={letter.id}
+            initialReplyDraft={letter.reply_draft ?? ""}
+            initialTranslation={letter.reply_draft_translation ?? ""}
             translationLanguageLabel={LANGUAGE_NAMES[language]}
             translationDir={isRtl ? "rtl" : "ltr"}
           />

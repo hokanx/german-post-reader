@@ -1,7 +1,15 @@
 import { Type } from "@google/genai";
 import { createGeminiClient, GEMINI_MODEL } from "./client";
-import { LANGUAGE_NAMES, type AppLanguage, type LetterAnalysis } from "@/lib/letters/types";
+import {
+  LANGUAGE_NAMES,
+  REPLY_TONE_INSTRUCTIONS,
+  type AppLanguage,
+  type LetterAnalysis,
+  type ReplyTone,
+} from "@/lib/letters/types";
 import type { Result } from "@/lib/result";
+
+type ReplyDraft = { reply_draft: string; reply_draft_translation: string };
 
 const RESPONSE_SCHEMA = {
   type: Type.OBJECT,
@@ -107,7 +115,7 @@ async function withRetry<T>(fn: () => Promise<T>): Promise<T> {
   throw lastError;
 }
 
-async function parseResponse(text: string | undefined): Promise<Result<LetterAnalysis>> {
+function parseResponse<T>(text: string | undefined): Result<T> {
   if (!text) {
     return {
       ok: false,
@@ -115,7 +123,7 @@ async function parseResponse(text: string | undefined): Promise<Result<LetterAna
     };
   }
   try {
-    const parsed = JSON.parse(text) as LetterAnalysis;
+    const parsed = JSON.parse(text) as T;
     return { ok: true, data: parsed };
   } catch {
     return {
@@ -152,7 +160,7 @@ export async function analyzeDocument(
         },
       }),
     );
-    return parseResponse(response.text);
+    return parseResponse<LetterAnalysis>(response.text);
   } catch (error) {
     console.error("Gemini analysis failed", error);
     return {
@@ -161,6 +169,71 @@ export async function analyzeDocument(
         code: "ANALYSIS_FAILED",
         message: "Analysis failed — try again.",
         recovery: "Check your connection and try uploading again.",
+      },
+    };
+  }
+}
+
+const REPLY_DRAFT_SCHEMA = {
+  type: Type.OBJECT,
+  properties: {
+    reply_draft: {
+      type: Type.STRING,
+      description: "A ready-to-send reply letter, written in GERMAN, appropriate to the sender and formal enough for official correspondence.",
+    },
+    reply_draft_translation: {
+      type: Type.STRING,
+      description: "The reply_draft's meaning translated into the target language, so the reader understands what they're about to send.",
+    },
+  },
+  required: ["reply_draft", "reply_draft_translation"],
+  propertyOrdering: ["reply_draft", "reply_draft_translation"],
+};
+
+/**
+ * Regenerates just the reply in a user-picked tone (confirm / request more
+ * time / object / ask for clarification first). Reuses the letter's already
+ * -extracted summary/deadlines/risk_flags as context instead of re-sending
+ * the original image — cheaper on Gemini's free-tier daily request quota,
+ * and the structured analysis already captures everything a reply needs.
+ */
+export async function regenerateReplyDraft(
+  letter: { summary: string; deadlines: { date: string; description: string }[]; riskFlags: string[] },
+  tone: ReplyTone,
+  language: AppLanguage,
+): Promise<Result<ReplyDraft>> {
+  try {
+    const ai = createGeminiClient();
+    const context = [
+      `Letter summary: ${letter.summary}`,
+      letter.deadlines.length > 0
+        ? `Deadlines: ${letter.deadlines.map((d) => `${d.date} — ${d.description}`).join("; ")}`
+        : "Deadlines: none",
+      letter.riskFlags.length > 0 ? `Uncertain points: ${letter.riskFlags.join("; ")}` : "Uncertain points: none",
+    ].join("\n");
+
+    const response = await withRetry(() =>
+      ai.models.generateContent({
+        model: GEMINI_MODEL,
+        contents: [
+          `${context}\n\n${REPLY_TONE_INSTRUCTIONS[tone]}\n\nRespond ONLY with the JSON object matching the required schema.`,
+        ],
+        config: {
+          systemInstruction: `You draft replies to official German postal letters on behalf of someone who cannot read German confidently. reply_draft must be written entirely in GERMAN, formal and correct, since the recipient reads German. reply_draft_translation must translate reply_draft's exact meaning into ${LANGUAGE_NAMES[language]}.`,
+          responseMimeType: "application/json",
+          responseSchema: REPLY_DRAFT_SCHEMA,
+        },
+      }),
+    );
+    return parseResponse<ReplyDraft>(response.text);
+  } catch (error) {
+    console.error("Gemini reply regeneration failed", error);
+    return {
+      ok: false,
+      error: {
+        code: "ANALYSIS_FAILED",
+        message: "Couldn't draft that reply — try again.",
+        recovery: "Check your connection and try again.",
       },
     };
   }
