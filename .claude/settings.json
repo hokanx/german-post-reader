@@ -1,0 +1,45 @@
+{
+  "enableAllProjectMcpServers": true,
+  "extraKnownMarketplaces": {
+    "superpowers-marketplace": {
+      "source": {
+        "source": "github",
+        "repo": "obra/superpowers-marketplace"
+      }
+    },
+    "andrej-karpathy-skills": {
+      "source": {
+        "source": "github",
+        "repo": "multica-ai/andrej-karpathy-skills"
+      }
+    },
+    "ui-ux-pro-max-skill": {
+      "source": {
+        "source": "github",
+        "repo": "nextlevelbuilder/ui-ux-pro-max-skill"
+      }
+    },
+    "shadcnblocks-skill": {
+      "source": {
+        "source": "github",
+        "repo": "masonjames/Shadcnblocks-Skill"
+      }
+    }
+  },
+  "enabledPlugins": {
+    "superpowers@superpowers-marketplace": true,
+    "andrej-karpathy-skills@andrej-karpathy-skills": true,
+    "ui-ux-pro-max@ui-ux-pro-max-skill": true,
+    "shadcn-ui@shadcnblocks-skill": true
+  },
+  "permissions": {
+    "allow": [
+      "Read(**)",
+      "Edit(**)",
+      "Bash(npm *)",
+      "Bash(npx *)",
+      "Bash(pnpm *)",
+      "Bash(git *)"
+    ]
+  }
+}

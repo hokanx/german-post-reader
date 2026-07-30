@@ -1,0 +1,60 @@
+# dependencies
+node_modules/
+.pnp
+.pnp.js
+
+# next.js
+.next/
+out/
+build/
+dist/
+
+# environment variables — never commit your real keys
+.env
+.env.local
+.env.*.local
+.env.development.local
+.env.production.local
+.env.test.local
+
+# logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# editors / OS
+.vscode/
+.idea/
+.DS_Store
+*.swp
+Thumbs.db
+
+# testing
+coverage/
+.nyc_output/
+
+# typescript
+*.tsbuildinfo
+next-env.d.ts
+
+# vercel
+.vercel/
+
+# claude code — keep .claude/settings.json but ignore local cache
+.claude/cache/
+.claude/local-state/
+
+# MCP wiring may contain baked-in secrets from your .env.local
+# (the kit page bakes supabase / stripe / github keys directly into
+# .mcp.json env blocks so the MCP servers start correctly; claude code
+# does NOT auto-load .env.local for env-var interpolation). keep this
+# file local — never commit.
+.mcp.json
+
+# lazyweb MCP bearer token — fetched fresh by /setup from lazyweb.com.
+# the canonical location is $HOME/.lazyweb/ (outside the repo). this
+# pattern is here defensively in case a user creates a project-local
+# .lazyweb/ folder by accident.
+.lazyweb/
