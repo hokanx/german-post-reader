@@ -8,16 +8,20 @@ import { Button } from "@/components/ui/button";
 import { ErrorState } from "@/components/error-state";
 import { PaywallModal } from "@/components/PaywallModal";
 import { trackEvent } from "@/lib/analytics/track-event";
+import { compressImageIfNeeded } from "@/lib/image-compression";
 import { uploadLetter } from "./actions";
 
-// Kept below the 20mb server-side limit (next.config.ts) to leave headroom
-// for multipart/form-data overhead, and to give a friendly message on the
-// client before ever making a request that would be rejected.
-const MAX_FILE_SIZE_BYTES = 18 * 1024 * 1024;
+// Vercel's serverless functions have a hard 4.5MB request body ceiling that
+// no Next.js config can raise (docs.vercel.com/docs/errors/function_payload_too_large).
+// Images get compressed client-side first (see image-compression.ts) so they
+// almost never hit this; PDFs pass through untouched, so they're checked
+// directly against a safe margin below the platform limit.
+const MAX_UPLOAD_BYTES = 4 * 1024 * 1024;
 
 export function UploadForm() {
   const router = useRouter();
   const [pending, startTransition] = useTransition();
+  const [preparing, setPreparing] = useState(false);
   const [file, setFile] = useState<File | null>(null);
   const [error, setError] = useState<{ message: string; recovery?: string } | null>(null);
   const [trialLimitReached, setTrialLimitReached] = useState(false);
@@ -25,22 +29,31 @@ export function UploadForm() {
   const inputRef = useRef<HTMLInputElement>(null);
   const shouldReduceMotion = useReducedMotion();
 
-  function handleFiles(files: FileList | null) {
+  async function handleFiles(files: FileList | null) {
     const picked = files?.[0];
     if (!picked) return;
 
-    if (picked.size > MAX_FILE_SIZE_BYTES) {
-      setFile(null);
+    setError(null);
+    setTrialLimitReached(false);
+    setFile(null);
+    setPreparing(true);
+
+    const prepared = await compressImageIfNeeded(picked);
+
+    if (prepared.size > MAX_UPLOAD_BYTES) {
+      setPreparing(false);
       setError({
         message: "That file is too large.",
-        recovery: "Try a photo under 18MB, or compress it first.",
+        recovery:
+          prepared.type === "application/pdf"
+            ? "Try a smaller PDF, or a photo of the letter instead."
+            : "Try a different photo — this one is still too large after compressing.",
       });
       return;
     }
 
-    setFile(picked);
-    setError(null);
-    setTrialLimitReached(false);
+    setFile(prepared);
+    setPreparing(false);
   }
 
   function handleSubmit() {
@@ -135,7 +148,7 @@ export function UploadForm() {
         onDrop={(e) => {
           e.preventDefault();
           setIsDragging(false);
-          handleFiles(e.dataTransfer.files);
+          void handleFiles(e.dataTransfer.files);
         }}
         onClick={() => inputRef.current?.click()}
         role="button"
@@ -150,7 +163,9 @@ export function UploadForm() {
         <div className="mb-4 flex size-14 items-center justify-center rounded-full border-2 border-border bg-muted">
           <Upload className="size-5 text-muted-foreground" strokeWidth={1.5} aria-hidden="true" />
         </div>
-        {file ? (
+        {preparing ? (
+          <p className="font-medium text-foreground">Preparing photo…</p>
+        ) : file ? (
           <p className="font-medium text-foreground">{file.name}</p>
         ) : (
           <>
@@ -165,7 +180,7 @@ export function UploadForm() {
           type="file"
           accept="image/jpeg,image/png,application/pdf"
           className="sr-only"
-          onChange={(e) => handleFiles(e.target.files)}
+          onChange={(e) => void handleFiles(e.target.files)}
         />
       </div>
 
@@ -179,7 +194,7 @@ export function UploadForm() {
             cameraInput.type = "file";
             cameraInput.accept = "image/jpeg,image/png";
             cameraInput.capture = "environment";
-            cameraInput.onchange = () => handleFiles(cameraInput.files);
+            cameraInput.onchange = () => void handleFiles(cameraInput.files);
             cameraInput.click();
           }}
         >
@@ -188,7 +203,7 @@ export function UploadForm() {
         </Button>
         <Button
           type="button"
-          disabled={!file}
+          disabled={!file || preparing}
           className="h-12 rounded-sm text-sm font-bold"
           onClick={handleSubmit}
         >
