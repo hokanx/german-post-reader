@@ -118,7 +118,7 @@ export default async function LetterPage({
                 {deadlines.map((deadline, i) => (
                   <li
                     key={i}
-                    className="flex items-start justify-between gap-4 rounded-sm border-2 border-border bg-muted px-4 py-3"
+                    className="flex flex-col items-start gap-2 rounded-sm border-2 border-border bg-muted px-4 py-3 sm:flex-row sm:items-center sm:justify-between sm:gap-4"
                   >
                     <span className="text-sm text-foreground">{deadline.description}</span>
                     <span className="shrink-0 rounded-full border-2 border-border bg-accent px-3 py-1 text-xs font-bold uppercase tracking-[0.06em] text-accent-foreground">

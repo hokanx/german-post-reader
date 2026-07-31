@@ -9,7 +9,7 @@ export const metadata = {
 
 export default function SignupPage() {
   return (
-    <main className="flex min-h-full flex-1 items-center justify-center bg-background px-6 py-16">
+    <main className="flex min-h-full flex-1 items-start justify-center bg-background px-6 py-12 sm:items-center sm:py-16">
       <div className="w-full max-w-md">
         <Link
           href="/"

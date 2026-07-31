@@ -88,7 +88,7 @@ export function Hero() {
         animate={{ opacity: 1, y: 0, rotate: -2 }}
         transition={{ duration: 0.5, ease: easeOut, delay: 0.15 }}
         dir={mockup.dir}
-        className="mx-auto w-full max-w-sm rounded-md border-2 border-border bg-card p-6 shadow-[8px_8px_0_0_var(--border)]"
+        className="mx-auto w-[88%] max-w-sm rounded-md border-2 border-border bg-card p-6 shadow-[8px_8px_0_0_var(--border)] sm:w-full"
       >
         <span className="rounded-full border-2 border-border bg-muted px-3 py-1 text-xs font-bold uppercase tracking-[0.06em] text-muted-foreground">
           {mockup.chip}
