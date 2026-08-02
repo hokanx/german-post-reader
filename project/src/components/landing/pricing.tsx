@@ -38,7 +38,7 @@ export function Pricing() {
             <span className="text-5xl font-extrabold tracking-[-0.02em] text-foreground">
               €{SUBSCRIPTION_PRICE_EUR}
             </span>
-            <span className="text-foreground/60">/ year, after</span>
+            <span className="text-foreground/60">/ year, after your {FREE_LETTER_LIMIT} free letters</span>
           </div>
           <ul className="mt-6 grid gap-3">
             {FEATURES.map((feature) => (

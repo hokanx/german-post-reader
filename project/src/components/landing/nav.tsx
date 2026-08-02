@@ -44,7 +44,7 @@ export function LandingNav() {
           </div>
           <Link
             href="/login"
-            className="text-sm font-medium text-foreground/80 hover:text-foreground"
+            className="rounded-sm text-sm font-medium text-foreground/80 transition-colors hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
           >
             Log in
           </Link>
@@ -93,7 +93,7 @@ export function LandingNav() {
           <div className="grid gap-3">
             <Link
               href="/login"
-              className="flex h-11 items-center rounded-sm border-2 border-border bg-card px-4 text-sm font-medium text-foreground"
+              className="flex h-11 items-center rounded-sm border-2 border-border bg-card px-4 text-sm font-medium text-foreground transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
             >
               Log in
             </Link>

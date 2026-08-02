@@ -8,13 +8,22 @@ export function LandingFooter() {
           German Post, translated.
         </span>
         <nav className="flex items-center gap-6">
-          <Link href="/privacy" className="hover:text-foreground">
+          <Link
+            href="/privacy"
+            className="rounded-sm transition-colors hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+          >
             Privacy
           </Link>
-          <Link href="/terms" className="hover:text-foreground">
+          <Link
+            href="/terms"
+            className="rounded-sm transition-colors hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+          >
             Terms
           </Link>
-          <Link href="mailto:hello@germanpostreader.app" className="hover:text-foreground">
+          <Link
+            href="mailto:hello@germanpostreader.app"
+            className="rounded-sm transition-colors hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+          >
             Contact
           </Link>
         </nav>
