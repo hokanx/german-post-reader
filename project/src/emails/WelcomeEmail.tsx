@@ -8,7 +8,7 @@ import {
   Section,
   Text,
 } from "@react-email/components";
-import { FREE_LETTER_LIMIT, UNLIMITED_PRICE_EUR } from "@/lib/constants";
+import { FREE_LETTER_LIMIT, SUBSCRIPTION_PRICE_EUR } from "@/lib/constants";
 
 export function WelcomeEmail() {
   return (
@@ -36,8 +36,8 @@ export function WelcomeEmail() {
               sure about, we&apos;ll say so plainly rather than guess.
             </Text>
             <Text style={styles.text}>
-              After your free letters, unlocking unlimited letters is a
-              one-time payment of €{UNLIMITED_PRICE_EUR} — no subscription.
+              After your free letters, unlocking unlimited letters is
+              €{SUBSCRIPTION_PRICE_EUR} per year.
             </Text>
           </Section>
         </Container>

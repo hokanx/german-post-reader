@@ -42,7 +42,7 @@ export async function uploadLetter(
 
   const { data: profile, error: profileError } = await service
     .from("profiles")
-    .select("language, has_lifetime_access, trial_letters_used")
+    .select("language, has_active_subscription, trial_letters_used")
     .eq("id", user.id)
     .single();
 
@@ -53,13 +53,13 @@ export async function uploadLetter(
     };
   }
 
-  if (!profile.has_lifetime_access && profile.trial_letters_used >= FREE_LETTER_LIMIT) {
+  if (!profile.has_active_subscription && profile.trial_letters_used >= FREE_LETTER_LIMIT) {
     return {
       ok: false,
       error: {
         code: "TRIAL_LIMIT_REACHED",
         message: `You've used all ${FREE_LETTER_LIMIT} free letters.`,
-        recovery: "Unlock unlimited letters for a one-time €5.99 payment.",
+        recovery: "Unlock unlimited letters for €5.99/year.",
       },
     };
   }

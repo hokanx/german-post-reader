@@ -293,7 +293,7 @@ async function main() {
   await supabase.from("profiles").upsert({
     id: userId,
     language: "en",
-    has_lifetime_access: false,
+    has_active_subscription: false,
     trial_letters_used: 1,
   });
 

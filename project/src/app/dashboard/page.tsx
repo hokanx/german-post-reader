@@ -9,6 +9,7 @@ import { AppHeader } from "@/components/app-header";
 import { FREE_LETTER_LIMIT } from "@/lib/constants";
 import type { AppLanguage } from "@/lib/letters/types";
 import { LetterList } from "./letter-list";
+import { ManageSubscriptionLink } from "./manage-subscription-link";
 import { PurchaseConfirmationToast } from "./purchase-confirmation-toast";
 
 export const metadata = {
@@ -29,7 +30,7 @@ export default async function DashboardPage() {
   const [{ data: profile }, { data: letters }] = await Promise.all([
     supabase
       .from("profiles")
-      .select("has_lifetime_access, trial_letters_used, language")
+      .select("has_active_subscription, trial_letters_used, language")
       .eq("id", user.id)
       .single(),
     supabase
@@ -39,7 +40,7 @@ export default async function DashboardPage() {
       .order("created_at", { ascending: false }),
   ]);
 
-  const hasLifetimeAccess = profile?.has_lifetime_access ?? false;
+  const hasActiveSubscription = profile?.has_active_subscription ?? false;
   const trialUsed = profile?.trial_letters_used ?? 0;
   const lettersLeft = Math.max(FREE_LETTER_LIMIT - trialUsed, 0);
 
@@ -50,12 +51,12 @@ export default async function DashboardPage() {
         <PurchaseConfirmationToast />
       </Suspense>
       <div className="mx-auto max-w-3xl px-6 py-8">
-        {hasLifetimeAccess ? (
-          <div className="mb-6 flex flex-wrap items-center gap-3 rounded-md border-2 border-border bg-muted px-5 py-4">
+        {hasActiveSubscription ? (
+          <div className="mb-6 flex flex-wrap items-center justify-between gap-3 rounded-md border-2 border-border bg-muted px-5 py-4">
             <span className="rounded-full border-2 border-border bg-primary px-3 py-1 text-xs font-bold uppercase tracking-[0.06em] text-primary-foreground">
               Unlimited letters
             </span>
-            <span className="text-sm text-foreground/70">One-time payment — yours to keep.</span>
+            <ManageSubscriptionLink />
           </div>
         ) : (
           <div className="mb-6 rounded-md border-2 border-border bg-accent px-5 py-4">
@@ -64,7 +65,7 @@ export default async function DashboardPage() {
             </span>
             {lettersLeft === 0 && (
               <p className="mt-2 text-sm font-medium text-accent-foreground">
-                Unlock unlimited letters for a one-time €5.99 payment.
+                Unlock unlimited letters for €5.99/year.
               </p>
             )}
           </div>

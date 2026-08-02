@@ -39,9 +39,8 @@ export default function PrivacyPage() {
           <section>
             <h2 className="font-heading text-lg font-extrabold text-foreground">Payments</h2>
             <p className="mt-2">
-              Unlocking unlimited letters is a one-time payment handled by
-              Stripe. We never see or store your card details — Stripe
-              processes and stores that directly.
+              Subscription billing is handled by Stripe. We never see or store
+              your card details — Stripe processes and stores that directly.
             </p>
           </section>
           <section>

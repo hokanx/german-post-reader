@@ -1,5 +1,5 @@
 import { MinimalHeader } from "@/components/minimal-header";
-import { FREE_LETTER_LIMIT, UNLIMITED_PRICE_EUR } from "@/lib/constants";
+import { FREE_LETTER_LIMIT, SUBSCRIPTION_PRICE_EUR } from "@/lib/constants";
 
 export const metadata = {
   title: "Terms of Service — German Post Letter Reader",
@@ -41,9 +41,10 @@ export default function TermsPage() {
             <h2 className="font-heading text-lg font-extrabold text-foreground">Free trial and billing</h2>
             <p className="mt-2">
               New accounts get {FREE_LETTER_LIMIT} free letter analyses, no card
-              required. Beyond that, a one-time payment of €{UNLIMITED_PRICE_EUR}{" "}
-              unlocks unlimited analyses for your account — there is no
-              subscription and no recurring charge.
+              required. Beyond that, a subscription of €{SUBSCRIPTION_PRICE_EUR} per
+              year unlocks unlimited analyses. Billed annually via Stripe; cancel
+              any time from your dashboard and you&apos;ll keep access until the
+              current billing period ends.
             </p>
           </section>
           <section>

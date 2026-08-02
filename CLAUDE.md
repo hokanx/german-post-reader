@@ -35,7 +35,7 @@ deeper rules live in scoped CLAUDE.md files that load automatically when you wor
 - Next.js (App Router): Full-stack framework: server components for data fetching, server actions for AI pipeline calls, API routes for Stripe webhooks.
 - Supabase: Postgres database (users, letters, analyses), auth (email + password), and storage bucket for uploaded letter images and PDFs.
 - Google Gemini (gemini-flash-latest): Vision + document model: reads letter images AND PDFs directly (native multimodal document understanding — no separate OCR step needed for either), returns structured JSON with summary, deadlines, and reply draft in the user's chosen language. Swapped in from the originally-planned OpenAI GPT-4o for its free tier — same role in the pipeline. Tesseract.js was dropped from the stack: it was originally scoped as the PDF-text-extraction step for the OpenAI pipeline, but Tesseract/Leptonica cannot decode PDF containers at all (image formats only), and Gemini's native PDF support makes that step unnecessary regardless.
-- Stripe: One-time payment billing: Stripe Checkout (mode: payment) for the €5.99 unlimited unlock, a webhook (`checkout.session.completed`) to grant lifetime access in Supabase. No subscription, no Customer Portal — the app runs on Gemini's free tier so there's no recurring cost to pass on.
+- Stripe: Yearly subscription billing: Stripe Checkout (mode: subscription) for the €5.99/year unlimited unlock, a webhook (`customer.subscription.*`) to sync subscription state in Supabase, Customer Portal for self-service cancellation.
 - Resend: Transactional email: welcome email on signup, trial-limit nudge email.
 - Posthog: Product analytics: track letter uploads, language selections, trial conversions, subscription events.
 - Sentry: Error tracking and performance monitoring for the AI pipeline and upload flow.
@@ -89,11 +89,12 @@ Arabic output must render in a right-to-left container (`dir="rtl"`). Any compon
 - Wrap every Gemini call in a try/catch; on failure, show an explicit "Analysis failed — try again" error state, log to Sentry, and do NOT show partial output.
 
 ### Stripe rules
-- Access state is stored in Supabase on the `profiles` table as `has_lifetime_access` (boolean) and `trial_letters_used` (integer).
+- Access state is stored in Supabase on the `profiles` table as `has_active_subscription` (boolean) and `trial_letters_used` (integer).
 - The free trial limit is 4 letters (`FREE_LETTER_LIMIT` in `src/lib/constants.ts` — the single source of truth; never hardcode the number elsewhere). Enforce server-side in the upload server action — never trust client-side counts.
-- Unlocking unlimited letters is a one-time payment of €5.99 (`UNLIMITED_PRICE_EUR` in the same constants file) — NOT a subscription. There is no Customer Portal, no cancellation flow, and no recurring billing.
-- The Stripe webhook listens for `checkout.session.completed` and sets `has_lifetime_access = true` via the service role key, matched on `client_reference_id` (the Supabase user id set at Checkout Session creation).
-- Stripe Checkout URLs are generated server-side. Never pass the Stripe secret key to the client.
+- Unlocking unlimited letters is a €5.99/year subscription (`SUBSCRIPTION_PRICE_EUR` in the same constants file), billed via Stripe Checkout (mode: subscription).
+- The Stripe webhook listens for `customer.subscription.created/updated/deleted` and sets `has_active_subscription` via the service role key, matched on `stripe_customer_id`.
+- Customer Portal (`/api/stripe/portal`) lets a subscribed user cancel/manage billing self-service — linked from the dashboard's "Unlimited letters" banner.
+- Stripe Checkout and Customer Portal URLs are generated server-side. Never pass the Stripe secret key to the client.
 
 ### Letter history
 - Each uploaded letter and its analysis is stored in the `letters` table with RLS: users can SELECT/INSERT only their own rows.
@@ -105,7 +106,7 @@ Arabic output must render in a right-to-left container (`dir="rtl"`). Any compon
 - The welcome email is sent from the `onAuthStateChange` server-side hook (or a Supabase auth webhook), not from the client.
 
 ### Analytics rules
-- Posthog events to track: `letter_uploaded`, `analysis_completed`, `language_changed`, `trial_limit_reached`, `unlimited_purchased`.
+- Posthog events to track: `letter_uploaded`, `analysis_completed`, `language_changed`, `trial_limit_reached`, `subscription_started`, `subscription_canceled`.
 - Posthog is initialized client-side in a `<PosthogProvider>` wrapper — never import Posthog in server components.
 
 ### Scope guardrails

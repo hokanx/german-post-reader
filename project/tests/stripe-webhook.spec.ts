@@ -36,8 +36,9 @@ test.describe.serial("stripe webhook", () => {
 
     await admin.from("profiles").upsert({
       id: userId,
-      has_lifetime_access: false,
-      trial_letters_used: 4,
+      has_active_subscription: false,
+      trial_letters_used: 0,
+      stripe_customer_id: stripeCustomerId,
     });
   });
 
@@ -45,18 +46,17 @@ test.describe.serial("stripe webhook", () => {
     if (userId) await admin.auth.admin.deleteUser(userId);
   });
 
-  test("checkout.session.completed grants lifetime access", async ({ request }) => {
+  test("customer.subscription.updated (active) grants access", async ({ request }) => {
     const event = {
-      id: "evt_test_checkout_completed",
+      id: "evt_test_updated_active",
       object: "event",
-      type: "checkout.session.completed",
+      type: "customer.subscription.updated",
       data: {
         object: {
-          id: "cs_test_123",
-          object: "checkout.session",
-          mode: "payment",
+          id: "sub_test_123",
+          object: "subscription",
           customer: stripeCustomerId,
-          client_reference_id: userId,
+          status: "active",
         },
       },
     };
@@ -70,16 +70,45 @@ test.describe.serial("stripe webhook", () => {
 
     const { data: profile } = await admin
       .from("profiles")
-      .select("has_lifetime_access, stripe_customer_id")
+      .select("has_active_subscription")
       .eq("id", userId)
       .single();
-    expect(profile?.has_lifetime_access).toBe(true);
-    expect(profile?.stripe_customer_id).toBe(stripeCustomerId);
+    expect(profile?.has_active_subscription).toBe(true);
+  });
+
+  test("customer.subscription.deleted revokes access", async ({ request }) => {
+    const event = {
+      id: "evt_test_deleted",
+      object: "event",
+      type: "customer.subscription.deleted",
+      data: {
+        object: {
+          id: "sub_test_123",
+          object: "subscription",
+          customer: stripeCustomerId,
+          status: "canceled",
+        },
+      },
+    };
+    const { payloadString, header } = signPayload(event);
+
+    const response = await request.post("/api/stripe/webhook", {
+      data: payloadString,
+      headers: { "content-type": "application/json", "stripe-signature": header },
+    });
+    expect(response.ok()).toBeTruthy();
+
+    const { data: profile } = await admin
+      .from("profiles")
+      .select("has_active_subscription")
+      .eq("id", userId)
+      .single();
+    expect(profile?.has_active_subscription).toBe(false);
   });
 
   test("invalid signature is rejected", async ({ request }) => {
     const response = await request.post("/api/stripe/webhook", {
-      data: JSON.stringify({ id: "evt_bad", object: "event", type: "checkout.session.completed" }),
+      data: JSON.stringify({ id: "evt_bad", object: "event", type: "customer.subscription.updated" }),
       headers: { "content-type": "application/json", "stripe-signature": "t=1,v1=invalid" },
     });
     expect(response.status()).toBe(400);

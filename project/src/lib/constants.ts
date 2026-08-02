@@ -6,5 +6,5 @@
  */
 export const FREE_LETTER_LIMIT = 4;
 
-/** One-time payment for unlimited letters — not a subscription (see CLAUDE.md Stripe rules). */
-export const UNLIMITED_PRICE_EUR = "5.99";
+/** Yearly subscription price for unlimited letters (see CLAUDE.md Stripe rules). */
+export const SUBSCRIPTION_PRICE_EUR = "5.99";
