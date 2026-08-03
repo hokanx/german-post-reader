@@ -6,41 +6,16 @@ import { CalendarClock } from "lucide-react";
 import { buttonVariants } from "@/components/ui/button";
 import { FREE_LETTER_LIMIT } from "@/lib/constants";
 import { StampBadge } from "./stamp-badge";
-import { useMarketingLocale, type MarketingLocale } from "./locale-context";
+import { useMarketingLocale } from "./locale-context";
+import { MARKETING_COPY } from "./copy";
 
 const easeOut: [number, number, number, number] = [0.22, 1, 0.36, 1];
-
-const MOCKUP_COPY: Record<
-  MarketingLocale,
-  { chip: string; summary: string; deadline: string; reply: string; dir: "ltr" | "rtl" }
-> = {
-  en: {
-    chip: "Analysis complete",
-    summary: "Stadtwerke München is asking for an extra 187.42 EUR from your 2025 electricity bill.",
-    deadline: "Pay by 28 Feb 2026",
-    reply: "“I am writing to confirm the payment of 187.42 EUR was transferred on…”",
-    dir: "ltr",
-  },
-  ar: {
-    chip: "تم التحليل",
-    summary: "شركة كهرباء ميونخ تطلب مبلغاً إضافياً قدره 187.42 يورو من فاتورة الكهرباء لعام 2025.",
-    deadline: "الدفع قبل 28 فبراير 2026",
-    reply: "«أكتب لأؤكد أن مبلغ 187.42 يورو تم تحويله بتاريخ...»",
-    dir: "rtl",
-  },
-  tr: {
-    chip: "Analiz tamamlandı",
-    summary: "Stadtwerke München, 2025 elektrik faturanız için 187,42 EUR ek ödeme talep ediyor.",
-    deadline: "Son ödeme: 28 Şubat 2026",
-    reply: "“187,42 EUR tutarındaki ödemenin yapıldığını onaylamak için yazıyorum…”",
-    dir: "ltr",
-  },
-};
 
 export function Hero() {
   const shouldReduceMotion = useReducedMotion();
   const { locale } = useMarketingLocale();
-  const mockup = MOCKUP_COPY[locale];
+  const copy = MARKETING_COPY[locale];
+  const mockup = copy.hero.mockup;
 
   const fadeRise = shouldReduceMotion
     ? undefined
@@ -50,36 +25,37 @@ export function Hero() {
       };
 
   return (
-    <section className="mx-auto grid max-w-6xl gap-12 px-6 pt-16 pb-20 md:grid-cols-2 md:items-center md:pt-24 md:pb-28">
+    <section
+      dir={copy.dir}
+      className="mx-auto grid max-w-6xl gap-12 px-6 pt-16 pb-20 md:grid-cols-2 md:items-center md:pt-24 md:pb-28"
+    >
       <motion.div
         initial={shouldReduceMotion ? false : "hidden"}
         animate="show"
         variants={{ show: { transition: { staggerChildren: 0.08 } } }}
       >
         <motion.div variants={fadeRise} className="relative mb-6 w-fit">
-          <StampBadge label={`${FREE_LETTER_LIMIT} FREE LETTERS`} className="rotate-[-4deg]" />
+          <StampBadge label={copy.hero.stampBadge(FREE_LETTER_LIMIT)} className="rotate-[-4deg]" />
         </motion.div>
         <motion.h1
           variants={fadeRise}
           className="text-5xl font-extrabold tracking-[-0.02em] text-foreground md:text-7xl"
         >
-          German post,
+          {copy.hero.headlineLine1}
           <br />
-          finally readable.
+          {copy.hero.headlineLine2}
         </motion.h1>
         <motion.p variants={fadeRise} className="mt-6 max-w-md text-lg text-foreground/80">
-          Upload a photo or PDF of any German letter. Get a plain-language
-          summary, your deadlines, and a ready-to-send reply — in English,
-          Arabic, or Turkish.
+          {copy.hero.subhead}
         </motion.p>
         <motion.div variants={fadeRise} className="mt-8 flex flex-wrap items-center gap-4">
           <Link
             href="/signup"
             className={buttonVariants({ className: "h-12 rounded-sm px-6 text-base font-bold" })}
           >
-            Start free trial
+            {copy.hero.ctaPrimary}
           </Link>
-          <span className="text-sm text-foreground/60">No credit card needed</span>
+          <span className="text-sm text-foreground/60">{copy.hero.ctaNote}</span>
         </motion.div>
       </motion.div>
 

@@ -1,8 +1,15 @@
+"use client";
+
 import Link from "next/link";
+import { useMarketingLocale } from "./locale-context";
+import { MARKETING_COPY } from "./copy";
 
 export function LandingFooter() {
+  const { locale } = useMarketingLocale();
+  const copy = MARKETING_COPY[locale];
+
   return (
-    <footer className="border-t-2 border-border bg-background px-6 py-8">
+    <footer dir={copy.dir} className="border-t-2 border-border bg-background px-6 py-8">
       <div className="mx-auto flex max-w-6xl flex-col items-center justify-between gap-4 text-sm text-foreground/70 md:flex-row">
         <span className="font-heading font-extrabold tracking-[-0.02em] text-foreground">
           German Post, translated.
@@ -10,21 +17,21 @@ export function LandingFooter() {
         <nav className="flex items-center gap-6">
           <Link
             href="/privacy"
-            className="rounded-sm transition-colors hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+            className="-my-3.5 flex h-11 items-center rounded-sm transition-colors hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
           >
-            Privacy
+            {copy.footer.privacy}
           </Link>
           <Link
             href="/terms"
-            className="rounded-sm transition-colors hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+            className="-my-3.5 flex h-11 items-center rounded-sm transition-colors hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
           >
-            Terms
+            {copy.footer.terms}
           </Link>
           <Link
             href="mailto:hello@germanpostreader.app"
-            className="rounded-sm transition-colors hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+            className="-my-3.5 flex h-11 items-center rounded-sm transition-colors hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
           >
-            Contact
+            {copy.footer.contact}
           </Link>
         </nav>
       </div>

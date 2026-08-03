@@ -5,6 +5,7 @@ import Link from "next/link";
 import { Globe, Menu, X } from "lucide-react";
 import { buttonVariants } from "@/components/ui/button";
 import { useMarketingLocale, type MarketingLocale } from "./locale-context";
+import { MARKETING_COPY } from "./copy";
 
 const LANGUAGES: { code: MarketingLocale; label: string }[] = [
   { code: "en", label: "EN" },
@@ -15,9 +16,10 @@ const LANGUAGES: { code: MarketingLocale; label: string }[] = [
 export function LandingNav() {
   const [open, setOpen] = useState(false);
   const { locale, setLocale } = useMarketingLocale();
+  const copy = MARKETING_COPY[locale];
 
   return (
-    <header className="sticky top-0 z-40 border-b-2 border-border bg-background/95 backdrop-blur">
+    <header dir={copy.dir} className="sticky top-0 z-40 border-b-2 border-border bg-background/95 backdrop-blur">
       <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
         <Link href="/" className="font-heading text-lg font-extrabold tracking-[-0.02em] text-foreground">
           German Post, translated.
@@ -46,13 +48,13 @@ export function LandingNav() {
             href="/login"
             className="rounded-sm text-sm font-medium text-foreground/80 transition-colors hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
           >
-            Log in
+            {copy.nav.logIn}
           </Link>
           <Link
             href="/signup"
             className={buttonVariants({ className: "h-10 rounded-sm font-bold" })}
           >
-            Start free trial
+            {copy.nav.startFreeTrial}
           </Link>
         </div>
 
@@ -95,13 +97,13 @@ export function LandingNav() {
               href="/login"
               className="flex h-11 items-center rounded-sm border-2 border-border bg-card px-4 text-sm font-medium text-foreground transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
             >
-              Log in
+              {copy.nav.logIn}
             </Link>
             <Link
               href="/signup"
               className={buttonVariants({ className: "h-11 rounded-sm font-bold" })}
             >
-              Start free trial
+              {copy.nav.startFreeTrial}
             </Link>
           </div>
         </div>

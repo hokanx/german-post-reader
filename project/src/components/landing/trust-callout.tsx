@@ -2,12 +2,16 @@
 
 import { motion, useReducedMotion } from "framer-motion";
 import { ShieldAlert } from "lucide-react";
+import { useMarketingLocale } from "./locale-context";
+import { MARKETING_COPY } from "./copy";
 
 export function TrustCallout() {
   const shouldReduceMotion = useReducedMotion();
+  const { locale } = useMarketingLocale();
+  const copy = MARKETING_COPY[locale];
 
   return (
-    <section className="mx-auto max-w-6xl px-6 py-10">
+    <section dir={copy.dir} className="mx-auto max-w-6xl px-6 py-10">
       <motion.div
         initial={shouldReduceMotion ? false : { opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
@@ -20,13 +24,9 @@ export function TrustCallout() {
         </div>
         <div>
           <h2 className="font-heading text-xl font-extrabold tracking-[-0.02em] text-foreground">
-            We tell you when we&apos;re not sure
+            {copy.trust.heading}
           </h2>
-          <p className="mt-1 text-sm text-foreground/70">
-            German bureaucratic letters are dense — amounts and dates matter.
-            If anything in a letter is ambiguous, we flag it plainly instead
-            of guessing. Never a silent guess on a number that could cost you.
-          </p>
+          <p className="mt-1 text-sm text-foreground/70">{copy.trust.body}</p>
         </div>
       </motion.div>
     </section>

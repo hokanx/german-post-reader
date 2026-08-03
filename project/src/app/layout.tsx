@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Bricolage_Grotesque, Inter, JetBrains_Mono } from "next/font/google";
 import { ThemeProvider } from "@/components/theme-provider";
 import { PosthogProvider } from "@/components/PosthogProvider";
@@ -61,6 +61,16 @@ export const metadata: Metadata = {
       tr: "/",
     },
   },
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: "black-translucent",
+    title: "German Post",
+  },
+};
+
+export const viewport: Viewport = {
+  themeColor: "#7c3aed",
+  viewportFit: "cover",
 };
 
 export default function RootLayout({
