@@ -12,9 +12,9 @@ export function ErrorState({ message, recovery, onRetry, retryLabel = "Try again
   return (
     <div
       role="alert"
-      className="flex flex-col items-center rounded-md border-2 border-destructive bg-destructive/10 px-8 py-14 text-center"
+      className="flex flex-col items-center rounded-md border-2 border-destructive bg-destructive/10 px-8 py-14 text-center shadow-[4px_4px_0_0_var(--destructive)]"
     >
-      <div className="mb-4 flex size-14 items-center justify-center rounded-full border-2 border-destructive bg-card">
+      <div className="mb-4 flex size-14 rotate-[-3deg] items-center justify-center rounded-md border-2 border-destructive bg-card shadow-[3px_3px_0_0_var(--destructive)]">
         <TriangleAlert className="size-5 text-destructive" strokeWidth={1.5} aria-hidden="true" />
       </div>
       <h2 className="font-heading text-xl font-extrabold tracking-[-0.02em] text-foreground">

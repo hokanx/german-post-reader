@@ -52,7 +52,7 @@ export function LetterList({ letters }: { letters: LetterRow[] }) {
                 <p className="text-xs font-medium uppercase tracking-[0.04em] text-muted-foreground">
                   {formatDate(letter.created_at)}
                 </p>
-                <p className="mt-1 truncate text-sm font-medium text-foreground">
+                <p className="mt-1 truncate text-base font-medium text-foreground">
                   {letter.summary ?? "Analysis pending…"}
                 </p>
               </div>

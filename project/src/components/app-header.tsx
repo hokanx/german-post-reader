@@ -25,14 +25,14 @@ export function AppHeader({
         <div className="flex items-center gap-5">
           <Link
             href="/dashboard"
-            className="font-heading text-lg font-extrabold tracking-[-0.02em] text-foreground"
+            className="rounded-sm font-heading text-lg font-extrabold tracking-[-0.02em] text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
           >
             German Post, translated.
           </Link>
           {backHref && (
             <Link
               href={backHref}
-              className="hidden items-center gap-1.5 text-sm font-medium text-foreground/70 transition-colors hover:text-foreground sm:flex"
+              className="hidden items-center gap-1.5 rounded-sm text-sm font-medium text-foreground/70 transition-colors hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring sm:flex"
             >
               <ArrowLeft className="size-4" strokeWidth={1.5} aria-hidden="true" />
               {backLabel}

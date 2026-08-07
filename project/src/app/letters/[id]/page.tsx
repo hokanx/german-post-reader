@@ -49,8 +49,9 @@ export default async function LetterPage({
   const lowConfidence = letter.detected_language_confirmed === false;
 
   return (
-    <main className="flex-1 bg-background">
+    <>
       <AppHeader backHref="/dashboard" />
+      <main className="flex-1 bg-background">
       <div className="mx-auto max-w-2xl px-6 py-12">
         <div dir={isRtl ? "rtl" : "ltr"} className="grid gap-6">
           {lowConfidence && (
@@ -158,6 +159,7 @@ export default async function LetterPage({
           />
         </div>
       </div>
-    </main>
+      </main>
+    </>
   );
 }

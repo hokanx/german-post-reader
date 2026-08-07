@@ -16,6 +16,7 @@ export default function LetterError({
 
   return (
     <main className="mx-auto max-w-2xl flex-1 bg-background px-6 py-16">
+      <h1 className="sr-only">Your letter</h1>
       <ErrorState
         message="Couldn't load this letter"
         recovery="This is usually temporary. Try again in a moment."

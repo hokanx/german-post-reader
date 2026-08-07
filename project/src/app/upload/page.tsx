@@ -26,20 +26,22 @@ export default async function UploadPage() {
     .single();
 
   return (
-    <main className="flex-1 bg-background">
+    <>
       <AppHeader language={(profile?.language ?? "en") as AppLanguage} backHref="/dashboard" />
-      <div className="mx-auto flex max-w-2xl flex-1 flex-col justify-center px-6 py-16">
-        <div className="mb-8">
-          <h1 className="text-3xl font-extrabold tracking-[-0.02em] text-foreground md:text-4xl">
-            Upload a letter
-          </h1>
-          <p className="mt-2 text-base text-foreground/70">
-            A photo or a PDF both work. We&apos;ll read it and come back with a
-            plain-language summary, any deadlines, and a ready-to-send reply.
-          </p>
+      <main className="flex-1 bg-background">
+        <div className="mx-auto flex max-w-2xl flex-1 flex-col justify-center px-6 py-16">
+          <div className="mb-8">
+            <h1 className="text-3xl font-extrabold tracking-[-0.02em] text-foreground md:text-4xl">
+              Upload a letter
+            </h1>
+            <p className="mt-2 text-base text-foreground/70">
+              A photo or a PDF both work. We&apos;ll read it and come back with a
+              plain-language summary, any deadlines, and a ready-to-send reply.
+            </p>
+          </div>
+          <UploadForm />
         </div>
-        <UploadForm />
-      </div>
-    </main>
+      </main>
+    </>
   );
 }
