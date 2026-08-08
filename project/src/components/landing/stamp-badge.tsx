@@ -78,7 +78,10 @@ export function StampBadge({
           fontFamily: "var(--font-heading)",
           fontWeight: 800,
           fontSize: "15px",
-          letterSpacing: "0.02em",
+          // letter-spacing breaks Arabic's cursive letter-joining (each
+          // letter falls back to isolated form instead of its correct
+          // medial/final shape) - only apply it for LTR scripts.
+          letterSpacing: dir === "rtl" ? "normal" : "0.02em",
           direction: dir,
           unicodeBidi: "isolate",
         }}
