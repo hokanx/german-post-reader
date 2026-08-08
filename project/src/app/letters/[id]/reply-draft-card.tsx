@@ -3,25 +3,30 @@
 import { useState, useTransition } from "react";
 import { toast } from "sonner";
 import { Languages } from "lucide-react";
-import { REPLY_TONE_LABELS, type ReplyTone } from "@/lib/letters/types";
+import { REPLY_TONE_LABELS, type AppLanguage, type ReplyTone } from "@/lib/letters/types";
+import { APP_COPY } from "@/lib/i18n/copy";
 import { CopyReplyButton } from "./copy-reply-button";
 import { regenerateReply } from "./actions";
 
-const TONES = Object.keys(REPLY_TONE_LABELS) as ReplyTone[];
+const TONES = Object.keys(REPLY_TONE_LABELS.en) as ReplyTone[];
 
 export function ReplyDraftCard({
   letterId,
+  language,
   initialReplyDraft,
   initialTranslation,
   translationLanguageLabel,
   translationDir,
 }: {
   letterId: string;
+  language: AppLanguage;
   initialReplyDraft: string;
   initialTranslation: string;
   translationLanguageLabel: string;
   translationDir: "ltr" | "rtl";
 }) {
+  const copy = APP_COPY[language].letters;
+  const toneLabels = REPLY_TONE_LABELS[language];
   const [replyDraft, setReplyDraft] = useState(initialReplyDraft);
   const [translation, setTranslation] = useState(initialTranslation);
   const [tone, setTone] = useState<ReplyTone | null>(null);
@@ -39,7 +44,7 @@ export function ReplyDraftCard({
       setReplyDraft(result.data.reply_draft);
       setTranslation(result.data.reply_draft_translation);
       setTone(nextTone);
-      toast.success("Reply redrafted");
+      toast.success(copy.replyRedraftedToast);
     });
   }
 
@@ -47,13 +52,13 @@ export function ReplyDraftCard({
     <section className="rounded-md border-2 border-border bg-card p-6 shadow-[4px_4px_0_0_var(--border)]">
       <div className="flex flex-wrap items-center justify-between gap-3">
         <h2 className="font-heading text-lg font-extrabold tracking-[-0.02em] text-foreground">
-          Your reply, in German
+          {copy.yourReplyInGerman}
         </h2>
-        <CopyReplyButton text={replyDraft} />
+        <CopyReplyButton text={replyDraft} copy={copy} />
       </div>
-      <p className="mt-1 text-sm text-foreground/60">Ready to send as-is — the recipient reads German.</p>
+      <p className="mt-1 text-sm text-foreground/60">{copy.readyToSend}</p>
 
-      <div className="mt-4 flex flex-wrap gap-2" role="group" aria-label="Reply tone">
+      <div className="mt-4 flex flex-wrap gap-2" role="group" aria-label={copy.replyToneGroupLabel}>
         {TONES.map((t) => (
           <button
             key={t}
@@ -67,7 +72,7 @@ export function ReplyDraftCard({
                 : "border-border bg-muted text-muted-foreground hover:text-foreground"
             }`}
           >
-            {REPLY_TONE_LABELS[t]}
+            {toneLabels[t]}
           </button>
         ))}
       </div>
@@ -77,7 +82,7 @@ export function ReplyDraftCard({
         aria-busy={pending}
         className={`mt-4 whitespace-pre-wrap text-left text-sm leading-relaxed text-foreground transition-opacity ${pending ? "opacity-50" : ""}`}
       >
-        {pending ? "Redrafting…" : replyDraft}
+        {pending ? copy.redrafting : replyDraft}
       </p>
 
       <button
@@ -89,8 +94,8 @@ export function ReplyDraftCard({
       >
         <Languages className="size-4" strokeWidth={1.5} aria-hidden="true" />
         {showTranslation
-          ? `Hide ${translationLanguageLabel} translation`
-          : `Show what this says in ${translationLanguageLabel}`}
+          ? copy.hideTranslation(translationLanguageLabel)
+          : copy.showTranslation(translationLanguageLabel)}
       </button>
 
       {showTranslation && (

@@ -5,16 +5,19 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import type { AppLanguage } from "@/lib/letters/types";
+import { APP_COPY } from "@/lib/i18n/copy";
 import { signup } from "./actions";
 
-export function SignupForm() {
+export function SignupForm({ language }: { language: AppLanguage }) {
+  const copy = APP_COPY[language].auth;
   const [pending, startTransition] = useTransition();
   const [error, setError] = useState<{ message: string; recovery?: string } | null>(null);
 
   function handleSubmit(formData: FormData) {
     setError(null);
     startTransition(async () => {
-      const result = await signup(formData);
+      const result = await signup(formData, language);
       if (!result.ok) {
         setError({ message: result.error.message, recovery: result.error.recovery });
       }
@@ -24,7 +27,7 @@ export function SignupForm() {
   return (
     <form action={handleSubmit} className="grid gap-5">
       <div className="grid gap-2">
-        <Label htmlFor="email">Email</Label>
+        <Label htmlFor="email">{copy.emailLabel}</Label>
         <Input
           id="email"
           name="email"
@@ -35,7 +38,7 @@ export function SignupForm() {
         />
       </div>
       <div className="grid gap-2">
-        <Label htmlFor="password">Password</Label>
+        <Label htmlFor="password">{copy.passwordLabel}</Label>
         <Input
           id="password"
           name="password"
@@ -60,12 +63,12 @@ export function SignupForm() {
         disabled={pending}
         className="h-12 rounded-sm text-base font-bold"
       >
-        {pending ? "Creating your account…" : "Start free trial"}
+        {pending ? copy.signup.submitting : copy.signup.submit}
       </Button>
       <p className="text-center text-sm text-foreground/70">
-        Already have an account?{" "}
+        {copy.signup.haveAccount}{" "}
         <Link href="/login" className="font-medium text-primary underline underline-offset-4">
-          Log in
+          {copy.signup.loginLink}
         </Link>
       </p>
     </form>

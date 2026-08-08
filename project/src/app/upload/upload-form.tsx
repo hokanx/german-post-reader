@@ -9,6 +9,8 @@ import { ErrorState } from "@/components/error-state";
 import { PaywallModal } from "@/components/PaywallModal";
 import { trackEvent } from "@/lib/analytics/track-event";
 import { compressImageIfNeeded } from "@/lib/image-compression";
+import type { AppLanguage } from "@/lib/letters/types";
+import { APP_COPY } from "@/lib/i18n/copy";
 import { uploadLetter } from "./actions";
 
 // Vercel's serverless functions have a hard 4.5MB request body ceiling that
@@ -18,7 +20,8 @@ import { uploadLetter } from "./actions";
 // directly against a safe margin below the platform limit.
 const MAX_UPLOAD_BYTES = 4 * 1024 * 1024;
 
-export function UploadForm() {
+export function UploadForm({ language }: { language: AppLanguage }) {
+  const copy = APP_COPY[language].upload;
   const router = useRouter();
   const [pending, startTransition] = useTransition();
   const [preparing, setPreparing] = useState(false);
@@ -43,11 +46,11 @@ export function UploadForm() {
     if (prepared.size > MAX_UPLOAD_BYTES) {
       setPreparing(false);
       setError({
-        message: "That file is too large.",
+        message: copy.fileTooLarge,
         recovery:
           prepared.type === "application/pdf"
-            ? "Try a smaller PDF, or a photo of the letter instead."
-            : "Try a different photo — this one is still too large after compressing.",
+            ? copy.fileTooLargePdfRecovery
+            : copy.fileTooLargeImageRecovery,
       });
       return;
     }
@@ -85,8 +88,8 @@ export function UploadForm() {
         // that crash the page — always land on a recoverable message.
         console.error("Upload request failed", err);
         setError({
-          message: "Upload failed — try again.",
-          recovery: "Check your connection. If the file is very large, try a smaller photo.",
+          message: copy.uploadFailed,
+          recovery: copy.uploadFailedRecovery,
         });
       }
     });
@@ -107,17 +110,15 @@ export function UploadForm() {
           <FileText className="size-6 text-accent-foreground" strokeWidth={1.5} aria-hidden="true" />
         </motion.div>
         <p className="font-heading text-xl font-extrabold tracking-[-0.02em] text-foreground">
-          Reading your letter…
+          {copy.readingTitle}
         </p>
-        <p className="mt-2 text-sm text-foreground/70">
-          This usually takes a few seconds.
-        </p>
+        <p className="mt-2 text-sm text-foreground/70">{copy.readingSubtitle}</p>
       </motion.div>
     );
   }
 
   if (trialLimitReached) {
-    return <PaywallModal open={trialLimitReached} onOpenChange={setTrialLimitReached} />;
+    return <PaywallModal open={trialLimitReached} onOpenChange={setTrialLimitReached} language={language} />;
   }
 
   return (
@@ -133,7 +134,7 @@ export function UploadForm() {
               message={error.message}
               recovery={error.recovery}
               onRetry={() => setError(null)}
-              retryLabel="Dismiss"
+              retryLabel={copy.dismiss}
             />
           </motion.div>
         )}
@@ -164,15 +165,15 @@ export function UploadForm() {
           <Upload className="size-5 text-muted-foreground" strokeWidth={1.5} aria-hidden="true" />
         </div>
         {preparing ? (
-          <p className="font-medium text-foreground">Preparing photo…</p>
+          <p className="font-medium text-foreground">{copy.preparingPhoto}</p>
         ) : file ? (
           <p className="font-medium text-foreground">{file.name}</p>
         ) : (
           <>
             <p className="font-heading text-lg font-extrabold tracking-[-0.02em] text-foreground">
-              Drop a photo or PDF here
+              {copy.dropTitle}
             </p>
-            <p className="mt-1 text-sm text-foreground/70">or click to browse</p>
+            <p className="mt-1 text-sm text-foreground/70">{copy.dropSubtitle}</p>
           </>
         )}
         <input
@@ -199,7 +200,7 @@ export function UploadForm() {
           }}
         >
           <Camera className="size-4" strokeWidth={1.5} aria-hidden="true" />
-          Take a photo
+          {copy.takePhoto}
         </Button>
         <Button
           type="button"
@@ -207,7 +208,7 @@ export function UploadForm() {
           className="h-12 rounded-sm text-sm font-bold"
           onClick={handleSubmit}
         >
-          Analyze letter
+          {copy.analyzeLetter}
         </Button>
       </div>
     </div>

@@ -3,6 +3,7 @@
 import { createClient } from "@/lib/supabase/server";
 import { regenerateReplyDraft } from "@/lib/gemini/analyze-letter";
 import type { AppLanguage, ReplyTone } from "@/lib/letters/types";
+import { APP_COPY } from "@/lib/i18n/copy";
 import type { Result } from "@/lib/result";
 
 type Deadline = { date: string; description: string };
@@ -16,8 +17,9 @@ export async function regenerateReply(
     data: { user },
   } = await supabase.auth.getUser();
 
+  // Not known yet which letter (and so which language) is involved.
   if (!user) {
-    return { ok: false, error: { code: "UNAUTHENTICATED", message: "Please log in again." } };
+    return { ok: false, error: { code: "UNAUTHENTICATED", message: APP_COPY.en.upload.pleaseLoginAgain } };
   }
 
   const { data: letter, error: fetchError } = await supabase
@@ -28,8 +30,14 @@ export async function regenerateReply(
     .single();
 
   if (fetchError || !letter) {
-    return { ok: false, error: { code: "UNKNOWN", message: "Couldn't find that letter.", recovery: "Try again." } };
+    return {
+      ok: false,
+      error: { code: "UNKNOWN", message: APP_COPY.en.letters.couldntFindLetter, recovery: APP_COPY.en.dashboard.errorRecovery },
+    };
   }
+
+  const language = letter.language as AppLanguage;
+  const copy = APP_COPY[language].letters;
 
   const result = await regenerateReplyDraft(
     {
@@ -38,7 +46,7 @@ export async function regenerateReply(
       riskFlags: (letter.risk_flags ?? []) as string[],
     },
     tone,
-    letter.language as AppLanguage,
+    language,
   );
 
   if (!result.ok) {
@@ -57,7 +65,7 @@ export async function regenerateReply(
   if (updateError) {
     return {
       ok: false,
-      error: { code: "UNKNOWN", message: "Drafted, but couldn't save the new reply.", recovery: "Try again." },
+      error: { code: "UNKNOWN", message: copy.draftedButNotSaved, recovery: copy.errorRecovery },
     };
   }
 

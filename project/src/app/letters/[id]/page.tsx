@@ -4,6 +4,7 @@ import { createClient } from "@/lib/supabase/server";
 import { AppHeader } from "@/components/app-header";
 import { ReplyDraftCard } from "./reply-draft-card";
 import { LANGUAGE_NAMES, type AppLanguage } from "@/lib/letters/types";
+import { APP_COPY } from "@/lib/i18n/copy";
 
 type Deadline = { date: string; description: string };
 
@@ -47,10 +48,11 @@ export default async function LetterPage({
   const deadlines = (letter.deadlines ?? []) as Deadline[];
   const riskFlags = (letter.risk_flags ?? []) as string[];
   const lowConfidence = letter.detected_language_confirmed === false;
+  const copy = APP_COPY[language].letters;
 
   return (
     <>
-      <AppHeader backHref="/dashboard" />
+      <AppHeader language={language} backHref="/dashboard" />
       <main className="flex-1 bg-background">
       <div className="mx-auto max-w-2xl px-6 py-12">
         <div dir={isRtl ? "rtl" : "ltr"} className="grid gap-6">
@@ -61,24 +63,21 @@ export default async function LetterPage({
                 strokeWidth={1.5}
                 aria-hidden="true"
               />
-              <p className="text-sm text-foreground">
-                We weren&apos;t fully confident this letter was read correctly — the photo or scan may
-                have been unclear. Double-check everything below before acting on it.
-              </p>
+              <p className="text-sm text-foreground">{copy.lowConfidenceWarning}</p>
             </div>
           )}
 
           <div>
             <span className="rounded-full border-2 border-border bg-muted px-4 py-1.5 text-xs font-bold uppercase tracking-[0.06em] text-muted-foreground">
-              Analysis complete
+              {copy.analysisComplete}
             </span>
-            <h1 className="sr-only">Your letter, translated</h1>
+            <h1 className="sr-only">{copy.analysisComplete}</h1>
           </div>
 
           <section className="rounded-md border-2 border-border bg-card p-6 shadow-[4px_4px_0_0_var(--border)]">
             <h2 className="flex items-center gap-2 font-heading text-lg font-extrabold tracking-[-0.02em] text-foreground">
               <FileText className="size-5 text-primary" strokeWidth={1.5} aria-hidden="true" />
-              Summary
+              {copy.summary}
             </h2>
             <p className="mt-3 text-xl font-bold leading-snug text-foreground">{letter.summary}</p>
           </section>
@@ -91,7 +90,7 @@ export default async function LetterPage({
                   className="flex h-9 items-center gap-1.5 rounded-full border-2 border-border bg-accent px-3 text-xs font-bold uppercase tracking-[0.04em] text-accent-foreground transition-colors hover:bg-accent/80 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
                 >
                   <CalendarClock className="size-3.5" strokeWidth={1.5} aria-hidden="true" />
-                  {deadlines.length} {deadlines.length === 1 ? "deadline" : "deadlines"}
+                  {copy.deadlineCount(deadlines.length)}
                 </a>
               )}
               {riskFlags.length > 0 && (
@@ -100,7 +99,7 @@ export default async function LetterPage({
                   className="flex h-9 items-center gap-1.5 rounded-full border-2 border-destructive bg-destructive/10 px-3 text-xs font-bold uppercase tracking-[0.04em] text-destructive transition-colors hover:bg-destructive/20 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
                 >
                   <TriangleAlert className="size-3.5" strokeWidth={1.5} aria-hidden="true" />
-                  {riskFlags.length} to double-check
+                  {copy.riskFlagCount(riskFlags.length)}
                 </a>
               )}
             </div>
@@ -113,7 +112,7 @@ export default async function LetterPage({
             >
               <h2 className="flex items-center gap-2 font-heading text-lg font-extrabold tracking-[-0.02em] text-foreground">
                 <CalendarClock className="size-5 text-primary" strokeWidth={1.5} aria-hidden="true" />
-                Deadlines
+                {copy.deadlines}
               </h2>
               <ul className="mt-4 grid gap-3">
                 {deadlines.map((deadline, i) => (
@@ -138,7 +137,7 @@ export default async function LetterPage({
             >
               <h2 className="flex items-center gap-2 font-heading text-lg font-extrabold tracking-[-0.02em] text-foreground">
                 <TriangleAlert className="size-5 text-destructive" strokeWidth={1.5} aria-hidden="true" />
-                Worth double-checking
+                {copy.worthChecking}
               </h2>
               <ul className="mt-3 grid gap-2">
                 {riskFlags.map((flag, i) => (
@@ -152,6 +151,7 @@ export default async function LetterPage({
 
           <ReplyDraftCard
             letterId={letter.id}
+            language={language}
             initialReplyDraft={letter.reply_draft ?? ""}
             initialTranslation={letter.reply_draft_translation ?? ""}
             translationLanguageLabel={LANGUAGE_NAMES[language]}

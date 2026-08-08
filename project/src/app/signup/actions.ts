@@ -6,15 +6,19 @@ import { createClient } from "@/lib/supabase/server";
 import { createServiceClient } from "@/lib/supabase/service";
 import { sendWelcomeEmail } from "@/lib/email/send-welcome-email";
 import type { Result } from "@/lib/result";
-
-const signupSchema = z.object({
-  email: z.string().email(),
-  password: z.string().min(8, "Password must be at least 8 characters"),
-});
+import type { AppLanguage } from "@/lib/letters/types";
+import { APP_COPY } from "@/lib/i18n/copy";
 
 export async function signup(
   formData: FormData,
+  language: AppLanguage = "en",
 ): Promise<Result<null>> {
+  const copy = APP_COPY[language].auth.errors;
+  const signupSchema = z.object({
+    email: z.string().email(),
+    password: z.string().min(8, copy.passwordTooShort),
+  });
+
   const parsed = signupSchema.safeParse({
     email: formData.get("email"),
     password: formData.get("password"),
@@ -25,7 +29,7 @@ export async function signup(
       ok: false,
       error: {
         code: "INVALID_INPUT",
-        message: parsed.error.issues[0]?.message ?? "Check your email and password.",
+        message: parsed.error.issues[0]?.message ?? copy.checkEmailPassword,
       },
     };
   }
@@ -41,8 +45,8 @@ export async function signup(
         ok: false,
         error: {
           code: "EMAIL_IN_USE",
-          message: "An account with this email already exists.",
-          recovery: "Try logging in instead.",
+          message: copy.emailInUse,
+          recovery: copy.emailInUseRecovery,
         },
       };
     }
@@ -51,8 +55,8 @@ export async function signup(
         ok: false,
         error: {
           code: "WEAK_PASSWORD",
-          message: "That password is too weak.",
-          recovery: "Use at least 8 characters with a mix of letters and numbers.",
+          message: copy.weakPassword,
+          recovery: copy.weakPasswordRecovery,
         },
       };
     }
@@ -68,8 +72,8 @@ export async function signup(
       ok: false,
       error: {
         code: "UNKNOWN",
-        message: "Signup did not return a user.",
-        recovery: "Try again in a moment.",
+        message: copy.signupNoUser,
+        recovery: copy.signupNoUserRecovery,
       },
     };
   }
@@ -86,8 +90,8 @@ export async function signup(
       ok: false,
       error: {
         code: "UNKNOWN",
-        message: "Your account was created but setup failed.",
-        recovery: "Try logging in — if this keeps happening, contact support.",
+        message: copy.accountSetupFailed,
+        recovery: copy.accountSetupFailedRecovery,
       },
     };
   }

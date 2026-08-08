@@ -4,13 +4,16 @@ import { redirect } from "next/navigation";
 import { z } from "zod";
 import { createClient } from "@/lib/supabase/server";
 import type { Result } from "@/lib/result";
+import type { AppLanguage } from "@/lib/letters/types";
+import { APP_COPY } from "@/lib/i18n/copy";
 
-const loginSchema = z.object({
-  email: z.string().email(),
-  password: z.string().min(1, "Enter your password"),
-});
+export async function login(formData: FormData, language: AppLanguage = "en"): Promise<Result<null>> {
+  const copy = APP_COPY[language].auth.errors;
+  const loginSchema = z.object({
+    email: z.string().email(),
+    password: z.string().min(1, copy.enterPassword),
+  });
 
-export async function login(formData: FormData): Promise<Result<null>> {
   const parsed = loginSchema.safeParse({
     email: formData.get("email"),
     password: formData.get("password"),
@@ -21,7 +24,7 @@ export async function login(formData: FormData): Promise<Result<null>> {
       ok: false,
       error: {
         code: "INVALID_INPUT",
-        message: parsed.error.issues[0]?.message ?? "Enter your email and password.",
+        message: parsed.error.issues[0]?.message ?? copy.enterEmailPassword,
       },
     };
   }
@@ -35,8 +38,8 @@ export async function login(formData: FormData): Promise<Result<null>> {
         ok: false,
         error: {
           code: "INVALID_CREDENTIALS",
-          message: "That email and password don't match.",
-          recovery: "Check for typos, or reset your password.",
+          message: copy.invalidCredentials,
+          recovery: copy.invalidCredentialsRecovery,
         },
       };
     }

@@ -3,6 +3,8 @@
 import { useState, useTransition } from "react";
 import { motion, useReducedMotion } from "framer-motion";
 import { toast } from "sonner";
+import type { AppCopy } from "@/lib/i18n/copy";
+import type { AppLanguage } from "@/lib/letters/types";
 import { setLanguage } from "./actions";
 
 const LANGUAGES = [
@@ -11,7 +13,7 @@ const LANGUAGES = [
   { code: "tr" as const, label: "Turkish", native: "Türkçe" },
 ];
 
-export function LanguagePicker() {
+export function LanguagePicker({ copy, uiLanguage }: { copy: AppCopy["onboarding"]; uiLanguage: AppLanguage }) {
   const [pending, startTransition] = useTransition();
   const [selected, setSelected] = useState<string | null>(null);
   const shouldReduceMotion = useReducedMotion();
@@ -20,15 +22,15 @@ export function LanguagePicker() {
     setSelected(code);
     startTransition(() => {
       toast.promise(
-        setLanguage(code).then((result) => {
+        setLanguage(code, uiLanguage).then((result) => {
           if (!result.ok) {
             throw new Error(result.error.message);
           }
           return result;
         }),
         {
-          loading: "Saving your language…",
-          success: "Saved",
+          loading: copy.savingToast,
+          success: copy.savedToast,
           error: (error: Error) => error.message,
         },
       );
@@ -73,7 +75,7 @@ export function LanguagePicker() {
             </span>
           </span>
           <span className="rounded-full border-2 border-border bg-accent px-4 py-1.5 text-xs font-bold uppercase tracking-[0.06em] text-accent-foreground">
-            Choose
+            {copy.choose}
           </span>
         </motion.button>
       ))}

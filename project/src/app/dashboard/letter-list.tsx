@@ -2,7 +2,9 @@
 
 import Link from "next/link";
 import { motion, useReducedMotion } from "framer-motion";
-import { CalendarClock, ChevronRight } from "lucide-react";
+import { CalendarClock, ChevronRight, ChevronLeft } from "lucide-react";
+import type { AppLanguage } from "@/lib/letters/types";
+import { APP_COPY } from "@/lib/i18n/copy";
 
 type LetterRow = {
   id: string;
@@ -16,14 +18,18 @@ function soonestDeadline(deadlines: LetterRow["deadlines"]) {
   return [...deadlines].sort((a, b) => a.date.localeCompare(b.date))[0];
 }
 
-function formatDate(iso: string) {
+const DATE_LOCALES: Record<AppLanguage, string> = { en: "en-GB", ar: "ar-EG", tr: "tr-TR" };
+
+function formatDate(iso: string, language: AppLanguage) {
   const date = new Date(iso);
   if (Number.isNaN(date.getTime())) return iso;
-  return date.toLocaleDateString("en-GB", { day: "2-digit", month: "short", year: "numeric" });
+  return date.toLocaleDateString(DATE_LOCALES[language], { day: "2-digit", month: "short", year: "numeric" });
 }
 
-export function LetterList({ letters }: { letters: LetterRow[] }) {
+export function LetterList({ letters, language }: { letters: LetterRow[]; language: AppLanguage }) {
   const shouldReduceMotion = useReducedMotion();
+  const copy = APP_COPY[language];
+  const Chevron = language === "ar" ? ChevronLeft : ChevronRight;
 
   return (
     <motion.ul
@@ -50,20 +56,20 @@ export function LetterList({ letters }: { letters: LetterRow[] }) {
             >
               <div className="min-w-0 flex-1">
                 <p className="text-xs font-medium uppercase tracking-[0.04em] text-muted-foreground">
-                  {formatDate(letter.created_at)}
+                  {formatDate(letter.created_at, language)}
                 </p>
                 <p className="mt-1 truncate text-base font-medium text-foreground">
-                  {letter.summary ?? "Analysis pending…"}
+                  {letter.summary ?? copy.dashboard.analysisPending}
                 </p>
               </div>
               <div className="flex shrink-0 items-center gap-3">
                 {deadline && (
                   <span className="flex items-center gap-1.5 rounded-full border-2 border-border bg-accent px-3 py-1 text-xs font-bold uppercase tracking-[0.04em] text-accent-foreground">
                     <CalendarClock className="size-4" strokeWidth={1.5} aria-hidden="true" />
-                    {formatDate(deadline.date)}
+                    {formatDate(deadline.date, language)}
                   </span>
                 )}
-                <ChevronRight className="hidden size-5 shrink-0 text-muted-foreground sm:block" strokeWidth={1.5} aria-hidden="true" />
+                <Chevron className="hidden size-5 shrink-0 text-muted-foreground sm:block" strokeWidth={1.5} aria-hidden="true" />
               </div>
             </Link>
           </motion.li>

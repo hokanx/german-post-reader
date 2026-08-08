@@ -11,19 +11,38 @@ export type LetterAnalysis = {
   risk_flags: string[];
 };
 
+/**
+ * Native self-names, not translations of the English word — "the reply is
+ * translated into العربية" reads correctly in an Arabic sentence, "the reply
+ * is translated into Arabic" (the English word, mid-Arabic-sentence) wouldn't.
+ */
 export const LANGUAGE_NAMES: Record<AppLanguage, string> = {
   en: "English",
-  ar: "Arabic",
-  tr: "Turkish",
+  ar: "العربية",
+  tr: "Türkçe",
 };
 
 export type ReplyTone = "confirm" | "request_time" | "object" | "clarify";
 
-export const REPLY_TONE_LABELS: Record<ReplyTone, string> = {
-  confirm: "Confirm / accept",
-  request_time: "Ask for more time",
-  object: "Object / dispute",
-  clarify: "Ask a question first",
+export const REPLY_TONE_LABELS: Record<AppLanguage, Record<ReplyTone, string>> = {
+  en: {
+    confirm: "Confirm / accept",
+    request_time: "Ask for more time",
+    object: "Object / dispute",
+    clarify: "Ask a question first",
+  },
+  ar: {
+    confirm: "تأكيد / موافقة",
+    request_time: "طلب مزيد من الوقت",
+    object: "اعتراض / نزاع",
+    clarify: "طرح سؤال أولاً",
+  },
+  tr: {
+    confirm: "Onayla / kabul et",
+    request_time: "Daha fazla süre iste",
+    object: "İtiraz et / anlaşmazlık bildir",
+    clarify: "Önce bir soru sor",
+  },
 };
 
 export const REPLY_TONE_INSTRUCTIONS: Record<ReplyTone, string> = {

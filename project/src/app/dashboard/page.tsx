@@ -6,8 +6,9 @@ import { createClient } from "@/lib/supabase/server";
 import { buttonVariants } from "@/components/ui/button";
 import { EmptyState } from "@/components/empty-state";
 import { AppHeader } from "@/components/app-header";
-import { FREE_LETTER_LIMIT } from "@/lib/constants";
+import { FREE_LETTER_LIMIT, SUBSCRIPTION_PRICE_EUR } from "@/lib/constants";
 import type { AppLanguage } from "@/lib/letters/types";
+import { APP_COPY } from "@/lib/i18n/copy";
 import { LetterList } from "./letter-list";
 import { ManageSubscriptionLink } from "./manage-subscription-link";
 import { PurchaseConfirmationToast } from "./purchase-confirmation-toast";
@@ -43,30 +44,33 @@ export default async function DashboardPage() {
   const hasActiveSubscription = profile?.has_active_subscription ?? false;
   const trialUsed = profile?.trial_letters_used ?? 0;
   const lettersLeft = Math.max(FREE_LETTER_LIMIT - trialUsed, 0);
+  const language = (profile?.language ?? "en") as AppLanguage;
+  const copy = APP_COPY[language];
+  const dir = language === "ar" ? "rtl" : "ltr";
 
   return (
     <>
-      <AppHeader language={(profile?.language ?? "en") as AppLanguage} />
-      <main className="flex-1 bg-background">
+      <AppHeader language={language} />
+      <main dir={dir} className="flex-1 bg-background">
         <Suspense fallback={null}>
-          <PurchaseConfirmationToast />
+          <PurchaseConfirmationToast message={copy.dashboard.subscriptionActiveToast} />
         </Suspense>
         <div className="mx-auto max-w-3xl px-6 py-8">
           {hasActiveSubscription ? (
             <div className="mb-6 flex flex-wrap items-center justify-between gap-3 rounded-md border-2 border-border bg-muted px-5 py-4">
               <span className="rounded-full border-2 border-border bg-primary px-3 py-1 text-xs font-bold uppercase tracking-[0.06em] text-primary-foreground">
-                Unlimited letters
+                {copy.dashboard.unlimitedBadge}
               </span>
-              <ManageSubscriptionLink />
+              <ManageSubscriptionLink copy={copy.dashboard} />
             </div>
           ) : (
             <div className="mb-6 inline-flex flex-col items-start gap-2 rounded-md border-2 border-border bg-accent px-5 py-4">
               <span className="rounded-full border-2 border-border bg-background px-3 py-1 text-xs font-bold uppercase tracking-[0.06em] text-foreground">
-                {trialUsed} of {FREE_LETTER_LIMIT} free letters used
+                {copy.dashboard.lettersUsed(trialUsed, FREE_LETTER_LIMIT)}
               </span>
               {lettersLeft === 0 && (
                 <p className="text-sm font-medium text-accent-foreground">
-                  Unlock unlimited letters for €5.99/year.
+                  {copy.dashboard.unlockCta(SUBSCRIPTION_PRICE_EUR)}
                 </p>
               )}
             </div>
@@ -79,21 +83,21 @@ export default async function DashboardPage() {
             })}
           >
             <Upload className="size-5" strokeWidth={1.5} aria-hidden="true" />
-            Upload a letter
+            {copy.dashboard.uploadButton}
           </Link>
 
           <h1 className="mb-4 text-xl font-extrabold tracking-[-0.02em] text-foreground">
-            Your letters
+            {copy.dashboard.yourLetters}
           </h1>
 
           {letters && letters.length > 0 ? (
-            <LetterList letters={letters} />
+            <LetterList letters={letters} language={language} />
           ) : (
             <EmptyState
               icon={Mail}
-              title="No letters yet"
-              description="Upload your first German letter to get a plain-language summary, deadlines, and a ready-to-send reply."
-              action={{ label: "Upload a letter", href: "/upload" }}
+              title={copy.dashboard.emptyTitle}
+              description={copy.dashboard.emptyDescription}
+              action={{ label: copy.dashboard.uploadButton, href: "/upload" }}
             />
           )}
         </div>

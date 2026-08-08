@@ -4,8 +4,9 @@ import { randomUUID } from "node:crypto";
 import { createClient } from "@/lib/supabase/server";
 import { createServiceClient } from "@/lib/supabase/service";
 import { analyzeDocument } from "@/lib/gemini/analyze-letter";
-import { FREE_LETTER_LIMIT } from "@/lib/constants";
+import { FREE_LETTER_LIMIT, SUBSCRIPTION_PRICE_EUR } from "@/lib/constants";
 import type { AppLanguage } from "@/lib/letters/types";
+import { APP_COPY } from "@/lib/i18n/copy";
 import type { Result } from "@/lib/result";
 
 const ACCEPTED_IMAGE_TYPES = new Set(["image/jpeg", "image/png"]);
@@ -18,24 +19,16 @@ export async function uploadLetter(
     data: { user },
   } = await supabase.auth.getUser();
 
+  // Language isn't known yet without a profile row, so these two guard
+  // clauses (unauthenticated / no file chosen) necessarily stay English —
+  // everything after the profile fetch below uses the real language.
   if (!user) {
-    return { ok: false, error: { code: "UNAUTHENTICATED", message: "Please log in again." } };
+    return { ok: false, error: { code: "UNAUTHENTICATED", message: APP_COPY.en.upload.pleaseLoginAgain } };
   }
 
   const file = formData.get("file");
   if (!(file instanceof File) || file.size === 0) {
-    return { ok: false, error: { code: "INVALID_INPUT", message: "Choose a file to upload first." } };
-  }
-
-  const isSupported = ACCEPTED_IMAGE_TYPES.has(file.type) || file.type === "application/pdf";
-  if (!isSupported) {
-    return {
-      ok: false,
-      error: {
-        code: "INVALID_INPUT",
-        message: "Only JPEG, PNG, or PDF files are supported.",
-      },
-    };
+    return { ok: false, error: { code: "INVALID_INPUT", message: APP_COPY.en.upload.chooseFileFirst } };
   }
 
   const service = createServiceClient();
@@ -46,10 +39,24 @@ export async function uploadLetter(
     .eq("id", user.id)
     .single();
 
+  const language = (profile?.language ?? "en") as AppLanguage;
+  const copy = APP_COPY[language].upload;
+
   if (profileError || !profile) {
     return {
       ok: false,
-      error: { code: "UNKNOWN", message: "Couldn't load your account.", recovery: "Try again." },
+      error: { code: "UNKNOWN", message: copy.accountLoadFailed, recovery: copy.accountLoadFailedRecovery },
+    };
+  }
+
+  const isSupported = ACCEPTED_IMAGE_TYPES.has(file.type) || file.type === "application/pdf";
+  if (!isSupported) {
+    return {
+      ok: false,
+      error: {
+        code: "INVALID_INPUT",
+        message: copy.unsupportedFileType,
+      },
     };
   }
 
@@ -58,13 +65,12 @@ export async function uploadLetter(
       ok: false,
       error: {
         code: "TRIAL_LIMIT_REACHED",
-        message: `You've used all ${FREE_LETTER_LIMIT} free letters.`,
-        recovery: "Unlock unlimited letters for €5.99/year.",
+        message: copy.trialLimitReached(FREE_LETTER_LIMIT),
+        recovery: copy.trialLimitReachedRecovery(SUBSCRIPTION_PRICE_EUR),
       },
     };
   }
 
-  const language = (profile.language ?? "en") as AppLanguage;
   const bytes = Buffer.from(await file.arrayBuffer());
 
   const analysisResult = await analyzeDocument(bytes, file.type, language);
@@ -86,8 +92,8 @@ export async function uploadLetter(
       ok: false,
       error: {
         code: "UNKNOWN",
-        message: "Your letter was analyzed but couldn't be saved.",
-        recovery: "Try uploading again.",
+        message: copy.letterSaveFailed,
+        recovery: copy.letterSaveFailedRecovery,
       },
     };
   }
@@ -112,8 +118,8 @@ export async function uploadLetter(
       ok: false,
       error: {
         code: "UNKNOWN",
-        message: "Your letter was analyzed but couldn't be saved.",
-        recovery: "Try uploading again.",
+        message: copy.letterSaveFailed,
+        recovery: copy.letterSaveFailedRecovery,
       },
     };
   }
