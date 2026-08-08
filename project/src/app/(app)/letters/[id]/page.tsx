@@ -1,7 +1,6 @@
-import { notFound, redirect } from "next/navigation";
+import { notFound } from "next/navigation";
 import { CalendarClock, TriangleAlert, ShieldAlert, FileText } from "lucide-react";
 import { createClient } from "@/lib/supabase/server";
-import { AppHeader } from "@/components/app-header";
 import { ReplyDraftCard } from "./reply-draft-card";
 import { LANGUAGE_NAMES, type AppLanguage } from "@/lib/letters/types";
 import { APP_COPY } from "@/lib/i18n/copy";
@@ -26,17 +25,13 @@ export default async function LetterPage({
     data: { user },
   } = await supabase.auth.getUser();
 
-  if (!user) {
-    redirect("/login");
-  }
-
   const { data: letter } = await supabase
     .from("letters")
     .select(
       "id, summary, deadlines, reply_draft, reply_draft_translation, detected_language_confirmed, risk_flags, language, created_at",
     )
     .eq("id", id)
-    .eq("user_id", user.id)
+    .eq("user_id", user!.id)
     .single();
 
   if (!letter) {
@@ -51,9 +46,7 @@ export default async function LetterPage({
   const copy = APP_COPY[language].letters;
 
   return (
-    <>
-      <AppHeader language={language} backHref="/dashboard" />
-      <main className="flex-1 bg-background">
+    <main className="flex-1 bg-background">
       <div className="mx-auto max-w-2xl px-6 py-12">
         <div dir={isRtl ? "rtl" : "ltr"} className="grid gap-6">
           {lowConfidence && (
@@ -160,6 +153,5 @@ export default async function LetterPage({
         </div>
       </div>
       </main>
-    </>
   );
 }

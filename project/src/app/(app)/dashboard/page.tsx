@@ -1,11 +1,9 @@
-import { redirect } from "next/navigation";
 import { Suspense } from "react";
 import Link from "next/link";
 import { Upload, Mail } from "lucide-react";
 import { createClient } from "@/lib/supabase/server";
 import { buttonVariants } from "@/components/ui/button";
 import { EmptyState } from "@/components/empty-state";
-import { AppHeader } from "@/components/app-header";
 import { FREE_LETTER_LIMIT, SUBSCRIPTION_PRICE_EUR } from "@/lib/constants";
 import { formatEur } from "@/lib/format-currency";
 import type { AppLanguage } from "@/lib/letters/types";
@@ -25,20 +23,16 @@ export default async function DashboardPage() {
     data: { user },
   } = await supabase.auth.getUser();
 
-  if (!user) {
-    redirect("/login");
-  }
-
   const [{ data: profile }, { data: letters }] = await Promise.all([
     supabase
       .from("profiles")
       .select("has_active_subscription, trial_letters_used, language")
-      .eq("id", user.id)
+      .eq("id", user!.id)
       .single(),
     supabase
       .from("letters")
       .select("id, summary, deadlines, created_at")
-      .eq("user_id", user.id)
+      .eq("user_id", user!.id)
       .order("created_at", { ascending: false }),
   ]);
 
@@ -50,9 +44,7 @@ export default async function DashboardPage() {
   const dir = language === "ar" ? "rtl" : "ltr";
 
   return (
-    <>
-      <AppHeader language={language} />
-      <main dir={dir} className="flex-1 bg-background">
+    <main dir={dir} className="flex-1 bg-background">
         <Suspense fallback={null}>
           <PurchaseConfirmationToast message={copy.dashboard.subscriptionActiveToast} />
         </Suspense>
@@ -103,6 +95,5 @@ export default async function DashboardPage() {
           )}
         </div>
       </main>
-    </>
   );
 }
