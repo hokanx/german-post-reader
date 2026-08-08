@@ -17,10 +17,12 @@ export default async function AppLayout({ children }: { children: React.ReactNod
   const { data: profile } = await supabase.from("profiles").select("language").eq("id", user.id).single();
   const language = (profile?.language ?? "en") as AppLanguage;
 
+  const dir = language === "ar" ? "rtl" : "ltr";
+
   return (
     <>
       <AppHeader language={language} />
-      <div className="flex flex-1 flex-col pb-20 sm:flex-row sm:pb-0">
+      <div dir={dir} className="flex flex-1 flex-col pb-20 sm:flex-row sm:pb-0">
         <AppNav language={language} />
         <div className="flex flex-1 flex-col">{children}</div>
       </div>

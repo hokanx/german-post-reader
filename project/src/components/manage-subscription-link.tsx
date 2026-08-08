@@ -4,7 +4,15 @@ import { useTransition } from "react";
 import { toast } from "sonner";
 import type { AppCopy } from "@/lib/i18n/copy";
 
-export function ManageSubscriptionLink({ copy }: { copy: AppCopy["dashboard"] }) {
+/**
+ * Only the string fields this component actually renders. AppCopy["dashboard"]
+ * also carries function-valued entries (lettersUsed, unlockCta) that render
+ * other dashboard copy — those can't cross the Server->Client boundary as
+ * props, so callers must pass a narrowed object, not the whole dashboard copy.
+ */
+type ManageSubscriptionCopy = Pick<AppCopy["dashboard"], "manageSubscription" | "openingPortal" | "portalError">;
+
+export function ManageSubscriptionLink({ copy }: { copy: ManageSubscriptionCopy }) {
   const [pending, startTransition] = useTransition();
 
   function handleClick() {
@@ -27,7 +35,7 @@ export function ManageSubscriptionLink({ copy }: { copy: AppCopy["dashboard"] })
       type="button"
       disabled={pending}
       onClick={handleClick}
-      className="text-xs font-medium text-primary underline underline-offset-4 disabled:opacity-60"
+      className="flex h-11 items-center gap-2 rounded-sm border-2 border-border bg-card px-4 text-sm font-medium text-foreground transition-colors hover:bg-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring disabled:opacity-60"
     >
       {pending ? copy.openingPortal : copy.manageSubscription}
     </button>

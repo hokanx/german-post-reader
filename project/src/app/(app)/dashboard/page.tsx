@@ -58,7 +58,13 @@ export default async function DashboardPage() {
               <span className="rounded-full border-2 border-border bg-primary px-3 py-1 text-xs font-bold uppercase tracking-[0.06em] text-primary-foreground">
                 {copy.dashboard.unlimitedBadge}
               </span>
-              <ManageSubscriptionLink copy={copy.dashboard} />
+              <ManageSubscriptionLink
+                copy={{
+                  manageSubscription: copy.dashboard.manageSubscription,
+                  openingPortal: copy.dashboard.openingPortal,
+                  portalError: copy.dashboard.portalError,
+                }}
+              />
             </div>
           ) : (
             <div className="mb-6 inline-flex flex-col items-start gap-2 rounded-md border-2 border-border bg-accent px-5 py-4">
