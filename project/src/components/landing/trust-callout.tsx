@@ -14,8 +14,7 @@ export function TrustCallout() {
     <section dir={copy.dir} className="mx-auto max-w-6xl px-6 py-10">
       <motion.div
         initial={shouldReduceMotion ? false : { opacity: 0, y: 20 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, margin: "-80px" }}
+        animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.4 }}
         className="flex flex-col items-start gap-4 rounded-md border-2 border-border bg-muted p-8 md:flex-row md:items-center"
       >

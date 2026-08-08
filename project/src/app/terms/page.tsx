@@ -1,5 +1,6 @@
 import { MinimalHeader } from "@/components/minimal-header";
 import { FREE_LETTER_LIMIT, SUBSCRIPTION_PRICE_EUR } from "@/lib/constants";
+import { formatEur } from "@/lib/format-currency";
 import { getPreAuthLanguage } from "@/lib/i18n/get-locale";
 import { APP_COPY } from "@/lib/i18n/copy";
 
@@ -23,7 +24,7 @@ export default async function TermsPage() {
           {copy.sections.map((section) => (
             <section key={section.heading}>
               <h2 className="font-heading text-lg font-extrabold text-foreground">{section.heading}</h2>
-              <p className="mt-2">{section.body(FREE_LETTER_LIMIT, SUBSCRIPTION_PRICE_EUR)}</p>
+              <p className="mt-2">{section.body(FREE_LETTER_LIMIT, formatEur(SUBSCRIPTION_PRICE_EUR))}</p>
             </section>
           ))}
         </div>

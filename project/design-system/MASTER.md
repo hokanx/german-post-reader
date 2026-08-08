@@ -84,7 +84,7 @@ structure:
 - **durations**: fast `0.15s` (hover/tap), base `0.25s` (entrances), slow `0.4s` (hero/route). Nothing animates longer than `0.4s`.
 - **easing**: ease-out `[0.22, 1, 0.36, 1]` for entrances; ease-in-out for state changes. Direction is playful/bold, so springs are allowed for hover/tap feedback (`type: 'spring', stiffness: 300, damping: 20`) — but entrances still use the ease-out curve, not bounce, so content doesn't feel laggy.
 - **standard variants**: `fadeRise` (opacity 0→1, y 12→0), `stagger` (parent staggers children ~0.06–0.08s), `hoverLift` (scale 1.02 + shadow grows), `tap` (scale 0.98).
-- **applied**: hero/section entrances via `whileInView` (`once: true, margin: '-80px'`); card grids/lists stagger children; interactive cards/buttons get `whileHover`/`whileTap`; modals/sheets/route changes use `AnimatePresence`.
+- **applied**: hero/section entrances animate on mount (`animate={{...}}`, not `whileInView`) — a scroll-gated `whileInView` + `viewport={{ once: true }}` risks content staying permanently invisible if the IntersectionObserver never fires (confirmed as a real bug: a below-the-fold section rendered blank on a real device and in automated full-page screenshots); mount-triggered animation completes well before a user scrolls there, so it looks the same in practice with none of the risk. card grids/lists stagger children; interactive cards/buttons get `whileHover`/`whileTap`; modals/sheets/route changes use `AnimatePresence`.
 - **accessibility**: every animated component calls `useReducedMotion()`; when true, drop transforms and keep opacity-only (or no) transition. Never animate a property that shifts layout after paint.
 
 ## reference products

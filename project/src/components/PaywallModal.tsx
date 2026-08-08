@@ -11,6 +11,7 @@ import {
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { FREE_LETTER_LIMIT, SUBSCRIPTION_PRICE_EUR } from "@/lib/constants";
+import { formatEur } from "@/lib/format-currency";
 import type { AppLanguage } from "@/lib/letters/types";
 import { APP_COPY } from "@/lib/i18n/copy";
 
@@ -59,7 +60,7 @@ export function PaywallModal({
             {copy.heading(FREE_LETTER_LIMIT)}
           </DialogTitle>
           <DialogDescription className="text-sm text-foreground/70">
-            {copy.description(SUBSCRIPTION_PRICE_EUR)}
+            {copy.description(formatEur(SUBSCRIPTION_PRICE_EUR))}
           </DialogDescription>
         </DialogHeader>
 
@@ -75,7 +76,7 @@ export function PaywallModal({
           onClick={handleSubscribe}
           className="h-12 w-full rounded-sm text-base font-bold"
         >
-          {pending ? copy.redirecting : copy.subscribe(SUBSCRIPTION_PRICE_EUR)}
+          {pending ? copy.redirecting : copy.subscribe(formatEur(SUBSCRIPTION_PRICE_EUR))}
         </Button>
       </DialogContent>
     </Dialog>

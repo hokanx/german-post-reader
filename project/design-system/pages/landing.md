@@ -36,6 +36,6 @@ Mobile: hero mockup card stacks below headline (not beside). How-it-works steps 
 ## motion
 
 - Hero: `fadeRise` on headline/subhead/CTA on load (staggered ~0.08s), sticker badge does a small rotate-in (from 0deg to its resting -3deg) with a spring.
-- How-it-works + trust callout: `whileInView` stagger as they scroll in.
-- Pricing card: `hoverLift` on the whole card.
-- Final CTA band: `fadeRise` on scroll-in.
+- How-it-works + trust callout: `fadeRise` stagger on mount (not scroll-gated — see MASTER.md motion system note on why `whileInView` is avoided here).
+- Pricing card: `fadeRise` on mount, plus `hoverLift` on the whole card.
+- Final CTA band: `fadeRise` on mount.

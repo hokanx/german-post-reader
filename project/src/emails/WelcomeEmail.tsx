@@ -9,6 +9,7 @@ import {
   Text,
 } from "@react-email/components";
 import { FREE_LETTER_LIMIT, SUBSCRIPTION_PRICE_EUR } from "@/lib/constants";
+import { formatEur } from "@/lib/format-currency";
 
 export function WelcomeEmail() {
   return (
@@ -36,8 +37,8 @@ export function WelcomeEmail() {
               sure about, we&apos;ll say so plainly rather than guess.
             </Text>
             <Text style={styles.text}>
-              After your free letters, unlocking unlimited letters is
-              €{SUBSCRIPTION_PRICE_EUR} per year.
+              After your free letters, unlocking unlimited letters is{" "}
+              {formatEur(SUBSCRIPTION_PRICE_EUR)} per year.
             </Text>
           </Section>
         </Container>

@@ -19,8 +19,7 @@ export function HowItWorks() {
       </h2>
       <motion.div
         initial={shouldReduceMotion ? false : "hidden"}
-        whileInView="show"
-        viewport={{ once: true, margin: "-80px" }}
+        animate="show"
         variants={{ show: { transition: { staggerChildren: 0.08 } } }}
         className="mt-10 grid gap-6 md:grid-cols-3"
       >

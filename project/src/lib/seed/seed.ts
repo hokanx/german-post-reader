@@ -30,12 +30,12 @@ const LETTERS: SeedLetter[] = [
   {
     sender: "Stadtwerke München",
     summary:
-      "Your 2025 electricity annual statement shows you used more power than your monthly payments covered. You owe an extra 187.42 EUR.",
-    deadlines: [{ date: "2026-02-28", description: "Pay the 187.42 EUR balance to Stadtwerke München" }],
+      "Your 2025 electricity annual statement shows you used more power than your monthly payments covered. You owe an extra 187,42 €.",
+    deadlines: [{ date: "2026-02-28", description: "Pay the 187,42 € balance to Stadtwerke München" }],
     reply_draft:
-      "Sehr geehrte Damen und Herren,\n\nhiermit bestätige ich den Erhalt Ihrer Stromabrechnung vom 15. Januar 2026. Ich werde den ausstehenden Betrag von 187,42 EUR fristgerecht auf das angegebene Konto überweisen.\n\nMit freundlichen Grüßen,",
+      "Sehr geehrte Damen und Herren,\n\nhiermit bestätige ich den Erhalt Ihrer Stromabrechnung vom 15. Januar 2026. Ich werde den ausstehenden Betrag von 187,42 € fristgerecht auf das angegebene Konto überweisen.\n\nMit freundlichen Grüßen,",
     reply_draft_translation:
-      "Dear Stadtwerke München,\n\nI am writing to confirm receipt of your electricity settlement dated 15 January 2026. I will transfer the outstanding amount of 187.42 EUR to the account provided before the due date.\n\nKind regards,",
+      "Dear Stadtwerke München,\n\nI am writing to confirm receipt of your electricity settlement dated 15 January 2026. I will transfer the outstanding amount of 187,42 € to the account provided before the due date.\n\nKind regards,",
     risk_flags: [],
   },
   {

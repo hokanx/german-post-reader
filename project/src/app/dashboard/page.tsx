@@ -7,6 +7,7 @@ import { buttonVariants } from "@/components/ui/button";
 import { EmptyState } from "@/components/empty-state";
 import { AppHeader } from "@/components/app-header";
 import { FREE_LETTER_LIMIT, SUBSCRIPTION_PRICE_EUR } from "@/lib/constants";
+import { formatEur } from "@/lib/format-currency";
 import type { AppLanguage } from "@/lib/letters/types";
 import { APP_COPY } from "@/lib/i18n/copy";
 import { LetterList } from "./letter-list";
@@ -70,7 +71,7 @@ export default async function DashboardPage() {
               </span>
               {lettersLeft === 0 && (
                 <p className="text-sm font-medium text-accent-foreground">
-                  {copy.dashboard.unlockCta(SUBSCRIPTION_PRICE_EUR)}
+                  {copy.dashboard.unlockCta(formatEur(SUBSCRIPTION_PRICE_EUR))}
                 </p>
               )}
             </div>

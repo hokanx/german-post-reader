@@ -5,6 +5,7 @@ import { createClient } from "@/lib/supabase/server";
 import { createServiceClient } from "@/lib/supabase/service";
 import { analyzeDocument } from "@/lib/gemini/analyze-letter";
 import { FREE_LETTER_LIMIT, SUBSCRIPTION_PRICE_EUR } from "@/lib/constants";
+import { formatEur } from "@/lib/format-currency";
 import type { AppLanguage } from "@/lib/letters/types";
 import { APP_COPY } from "@/lib/i18n/copy";
 import type { Result } from "@/lib/result";
@@ -66,7 +67,7 @@ export async function uploadLetter(
       error: {
         code: "TRIAL_LIMIT_REACHED",
         message: copy.trialLimitReached(FREE_LETTER_LIMIT),
-        recovery: copy.trialLimitReachedRecovery(SUBSCRIPTION_PRICE_EUR),
+        recovery: copy.trialLimitReachedRecovery(formatEur(SUBSCRIPTION_PRICE_EUR)),
       },
     };
   }

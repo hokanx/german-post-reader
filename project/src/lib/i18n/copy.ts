@@ -210,7 +210,7 @@ export const APP_COPY: Record<AppLanguage, AppCopy> = {
         "Upload your first German letter to get a plain-language summary, deadlines, and a ready-to-send reply.",
       unlimitedBadge: "Unlimited letters",
       lettersUsed: (used, limit) => `${used} of ${limit} free letters used`,
-      unlockCta: (price) => `Unlock unlimited letters for €${price}/year.`,
+      unlockCta: (price) => `Unlock unlimited letters for ${price}/year.`,
       analysisPending: "Analysis pending…",
       manageSubscription: "Manage subscription",
       openingPortal: "Opening…",
@@ -242,7 +242,7 @@ export const APP_COPY: Record<AppLanguage, AppCopy> = {
       accountLoadFailed: "Couldn't load your account.",
       accountLoadFailedRecovery: "Try again.",
       trialLimitReached: (limit) => `You've used all ${limit} free letters.`,
-      trialLimitReachedRecovery: (price) => `Unlock unlimited letters for €${price}/year.`,
+      trialLimitReachedRecovery: (price) => `Unlock unlimited letters for ${price}/year.`,
       letterSaveFailed: "Your letter was analyzed but couldn't be saved.",
       letterSaveFailedRecovery: "Try uploading again.",
     },
@@ -276,9 +276,9 @@ export const APP_COPY: Record<AppLanguage, AppCopy> = {
     paywall: {
       badge: "Free trial ended",
       heading: (limit) => `You've used all ${limit} free letters`,
-      description: (price) => `Unlock unlimited letters for €${price}/year — cancel any time from your dashboard.`,
+      description: (price) => `Unlock unlimited letters for ${price}/year — cancel any time from your dashboard.`,
       redirecting: "Redirecting…",
-      subscribe: (price) => `Subscribe — €${price}/year`,
+      subscribe: (price) => `Subscribe — ${price}/year`,
       checkoutError: "Couldn't start checkout.",
     },
     languageSwitcher: {
@@ -323,7 +323,7 @@ export const APP_COPY: Record<AppLanguage, AppCopy> = {
           {
             heading: "Free trial and billing",
             body: (limit, price) =>
-              `New accounts get ${limit} free letter analyses, no card required. Beyond that, a subscription of €${price} per year unlocks unlimited analyses. Billed annually via Stripe; cancel any time from your dashboard and you'll keep access until the current billing period ends.`,
+              `New accounts get ${limit} free letter analyses, no card required. Beyond that, a subscription of ${price} per year unlocks unlimited analyses. Billed annually via Stripe; cancel any time from your dashboard and you'll keep access until the current billing period ends.`,
           },
           {
             heading: "Account termination",
@@ -393,7 +393,7 @@ export const APP_COPY: Record<AppLanguage, AppCopy> = {
       emptyDescription: "ارفع أول خطاب ألماني لك للحصول على ملخص بلغة واضحة ومواعيد نهائية ورد جاهز للإرسال.",
       unlimitedBadge: "خطابات غير محدودة",
       lettersUsed: (used, limit) => `${used} من ${limit} خطابات مجانية مستخدمة`,
-      unlockCta: (price) => `افتح خطابات غير محدودة مقابل €${price} سنويًا.`,
+      unlockCta: (price) => `افتح خطابات غير محدودة مقابل ${price} سنويًا.`,
       analysisPending: "التحليل قيد الانتظار…",
       manageSubscription: "إدارة الاشتراك",
       openingPortal: "جارٍ الفتح…",
@@ -424,7 +424,7 @@ export const APP_COPY: Record<AppLanguage, AppCopy> = {
       accountLoadFailed: "تعذر تحميل حسابك.",
       accountLoadFailedRecovery: "حاول مرة أخرى.",
       trialLimitReached: (limit) => `لقد استخدمت جميع خطاباتك المجانية الـ ${limit}.`,
-      trialLimitReachedRecovery: (price) => `افتح خطابات غير محدودة مقابل €${price} سنويًا.`,
+      trialLimitReachedRecovery: (price) => `افتح خطابات غير محدودة مقابل ${price} سنويًا.`,
       letterSaveFailed: "تم تحليل خطابك لكن تعذر حفظه.",
       letterSaveFailedRecovery: "حاول الرفع مرة أخرى.",
     },
@@ -458,9 +458,9 @@ export const APP_COPY: Record<AppLanguage, AppCopy> = {
     paywall: {
       badge: "انتهت التجربة المجانية",
       heading: (limit) => `لقد استخدمت جميع خطاباتك المجانية الـ ${limit}`,
-      description: (price) => `افتح خطابات غير محدودة مقابل €${price} سنويًا — ألغِ في أي وقت من لوحة التحكم.`,
+      description: (price) => `افتح خطابات غير محدودة مقابل ${price} سنويًا — ألغِ في أي وقت من لوحة التحكم.`,
       redirecting: "جارٍ التوجيه…",
-      subscribe: (price) => `اشترك — €${price} سنويًا`,
+      subscribe: (price) => `اشترك — ${price} سنويًا`,
       checkoutError: "تعذر بدء الدفع.",
     },
     languageSwitcher: {
@@ -505,7 +505,7 @@ export const APP_COPY: Record<AppLanguage, AppCopy> = {
           {
             heading: "التجربة المجانية والفوترة",
             body: (limit, price) =>
-              `تحصل الحسابات الجديدة على ${limit} تحليلات مجانية للخطابات، بدون بطاقة مطلوبة. بعد ذلك، يفتح اشتراك بقيمة €${price} سنويًا تحليلات غير محدودة. تُفوتر سنويًا عبر Stripe؛ ألغِ في أي وقت من لوحة التحكم وستحتفظ بالوصول حتى نهاية فترة الفوترة الحالية.`,
+              `تحصل الحسابات الجديدة على ${limit} تحليلات مجانية للخطابات، بدون بطاقة مطلوبة. بعد ذلك، يفتح اشتراك بقيمة ${price} سنويًا تحليلات غير محدودة. تُفوتر سنويًا عبر Stripe؛ ألغِ في أي وقت من لوحة التحكم وستحتفظ بالوصول حتى نهاية فترة الفوترة الحالية.`,
           },
           {
             heading: "إنهاء الحساب",
@@ -576,7 +576,7 @@ export const APP_COPY: Record<AppLanguage, AppCopy> = {
         "Sade bir özet, son tarihler ve gönderime hazır bir yanıt almak için ilk Alman mektubunuzu yükleyin.",
       unlimitedBadge: "Sınırsız mektup",
       lettersUsed: (used, limit) => `${limit} ücretsiz mektuptan ${used} tanesi kullanıldı`,
-      unlockCta: (price) => `Yılda €${price} karşılığında sınırsız mektubun kilidini açın.`,
+      unlockCta: (price) => `Yılda ${price} karşılığında sınırsız mektubun kilidini açın.`,
       analysisPending: "Analiz bekleniyor…",
       manageSubscription: "Aboneliği yönet",
       openingPortal: "Açılıyor…",
@@ -608,7 +608,7 @@ export const APP_COPY: Record<AppLanguage, AppCopy> = {
       accountLoadFailed: "Hesabınız yüklenemedi.",
       accountLoadFailedRecovery: "Tekrar deneyin.",
       trialLimitReached: (limit) => `${limit} ücretsiz mektubunuzun tamamını kullandınız.`,
-      trialLimitReachedRecovery: (price) => `Yılda €${price} karşılığında sınırsız mektubun kilidini açın.`,
+      trialLimitReachedRecovery: (price) => `Yılda ${price} karşılığında sınırsız mektubun kilidini açın.`,
       letterSaveFailed: "Mektubunuz analiz edildi ama kaydedilemedi.",
       letterSaveFailedRecovery: "Tekrar yüklemeyi deneyin.",
     },
@@ -642,9 +642,9 @@ export const APP_COPY: Record<AppLanguage, AppCopy> = {
     paywall: {
       badge: "Ücretsiz deneme sona erdi",
       heading: (limit) => `${limit} ücretsiz mektubunuzun tamamını kullandınız`,
-      description: (price) => `Yılda €${price} karşılığında sınırsız mektubun kilidini açın — istediğiniz zaman panelinizden iptal edin.`,
+      description: (price) => `Yılda ${price} karşılığında sınırsız mektubun kilidini açın — istediğiniz zaman panelinizden iptal edin.`,
       redirecting: "Yönlendiriliyor…",
-      subscribe: (price) => `Abone ol — yılda €${price}`,
+      subscribe: (price) => `Abone ol — yılda ${price}`,
       checkoutError: "Ödeme başlatılamadı.",
     },
     languageSwitcher: {
@@ -689,7 +689,7 @@ export const APP_COPY: Record<AppLanguage, AppCopy> = {
           {
             heading: "Ücretsiz deneme ve faturalandırma",
             body: (limit, price) =>
-              `Yeni hesaplar, kart gerekmeden ${limit} ücretsiz mektup analizi alır. Bunun ötesinde, yılda €${price} tutarındaki bir abonelik sınırsız analizin kilidini açar. Stripe üzerinden yıllık faturalandırılır; panelinizden istediğiniz zaman iptal edebilirsiniz ve mevcut faturalandırma dönemi sona erene kadar erişiminizi korursunuz.`,
+              `Yeni hesaplar, kart gerekmeden ${limit} ücretsiz mektup analizi alır. Bunun ötesinde, yılda ${price} tutarındaki bir abonelik sınırsız analizin kilidini açar. Stripe üzerinden yıllık faturalandırılır; panelinizden istediğiniz zaman iptal edebilirsiniz ve mevcut faturalandırma dönemi sona erene kadar erişiminizi korursunuz.`,
           },
           {
             heading: "Hesap sonlandırma",
