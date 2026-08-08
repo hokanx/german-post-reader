@@ -11,6 +11,13 @@ export type AppCopy = {
     logo: string;
     backToDashboard: string;
   };
+  nav: {
+    navLabel: string;
+    history: string;
+    upload: string;
+    deadlines: string;
+    settings: string;
+  };
   auth: {
     emailLabel: string;
     passwordLabel: string;
@@ -78,7 +85,6 @@ export type AppCopy = {
     subhead: string;
     dropTitle: string;
     dropSubtitle: string;
-    takePhoto: string;
     analyzeLetter: string;
     readingTitle: string;
     readingSubtitle: string;
@@ -147,6 +153,21 @@ export type AppCopy = {
       sections: { heading: string; body: (freeLetterLimit: number, price: string) => string }[];
     };
   };
+  deadlines: {
+    heading: string;
+    emptyTitle: string;
+    emptyDescription: string;
+    uploadCta: string;
+  };
+  settings: {
+    heading: string;
+    languageHeading: string;
+    languageDescription: string;
+    subscriptionHeading: string;
+    subscriptionActive: string;
+    subscriptionFree: string;
+    accountHeading: string;
+  };
 };
 
 export const APP_COPY: Record<AppLanguage, AppCopy> = {
@@ -154,6 +175,13 @@ export const APP_COPY: Record<AppLanguage, AppCopy> = {
     header: {
       logo: "Papkram",
       backToDashboard: "Back to dashboard",
+    },
+    nav: {
+      navLabel: "Main navigation",
+      history: "History",
+      upload: "Upload",
+      deadlines: "Deadlines",
+      settings: "Settings",
     },
     auth: {
       emailLabel: "Email",
@@ -225,7 +253,6 @@ export const APP_COPY: Record<AppLanguage, AppCopy> = {
         "A photo or a PDF both work. We'll read it and come back with a plain-language summary, any deadlines, and a ready-to-send reply.",
       dropTitle: "Drop a photo or PDF here",
       dropSubtitle: "or click to browse",
-      takePhoto: "Take a photo",
       analyzeLetter: "Analyze letter",
       readingTitle: "Reading your letter…",
       readingSubtitle: "This usually takes a few seconds.",
@@ -333,11 +360,33 @@ export const APP_COPY: Record<AppLanguage, AppCopy> = {
         ],
       },
     },
+    deadlines: {
+      heading: "Deadlines",
+      emptyTitle: "No deadlines yet",
+      emptyDescription: "Upload a letter and any deadlines it mentions will show up here, soonest first.",
+      uploadCta: "Upload a letter",
+    },
+    settings: {
+      heading: "Settings",
+      languageHeading: "Language",
+      languageDescription: "Every summary, deadline, and reply draft is written in this language.",
+      subscriptionHeading: "Subscription",
+      subscriptionActive: "You have unlimited letters.",
+      subscriptionFree: "You're on the free trial.",
+      accountHeading: "Account",
+    },
   },
   ar: {
     header: {
       logo: "Papkram",
       backToDashboard: "العودة إلى لوحة التحكم",
+    },
+    nav: {
+      navLabel: "التنقل الرئيسي",
+      history: "السجل",
+      upload: "رفع",
+      deadlines: "المواعيد النهائية",
+      settings: "الإعدادات",
     },
     auth: {
       emailLabel: "البريد الإلكتروني",
@@ -407,7 +456,6 @@ export const APP_COPY: Record<AppLanguage, AppCopy> = {
       subhead: "تصلح الصورة أو ملف PDF. سنقرأه ونعود إليك بملخص بلغة واضحة، وأي مواعيد نهائية، ورد جاهز للإرسال.",
       dropTitle: "أفلت صورة أو ملف PDF هنا",
       dropSubtitle: "أو اضغط للتصفح",
-      takePhoto: "التقط صورة",
       analyzeLetter: "حلّل الخطاب",
       readingTitle: "جارٍ قراءة خطابك…",
       readingSubtitle: "يستغرق هذا عادةً بضع ثوانٍ.",
@@ -515,11 +563,33 @@ export const APP_COPY: Record<AppLanguage, AppCopy> = {
         ],
       },
     },
+    deadlines: {
+      heading: "المواعيد النهائية",
+      emptyTitle: "لا توجد مواعيد نهائية بعد",
+      emptyDescription: "ارفع خطابًا وستظهر هنا أي مواعيد نهائية مذكورة فيه، الأقرب أولاً.",
+      uploadCta: "ارفع خطابًا",
+    },
+    settings: {
+      heading: "الإعدادات",
+      languageHeading: "اللغة",
+      languageDescription: "يُكتب كل ملخص وموعد نهائي ومسودة رد بهذه اللغة.",
+      subscriptionHeading: "الاشتراك",
+      subscriptionActive: "لديك خطابات غير محدودة.",
+      subscriptionFree: "أنت في التجربة المجانية.",
+      accountHeading: "الحساب",
+    },
   },
   tr: {
     header: {
       logo: "Papkram",
       backToDashboard: "Panele dön",
+    },
+    nav: {
+      navLabel: "Ana gezinme",
+      history: "Geçmiş",
+      upload: "Yükle",
+      deadlines: "Son tarihler",
+      settings: "Ayarlar",
     },
     auth: {
       emailLabel: "E-posta",
@@ -591,7 +661,6 @@ export const APP_COPY: Record<AppLanguage, AppCopy> = {
         "Fotoğraf veya PDF, ikisi de olur. Onu okuyup sade bir özet, varsa son tarihler ve gönderime hazır bir yanıtla döneceğiz.",
       dropTitle: "Buraya bir fotoğraf veya PDF bırakın",
       dropSubtitle: "veya göz atmak için tıklayın",
-      takePhoto: "Fotoğraf çek",
       analyzeLetter: "Mektubu analiz et",
       readingTitle: "Mektubunuz okunuyor…",
       readingSubtitle: "Bu genellikle birkaç saniye sürer.",
@@ -698,6 +767,21 @@ export const APP_COPY: Record<AppLanguage, AppCopy> = {
           },
         ],
       },
+    },
+    deadlines: {
+      heading: "Son tarihler",
+      emptyTitle: "Henüz son tarih yok",
+      emptyDescription: "Bir mektup yükleyin, içinde geçen son tarihler burada en yakın olandan başlayarak görünsün.",
+      uploadCta: "Mektup yükle",
+    },
+    settings: {
+      heading: "Ayarlar",
+      languageHeading: "Dil",
+      languageDescription: "Her özet, son tarih ve yanıt taslağı bu dilde yazılır.",
+      subscriptionHeading: "Abonelik",
+      subscriptionActive: "Sınırsız mektubunuz var.",
+      subscriptionFree: "Ücretsiz denemedesiniz.",
+      accountHeading: "Hesap",
     },
   },
 };
