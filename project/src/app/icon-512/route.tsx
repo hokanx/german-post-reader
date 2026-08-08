@@ -14,7 +14,7 @@ export async function GET() {
           backgroundColor: "#7c3aed",
         }}
       >
-        <span style={{ fontSize: 256, fontWeight: 800, color: "#fff7ed", letterSpacing: "-0.03em" }}>GP</span>
+        <span style={{ fontSize: 256, fontWeight: 800, color: "#fff7ed", letterSpacing: "-0.03em" }}>P</span>
       </div>
     ),
     { width: 512, height: 512 },

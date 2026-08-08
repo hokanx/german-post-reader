@@ -5,7 +5,7 @@ import { APP_COPY } from "@/lib/i18n/copy";
 import { SignupForm } from "./signup-form";
 
 export const metadata = {
-  title: "Start your free trial — German Post Letter Reader",
+  title: "Start your free trial — Papkram",
   description: "Create an account and analyze your first German letter free — no card required.",
 };
 

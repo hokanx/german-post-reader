@@ -6,7 +6,7 @@ import { APP_COPY } from "@/lib/i18n/copy";
 import { LanguagePicker } from "./language-picker";
 
 export const metadata = {
-  title: "Choose your language — German Post Letter Reader",
+  title: "Choose your language — Papkram",
   description: "Pick the language your letter summaries and replies are written in.",
 };
 

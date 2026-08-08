@@ -15,7 +15,7 @@ import { ManageSubscriptionLink } from "./manage-subscription-link";
 import { PurchaseConfirmationToast } from "./purchase-confirmation-toast";
 
 export const metadata = {
-  title: "Dashboard — German Post Letter Reader",
+  title: "Dashboard — Papkram",
   robots: { index: false },
 };
 

@@ -4,7 +4,7 @@ import { APP_COPY } from "@/lib/i18n/copy";
 import { LoginForm } from "./login-form";
 
 export const metadata = {
-  title: "Log in — German Post Letter Reader",
+  title: "Log in — Papkram",
   description: "Log in to see your letter history and continue where you left off.",
 };
 

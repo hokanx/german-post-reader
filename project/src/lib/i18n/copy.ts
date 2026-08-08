@@ -152,7 +152,7 @@ export type AppCopy = {
 export const APP_COPY: Record<AppLanguage, AppCopy> = {
   en: {
     header: {
-      logo: "German Post, translated.",
+      logo: "Papkram",
       backToDashboard: "Back to dashboard",
     },
     auth: {
@@ -313,7 +313,7 @@ export const APP_COPY: Record<AppLanguage, AppCopy> = {
           {
             heading: "What this service is",
             body: () =>
-              "German Post Letter Reader analyzes German-language postal letters and produces a plain-language summary, deadline detection, and a draft reply. It is a reading and drafting aid, not legal, tax, or financial advice.",
+              "Papkram analyzes German-language postal letters and produces a plain-language summary, deadline detection, and a draft reply. It is a reading and drafting aid, not legal, tax, or financial advice.",
           },
           {
             heading: "Accuracy isn't guaranteed",
@@ -336,7 +336,7 @@ export const APP_COPY: Record<AppLanguage, AppCopy> = {
   },
   ar: {
     header: {
-      logo: "بريدك الألماني، مترجمًا.",
+      logo: "Papkram",
       backToDashboard: "العودة إلى لوحة التحكم",
     },
     auth: {
@@ -495,7 +495,7 @@ export const APP_COPY: Record<AppLanguage, AppCopy> = {
           {
             heading: "ما هي هذه الخدمة",
             body: () =>
-              "يحلل German Post Letter Reader الخطابات البريدية باللغة الألمانية وينتج ملخصًا بلغة واضحة، وكشفًا للمواعيد النهائية، ومسودة رد. إنها أداة مساعدة للقراءة والصياغة، وليست استشارة قانونية أو ضريبية أو مالية.",
+              "يحلل Papkram الخطابات البريدية باللغة الألمانية وينتج ملخصًا بلغة واضحة، وكشفًا للمواعيد النهائية، ومسودة رد. إنها أداة مساعدة للقراءة والصياغة، وليست استشارة قانونية أو ضريبية أو مالية.",
           },
           {
             heading: "الدقة غير مضمونة",
@@ -518,7 +518,7 @@ export const APP_COPY: Record<AppLanguage, AppCopy> = {
   },
   tr: {
     header: {
-      logo: "Alman postanız, çevrildi.",
+      logo: "Papkram",
       backToDashboard: "Panele dön",
     },
     auth: {
@@ -679,7 +679,7 @@ export const APP_COPY: Record<AppLanguage, AppCopy> = {
           {
             heading: "Bu hizmet nedir",
             body: () =>
-              "German Post Letter Reader, Almanca posta mektuplarını analiz eder ve sade bir özet, son tarih tespiti ve bir yanıt taslağı üretir. Bu bir okuma ve taslak oluşturma yardımcısıdır, hukuki, mali veya vergi danışmanlığı değildir.",
+              "Papkram, Almanca posta mektuplarını analiz eder ve sade bir özet, son tarih tespiti ve bir yanıt taslağı üretir. Bu bir okuma ve taslak oluşturma yardımcısıdır, hukuki, mali veya vergi danışmanlığı değildir.",
           },
           {
             heading: "Doğruluk garanti edilmez",

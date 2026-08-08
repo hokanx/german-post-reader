@@ -25,7 +25,7 @@ export default function Icon() {
             letterSpacing: "-0.03em",
           }}
         >
-          GP
+          P
         </span>
       </div>
     ),

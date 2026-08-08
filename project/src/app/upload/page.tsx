@@ -6,7 +6,7 @@ import { APP_COPY } from "@/lib/i18n/copy";
 import { UploadForm } from "./upload-form";
 
 export const metadata = {
-  title: "Upload a letter — German Post Letter Reader",
+  title: "Upload a letter — Papkram",
   description: "Upload a photo or PDF of your German letter for a plain-language analysis.",
 };
 

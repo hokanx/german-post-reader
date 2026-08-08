@@ -28,7 +28,7 @@ export default function AppleIcon() {
             letterSpacing: "-0.03em",
           }}
         >
-          GP
+          P
         </span>
       </div>
     ),

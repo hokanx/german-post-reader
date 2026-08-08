@@ -38,7 +38,7 @@ export default function OpengraphImage() {
               letterSpacing: "-0.02em",
             }}
           >
-            German Post, translated.
+            Papkram
           </span>
         </div>
         <span

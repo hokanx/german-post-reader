@@ -25,8 +25,7 @@ export function LandingNav() {
           href="/"
           className="shrink-0 font-heading text-base font-extrabold tracking-[-0.02em] text-foreground sm:text-lg"
         >
-          <span className="sm:hidden">German Post</span>
-          <span className="hidden sm:inline">German Post, translated.</span>
+          Papkram
         </Link>
 
         <div className="flex shrink-0 items-center gap-0.5 rounded-full border-2 border-border bg-card p-1">

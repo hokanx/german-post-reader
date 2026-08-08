@@ -19,7 +19,7 @@ export function WelcomeEmail() {
       <Body style={styles.body}>
         <Container style={styles.container}>
           <Section style={styles.header}>
-            <Heading style={styles.heading}>German Post, translated.</Heading>
+            <Heading style={styles.heading}>Papkram</Heading>
           </Section>
           <Section style={styles.section}>
             <Text style={styles.text}>

@@ -5,8 +5,8 @@ import { getPreAuthLanguage } from "@/lib/i18n/get-locale";
 import { APP_COPY } from "@/lib/i18n/copy";
 
 export const metadata = {
-  title: "Terms of Service — German Post Letter Reader",
-  description: "The terms for using German Post Letter Reader.",
+  title: "Terms of Service — Papkram",
+  description: "The terms for using Papkram.",
 };
 
 export default async function TermsPage() {

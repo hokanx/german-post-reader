@@ -3,7 +3,7 @@ import { getPreAuthLanguage } from "@/lib/i18n/get-locale";
 import { APP_COPY } from "@/lib/i18n/copy";
 
 export const metadata = {
-  title: "Privacy Policy — German Post Letter Reader",
+  title: "Privacy Policy — Papkram",
   description: "How we handle your letters and account data.",
 };
 

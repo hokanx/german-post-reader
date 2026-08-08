@@ -29,7 +29,7 @@ const siteUrl = process.env.VERCEL_URL
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
-  title: "German Post Letter Reader — Translate German Mail Instantly",
+  title: "Papkram — Translate German Mail Instantly",
   description:
     "Translate a German letter and understand your mail in minutes. Upload a photo or PDF of any Behörde, bank, or landlord letter and get a plain-language summary, deadline alerts, and a ready-to-send reply — in English, Arabic, or Turkish.",
   keywords: [
@@ -37,20 +37,20 @@ export const metadata: Metadata = {
     "read German mail for expats",
     "German bureaucracy translator",
     "Behörde letter translation",
-    "German post reader",
+    "Papkram",
   ],
   openGraph: {
     type: "website",
     locale: "en_US",
     url: siteUrl,
-    siteName: "German Post Letter Reader",
-    title: "German Post Letter Reader — Translate German Mail Instantly",
+    siteName: "Papkram",
+    title: "Papkram — Translate German Mail Instantly",
     description:
       "Upload a photo or PDF of any German letter and get a plain-language summary, deadlines, and a ready-to-send reply — in English, Arabic, or Turkish.",
   },
   twitter: {
     card: "summary_large_image",
-    title: "German Post Letter Reader — Translate German Mail Instantly",
+    title: "Papkram — Translate German Mail Instantly",
     description:
       "Upload a photo or PDF of any German letter and get a plain-language summary, deadlines, and a ready-to-send reply.",
   },
@@ -64,7 +64,7 @@ export const metadata: Metadata = {
   appleWebApp: {
     capable: true,
     statusBarStyle: "black-translucent",
-    title: "German Post",
+    title: "Papkram",
   },
 };
 
