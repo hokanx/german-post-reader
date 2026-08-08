@@ -3,7 +3,7 @@
 import { useRef, useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
 import { motion, useReducedMotion, AnimatePresence } from "framer-motion";
-import { Upload, FileText, Camera } from "lucide-react";
+import { Upload, FileText } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { ErrorState } from "@/components/error-state";
 import { PaywallModal } from "@/components/PaywallModal";
@@ -185,32 +185,14 @@ export function UploadForm({ language }: { language: AppLanguage }) {
         />
       </div>
 
-      <div className="grid grid-cols-2 gap-3">
-        <Button
-          type="button"
-          variant="outline"
-          className="h-12 rounded-sm border-2 border-border text-sm font-bold"
-          onClick={() => {
-            const cameraInput = document.createElement("input");
-            cameraInput.type = "file";
-            cameraInput.accept = "image/jpeg,image/png";
-            cameraInput.capture = "environment";
-            cameraInput.onchange = () => void handleFiles(cameraInput.files);
-            cameraInput.click();
-          }}
-        >
-          <Camera className="size-4" strokeWidth={1.5} aria-hidden="true" />
-          {copy.takePhoto}
-        </Button>
-        <Button
-          type="button"
-          disabled={!file || preparing}
-          className="h-12 rounded-sm text-sm font-bold"
-          onClick={handleSubmit}
-        >
-          {copy.analyzeLetter}
-        </Button>
-      </div>
+      <Button
+        type="button"
+        disabled={!file || preparing}
+        className="h-12 w-full rounded-sm text-sm font-bold"
+        onClick={handleSubmit}
+      >
+        {copy.analyzeLetter}
+      </Button>
     </div>
   );
 }
