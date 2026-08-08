@@ -14,10 +14,14 @@ export default async function UploadPage() {
     data: { user },
   } = await supabase.auth.getUser();
 
+  if (!user) {
+    return null;
+  }
+
   const { data: profile } = await supabase
     .from("profiles")
     .select("language")
-    .eq("id", user!.id)
+    .eq("id", user.id)
     .single();
 
   const language = (profile?.language ?? "en") as AppLanguage;

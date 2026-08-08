@@ -23,16 +23,20 @@ export default async function DashboardPage() {
     data: { user },
   } = await supabase.auth.getUser();
 
+  if (!user) {
+    return null;
+  }
+
   const [{ data: profile }, { data: letters }] = await Promise.all([
     supabase
       .from("profiles")
       .select("has_active_subscription, trial_letters_used, language")
-      .eq("id", user!.id)
+      .eq("id", user.id)
       .single(),
     supabase
       .from("letters")
       .select("id, summary, deadlines, created_at")
-      .eq("user_id", user!.id)
+      .eq("user_id", user.id)
       .order("created_at", { ascending: false }),
   ]);
 
