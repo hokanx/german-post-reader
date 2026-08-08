@@ -22,7 +22,11 @@ export function CtaBand() {
       className="bg-primary py-16"
     >
       <div className="mx-auto flex max-w-6xl flex-col items-center gap-6 px-6 text-center">
-        <StampBadge label={copy.cta.badge} className="w-24 rotate-[3deg] opacity-95" />
+        <StampBadge
+          label={copy.cta.badge}
+          className="w-24 rotate-[3deg] opacity-95"
+          dir={copy.dir}
+        />
         <h2 className="text-3xl font-extrabold tracking-[-0.02em] text-primary-foreground md:text-4xl">
           {copy.cta.heading}
         </h2>

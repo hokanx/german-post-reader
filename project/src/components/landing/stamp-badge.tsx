@@ -23,9 +23,11 @@ function perforationHoles(width: number, height: number) {
 export function StampBadge({
   label,
   className,
+  dir = "ltr",
 }: {
   label: string;
   className?: string;
+  dir?: "ltr" | "rtl";
 }) {
   const width = 168;
   const height = 108;
@@ -77,6 +79,8 @@ export function StampBadge({
           fontWeight: 800,
           fontSize: "15px",
           letterSpacing: "0.02em",
+          direction: dir,
+          unicodeBidi: "isolate",
         }}
       >
         {label}

@@ -35,7 +35,11 @@ export function Hero() {
         variants={{ show: { transition: { staggerChildren: 0.08 } } }}
       >
         <motion.div variants={fadeRise} className="relative mb-6 w-fit">
-          <StampBadge label={copy.hero.stampBadge(FREE_LETTER_LIMIT)} className="rotate-[-4deg]" />
+          <StampBadge
+            label={copy.hero.stampBadge(FREE_LETTER_LIMIT)}
+            className="rotate-[-4deg]"
+            dir={copy.dir}
+          />
         </motion.div>
         <motion.h1
           variants={fadeRise}
