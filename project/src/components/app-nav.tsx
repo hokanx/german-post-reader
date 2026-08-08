@@ -41,7 +41,7 @@ export function AppNav({ language }: { language: AppLanguage }) {
               <Link
                 href={item.href}
                 aria-current={active ? "page" : undefined}
-                className={`flex min-h-11 min-w-11 flex-col items-center justify-center gap-1 rounded-md px-3 py-1.5 text-xs font-bold uppercase tracking-[0.02em] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring ${
+                className={`flex min-h-11 min-w-11 flex-col items-center justify-center gap-1 rounded-md px-3 py-1.5 text-xs font-bold uppercase tracking-[0.02em] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring active:translate-y-px ${
                   item.emphasized
                     ? `-translate-y-3 border-2 border-border bg-primary text-primary-foreground shadow-[3px_3px_0_0_var(--border)] sm:translate-y-0 ${
                         active ? "ring-2 ring-offset-2 ring-ring ring-offset-background" : ""
