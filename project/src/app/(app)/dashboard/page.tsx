@@ -9,7 +9,7 @@ import { formatEur } from "@/lib/format-currency";
 import type { AppLanguage } from "@/lib/letters/types";
 import { APP_COPY } from "@/lib/i18n/copy";
 import { LetterList } from "./letter-list";
-import { ManageSubscriptionLink } from "./manage-subscription-link";
+import { ManageSubscriptionLink } from "@/components/manage-subscription-link";
 import { PurchaseConfirmationToast } from "./purchase-confirmation-toast";
 
 export const metadata = {
