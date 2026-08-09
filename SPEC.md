@@ -1,4 +1,4 @@
-# German Post Letter Reader
+# Papkram (formerly German Post Letter Reader)
 
 ## what it is
 
