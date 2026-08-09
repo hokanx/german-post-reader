@@ -51,7 +51,7 @@ export const MARKETING_COPY: Record<MarketingLocale, MarketingCopy> = {
       headlineLine1: "German post,",
       headlineLine2: "finally readable.",
       subhead:
-        "Upload a photo or PDF of any German letter. Get a plain-language summary, your deadlines, and a ready-to-send reply — in English, Arabic, or Turkish.",
+        "Google Translate gives you the words. Papkram gives you the meaning — a plain-language summary, your deadlines, and a ready-to-send reply, in English, Arabic, or Turkish.",
       ctaPrimary: "Start free trial",
       ctaNote: "No credit card needed",
       mockup: {
@@ -114,7 +114,7 @@ export const MARKETING_COPY: Record<MarketingLocale, MarketingCopy> = {
       headlineLine1: "بريدك الألماني،",
       headlineLine2: "أخيرًا مفهوم.",
       subhead:
-        "ارفع صورة أو ملف PDF لأي خطاب ألماني. احصل على ملخص بلغة واضحة، مواعيدك النهائية، ورد جاهز للإرسال — بالإنجليزية أو العربية أو التركية.",
+        "ترجمة جوجل تمنحك الكلمات. أما Papkram فيمنحك المعنى — ملخص بلغة واضحة، مواعيدك النهائية، ورد جاهز للإرسال، بالإنجليزية أو العربية أو التركية.",
       ctaPrimary: "ابدأ تجربتك المجانية",
       ctaNote: "لا حاجة لبطاقة ائتمان",
       mockup: {
@@ -177,7 +177,7 @@ export const MARKETING_COPY: Record<MarketingLocale, MarketingCopy> = {
       headlineLine1: "Alman postası,",
       headlineLine2: "artık anlaşılır.",
       subhead:
-        "Herhangi bir Alman mektubunun fotoğrafını veya PDF'ini yükleyin. Sade bir özet, son tarihlerinizi ve gönderime hazır bir yanıt taslağı alın — İngilizce, Arapça veya Türkçe.",
+        "Google Translate size kelimeleri verir. Papkram ise size anlamı verir — sade bir özet, son tarihleriniz ve gönderime hazır bir yanıt, İngilizce, Arapça veya Türkçe olarak.",
       ctaPrimary: "Ücretsiz denemeyi başlat",
       ctaNote: "Kredi kartı gerekmez",
       mockup: {
