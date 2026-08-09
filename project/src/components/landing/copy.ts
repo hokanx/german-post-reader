@@ -31,12 +31,20 @@ export type MarketingCopy = {
     steps: { title: string; description: string; mockup: StepMockup }[];
   };
   trust: { heading: string; body: string };
-  pricing: {
+  offer: {
     heading: string;
-    badge: (freeLetterLimit: number) => string;
-    priceSuffix: (freeLetterLimit: number) => string;
-    features: string[];
+    trialBadge: (freeLetterLimit: number) => string;
+    items: { name: string; description: string; comparisonCost: string }[];
+    bonuses: { name: string; description: string; comparisonCost: string }[];
+    totalComparisonLabel: string;
+    totalComparisonValue: string;
+    priceLabel: string;
+    perYearLabel: string;
     cta: string;
+  };
+  bonuses: {
+    heading: string;
+    items: { name: string; badge?: string; description: string }[];
   };
   cta: { badge: string; heading: string; button: string };
   footer: { privacy: string; terms: string; contact: string };
@@ -58,7 +66,7 @@ export const MARKETING_COPY: Record<MarketingLocale, MarketingCopy> = {
         chip: "Analysis complete",
         summary: "Stadtwerke München is asking for an extra 187,42 € from your 2025 electricity bill.",
         deadline: "Pay by 28 Feb 2026",
-        reply: "“I am writing to confirm the payment of 187,42 € was transferred on…”",
+        reply: "\"I am writing to confirm the payment of 187,42 € was transferred on...\"",
         dir: "ltr",
       },
     },
@@ -86,18 +94,78 @@ export const MARKETING_COPY: Record<MarketingLocale, MarketingCopy> = {
       heading: "We tell you when we're not sure",
       body: "German bureaucratic letters are dense — amounts and dates matter. If anything in a letter is ambiguous, we flag it plainly instead of guessing. Never a silent guess on a number that could cost you.",
     },
-    pricing: {
-      heading: "One plan. Everything included.",
-      badge: (n) => `${n} free letters, no card`,
-      priceSuffix: (n) => `/ year, after your ${n} free letters`,
-      features: [
-        "Unlimited letter analyses",
-        "Cancel any time",
-        "Summaries, deadlines, and reply drafts",
-        "English, Arabic, and Turkish",
-        "Full letter history",
+    offer: {
+      heading: "Everything you get.",
+      trialBadge: (n) => `${n} free letters, no card`,
+      items: [
+        {
+          name: "Unlimited Letter Analysis",
+          description:
+            "Upload any German letter — photo or PDF — and get a plain-language summary, deadlines, and a ready-to-send reply. No limit after your free trial.",
+          comparisonCost: "97,00 €",
+        },
+        {
+          name: "Confident Reply Composer",
+          description:
+            "A formally correct German reply, ready to copy and send. You never write a word of German yourself.",
+          comparisonCost: "Included",
+        },
+        {
+          name: "Deadline Shield",
+          description:
+            "Every date buried in a letter — payment windows, response deadlines — flagged clearly so nothing slips past you.",
+          comparisonCost: "Included",
+        },
+        {
+          name: "Document Vault",
+          description:
+            "Every letter you've uploaded, every summary, every reply — stored and searchable in one place.",
+          comparisonCost: "Included",
+        },
       ],
+      bonuses: [
+        {
+          name: "Founder's Circle",
+          description: "Priority support + your price locked for life",
+          comparisonCost: "197,00 €",
+        },
+        {
+          name: "Bureaucracy Toolkit",
+          description: "Step-by-step guides for what comes after the letter",
+          comparisonCost: "47,00 €",
+        },
+        {
+          name: "Urgent Phrases Guide",
+          description: "30 essential phrases for calls and in-person visits",
+          comparisonCost: "27,00 €",
+        },
+      ],
+      totalComparisonLabel: "What you'd pay elsewhere",
+      totalComparisonValue: "368,00 €",
+      priceLabel: "Your price",
+      perYearLabel: "/ year",
       cta: "Start free trial",
+    },
+    bonuses: {
+      heading: "Bonuses included for free, right now.",
+      items: [
+        {
+          name: "Founder's Circle",
+          badge: "First 100 founding members",
+          description:
+            "As a founding member, you get direct access to our support team — not a chatbot, a real person. Your price stays 5,99 € a year for life, even if it rises for new members later. Every future update is added to your account automatically, free, forever.",
+        },
+        {
+          name: "Bureaucracy Toolkit",
+          description:
+            "Understanding the letter is step one. This toolkit walks you through the next step — a bank transfer, a form, a direct debit — one plain-language guide at a time.",
+        },
+        {
+          name: "Urgent Phrases Guide",
+          description:
+            "For the moments the app can't help — a phone call, an office visit — thirty essential German phrases with pronunciation, ready when you need them.",
+        },
+      ],
     },
     cta: {
       badge: "START TODAY",
@@ -121,7 +189,7 @@ export const MARKETING_COPY: Record<MarketingLocale, MarketingCopy> = {
         chip: "تم التحليل",
         summary: "شركة كهرباء ميونخ تطلب مبلغاً إضافياً قدره 187,42 € من فاتورة الكهرباء لعام 2025.",
         deadline: "الدفع قبل 28 فبراير 2026",
-        reply: "«أكتب لأؤكد أن مبلغ 187,42 € تم تحويله بتاريخ...»",
+        reply: "\"أكتب لأؤكد أن مبلغ 187,42 € تم تحويله بتاريخ...\"",
         dir: "rtl",
       },
     },
@@ -149,18 +217,78 @@ export const MARKETING_COPY: Record<MarketingLocale, MarketingCopy> = {
       heading: "نخبرك عندما لا نكون متأكدين",
       body: "الخطابات الألمانية الرسمية معقدة — المبالغ والتواريخ مهمة. إذا كان أي شيء في الخطاب غامضًا، نشير إليه بوضوح بدلاً من التخمين. لا تخمين صامت لرقم قد يكلفك المال.",
     },
-    pricing: {
-      heading: "خطة واحدة. كل شيء متضمن.",
-      badge: (n) => `${n} خطابات مجانية، بدون بطاقة`,
-      priceSuffix: (n) => `/ سنويًا، بعد خطاباتك الـ ${n} المجانية`,
-      features: [
-        "تحليل غير محدود للخطابات",
-        "إلغاء في أي وقت",
-        "ملخصات، مواعيد نهائية، ومسودات ردود",
-        "الإنجليزية والعربية والتركية",
-        "سجل كامل للخطابات",
+    offer: {
+      heading: "كل ما تحصل عليه.",
+      trialBadge: (n) => `${n} خطابات مجانية، بدون بطاقة`,
+      items: [
+        {
+          name: "تحليل غير محدود للخطابات",
+          description:
+            "ارفع أي خطاب ألماني — صورة أو ملف PDF — واحصل على ملخص بلغة واضحة، والمواعيد النهائية، ورد جاهز للإرسال. بلا حدود بعد تجربتك المجانية.",
+          comparisonCost: "97,00 €",
+        },
+        {
+          name: "أداة الرد الواثق",
+          description:
+            "رد ألماني صحيح رسميًا، جاهز للنسخ والإرسال. لن تكتب كلمة واحدة بالألمانية بنفسك.",
+          comparisonCost: "مُضمّن",
+        },
+        {
+          name: "درع المواعيد النهائية",
+          description:
+            "كل تاريخ مخفي داخل الخطاب — مواعيد الدفع، والمهل الزمنية للرد — يُشار إليه بوضوح حتى لا يفوتك شيء.",
+          comparisonCost: "مُضمّن",
+        },
+        {
+          name: "خزنة المستندات",
+          description:
+            "كل خطاب رفعته، وكل ملخص، وكل رد — محفوظ وقابل للبحث في مكان واحد.",
+          comparisonCost: "مُضمّن",
+        },
       ],
+      bonuses: [
+        {
+          name: "دائرة المؤسسين",
+          description: "دعم ذو أولوية + سعرك ثابت مدى الحياة",
+          comparisonCost: "197,00 €",
+        },
+        {
+          name: "عدة التعامل مع البيروقراطية",
+          description: "أدلة خطوة بخطوة لما يأتي بعد الخطاب",
+          comparisonCost: "47,00 €",
+        },
+        {
+          name: "دليل العبارات العاجلة",
+          description: "30 عبارة أساسية للمكالمات والزيارات الشخصية",
+          comparisonCost: "27,00 €",
+        },
+      ],
+      totalComparisonLabel: "ما كنت ستدفعه في مكان آخر",
+      totalComparisonValue: "368,00 €",
+      priceLabel: "سعرك",
+      perYearLabel: "/ سنويًا",
       cta: "ابدأ تجربتك المجانية",
+    },
+    bonuses: {
+      heading: "مكافآت مُضمّنة مجانًا، الآن.",
+      items: [
+        {
+          name: "دائرة المؤسسين",
+          badge: "أول 100 عضو مؤسس",
+          description:
+            "بصفتك عضوًا مؤسسًا، تحصل على تواصل مباشر مع فريق الدعم لدينا — ليس روبوت محادثة، بل شخص حقيقي. يبقى سعرك 5,99 € سنويًا مدى الحياة، حتى لو ارتفع لاحقًا للأعضاء الجدد. كل تحديث مستقبلي يُضاف إلى حسابك تلقائيًا، مجانًا، إلى الأبد.",
+        },
+        {
+          name: "عدة التعامل مع البيروقراطية",
+          description:
+            "فهم الخطاب هو الخطوة الأولى. هذه العدة ترشدك إلى الخطوة التالية — تحويل مصرفي، أو نموذج، أو خصم مباشر — دليل واحد بلغة واضحة في كل مرة.",
+        },
+        {
+          name: "دليل العبارات العاجلة",
+          description:
+            "للحظات التي لا يستطيع فيها التطبيق مساعدتك — مكالمة هاتفية، زيارة مكتب — ثلاثون عبارة ألمانية أساسية مع طريقة النطق، جاهزة عند الحاجة.",
+        },
+      ],
     },
     cta: {
       badge: "ابدأ اليوم",
@@ -184,7 +312,7 @@ export const MARKETING_COPY: Record<MarketingLocale, MarketingCopy> = {
         chip: "Analiz tamamlandı",
         summary: "Stadtwerke München, 2025 elektrik faturanız için 187,42 € ek ödeme talep ediyor.",
         deadline: "Son ödeme: 28 Şubat 2026",
-        reply: "“187,42 € tutarındaki ödemenin yapıldığını onaylamak için yazıyorum…”",
+        reply: "\"187,42 € tutarındaki ödemenin yapıldığını onaylamak için yazıyorum...\"",
         dir: "ltr",
       },
     },
@@ -212,18 +340,78 @@ export const MARKETING_COPY: Record<MarketingLocale, MarketingCopy> = {
       heading: "Emin olmadığımızda size söyleriz",
       body: "Alman resmi mektupları yoğun içeriklidir — tutarlar ve tarihler önemlidir. Bir mektupta belirsiz bir şey varsa, tahmin etmek yerine açıkça belirtiriz. Size zarar verebilecek bir rakamda asla sessizce tahmin yürütmeyiz.",
     },
-    pricing: {
-      heading: "Tek plan. Her şey dahil.",
-      badge: (n) => `${n} ücretsiz mektup, kart gerekmez`,
-      priceSuffix: (n) => `/ yıl, ${n} ücretsiz mektubunuzdan sonra`,
-      features: [
-        "Sınırsız mektup analizi",
-        "İstediğiniz zaman iptal edin",
-        "Özetler, son tarihler ve yanıt taslakları",
-        "İngilizce, Arapça ve Türkçe",
-        "Tam mektup geçmişi",
+    offer: {
+      heading: "Elde ettiğiniz her şey.",
+      trialBadge: (n) => `${n} ücretsiz mektup, kart gerekmez`,
+      items: [
+        {
+          name: "Sınırsız Mektup Analizi",
+          description:
+            "Herhangi bir Alman mektubunu — fotoğraf veya PDF olarak — yükleyin ve sade bir özet, son tarihler ve gönderime hazır bir yanıt alın. Ücretsiz denemenizden sonra sınır yok.",
+          comparisonCost: "97,00 €",
+        },
+        {
+          name: "Güvenli Yanıt Oluşturucu",
+          description:
+            "Resmi olarak doğru bir Almanca yanıt, kopyalayıp göndermeye hazır. Almanca tek kelime bile yazmanıza gerek yok.",
+          comparisonCost: "Dahil",
+        },
+        {
+          name: "Son Tarih Kalkanı",
+          description:
+            "Mektubun içine gizlenmiş her tarih — ödeme pencereleri, yanıt son tarihleri — açıkça işaretlenir, hiçbir şey gözünüzden kaçmaz.",
+          comparisonCost: "Dahil",
+        },
+        {
+          name: "Belge Kasası",
+          description:
+            "Yüklediğiniz her mektup, her özet, her yanıt — tek bir yerde saklanır ve aranabilir.",
+          comparisonCost: "Dahil",
+        },
       ],
+      bonuses: [
+        {
+          name: "Kurucular Çemberi",
+          description: "Öncelikli destek + fiyatınız ömür boyu sabit",
+          comparisonCost: "197,00 €",
+        },
+        {
+          name: "Bürokrasi Araç Seti",
+          description: "Mektuptan sonrası için adım adım rehberler",
+          comparisonCost: "47,00 €",
+        },
+        {
+          name: "Acil Durum İfadeleri Rehberi",
+          description: "Aramalar ve yüz yüze ziyaretler için 30 temel ifade",
+          comparisonCost: "27,00 €",
+        },
+      ],
+      totalComparisonLabel: "Başka yerde ödeyeceğiniz tutar",
+      totalComparisonValue: "368,00 €",
+      priceLabel: "Sizin fiyatınız",
+      perYearLabel: "/ yıl",
       cta: "Ücretsiz denemeyi başlat",
+    },
+    bonuses: {
+      heading: "Şu anda ücretsiz dahil olan bonuslar.",
+      items: [
+        {
+          name: "Kurucular Çemberi",
+          badge: "İlk 100 kurucu üye",
+          description:
+            "Kurucu üye olarak destek ekibimize doğrudan ulaşırsınız — bir chatbot değil, gerçek bir kişi. Fiyatınız, ileride yeni üyeler için artsa bile, ömür boyu yılda 5,99 € olarak kalır. Gelecekteki her güncelleme hesabınıza otomatik olarak, ücretsiz ve sonsuza dek eklenir.",
+        },
+        {
+          name: "Bürokrasi Araç Seti",
+          description:
+            "Mektubu anlamak birinci adımdır. Bu araç seti sizi bir sonraki adımda yönlendirir — banka havalesi, bir form, otomatik ödeme talimatı — her seferinde tek bir sade rehberle.",
+        },
+        {
+          name: "Acil Durum İfadeleri Rehberi",
+          description:
+            "Uygulamanın yardımcı olamadığı anlar için — bir telefon görüşmesi, bir daire ziyareti — telaffuzuyla birlikte otuz temel Almanca ifade, ihtiyacınız olduğunda hazır.",
+        },
+      ],
     },
     cta: {
       badge: "BUGÜN BAŞLA",

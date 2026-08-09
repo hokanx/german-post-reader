@@ -3,7 +3,7 @@ import { LandingNav } from "@/components/landing/nav";
 import { Hero } from "@/components/landing/hero";
 import { HowItWorks } from "@/components/landing/how-it-works";
 import { TrustCallout } from "@/components/landing/trust-callout";
-import { Pricing } from "@/components/landing/pricing";
+import { ValueStack } from "@/components/landing/value-stack";
 import { CtaBand } from "@/components/landing/cta-band";
 import { LandingFooter } from "@/components/landing/footer";
 
@@ -15,7 +15,7 @@ export default function Home() {
         <Hero />
         <HowItWorks />
         <TrustCallout />
-        <Pricing />
+        <ValueStack />
         <CtaBand />
       </main>
       <LandingFooter />
