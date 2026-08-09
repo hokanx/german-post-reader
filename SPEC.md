@@ -11,8 +11,8 @@ Immigrants and expats living in Germany who receive official German-language let
 ## key user flows
 
 1. User signs up, picks their language (English / Arabic / Turkish), and starts a free trial — no credit card required at signup.
-2. User uploads a letter photo or PDF; the app extracts text via OCR, then calls the AI pipeline and shows a plain-language summary, deadline banner, and reply draft within 30 seconds.
-3. User reads the analysis, copies the reply draft, and optionally downloads a formatted PDF of the reply.
+2. User uploads a letter photo or PDF via the file picker; the app calls the Gemini analysis pipeline (native multimodal — reads images and PDFs directly, no separate OCR step) and shows a plain-language summary, deadline banner, and reply draft within 30 seconds.
+3. User reads the analysis and copies the reply draft. (Formatted PDF export of the reply is a later-stages feature — see Stage 2 below, not yet shipped.)
 4. User hits the free-trial letter limit and is prompted to subscribe; Stripe Checkout opens, user enters card, and access continues immediately on success.
 5. User logs in later, sees their letter history dashboard, and can re-open any past analysis.
 
@@ -22,10 +22,10 @@ Immigrants and expats living in Germany who receive official German-language let
 if a task appears mid-build that exceeds this size, STOP and move it to later_stages instead of growing v1 (`/scope-check` exists for exactly this).
 
 - Email + password auth with a post-signup redirect to the onboarding language-picker page works.
-- Letter upload via camera capture (mobile) and file picker (PDF or image) works.
-- OCR extraction + Gemini analysis pipeline returns summary, deadline detection, and reply draft in the user's chosen language within 30 seconds works.
+- Letter upload via file picker (PDF or image) works. (Camera-capture upload was removed post-launch in favor of file-picker-only.)
+- Gemini analysis pipeline (native multimodal — reads images and PDFs directly, no separate OCR step) returns summary, deadline detection, and reply draft in the user's chosen language within 30 seconds works.
 - Language toggle (English, Arabic, Turkish) persists to the user's profile and re-renders the analysis output works.
-- Free trial limit of 3 letters enforced; Stripe Checkout monthly subscription unlocks unlimited letters works.
+- Free trial limit of 4 letters enforced; Stripe Checkout yearly subscription (€5.99/year) unlocks unlimited letters works.
 - Letter history dashboard listing all past uploads with their summary previews works.
 - Onboarding welcome email sent on signup via Resend works.
 - Posthog analytics and Sentry error tracking instrumented works.
@@ -182,13 +182,13 @@ stage status: `not started` (change to `shipped` once `/next-stage` finishes sta
 ## success metrics
 
 - 30 paying subscribers within 6 weeks of launch.
-- Monthly subscription revenue covers Vercel + Supabase hosting costs within 8 weeks (Gemini's free tier covers the AI pipeline at v1 volume).
+- Subscription revenue covers Vercel + Supabase hosting costs within 8 weeks (Gemini's free tier covers the AI pipeline at v1 volume).
 - Letter analysis pipeline returns a result in under 30 seconds for 95% of uploads.
 - Free-trial to paid conversion rate reaches 15% within the first month.
 
 ## risks
 
-- OCR quality on low-resolution phone photos causes garbled text that makes the AI summary wrong — user loses trust immediately.
+- Image quality on low-resolution phone photos causes Gemini to misread the letter's text, making the AI summary wrong — user loses trust immediately.
 - Gemini API latency or outage breaks the core flow; no fallback means the app is completely non-functional.
 - Arabic and Turkish RTL layout bugs in the reply draft UI make those language modes unusable on launch day.
 - German letter vocabulary is highly legal and bureaucratic — Gemini may hallucinate deadlines or misread amounts, causing real harm to users.
