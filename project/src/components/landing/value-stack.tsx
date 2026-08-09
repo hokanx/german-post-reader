@@ -61,7 +61,7 @@ export function ValueStack() {
             <span className="text-sm font-bold text-foreground">{copy.offer.priceLabel}</span>
             <span className="whitespace-nowrap text-4xl font-extrabold tracking-[-0.02em] text-foreground">
               {formatEur(SUBSCRIPTION_PRICE_EUR)}
-              <span className="ml-1 text-sm font-normal text-foreground/60">{copy.offer.perYearLabel}</span>
+              <span className="ms-1 text-sm font-normal text-foreground/60">{copy.offer.perYearLabel}</span>
             </span>
           </div>
 

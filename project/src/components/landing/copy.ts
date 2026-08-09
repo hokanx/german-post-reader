@@ -44,7 +44,7 @@ export type MarketingCopy = {
   };
   bonuses: {
     heading: string;
-    items: { name: string; badge?: string; description: string }[];
+    items: { name: string; badge?: string; description: (price: string) => string }[];
   };
   cta: { badge: string; heading: string; button: string };
   footer: { privacy: string; terms: string; contact: string };
@@ -119,7 +119,7 @@ export const MARKETING_COPY: Record<MarketingLocale, MarketingCopy> = {
         {
           name: "Document Vault",
           description:
-            "Every letter you've uploaded, every summary, every reply — stored and searchable in one place.",
+            "Every letter you've uploaded, every summary, every reply — stored in one place, ready whenever you need them.",
           comparisonCost: "Included",
         },
       ],
@@ -152,17 +152,17 @@ export const MARKETING_COPY: Record<MarketingLocale, MarketingCopy> = {
         {
           name: "Founder's Circle",
           badge: "First 100 founding members",
-          description:
-            "As a founding member, you get direct access to our support team — not a chatbot, a real person. Your price stays 5,99 € a year for life, even if it rises for new members later. Every future update is added to your account automatically, free, forever.",
+          description: (price) =>
+            `As a founding member, you get direct access to our support team — not a chatbot, a real person. Your price stays ${price} a year for life, even if it rises for new members later. Every future update is added to your account automatically, free, forever.`,
         },
         {
           name: "Bureaucracy Toolkit",
-          description:
+          description: () =>
             "Understanding the letter is step one. This toolkit walks you through the next step — a bank transfer, a form, a direct debit — one plain-language guide at a time.",
         },
         {
           name: "Urgent Phrases Guide",
-          description:
+          description: () =>
             "For the moments the app can't help — a phone call, an office visit — thirty essential German phrases with pronunciation, ready when you need them.",
         },
       ],
@@ -242,7 +242,7 @@ export const MARKETING_COPY: Record<MarketingLocale, MarketingCopy> = {
         {
           name: "خزنة المستندات",
           description:
-            "كل خطاب رفعته، وكل ملخص، وكل رد — محفوظ وقابل للبحث في مكان واحد.",
+            "كل خطاب رفعته، وكل ملخص، وكل رد — محفوظ في مكان واحد، جاهز متى احتجت إليه.",
           comparisonCost: "مُضمّن",
         },
       ],
@@ -275,17 +275,17 @@ export const MARKETING_COPY: Record<MarketingLocale, MarketingCopy> = {
         {
           name: "دائرة المؤسسين",
           badge: "أول 100 عضو مؤسس",
-          description:
-            "بصفتك عضوًا مؤسسًا، تحصل على تواصل مباشر مع فريق الدعم لدينا — ليس روبوت محادثة، بل شخص حقيقي. يبقى سعرك 5,99 € سنويًا مدى الحياة، حتى لو ارتفع لاحقًا للأعضاء الجدد. كل تحديث مستقبلي يُضاف إلى حسابك تلقائيًا، مجانًا، إلى الأبد.",
+          description: (price) =>
+            `بصفتك عضوًا مؤسسًا، تحصل على تواصل مباشر مع فريق الدعم لدينا — ليس روبوت محادثة، بل شخص حقيقي. يبقى سعرك ${price} سنويًا مدى الحياة، حتى لو ارتفع لاحقًا للأعضاء الجدد. كل تحديث مستقبلي يُضاف إلى حسابك تلقائيًا، مجانًا، إلى الأبد.`,
         },
         {
           name: "عدة التعامل مع البيروقراطية",
-          description:
+          description: () =>
             "فهم الخطاب هو الخطوة الأولى. هذه العدة ترشدك إلى الخطوة التالية — تحويل مصرفي، أو نموذج، أو خصم مباشر — دليل واحد بلغة واضحة في كل مرة.",
         },
         {
           name: "دليل العبارات العاجلة",
-          description:
+          description: () =>
             "للحظات التي لا يستطيع فيها التطبيق مساعدتك — مكالمة هاتفية، زيارة مكتب — ثلاثون عبارة ألمانية أساسية مع طريقة النطق، جاهزة عند الحاجة.",
         },
       ],
@@ -365,7 +365,7 @@ export const MARKETING_COPY: Record<MarketingLocale, MarketingCopy> = {
         {
           name: "Belge Kasası",
           description:
-            "Yüklediğiniz her mektup, her özet, her yanıt — tek bir yerde saklanır ve aranabilir.",
+            "Yüklediğiniz her mektup, her özet, her yanıt — tek bir yerde saklanır, ihtiyacınız olduğunda hazır.",
           comparisonCost: "Dahil",
         },
       ],
@@ -398,17 +398,17 @@ export const MARKETING_COPY: Record<MarketingLocale, MarketingCopy> = {
         {
           name: "Kurucular Çemberi",
           badge: "İlk 100 kurucu üye",
-          description:
-            "Kurucu üye olarak destek ekibimize doğrudan ulaşırsınız — bir chatbot değil, gerçek bir kişi. Fiyatınız, ileride yeni üyeler için artsa bile, ömür boyu yılda 5,99 € olarak kalır. Gelecekteki her güncelleme hesabınıza otomatik olarak, ücretsiz ve sonsuza dek eklenir.",
+          description: (price) =>
+            `Kurucu üye olarak destek ekibimize doğrudan ulaşırsınız — bir chatbot değil, gerçek bir kişi. Fiyatınız, ileride yeni üyeler için artsa bile, ömür boyu yılda ${price} olarak kalır. Gelecekteki her güncelleme hesabınıza otomatik olarak, ücretsiz ve sonsuza dek eklenir.`,
         },
         {
           name: "Bürokrasi Araç Seti",
-          description:
+          description: () =>
             "Mektubu anlamak birinci adımdır. Bu araç seti sizi bir sonraki adımda yönlendirir — banka havalesi, bir form, otomatik ödeme talimatı — her seferinde tek bir sade rehberle.",
         },
         {
           name: "Acil Durum İfadeleri Rehberi",
-          description:
+          description: () =>
             "Uygulamanın yardımcı olamadığı anlar için — bir telefon görüşmesi, bir daire ziyareti — telaffuzuyla birlikte otuz temel Almanca ifade, ihtiyacınız olduğunda hazır.",
         },
       ],

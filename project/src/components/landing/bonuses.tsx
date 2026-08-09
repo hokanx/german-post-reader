@@ -3,6 +3,8 @@
 import { motion, useReducedMotion } from "framer-motion";
 import { useMarketingLocale } from "./locale-context";
 import { MARKETING_COPY } from "./copy";
+import { SUBSCRIPTION_PRICE_EUR } from "@/lib/constants";
+import { formatEur } from "@/lib/format-currency";
 
 export function Bonuses() {
   const shouldReduceMotion = useReducedMotion();
@@ -38,7 +40,7 @@ export function Bonuses() {
             <h3 className="font-heading text-xl font-extrabold tracking-[-0.02em] text-foreground">
               {item.name}
             </h3>
-            <p className="mt-2 text-sm text-foreground/70">{item.description}</p>
+            <p className="mt-2 text-sm text-foreground/70">{item.description(formatEur(SUBSCRIPTION_PRICE_EUR))}</p>
           </motion.div>
         ))}
       </motion.div>
