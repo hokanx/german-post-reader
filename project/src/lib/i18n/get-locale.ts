@@ -8,8 +8,12 @@ const VALID: readonly AppLanguage[] = ["en", "ar", "tr"];
  * (login, signup, onboarding's picker itself) — reuses the same
  * `marketing_locale` cookie the landing page's language switcher writes, so
  * whatever a visitor picked before signing up carries through the funnel.
- * Post-signup pages use `profiles.language` directly instead (see
- * dashboard/upload/letters, which already fetch it).
+ * Post-signup pages still use `profiles.language` directly for their own
+ * content/dir (see dashboard/upload/letters, which already fetch it) — but
+ * onboarding/settings/login all keep this same cookie in sync with
+ * `profiles.language` too, so the root layout can also use it for `<html
+ * lang>` on every page (authenticated or not) without a Supabase call per
+ * request.
  */
 export async function getPreAuthLanguage(): Promise<AppLanguage> {
   const cookieStore = await cookies();

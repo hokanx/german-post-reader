@@ -3,6 +3,7 @@ import { Bricolage_Grotesque, Inter, JetBrains_Mono } from "next/font/google";
 import { ThemeProvider } from "@/components/theme-provider";
 import { PosthogProvider } from "@/components/PosthogProvider";
 import { Toaster } from "@/components/ui/sonner";
+import { getPreAuthLanguage } from "@/lib/i18n/get-locale";
 import "./globals.css";
 
 const heading = Bricolage_Grotesque({
@@ -73,14 +74,21 @@ export const viewport: Viewport = {
   viewportFit: "cover",
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  // Reads the same `marketing_locale` cookie the landing page's switcher
+  // writes, and that onboarding/settings/login now also keep in sync with
+  // `profiles.language` (see get-locale.ts and the actions that set it) —
+  // so <html lang> is correct for both pre-auth and authenticated pages
+  // without a Supabase call on every request.
+  const language = await getPreAuthLanguage();
+
   return (
     <html
-      lang="en"
+      lang={language}
       className={`${heading.variable} ${body.variable} ${mono.variable} h-full antialiased`}
       suppressHydrationWarning
     >

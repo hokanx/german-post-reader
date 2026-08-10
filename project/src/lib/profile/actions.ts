@@ -1,6 +1,7 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
+import { cookies } from "next/headers";
 import { createClient } from "@/lib/supabase/server";
 import type { Result } from "@/lib/result";
 import type { AppLanguage } from "@/lib/letters/types";
@@ -36,6 +37,11 @@ export async function changeLanguage(
       error: { code: "UNKNOWN", message: copy.saveFailed, recovery: copy.saveFailedRecovery },
     };
   }
+
+  // Keeps <html lang> (read from this cookie in the root layout) in sync with
+  // the profile language stored above — see get-locale.ts.
+  const cookieStore = await cookies();
+  cookieStore.set("marketing_locale", language, { path: "/", maxAge: 60 * 60 * 24 * 365 });
 
   revalidatePath("/dashboard");
   revalidatePath("/upload");

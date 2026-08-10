@@ -1,6 +1,7 @@
 "use server";
 
 import { redirect } from "next/navigation";
+import { cookies } from "next/headers";
 import { createClient } from "@/lib/supabase/server";
 import type { Result } from "@/lib/result";
 import { APP_COPY } from "@/lib/i18n/copy";
@@ -43,6 +44,11 @@ export async function setLanguage(language: Language, uiLanguage: Language = "en
       },
     };
   }
+
+  // Keeps <html lang> (read from this cookie in the root layout) in sync with
+  // the profile language stored above — see get-locale.ts.
+  const cookieStore = await cookies();
+  cookieStore.set("marketing_locale", language, { path: "/", maxAge: 60 * 60 * 24 * 365 });
 
   redirect("/dashboard");
 }
