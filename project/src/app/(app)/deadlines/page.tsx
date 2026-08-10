@@ -36,7 +36,7 @@ export default async function DeadlinesPage() {
       <div className="mx-auto max-w-3xl px-6 py-8">
         <h1 className="mb-4 text-xl font-extrabold tracking-[-0.02em] text-foreground">{copy.heading}</h1>
         {deadlines.length > 0 ? (
-          <ul className="grid gap-3">
+          <ul className="grid grid-cols-1 gap-3">
             {deadlines.map((d, i) => (
               <li key={`${d.letterId}-${i}`}>
                 <Link
@@ -44,8 +44,8 @@ export default async function DeadlinesPage() {
                   className="flex flex-col gap-2 rounded-md border-2 border-border bg-card px-5 py-4 shadow-[3px_3px_0_0_var(--border)] transition-shadow hover:shadow-[5px_5px_0_0_var(--border)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring sm:flex-row sm:items-center sm:justify-between"
                 >
                   <div className="min-w-0 flex-1">
-                    <p className="truncate text-base font-medium text-foreground">{d.description}</p>
-                    <p className="mt-0.5 truncate text-xs text-foreground/60">{d.letterSummary}</p>
+                    <p dir="ltr" className="truncate text-base font-medium text-foreground">{d.description}</p>
+                    <p dir="ltr" className="mt-0.5 truncate text-xs text-foreground/60">{d.letterSummary}</p>
                   </div>
                   <span className="shrink-0 rounded-full border-2 border-border bg-accent px-3 py-1 text-xs font-bold uppercase tracking-[0.06em] text-accent-foreground">
                     {d.date}
