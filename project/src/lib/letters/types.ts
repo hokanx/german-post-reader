@@ -3,6 +3,10 @@ export type AppLanguage = "en" | "ar" | "tr";
 export type LetterAnalysis = {
   summary: string;
   deadlines: { date: string; description: string }[];
+  /** Concrete facts (amounts, dates, reference numbers) each backed by their original German wording. */
+  key_facts: { label: string; value: string; source_quote: string }[];
+  /** True if the recipient must do something (pay, respond, submit, appear) — false for purely informational letters. */
+  action_required: boolean;
   /** Always German — this is the text that actually gets sent to the German recipient. */
   reply_draft: string;
   /** The reply_draft's meaning, translated into the user's chosen language, so they know what they're sending. */

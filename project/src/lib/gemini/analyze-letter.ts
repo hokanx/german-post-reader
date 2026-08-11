@@ -30,6 +30,24 @@ const RESPONSE_SCHEMA = {
         propertyOrdering: ["date", "description"],
       },
     },
+    key_facts: {
+      type: Type.ARRAY,
+      items: {
+        type: Type.OBJECT,
+        properties: {
+          label: { type: Type.STRING, description: "Short plain-language name for the fact, e.g. 'Amount owed' or 'Reference number'." },
+          value: { type: Type.STRING, description: "The fact's value as the reader should see it, e.g. '142,60 €'." },
+          source_quote: { type: Type.STRING, description: "The exact original German text this fact was read from, verbatim from the letter." },
+        },
+        required: ["label", "value", "source_quote"],
+        propertyOrdering: ["label", "value", "source_quote"],
+      },
+      description: "Concrete facts worth backing with the original text — amounts, dates, reference numbers, names. Empty array if the letter has no such facts. Do not duplicate the deadlines list; key_facts is for facts, deadlines is for dates to act by.",
+    },
+    action_required: {
+      type: Type.BOOLEAN,
+      description: "True if the recipient must do something (pay, respond, submit a document, appear somewhere), by a deadline or in general. False for purely informational letters.",
+    },
     reply_draft: {
       type: Type.STRING,
       description: "A ready-to-send reply letter, written in GERMAN (the recipient — Behörde, bank, insurer, landlord, etc. — reads German), appropriate to the sender and formal enough for official correspondence.",
@@ -51,6 +69,8 @@ const RESPONSE_SCHEMA = {
   required: [
     "summary",
     "deadlines",
+    "key_facts",
+    "action_required",
     "reply_draft",
     "reply_draft_translation",
     "detected_language_confirmed",
@@ -59,6 +79,8 @@ const RESPONSE_SCHEMA = {
   propertyOrdering: [
     "summary",
     "deadlines",
+    "key_facts",
+    "action_required",
     "reply_draft",
     "reply_draft_translation",
     "detected_language_confirmed",
@@ -72,6 +94,8 @@ function buildSystemInstruction(language: AppLanguage) {
 Rules:
 - summary: plain language, no legal jargon, explain what the letter is about and why it matters. Written entirely in ${LANGUAGE_NAMES[language]}.
 - deadlines: list every date the recipient must act by. If no deadline exists, return an empty array. Descriptions written in ${LANGUAGE_NAMES[language]}.
+- key_facts: pull out concrete facts worth backing with the original text — amounts, dates, reference numbers, names. Each fact needs label and value written in ${LANGUAGE_NAMES[language]}, plus source_quote copied verbatim in the ORIGINAL GERMAN regardless of target language, so the reader can see exactly what the letter said. Empty array if there's nothing worth citing this way. Don't duplicate deadlines here.
+- action_required: true if the recipient must do something (pay, respond, submit, appear) by a deadline or in general; false for purely informational letters.
 - reply_draft: write a complete, ready-to-send reply appropriate to the sender, formal and correct — written entirely in GERMAN, regardless of the target language, because the recipient reads German.
 - reply_draft_translation: translate reply_draft's exact meaning into ${LANGUAGE_NAMES[language]}, so the person can understand what they're about to send before they send it. This is a translation of reply_draft, not an independent reply.
 - detected_language_confirmed: false if the source text seems too garbled/unclear to be confident it was German.
