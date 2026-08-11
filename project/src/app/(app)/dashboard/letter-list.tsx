@@ -11,6 +11,7 @@ type LetterRow = {
   id: string;
   summary: string | null;
   deadlines: { date: string; description: string }[] | null;
+  action_required: boolean;
   created_at: string;
 };
 
@@ -56,6 +57,13 @@ export function LetterList({ letters, language }: { letters: LetterRow[]; langua
                 </p>
               </div>
               <div className="flex shrink-0 items-center gap-3">
+                <span
+                  className={`rounded-full border-2 border-border px-3 py-1 text-xs font-bold uppercase tracking-[0.04em] ${
+                    letter.action_required ? "bg-destructive/10 text-destructive" : "bg-muted text-muted-foreground"
+                  }`}
+                >
+                  {letter.action_required ? copy.dashboard.actionRequiredBadge : copy.dashboard.noActionBadge}
+                </span>
                 {deadline && (
                   <span className="flex items-center gap-1.5 rounded-full border-2 border-border bg-accent px-3 py-1 text-xs font-bold uppercase tracking-[0.04em] text-accent-foreground">
                     <CalendarClock className="size-4" strokeWidth={1.5} aria-hidden="true" />

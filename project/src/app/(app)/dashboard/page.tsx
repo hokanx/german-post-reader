@@ -11,6 +11,7 @@ import { APP_COPY } from "@/lib/i18n/copy";
 import { LetterList } from "./letter-list";
 import { ManageSubscriptionLink } from "@/components/manage-subscription-link";
 import { PurchaseConfirmationToast } from "./purchase-confirmation-toast";
+import { NextUpCard } from "./next-up-card";
 
 export const metadata = {
   title: "Dashboard — Papkram",
@@ -35,7 +36,7 @@ export default async function DashboardPage() {
       .single(),
     supabase
       .from("letters")
-      .select("id, summary, deadlines, created_at")
+      .select("id, summary, deadlines, action_required, created_at")
       .eq("user_id", user.id)
       .order("created_at", { ascending: false }),
   ]);
@@ -46,6 +47,13 @@ export default async function DashboardPage() {
   const language = (profile?.language ?? "en") as AppLanguage;
   const copy = APP_COPY[language];
   const dir = language === "ar" ? "rtl" : "ltr";
+
+  type Deadline = { date: string; description: string };
+  const ISO_DATE_RE = /^\d{4}-\d{2}-\d{2}$/;
+  const nextUp = (letters ?? [])
+    .flatMap((letter) => (letter.deadlines as Deadline[] | null ?? []).map((d) => ({ ...d, letterId: letter.id })))
+    .filter((d) => ISO_DATE_RE.test(d.date))
+    .sort((a, b) => a.date.localeCompare(b.date))[0];
 
   return (
     <main dir={dir} className="flex-1 bg-background">
@@ -88,6 +96,16 @@ export default async function DashboardPage() {
             <Upload className="size-5" strokeWidth={1.5} aria-hidden="true" />
             {copy.dashboard.uploadButton}
           </Link>
+
+          {nextUp && (
+            <NextUpCard
+              letterId={nextUp.letterId}
+              description={nextUp.description}
+              date={nextUp.date}
+              language={language}
+              heading={copy.dashboard.nextUpHeading}
+            />
+          )}
 
           <h1 className="mb-4 text-xl font-extrabold tracking-[-0.02em] text-foreground">
             {copy.dashboard.yourLetters}

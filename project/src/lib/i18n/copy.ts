@@ -79,6 +79,9 @@ export type AppCopy = {
     subscriptionActiveToast: string;
     errorTitle: string;
     errorRecovery: string;
+    nextUpHeading: string;
+    actionRequiredBadge: string;
+    noActionBadge: string;
   };
   upload: {
     heading: string;
@@ -246,6 +249,9 @@ export const APP_COPY: Record<AppLanguage, AppCopy> = {
       subscriptionActiveToast: "Subscription active — unlimited letters unlocked!",
       errorTitle: "Couldn't load your dashboard",
       errorRecovery: "This is usually temporary. Try again in a moment.",
+      nextUpHeading: "Next up",
+      actionRequiredBadge: "Action needed",
+      noActionBadge: "No action needed",
     },
     upload: {
       heading: "Upload a letter",
@@ -450,6 +456,9 @@ export const APP_COPY: Record<AppLanguage, AppCopy> = {
       subscriptionActiveToast: "الاشتراك مفعّل — خطابات غير محدودة متاحة الآن!",
       errorTitle: "تعذر تحميل لوحة التحكم",
       errorRecovery: "هذا عادةً مؤقت. حاول مرة أخرى بعد قليل.",
+      nextUpHeading: "التالي",
+      actionRequiredBadge: "يتطلب إجراء",
+      noActionBadge: "لا يتطلب إجراء",
     },
     upload: {
       heading: "ارفع خطابًا",
@@ -654,6 +663,9 @@ export const APP_COPY: Record<AppLanguage, AppCopy> = {
       subscriptionActiveToast: "Abonelik aktif — sınırsız mektupların kilidi açıldı!",
       errorTitle: "Paneliniz yüklenemedi",
       errorRecovery: "Bu genellikle geçicidir. Biraz sonra tekrar deneyin.",
+      nextUpHeading: "Sırada",
+      actionRequiredBadge: "İşlem gerekiyor",
+      noActionBadge: "İşlem gerekmiyor",
     },
     upload: {
       heading: "Mektup yükle",
