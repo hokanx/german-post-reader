@@ -8,6 +8,8 @@ import { APP_COPY } from "@/lib/i18n/copy";
 
 type Deadline = { date: string; description: string };
 
+const ISO_DATE_RE = /^\d{4}-\d{2}-\d{2}$/;
+
 export async function generateMetadata() {
   return {
     title: "Your letter, translated — Papkram",
@@ -51,6 +53,8 @@ export default async function LetterPage({
   const actionRequired = letter.action_required === true;
   const lowConfidence = letter.detected_language_confirmed === false;
   const copy = APP_COPY[language].letters;
+  const soonestDeadlineIso =
+    deadlines.filter((d) => ISO_DATE_RE.test(d.date)).sort((a, b) => a.date.localeCompare(b.date))[0]?.date ?? null;
 
   return (
     <main className="flex-1 bg-background">
@@ -170,7 +174,7 @@ export default async function LetterPage({
             initialTranslation={letter.reply_draft_translation ?? ""}
             translationLanguageLabel={LANGUAGE_NAMES[language]}
             translationDir={isRtl ? "rtl" : "ltr"}
-            soonestDeadlineIso={deadlines.length > 0 ? [...deadlines].sort((a, b) => a.date.localeCompare(b.date))[0].date : null}
+            soonestDeadlineIso={soonestDeadlineIso}
           />
         </div>
       </div>

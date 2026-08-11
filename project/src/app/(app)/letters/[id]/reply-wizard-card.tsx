@@ -35,7 +35,10 @@ export function ReplyWizardCard({
   const wizard = copy.wizard;
   const toneLabels = REPLY_TONE_LABELS[language];
 
-  const [step, setStep] = useState<Step>("intent");
+  // A saved reply from a past session (initialReplyDraft) should be visible
+  // immediately, not hidden behind step 1 of a wizard the user already
+  // completed before.
+  const [step, setStep] = useState<Step>(initialReplyDraft ? "reply" : "intent");
   const [tone, setTone] = useState<ReplyTone | null>(null);
   const [freeText, setFreeText] = useState("");
   const [validationError, setValidationError] = useState<string | null>(null);
@@ -45,6 +48,9 @@ export function ReplyWizardCard({
   const [pending, startTransition] = useTransition();
 
   const requestTimeOptions = computeRequestTimeOptions(soonestDeadlineIso);
+  // Without a usable ISO deadline there's nothing to build date options
+  // from, so don't offer a tone whose follow-up step would render empty.
+  const visibleTones = TONES.filter((t) => t !== "request_time" || requestTimeOptions.length > 0);
 
   function requestTimeLabel(id: RequestTimeOptionId) {
     if (id === "plus_one_month") return wizard.requestTimeOptionPlusOneMonth;
@@ -92,18 +98,33 @@ export function ReplyWizardCard({
   }
 
   function handleEditAnswer() {
-    setStep(tone === "confirm" ? "intent" : "follow-up");
+    // tone is null when the visible reply came from initialReplyDraft (a
+    // draft saved in a past session) rather than from a submit() in this
+    // session — we don't know which tone produced it, so restart the
+    // wizard instead of routing to a follow-up step that has no tone to
+    // render for.
+    setStep(tone && tone !== "confirm" ? "follow-up" : "intent");
   }
 
   return (
     <section className="rounded-md border-2 border-border bg-card p-6 shadow-[4px_4px_0_0_var(--border)]">
+      {pending && (
+        <div
+          role="status"
+          aria-live="polite"
+          className="mb-4 flex items-center gap-2 rounded-sm border-2 border-border bg-muted px-4 py-3 text-sm font-bold text-foreground"
+        >
+          {wizard.generatingReply}
+        </div>
+      )}
+
       {step === "intent" && (
         <>
           <h2 className="font-heading text-lg font-extrabold tracking-[-0.02em] text-foreground">
             {wizard.stepIntentHeading}
           </h2>
           <div className="mt-4 flex flex-wrap gap-2" role="group" aria-label={copy.replyToneGroupLabel}>
-            {TONES.map((t) => (
+            {visibleTones.map((t) => (
               <button
                 key={t}
                 type="button"
@@ -123,9 +144,9 @@ export function ReplyWizardCard({
           <button
             type="button"
             onClick={() => setStep("intent")}
-            className="mb-4 flex h-9 items-center gap-1.5 text-sm font-bold text-muted-foreground hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+            className="mb-4 flex h-11 items-center gap-1.5 text-sm font-bold text-muted-foreground hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
           >
-            <ArrowLeft className="size-4" strokeWidth={1.5} aria-hidden="true" />
+            <ArrowLeft className="size-4 rtl:rotate-180" strokeWidth={1.5} aria-hidden="true" />
             {wizard.backButton}
           </button>
 
