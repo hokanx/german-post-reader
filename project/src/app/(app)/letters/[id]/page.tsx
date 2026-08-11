@@ -1,7 +1,7 @@
 import { notFound } from "next/navigation";
 import { CalendarClock, TriangleAlert, ShieldAlert, FileText } from "lucide-react";
 import { createClient } from "@/lib/supabase/server";
-import { ReplyDraftCard } from "./reply-draft-card";
+import { ReplyWizardCard } from "./reply-wizard-card";
 import { KeyFactsSection } from "./key-facts-section";
 import { LANGUAGE_NAMES, type AppLanguage } from "@/lib/letters/types";
 import { APP_COPY } from "@/lib/i18n/copy";
@@ -163,13 +163,14 @@ export default async function LetterPage({
             </section>
           )}
 
-          <ReplyDraftCard
+          <ReplyWizardCard
             letterId={letter.id}
             language={language}
             initialReplyDraft={letter.reply_draft ?? ""}
             initialTranslation={letter.reply_draft_translation ?? ""}
             translationLanguageLabel={LANGUAGE_NAMES[language]}
             translationDir={isRtl ? "rtl" : "ltr"}
+            soonestDeadlineIso={deadlines.length > 0 ? [...deadlines].sort((a, b) => a.date.localeCompare(b.date))[0].date : null}
           />
         </div>
       </div>

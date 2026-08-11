@@ -138,6 +138,28 @@ export type AppCopy = {
     noActionBadge: string;
     actionRequiredDescription: string;
     noActionDescription: string;
+    wizard: {
+      stepIntentHeading: string;
+      stepFollowUpHeading: string;
+      requestTimeQuestion: string;
+      requestTimeOptionPlusOneMonth: string;
+      requestTimeOptionPlusTwoMonths: string;
+      requestTimeOptionInstalments: string;
+      requestTimeCustomDateLabel: string;
+      objectQuestion: string;
+      objectPlaceholder: string;
+      clarifyQuestion: string;
+      clarifyPlaceholder: string;
+      continueButton: string;
+      backButton: string;
+      editAnswerButton: string;
+      sendByEmailButton: string;
+      mailtoSubject: string;
+      answerByDate: (date: string) => string;
+      answerInstalments: string;
+      answerRequired: string;
+      generatingReply: string;
+    };
   };
   paywall: {
     badge: string;
@@ -315,6 +337,28 @@ export const APP_COPY: Record<AppLanguage, AppCopy> = {
       noActionBadge: "No action needed",
       actionRequiredDescription: "This letter needs a response from you.",
       noActionDescription: "Nothing to do here — for your records.",
+      wizard: {
+        stepIntentHeading: "What do you want to say?",
+        stepFollowUpHeading: "A couple more details",
+        requestTimeQuestion: "When can you do this by?",
+        requestTimeOptionPlusOneMonth: "In 1 month",
+        requestTimeOptionPlusTwoMonths: "In 2 months",
+        requestTimeOptionInstalments: "In instalments",
+        requestTimeCustomDateLabel: "Choose another date",
+        objectQuestion: "What's incorrect?",
+        objectPlaceholder: "Tell us what's wrong, in your own words.",
+        clarifyQuestion: "What do you want to ask?",
+        clarifyPlaceholder: "Type your question.",
+        continueButton: "Continue",
+        backButton: "Back",
+        editAnswerButton: "Edit answer",
+        sendByEmailButton: "Send by email",
+        mailtoSubject: "My reply",
+        answerByDate: (date) => `I can do this by ${date}.`,
+        answerInstalments: "I'd like to arrange to pay in instalments.",
+        answerRequired: "Add an answer to continue.",
+        generatingReply: "Drafting your reply…",
+      },
     },
     paywall: {
       badge: "Free trial ended",
@@ -526,6 +570,28 @@ export const APP_COPY: Record<AppLanguage, AppCopy> = {
       noActionBadge: "لا يتطلب إجراء",
       actionRequiredDescription: "يتطلب هذا الخطاب ردًا منك.",
       noActionDescription: "لا شيء للقيام به هنا — للاحتفاظ بسجلك فقط.",
+      wizard: {
+        stepIntentHeading: "ماذا تريد أن تقول؟",
+        stepFollowUpHeading: "بضعة تفاصيل إضافية",
+        requestTimeQuestion: "متى يمكنك القيام بذلك؟",
+        requestTimeOptionPlusOneMonth: "خلال شهر واحد",
+        requestTimeOptionPlusTwoMonths: "خلال شهرين",
+        requestTimeOptionInstalments: "على أقساط",
+        requestTimeCustomDateLabel: "اختر تاريخًا آخر",
+        objectQuestion: "ما الخطأ في ذلك؟",
+        objectPlaceholder: "اشرح ما هو غير صحيح بكلماتك الخاصة.",
+        clarifyQuestion: "ما الذي تريد سؤاله؟",
+        clarifyPlaceholder: "اكتب سؤالك.",
+        continueButton: "متابعة",
+        backButton: "رجوع",
+        editAnswerButton: "تعديل الإجابة",
+        sendByEmailButton: "إرسال بالبريد الإلكتروني",
+        mailtoSubject: "ردي",
+        answerByDate: (date) => `يمكنني القيام بذلك بحلول ${date}.`,
+        answerInstalments: "أرغب في السداد على أقساط.",
+        answerRequired: "أضف إجابة للمتابعة.",
+        generatingReply: "جارٍ صياغة ردك…",
+      },
     },
     paywall: {
       badge: "انتهت التجربة المجانية",
@@ -739,6 +805,28 @@ export const APP_COPY: Record<AppLanguage, AppCopy> = {
       noActionBadge: "İşlem gerekmiyor",
       actionRequiredDescription: "Bu mektup sizden bir yanıt gerektiriyor.",
       noActionDescription: "Burada yapılacak bir şey yok — sadece kayıtlarınız için.",
+      wizard: {
+        stepIntentHeading: "Ne söylemek istiyorsunuz?",
+        stepFollowUpHeading: "Birkaç detay daha",
+        requestTimeQuestion: "Bunu ne zamana kadar yapabilirsiniz?",
+        requestTimeOptionPlusOneMonth: "1 ay içinde",
+        requestTimeOptionPlusTwoMonths: "2 ay içinde",
+        requestTimeOptionInstalments: "Taksitle",
+        requestTimeCustomDateLabel: "Başka bir tarih seçin",
+        objectQuestion: "Neyi yanlış buluyorsunuz?",
+        objectPlaceholder: "Yanlış olanı kendi cümlelerinizle anlatın.",
+        clarifyQuestion: "Ne sormak istiyorsunuz?",
+        clarifyPlaceholder: "Sorunuzu yazın.",
+        continueButton: "Devam et",
+        backButton: "Geri",
+        editAnswerButton: "Yanıtı düzenle",
+        sendByEmailButton: "E-posta ile gönder",
+        mailtoSubject: "Yanıtım",
+        answerByDate: (date) => `Bunu ${date} tarihine kadar yapabilirim.`,
+        answerInstalments: "Taksitle ödeme yapmak istiyorum.",
+        answerRequired: "Devam etmek için bir yanıt ekleyin.",
+        generatingReply: "Yanıtınız hazırlanıyor…",
+      },
     },
     paywall: {
       badge: "Ücretsiz deneme sona erdi",
