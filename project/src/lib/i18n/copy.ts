@@ -133,6 +133,11 @@ export type AppCopy = {
     draftedButNotSaved: string;
     errorTitle: string;
     errorRecovery: string;
+    keyFactsHeading: string;
+    actionRequiredBadge: string;
+    noActionBadge: string;
+    actionRequiredDescription: string;
+    noActionDescription: string;
   };
   paywall: {
     badge: string;
@@ -305,6 +310,11 @@ export const APP_COPY: Record<AppLanguage, AppCopy> = {
       draftedButNotSaved: "Drafted, but couldn't save the new reply.",
       errorTitle: "Couldn't load this letter",
       errorRecovery: "This is usually temporary. Try again in a moment.",
+      keyFactsHeading: "Where this comes from",
+      actionRequiredBadge: "Action needed",
+      noActionBadge: "No action needed",
+      actionRequiredDescription: "This letter needs a response from you.",
+      noActionDescription: "Nothing to do here — for your records.",
     },
     paywall: {
       badge: "Free trial ended",
@@ -511,6 +521,11 @@ export const APP_COPY: Record<AppLanguage, AppCopy> = {
       draftedButNotSaved: "تمت الصياغة، لكن تعذر حفظ الرد الجديد.",
       errorTitle: "تعذر تحميل هذا الخطاب",
       errorRecovery: "هذا عادةً مؤقت. حاول مرة أخرى بعد قليل.",
+      keyFactsHeading: "من أين جاءت هذه المعلومات",
+      actionRequiredBadge: "يتطلب إجراء",
+      noActionBadge: "لا يتطلب إجراء",
+      actionRequiredDescription: "يتطلب هذا الخطاب ردًا منك.",
+      noActionDescription: "لا شيء للقيام به هنا — للاحتفاظ بسجلك فقط.",
     },
     paywall: {
       badge: "انتهت التجربة المجانية",
@@ -719,6 +734,11 @@ export const APP_COPY: Record<AppLanguage, AppCopy> = {
       draftedButNotSaved: "Taslak oluşturuldu ama yeni yanıt kaydedilemedi.",
       errorTitle: "Bu mektup yüklenemedi",
       errorRecovery: "Bu genellikle geçicidir. Biraz sonra tekrar deneyin.",
+      keyFactsHeading: "Bu bilgi nereden geliyor",
+      actionRequiredBadge: "İşlem gerekiyor",
+      noActionBadge: "İşlem gerekmiyor",
+      actionRequiredDescription: "Bu mektup sizden bir yanıt gerektiriyor.",
+      noActionDescription: "Burada yapılacak bir şey yok — sadece kayıtlarınız için.",
     },
     paywall: {
       badge: "Ücretsiz deneme sona erdi",
