@@ -5,6 +5,7 @@ import { motion, useReducedMotion } from "framer-motion";
 import { CalendarClock, ChevronRight, ChevronLeft } from "lucide-react";
 import type { AppLanguage } from "@/lib/letters/types";
 import { APP_COPY } from "@/lib/i18n/copy";
+import { formatDate } from "@/lib/format-date";
 
 type LetterRow = {
   id: string;
@@ -16,14 +17,6 @@ type LetterRow = {
 function soonestDeadline(deadlines: LetterRow["deadlines"]) {
   if (!deadlines || deadlines.length === 0) return null;
   return [...deadlines].sort((a, b) => a.date.localeCompare(b.date))[0];
-}
-
-const DATE_LOCALES: Record<AppLanguage, string> = { en: "en-GB", ar: "ar-EG", tr: "tr-TR" };
-
-function formatDate(iso: string, language: AppLanguage) {
-  const date = new Date(iso);
-  if (Number.isNaN(date.getTime())) return iso;
-  return date.toLocaleDateString(DATE_LOCALES[language], { day: "2-digit", month: "short", year: "numeric" });
 }
 
 export function LetterList({ letters, language }: { letters: LetterRow[]; language: AppLanguage }) {
