@@ -11,6 +11,7 @@ type Deadline = { date: string; description: string };
 export async function regenerateReply(
   letterId: string,
   tone: ReplyTone,
+  answer?: string,
 ): Promise<Result<{ reply_draft: string; reply_draft_translation: string }>> {
   const supabase = await createClient();
   const {
@@ -47,6 +48,7 @@ export async function regenerateReply(
     },
     tone,
     language,
+    answer,
   );
 
   if (!result.ok) {

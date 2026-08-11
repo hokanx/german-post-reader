@@ -225,6 +225,7 @@ export async function regenerateReplyDraft(
   letter: { summary: string; deadlines: { date: string; description: string }[]; riskFlags: string[] },
   tone: ReplyTone,
   language: AppLanguage,
+  answer?: string,
 ): Promise<Result<ReplyDraft>> {
   try {
     const ai = createGeminiClient();
@@ -234,7 +235,8 @@ export async function regenerateReplyDraft(
         ? `Deadlines: ${letter.deadlines.map((d) => `${d.date} — ${d.description}`).join("; ")}`
         : "Deadlines: none",
       letter.riskFlags.length > 0 ? `Uncertain points: ${letter.riskFlags.join("; ")}` : "Uncertain points: none",
-    ].join("\n");
+      answer ? `The user's answer to work into the reply: ${answer}` : null,
+    ].filter((line): line is string => line !== null).join("\n");
 
     const response = await withRetry(() =>
       ai.models.generateContent({
