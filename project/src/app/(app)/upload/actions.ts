@@ -106,6 +106,8 @@ export async function uploadLetter(
     storage_path: storagePath,
     summary: analysis.summary,
     deadlines: analysis.deadlines,
+    key_facts: analysis.key_facts,
+    action_required: analysis.action_required,
     reply_draft: analysis.reply_draft,
     reply_draft_translation: analysis.reply_draft_translation,
     detected_language_confirmed: analysis.detected_language_confirmed,
