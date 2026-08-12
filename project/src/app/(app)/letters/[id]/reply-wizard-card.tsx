@@ -35,10 +35,13 @@ export function ReplyWizardCard({
   const wizard = copy.wizard;
   const toneLabels = REPLY_TONE_LABELS[language];
 
-  // A saved reply from a past session (initialReplyDraft) should be visible
-  // immediately, not hidden behind step 1 of a wizard the user already
-  // completed before.
-  const [step, setStep] = useState<Step>(initialReplyDraft ? "reply" : "intent");
+  // The wizard is always the entry point (design spec) — every letter gets
+  // a reply_draft written by the analysis pipeline at upload time, before
+  // the user ever touches the wizard, so a non-empty initialReplyDraft
+  // does NOT mean "the user already ran the wizard." There's no
+  // discriminator in the data between a pipeline-authored draft and a
+  // wizard-authored one, so always start at step 1.
+  const [step, setStep] = useState<Step>("intent");
   const [tone, setTone] = useState<ReplyTone | null>(null);
   const [freeText, setFreeText] = useState("");
   const [validationError, setValidationError] = useState<string | null>(null);
