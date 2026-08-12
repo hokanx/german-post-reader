@@ -51,9 +51,11 @@ export function ReplyWizardCard({
   const [pending, startTransition] = useTransition();
 
   const requestTimeOptions = computeRequestTimeOptions(soonestDeadlineIso);
-  // Without a usable ISO deadline there's nothing to build date options
-  // from, so don't offer a tone whose follow-up step would render empty.
-  const visibleTones = TONES.filter((t) => t !== "request_time" || requestTimeOptions.length > 0);
+  // request_time is always offered now: even with no usable ISO deadline on
+  // the letter, the custom date picker still gives the user a way through
+  // this tone (see below), so there's no case where the follow-up step
+  // would render empty.
+  const visibleTones = TONES;
 
   function requestTimeLabel(id: RequestTimeOptionId) {
     if (id === "plus_one_month") return wizard.requestTimeOptionPlusOneMonth;
@@ -72,9 +74,23 @@ export function ReplyWizardCard({
     }
   }
 
+  // Includes the raw ISO date alongside the localized display string so
+  // Gemini always has an unambiguous date to work from — formatDate()
+  // renders using the user's locale (e.g. Arabic-Indic numerals for `ar`),
+  // which Gemini would otherwise have to reinterpret for a reply that
+  // actually gets sent to a German recipient.
+  function buildDateAnswer(iso: string) {
+    return `${wizard.answerByDate(formatDate(iso, language))} (${iso})`;
+  }
+
   function handleRequestTimeOption(option: { id: RequestTimeOptionId; date: string | null }) {
-    const answer = option.date ? wizard.answerByDate(formatDate(option.date, language)) : wizard.answerInstalments;
+    const answer = option.date ? buildDateAnswer(option.date) : wizard.answerInstalments;
     submit("request_time", answer);
+  }
+
+  function handleCustomDateOption(iso: string) {
+    if (!iso) return;
+    submit("request_time", buildDateAnswer(iso));
   }
 
   function handleFreeTextContinue() {
@@ -171,6 +187,17 @@ export function ReplyWizardCard({
                     {option.date && <span className="text-muted-foreground">{formatDate(option.date, language)}</span>}
                   </button>
                 ))}
+                <label className="flex h-11 items-center justify-between rounded-sm border-2 border-border bg-muted px-4 text-sm font-bold text-foreground transition-colors hover:bg-accent has-[:focus-visible]:outline-none has-[:focus-visible]:ring-2 has-[:focus-visible]:ring-ring has-[:disabled]:opacity-60">
+                  <span>{wizard.requestTimeCustomDateLabel}</span>
+                  <input
+                    type="date"
+                    name="request-time-custom-date"
+                    disabled={pending}
+                    aria-label={wizard.requestTimeCustomDateLabel}
+                    onChange={(e) => handleCustomDateOption(e.target.value)}
+                    className="bg-transparent text-sm font-bold text-foreground outline-none [color-scheme:light] dark:[color-scheme:dark]"
+                  />
+                </label>
               </div>
             </>
           )}

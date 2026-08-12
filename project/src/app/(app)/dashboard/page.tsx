@@ -50,9 +50,10 @@ export default async function DashboardPage() {
 
   type Deadline = { date: string; description: string };
   const ISO_DATE_RE = /^\d{4}-\d{2}-\d{2}$/;
+  const todayIso = new Date().toISOString().slice(0, 10);
   const nextUp = (letters ?? [])
     .flatMap((letter) => (letter.deadlines as Deadline[] | null ?? []).map((d) => ({ ...d, letterId: letter.id })))
-    .filter((d) => ISO_DATE_RE.test(d.date))
+    .filter((d) => ISO_DATE_RE.test(d.date) && d.date >= todayIso)
     .sort((a, b) => a.date.localeCompare(b.date))[0];
 
   return (
