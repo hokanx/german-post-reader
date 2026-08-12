@@ -188,6 +188,7 @@ export type AppCopy = {
     emptyTitle: string;
     emptyDescription: string;
     uploadCta: string;
+    undatedLabel: string;
   };
   settings: {
     heading: string;
@@ -425,6 +426,7 @@ export const APP_COPY: Record<AppLanguage, AppCopy> = {
       emptyTitle: "No deadlines yet",
       emptyDescription: "Upload a letter and any deadlines it mentions will show up here, soonest first.",
       uploadCta: "Upload a letter",
+      undatedLabel: "No fixed date",
     },
     settings: {
       heading: "Settings",
@@ -658,6 +660,7 @@ export const APP_COPY: Record<AppLanguage, AppCopy> = {
       emptyTitle: "لا توجد مواعيد نهائية بعد",
       emptyDescription: "ارفع خطابًا وستظهر هنا أي مواعيد نهائية مذكورة فيه، الأقرب أولاً.",
       uploadCta: "ارفع خطابًا",
+      undatedLabel: "بدون تاريخ محدد",
     },
     settings: {
       heading: "الإعدادات",
@@ -893,6 +896,7 @@ export const APP_COPY: Record<AppLanguage, AppCopy> = {
       emptyTitle: "Henüz son tarih yok",
       emptyDescription: "Bir mektup yükleyin, içinde geçen son tarihler burada en yakın olandan başlayarak görünsün.",
       uploadCta: "Mektup yükle",
+      undatedLabel: "Sabit tarih yok",
     },
     settings: {
       heading: "Ayarlar",
