@@ -9,7 +9,12 @@ import {
 } from "@/lib/letters/types";
 import type { Result } from "@/lib/result";
 
-type ReplyDraft = { reply_draft: string; reply_draft_translation: string };
+type ReplyDraft = {
+  reply_draft: string;
+  reply_draft_translation: string;
+  answer_understood: boolean;
+  answer_clarification: string;
+};
 
 const RESPONSE_SCHEMA = {
   type: Type.OBJECT,
@@ -209,9 +214,17 @@ const REPLY_DRAFT_SCHEMA = {
       type: Type.STRING,
       description: "The reply_draft's meaning translated into the target language, so the reader understands what they're about to send.",
     },
+    answer_understood: {
+      type: Type.BOOLEAN,
+      description: "True if the user's answer (if the context includes one) was coherent and relevant to replying to this letter. Always true if the context includes no user answer.",
+    },
+    answer_clarification: {
+      type: Type.STRING,
+      description: "If answer_understood is false, a short, friendly explanation — in the target language — of what was unclear and what kind of answer is needed instead. Empty string if answer_understood is true.",
+    },
   },
-  required: ["reply_draft", "reply_draft_translation"],
-  propertyOrdering: ["reply_draft", "reply_draft_translation"],
+  required: ["reply_draft", "reply_draft_translation", "answer_understood", "answer_clarification"],
+  propertyOrdering: ["reply_draft", "reply_draft_translation", "answer_understood", "answer_clarification"],
 };
 
 /**
@@ -245,7 +258,7 @@ export async function regenerateReplyDraft(
           `${context}\n\n${REPLY_TONE_INSTRUCTIONS[tone]}\n\nRespond ONLY with the JSON object matching the required schema.`,
         ],
         config: {
-          systemInstruction: `You draft replies to official German postal letters on behalf of someone who cannot read German confidently. reply_draft must be written entirely in GERMAN, formal and correct, since the recipient reads German. reply_draft_translation must translate reply_draft's exact meaning into ${LANGUAGE_NAMES[language]}.`,
+          systemInstruction: `You draft replies to official German postal letters on behalf of someone who cannot read German confidently. reply_draft must be written entirely in GERMAN, formal and correct, since the recipient reads German. reply_draft_translation must translate reply_draft's exact meaning into ${LANGUAGE_NAMES[language]}. If the context above includes a line starting with "The user's answer to work into the reply" and that text is gibberish, empty of real meaning, spam, or unrelated to responding to this letter, set answer_understood to false, write answer_clarification in ${LANGUAGE_NAMES[language]} explaining what's needed instead, and do not try to force that answer into reply_draft. If there is no such line, or the answer is coherent, set answer_understood to true and leave answer_clarification as an empty string.`,
           responseMimeType: "application/json",
           responseSchema: REPLY_DRAFT_SCHEMA,
         },

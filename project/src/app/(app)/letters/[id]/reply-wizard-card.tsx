@@ -114,6 +114,10 @@ export function ReplyWizardCard({
         toast.error(result.error.message);
         return;
       }
+      if (!result.data.answer_understood) {
+        setValidationError(result.data.answer_clarification || wizard.answerNotUnderstood);
+        return;
+      }
       setReplyDraft(result.data.reply_draft);
       setTranslation(result.data.reply_draft_translation);
       setStep("reply");

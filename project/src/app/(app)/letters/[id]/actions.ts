@@ -8,11 +8,18 @@ import type { Result } from "@/lib/result";
 
 type Deadline = { date: string; description: string };
 
+type ReplyDraftResult = {
+  reply_draft: string;
+  reply_draft_translation: string;
+  answer_understood: boolean;
+  answer_clarification: string;
+};
+
 export async function regenerateReply(
   letterId: string,
   tone: ReplyTone,
   answer?: string,
-): Promise<Result<{ reply_draft: string; reply_draft_translation: string }>> {
+): Promise<Result<ReplyDraftResult>> {
   const supabase = await createClient();
   const {
     data: { user },
@@ -53,6 +60,14 @@ export async function regenerateReply(
 
   if (!result.ok) {
     return result;
+  }
+
+  // Junk/gibberish/off-topic answers never get persisted — the letter keeps
+  // whatever reply_draft it already had (pipeline-authored or a prior
+  // successful wizard run) rather than being overwritten with a draft built
+  // from an answer Gemini itself flagged as not making sense.
+  if (!result.data.answer_understood) {
+    return { ok: true, data: result.data };
   }
 
   const { error: updateError } = await supabase

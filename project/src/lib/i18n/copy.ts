@@ -158,6 +158,7 @@ export type AppCopy = {
       answerByDate: (date: string) => string;
       answerInstalments: string;
       answerRequired: string;
+      answerNotUnderstood: string;
       generatingReply: string;
     };
   };
@@ -358,6 +359,7 @@ export const APP_COPY: Record<AppLanguage, AppCopy> = {
         answerByDate: (date) => `I can do this by ${date}.`,
         answerInstalments: "I'd like to arrange to pay in instalments.",
         answerRequired: "Add an answer to continue.",
+        answerNotUnderstood: "We couldn't quite make sense of that — try rephrasing.",
         generatingReply: "Drafting your reply…",
       },
     },
@@ -592,6 +594,7 @@ export const APP_COPY: Record<AppLanguage, AppCopy> = {
         answerByDate: (date) => `يمكنني القيام بذلك بحلول ${date}.`,
         answerInstalments: "أرغب في السداد على أقساط.",
         answerRequired: "أضف إجابة للمتابعة.",
+        answerNotUnderstood: "لم نتمكن من فهم ذلك تمامًا — حاول إعادة الصياغة.",
         generatingReply: "جارٍ صياغة ردك…",
       },
     },
@@ -828,6 +831,7 @@ export const APP_COPY: Record<AppLanguage, AppCopy> = {
         answerByDate: (date) => `Bunu ${date} tarihine kadar yapabilirim.`,
         answerInstalments: "Taksitle ödeme yapmak istiyorum.",
         answerRequired: "Devam etmek için bir yanıt ekleyin.",
+        answerNotUnderstood: "Bunu tam olarak anlayamadık — farklı şekilde ifade etmeyi deneyin.",
         generatingReply: "Yanıtınız hazırlanıyor…",
       },
     },
