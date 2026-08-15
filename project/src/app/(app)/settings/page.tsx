@@ -3,6 +3,7 @@ import { LanguageSwitcher } from "@/components/language-switcher";
 import { LogoutButton } from "@/components/logout-button";
 import { ManageSubscriptionLink } from "@/components/manage-subscription-link";
 import { SettingsUpgradeButton } from "@/components/settings-upgrade-button";
+import { SenderInfoForm } from "./sender-info-form";
 import type { AppLanguage } from "@/lib/letters/types";
 import { APP_COPY } from "@/lib/i18n/copy";
 import { SUBSCRIPTION_PRICE_EUR } from "@/lib/constants";
@@ -25,7 +26,7 @@ export default async function SettingsPage() {
 
   const { data: profile } = await supabase
     .from("profiles")
-    .select("language, has_active_subscription")
+    .select("language, has_active_subscription, full_name, postal_address")
     .eq("id", user.id)
     .single();
 
@@ -76,6 +77,20 @@ export default async function SettingsPage() {
                 }}
               />
             )}
+          </div>
+        </section>
+
+        <section className="mb-6 rounded-md border-2 border-border bg-card p-6 shadow-[4px_4px_0_0_var(--border)]">
+          <h2 className="font-heading text-lg font-extrabold tracking-[-0.02em] text-foreground">
+            {copy.senderInfoHeading}
+          </h2>
+          <p className="mt-1 text-sm text-foreground/70">{copy.senderInfoDescription}</p>
+          <div className="mt-4">
+            <SenderInfoForm
+              language={language}
+              initialFullName={profile?.full_name ?? ""}
+              initialPostalAddress={profile?.postal_address ?? ""}
+            />
           </div>
         </section>
 

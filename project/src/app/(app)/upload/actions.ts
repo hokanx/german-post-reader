@@ -36,7 +36,7 @@ export async function uploadLetter(
 
   const { data: profile, error: profileError } = await service
     .from("profiles")
-    .select("language, has_active_subscription, trial_letters_used")
+    .select("language, has_active_subscription, trial_letters_used, full_name, postal_address")
     .eq("id", user.id)
     .single();
 
@@ -74,7 +74,10 @@ export async function uploadLetter(
 
   const bytes = Buffer.from(await file.arrayBuffer());
 
-  const analysisResult = await analyzeDocument(bytes, file.type, language);
+  const analysisResult = await analyzeDocument(bytes, file.type, language, {
+    fullName: profile.full_name,
+    postalAddress: profile.postal_address,
+  });
 
   if (!analysisResult.ok) {
     return analysisResult;

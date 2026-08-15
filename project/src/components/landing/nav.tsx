@@ -4,6 +4,7 @@ import { useState } from "react";
 import Link from "next/link";
 import { Globe, Menu, X } from "lucide-react";
 import { buttonVariants } from "@/components/ui/button";
+import { PapkramLogo } from "@/components/papkram-logo";
 import { useMarketingLocale, type MarketingLocale } from "./locale-context";
 import { MARKETING_COPY } from "./copy";
 
@@ -23,8 +24,9 @@ export function LandingNav() {
       <div className="mx-auto flex max-w-6xl items-center justify-between gap-2 px-4 py-3 sm:px-6 sm:py-4">
         <Link
           href="/"
-          className="shrink-0 font-heading text-base font-extrabold tracking-[-0.02em] text-foreground sm:text-lg"
+          className="flex shrink-0 items-center gap-2 font-heading text-base font-extrabold tracking-[-0.02em] text-foreground sm:text-lg"
         >
+          <PapkramLogo />
           Papkram
         </Link>
 

@@ -1,34 +1,11 @@
-import { ImageResponse } from "next/og";
+import fs from "node:fs";
+import path from "node:path";
 
 export const size = { width: 32, height: 32 };
 export const contentType = "image/png";
 
+/** Real brand mark (see src/brand-assets/README.md) rendered ahead of time at the exact favicon size — no per-request image generation needed. */
 export default function Icon() {
-  return new ImageResponse(
-    (
-      <div
-        style={{
-          width: "100%",
-          height: "100%",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          backgroundColor: "#7c3aed",
-          borderRadius: 7,
-        }}
-      >
-        <span
-          style={{
-            fontSize: 18,
-            fontWeight: 800,
-            color: "#fff7ed",
-            letterSpacing: "-0.03em",
-          }}
-        >
-          P
-        </span>
-      </div>
-    ),
-    { ...size },
-  );
+  const buffer = fs.readFileSync(path.join(process.cwd(), "src/brand-assets/icon.png"));
+  return new Response(buffer, { headers: { "Content-Type": contentType } });
 }

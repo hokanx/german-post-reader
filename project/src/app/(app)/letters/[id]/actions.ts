@@ -47,6 +47,12 @@ export async function regenerateReply(
   const language = letter.language as AppLanguage;
   const copy = APP_COPY[language].letters;
 
+  const { data: profile } = await supabase
+    .from("profiles")
+    .select("full_name, postal_address")
+    .eq("id", user.id)
+    .single();
+
   const result = await regenerateReplyDraft(
     {
       summary: letter.summary ?? "",
@@ -56,6 +62,7 @@ export async function regenerateReply(
     tone,
     language,
     answer,
+    { fullName: profile?.full_name ?? null, postalAddress: profile?.postal_address ?? null },
   );
 
   if (!result.ok) {

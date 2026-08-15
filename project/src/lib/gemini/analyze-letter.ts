@@ -9,6 +9,19 @@ import {
 } from "@/lib/letters/types";
 import type { Result } from "@/lib/result";
 
+/** The user's own name/address, stored once in Settings, so the AI can use it as the reply's real letterhead instead of a bracketed placeholder. Either field may be unset. */
+export type SenderInfo = { fullName: string | null; postalAddress: string | null };
+
+function senderContextLine(sender?: SenderInfo): string | null {
+  if (!sender) return null;
+  const parts = [sender.fullName, sender.postalAddress].filter((v): v is string => !!v && v.trim().length > 0);
+  if (parts.length === 0) return null;
+  return `Sender's real name and address to use as the reply's letterhead: ${parts.join(", ")}`;
+}
+
+const SENDER_INSTRUCTION =
+  'If a "Sender\'s real name and address" line is present above, use it verbatim as the reply\'s letterhead (Absender). If it is absent, use a generic bracketed placeholder like "[Ihr Name]" / "[Ihre Adresse]" — never invent a fake name or address.';
+
 type ReplyDraft = {
   reply_draft: string;
   reply_draft_translation: string;
@@ -93,15 +106,16 @@ const RESPONSE_SCHEMA = {
   ],
 };
 
-function buildSystemInstruction(language: AppLanguage) {
+function buildSystemInstruction(language: AppLanguage, sender?: SenderInfo) {
+  const senderLine = senderContextLine(sender);
   return `You read official German postal letters (Behörde notices, bank mail, insurance, landlord letters) for someone who cannot read German confidently. Extract the letter's content, then respond ONLY with the JSON object matching the required schema.
-
+${senderLine ? `\n${senderLine}\n` : ""}
 Rules:
 - summary: plain language, no legal jargon, explain what the letter is about and why it matters. Written entirely in ${LANGUAGE_NAMES[language]}.
 - deadlines: list every date the recipient must act by. If no deadline exists, return an empty array. Descriptions written in ${LANGUAGE_NAMES[language]}.
 - key_facts: pull out concrete facts worth backing with the original text — amounts, dates, reference numbers, names. Each fact needs label and value written in ${LANGUAGE_NAMES[language]}, plus source_quote copied verbatim in the ORIGINAL GERMAN regardless of target language, so the reader can see exactly what the letter said. Empty array if there's nothing worth citing this way. Don't duplicate deadlines here.
 - action_required: true if the recipient must do something (pay, respond, submit, appear) by a deadline or in general; false for purely informational letters.
-- reply_draft: write a complete, ready-to-send reply appropriate to the sender, formal and correct — written entirely in GERMAN, regardless of the target language, because the recipient reads German.
+- reply_draft: write a complete, ready-to-send reply appropriate to the sender, formal and correct — written entirely in GERMAN, regardless of the target language, because the recipient reads German. ${SENDER_INSTRUCTION}
 - reply_draft_translation: translate reply_draft's exact meaning into ${LANGUAGE_NAMES[language]}, so the person can understand what they're about to send before they send it. This is a translation of reply_draft, not an independent reply.
 - detected_language_confirmed: false if the source text seems too garbled/unclear to be confident it was German.
 - risk_flags: if any amount, date, or instruction is ambiguous or you are not fully confident you read it correctly, add a plain-language warning here instead of guessing. Never silently guess at a number or date you're unsure about. Written in ${LANGUAGE_NAMES[language]}.`;
@@ -172,6 +186,7 @@ export async function analyzeDocument(
   bytes: Buffer,
   mimeType: string,
   language: AppLanguage,
+  sender?: SenderInfo,
 ): Promise<Result<LetterAnalysis>> {
   try {
     const ai = createGeminiClient();
@@ -183,7 +198,7 @@ export async function analyzeDocument(
           "Read this German letter and produce the required JSON analysis.",
         ],
         config: {
-          systemInstruction: buildSystemInstruction(language),
+          systemInstruction: buildSystemInstruction(language, sender),
           responseMimeType: "application/json",
           responseSchema: RESPONSE_SCHEMA,
         },
@@ -239,6 +254,7 @@ export async function regenerateReplyDraft(
   tone: ReplyTone,
   language: AppLanguage,
   answer?: string,
+  sender?: SenderInfo,
 ): Promise<Result<ReplyDraft>> {
   try {
     const ai = createGeminiClient();
@@ -249,6 +265,7 @@ export async function regenerateReplyDraft(
         : "Deadlines: none",
       letter.riskFlags.length > 0 ? `Uncertain points: ${letter.riskFlags.join("; ")}` : "Uncertain points: none",
       answer ? `The user's answer to work into the reply: ${answer}` : null,
+      senderContextLine(sender),
     ].filter((line): line is string => line !== null).join("\n");
 
     const response = await withRetry(() =>
@@ -258,7 +275,7 @@ export async function regenerateReplyDraft(
           `${context}\n\n${REPLY_TONE_INSTRUCTIONS[tone]}\n\nRespond ONLY with the JSON object matching the required schema.`,
         ],
         config: {
-          systemInstruction: `You draft replies to official German postal letters on behalf of someone who cannot read German confidently. reply_draft must be written entirely in GERMAN, formal and correct, since the recipient reads German. reply_draft_translation must translate reply_draft's exact meaning into ${LANGUAGE_NAMES[language]}. If the context above includes a line starting with "The user's answer to work into the reply" and that text is gibberish, empty of real meaning, spam, or unrelated to responding to this letter, set answer_understood to false, write answer_clarification in ${LANGUAGE_NAMES[language]} explaining what's needed instead, and do not try to force that answer into reply_draft. If there is no such line, or the answer is coherent, set answer_understood to true and leave answer_clarification as an empty string.`,
+          systemInstruction: `You draft replies to official German postal letters on behalf of someone who cannot read German confidently. reply_draft must be written entirely in GERMAN, formal and correct, since the recipient reads German. ${SENDER_INSTRUCTION} reply_draft_translation must translate reply_draft's exact meaning into ${LANGUAGE_NAMES[language]}. If the context above includes a line starting with "The user's answer to work into the reply" and that text is gibberish, empty of real meaning, spam, or unrelated to responding to this letter, set answer_understood to false, write answer_clarification in ${LANGUAGE_NAMES[language]} explaining what's needed instead, and do not try to force that answer into reply_draft. If there is no such line, or the answer is coherent, set answer_understood to true and leave answer_clarification as an empty string.`,
           responseMimeType: "application/json",
           responseSchema: REPLY_DRAFT_SCHEMA,
         },

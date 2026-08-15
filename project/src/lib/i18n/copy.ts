@@ -199,6 +199,15 @@ export type AppCopy = {
     subscriptionActive: string;
     subscriptionFree: string;
     accountHeading: string;
+    senderInfoHeading: string;
+    senderInfoDescription: string;
+    fullNameLabel: string;
+    postalAddressLabel: string;
+    saveButton: string;
+    saving: string;
+    senderInfoSavedToast: string;
+    senderInfoSaveFailed: string;
+    senderInfoSaveFailedRecovery: string;
   };
 };
 
@@ -438,6 +447,15 @@ export const APP_COPY: Record<AppLanguage, AppCopy> = {
       subscriptionActive: "You have unlimited letters.",
       subscriptionFree: "You're on the free trial.",
       accountHeading: "Account",
+      senderInfoHeading: "Your details",
+      senderInfoDescription: "Add your name and postal address once, and every reply draft will use them as the letterhead — instead of a placeholder you'd have to fill in yourself before sending.",
+      fullNameLabel: "Full name",
+      postalAddressLabel: "Postal address",
+      saveButton: "Save",
+      saving: "Saving…",
+      senderInfoSavedToast: "Saved",
+      senderInfoSaveFailed: "Couldn't save your details.",
+      senderInfoSaveFailedRecovery: "Try again.",
     },
   },
   ar: {
@@ -673,6 +691,15 @@ export const APP_COPY: Record<AppLanguage, AppCopy> = {
       subscriptionActive: "لديك خطابات غير محدودة.",
       subscriptionFree: "أنت في التجربة المجانية.",
       accountHeading: "الحساب",
+      senderInfoHeading: "بياناتك",
+      senderInfoDescription: "أضف اسمك وعنوانك البريدي مرة واحدة، وستستخدمهما كل مسودة رد كترويسة — بدلاً من عنصر نائب يتعين عليك تعبئته يدويًا قبل الإرسال.",
+      fullNameLabel: "الاسم الكامل",
+      postalAddressLabel: "العنوان البريدي",
+      saveButton: "حفظ",
+      saving: "جارٍ الحفظ…",
+      senderInfoSavedToast: "تم الحفظ",
+      senderInfoSaveFailed: "تعذر حفظ بياناتك.",
+      senderInfoSaveFailedRecovery: "حاول مرة أخرى.",
     },
   },
   tr: {
@@ -910,6 +937,15 @@ export const APP_COPY: Record<AppLanguage, AppCopy> = {
       subscriptionActive: "Sınırsız mektubunuz var.",
       subscriptionFree: "Ücretsiz denemedesiniz.",
       accountHeading: "Hesap",
+      senderInfoHeading: "Bilgileriniz",
+      senderInfoDescription: "Adınızı ve posta adresinizi bir kez ekleyin; her yanıt taslağı bunları antet olarak kullansın — göndermeden önce kendinizin doldurması gereken bir yer tutucu yerine.",
+      fullNameLabel: "Ad soyad",
+      postalAddressLabel: "Posta adresi",
+      saveButton: "Kaydet",
+      saving: "Kaydediliyor…",
+      senderInfoSavedToast: "Kaydedildi",
+      senderInfoSaveFailed: "Bilgileriniz kaydedilemedi.",
+      senderInfoSaveFailedRecovery: "Tekrar deneyin.",
     },
   },
 };

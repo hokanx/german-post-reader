@@ -30,7 +30,7 @@ export function AppNav({ language }: { language: AppLanguage }) {
     <nav
       dir={isRtl ? "rtl" : "ltr"}
       aria-label={copy.navLabel}
-      className="fixed inset-x-0 bottom-0 z-40 border-t-2 border-border bg-background sm:sticky sm:inset-x-auto sm:bottom-auto sm:top-0 sm:h-screen sm:w-20 sm:shrink-0 sm:border-t-0 sm:border-e-2"
+      className="fixed inset-x-0 bottom-0 z-40 border-t-2 border-border bg-background pb-[env(safe-area-inset-bottom)] sm:sticky sm:inset-x-auto sm:bottom-auto sm:top-0 sm:h-screen sm:w-20 sm:shrink-0 sm:border-t-0 sm:border-e-2 sm:pb-0"
     >
       <ul className="flex items-center justify-around px-2 py-2 sm:h-full sm:flex-col sm:justify-start sm:gap-3 sm:py-6">
         {items.map((item) => {

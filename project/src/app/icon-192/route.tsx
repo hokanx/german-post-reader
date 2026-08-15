@@ -1,22 +1,8 @@
-import { ImageResponse } from "next/og";
+import fs from "node:fs";
+import path from "node:path";
 
-/** Stable-URL icon for manifest.ts's `icons` array (Android install prompt + iOS 16.4+ manifest-aware installs). */
+/** Stable-URL icon for manifest.ts's `icons` array (Android install prompt + iOS 16.4+ manifest-aware installs). Real brand mark, pre-rendered — see src/brand-assets/README.md. */
 export async function GET() {
-  return new ImageResponse(
-    (
-      <div
-        style={{
-          width: "100%",
-          height: "100%",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          backgroundColor: "#7c3aed",
-        }}
-      >
-        <span style={{ fontSize: 96, fontWeight: 800, color: "#fff7ed", letterSpacing: "-0.03em" }}>P</span>
-      </div>
-    ),
-    { width: 192, height: 192 },
-  );
+  const buffer = fs.readFileSync(path.join(process.cwd(), "public/icon-192.png"));
+  return new Response(buffer, { headers: { "Content-Type": "image/png" } });
 }
