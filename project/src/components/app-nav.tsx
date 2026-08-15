@@ -47,7 +47,7 @@ export function AppNav({ language }: { language: AppLanguage }) {
                         active ? "ring-2 ring-offset-2 ring-ring ring-offset-background" : ""
                       }`
                     : active
-                      ? "text-primary"
+                      ? "bg-muted text-foreground"
                       : "text-muted-foreground hover:text-foreground"
                 }`}
               >
