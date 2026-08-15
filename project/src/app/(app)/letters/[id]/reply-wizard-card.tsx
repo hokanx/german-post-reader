@@ -50,6 +50,7 @@ export function ReplyWizardCard({
   const [showTranslation, setShowTranslation] = useState(false);
   const [pending, startTransition] = useTransition();
 
+  const todayIso = new Date().toISOString().slice(0, 10);
   const requestTimeOptions = computeRequestTimeOptions(soonestDeadlineIso);
   // request_time is always offered now: even with no usable ISO deadline on
   // the letter, the custom date picker still gives the user a way through
@@ -88,9 +89,13 @@ export function ReplyWizardCard({
     submit("request_time", answer);
   }
 
-  function handleCustomDateOption(iso: string) {
-    if (!iso) return;
-    submit("request_time", buildDateAnswer(iso));
+  function handleCustomDateOption(input: HTMLInputElement) {
+    // Native <input type="date"> fires onChange on every complete-looking
+    // intermediate value while typing (e.g. "0002-02-05" before the year is
+    // finished) — validity.valid (which also enforces `min`) is what
+    // actually confirms the value is both complete and not in the past.
+    if (!input.value || !input.validity.valid) return;
+    submit("request_time", buildDateAnswer(input.value));
   }
 
   function handleFreeTextContinue() {
@@ -192,9 +197,10 @@ export function ReplyWizardCard({
                   <input
                     type="date"
                     name="request-time-custom-date"
+                    min={todayIso}
                     disabled={pending}
                     aria-label={wizard.requestTimeCustomDateLabel}
-                    onChange={(e) => handleCustomDateOption(e.target.value)}
+                    onChange={(e) => handleCustomDateOption(e.target)}
                     className="bg-transparent text-sm font-bold text-foreground outline-none [color-scheme:light] dark:[color-scheme:dark]"
                   />
                 </label>
