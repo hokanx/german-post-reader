@@ -38,6 +38,10 @@
 
 :root {
   /* playful/bold direction — locked in SPEC.md, derived to OKLCH in design-system/MASTER.md */
+  /* self-hosted via @fontsource (bundled npm packages) — see layout.tsx */
+  --font-heading: "Bricolage Grotesque", sans-serif;
+  --font-body: "Inter", sans-serif;
+  --font-mono-custom: "JetBrains Mono", monospace;
   --background: oklch(0.9796 0.0158 73.68); /* #fff7ed */
   --foreground: oklch(0.1929 0.0691 300.44); /* #1a0a2e */
   --card: oklch(1 0 0); /* #ffffff */

@@ -1,28 +1,24 @@
 import type { Metadata, Viewport } from "next";
-import { Bricolage_Grotesque, Inter, JetBrains_Mono } from "next/font/google";
 import { ThemeProvider } from "@/components/theme-provider";
 import { PosthogProvider } from "@/components/PosthogProvider";
 import { Toaster } from "@/components/ui/sonner";
 import { getPreAuthLanguage } from "@/lib/i18n/get-locale";
+// Self-hosted (bundled npm packages, not a live fonts.gstatic.com fetch at
+// build time) — next/font/google's live fetch was unreliable on Vercel's
+// build machines (consistent 404s on one Bricolage Grotesque file). The
+// resulting --font-heading/--font-body/--font-mono-custom custom properties
+// are declared in globals.css's :root instead of via next/font's generated
+// .variable classNames.
+import "@fontsource/bricolage-grotesque/500.css";
+import "@fontsource/bricolage-grotesque/700.css";
+import "@fontsource/bricolage-grotesque/800.css";
+import "@fontsource/inter/400.css";
+import "@fontsource/inter/500.css";
+import "@fontsource/inter/600.css";
+import "@fontsource/inter/700.css";
+import "@fontsource/jetbrains-mono/400.css";
+import "@fontsource/jetbrains-mono/500.css";
 import "./globals.css";
-
-const heading = Bricolage_Grotesque({
-  variable: "--font-heading",
-  subsets: ["latin"],
-  weight: ["500", "700", "800"],
-});
-
-const body = Inter({
-  variable: "--font-body",
-  subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
-});
-
-const mono = JetBrains_Mono({
-  variable: "--font-mono-custom",
-  subsets: ["latin"],
-  weight: ["400", "500"],
-});
 
 const siteUrl = process.env.VERCEL_URL
   ? `https://${process.env.VERCEL_URL}`
@@ -87,11 +83,7 @@ export default async function RootLayout({
   const language = await getPreAuthLanguage();
 
   return (
-    <html
-      lang={language}
-      className={`${heading.variable} ${body.variable} ${mono.variable} h-full antialiased`}
-      suppressHydrationWarning
-    >
+    <html lang={language} className="h-full antialiased" suppressHydrationWarning>
       <body className="min-h-full flex flex-col">
         <ThemeProvider
           attribute="class"
