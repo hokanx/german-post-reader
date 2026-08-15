@@ -5,25 +5,19 @@ import { motion, useReducedMotion } from "framer-motion";
 import { CalendarClock, ChevronRight, ChevronLeft } from "lucide-react";
 import type { AppLanguage } from "@/lib/letters/types";
 import { APP_COPY } from "@/lib/i18n/copy";
+import { formatDate } from "@/lib/format-date";
 
 type LetterRow = {
   id: string;
   summary: string | null;
   deadlines: { date: string; description: string }[] | null;
+  action_required: boolean;
   created_at: string;
 };
 
 function soonestDeadline(deadlines: LetterRow["deadlines"]) {
   if (!deadlines || deadlines.length === 0) return null;
   return [...deadlines].sort((a, b) => a.date.localeCompare(b.date))[0];
-}
-
-const DATE_LOCALES: Record<AppLanguage, string> = { en: "en-GB", ar: "ar-EG", tr: "tr-TR" };
-
-function formatDate(iso: string, language: AppLanguage) {
-  const date = new Date(iso);
-  if (Number.isNaN(date.getTime())) return iso;
-  return date.toLocaleDateString(DATE_LOCALES[language], { day: "2-digit", month: "short", year: "numeric" });
 }
 
 export function LetterList({ letters, language }: { letters: LetterRow[]; language: AppLanguage }) {
@@ -63,6 +57,13 @@ export function LetterList({ letters, language }: { letters: LetterRow[]; langua
                 </p>
               </div>
               <div className="flex shrink-0 items-center gap-3">
+                <span
+                  className={`rounded-full border-2 border-border px-3 py-1 text-xs font-bold uppercase tracking-[0.04em] ${
+                    letter.action_required ? "bg-destructive/10 text-destructive" : "bg-muted text-muted-foreground"
+                  }`}
+                >
+                  {letter.action_required ? copy.dashboard.actionRequiredBadge : copy.dashboard.noActionBadge}
+                </span>
                 {deadline && (
                   <span className="flex items-center gap-1.5 rounded-full border-2 border-border bg-accent px-3 py-1 text-xs font-bold uppercase tracking-[0.04em] text-accent-foreground">
                     <CalendarClock className="size-4" strokeWidth={1.5} aria-hidden="true" />

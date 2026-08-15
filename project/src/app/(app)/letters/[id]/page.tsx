@@ -1,11 +1,14 @@
 import { notFound } from "next/navigation";
 import { CalendarClock, TriangleAlert, ShieldAlert, FileText } from "lucide-react";
 import { createClient } from "@/lib/supabase/server";
-import { ReplyDraftCard } from "./reply-draft-card";
+import { ReplyWizardCard } from "./reply-wizard-card";
+import { KeyFactsSection } from "./key-facts-section";
 import { LANGUAGE_NAMES, type AppLanguage } from "@/lib/letters/types";
 import { APP_COPY } from "@/lib/i18n/copy";
 
 type Deadline = { date: string; description: string };
+
+const ISO_DATE_RE = /^\d{4}-\d{2}-\d{2}$/;
 
 export async function generateMetadata() {
   return {
@@ -32,7 +35,7 @@ export default async function LetterPage({
   const { data: letter } = await supabase
     .from("letters")
     .select(
-      "id, summary, deadlines, reply_draft, reply_draft_translation, detected_language_confirmed, risk_flags, language, created_at",
+      "id, summary, deadlines, key_facts, action_required, reply_draft, reply_draft_translation, detected_language_confirmed, risk_flags, language, created_at",
     )
     .eq("id", id)
     .eq("user_id", user.id)
@@ -46,8 +49,12 @@ export default async function LetterPage({
   const isRtl = language === "ar";
   const deadlines = (letter.deadlines ?? []) as Deadline[];
   const riskFlags = (letter.risk_flags ?? []) as string[];
+  const keyFacts = (letter.key_facts ?? []) as { label: string; value: string; source_quote: string }[];
+  const actionRequired = letter.action_required === true;
   const lowConfidence = letter.detected_language_confirmed === false;
   const copy = APP_COPY[language].letters;
+  const soonestDeadlineIso =
+    deadlines.filter((d) => ISO_DATE_RE.test(d.date)).sort((a, b) => a.date.localeCompare(b.date))[0]?.date ?? null;
 
   return (
     <main className="flex-1 bg-background">
@@ -65,10 +72,22 @@ export default async function LetterPage({
           )}
 
           <div>
-            <span className="rounded-full border-2 border-border bg-muted px-4 py-1.5 text-xs font-bold uppercase tracking-[0.06em] text-muted-foreground">
-              {copy.analysisComplete}
-            </span>
+            <div className="flex flex-wrap items-center gap-2">
+              <span className="rounded-full border-2 border-border bg-muted px-4 py-1.5 text-xs font-bold uppercase tracking-[0.06em] text-muted-foreground">
+                {copy.analysisComplete}
+              </span>
+              <span
+                className={`rounded-full border-2 border-border px-4 py-1.5 text-xs font-bold uppercase tracking-[0.06em] ${
+                  actionRequired ? "bg-destructive/10 text-destructive" : "bg-muted text-muted-foreground"
+                }`}
+              >
+                {actionRequired ? copy.actionRequiredBadge : copy.noActionBadge}
+              </span>
+            </div>
             <h1 className="sr-only">{copy.analysisComplete}</h1>
+            <p className="mt-2 text-sm text-foreground/70">
+              {actionRequired ? copy.actionRequiredDescription : copy.noActionDescription}
+            </p>
           </div>
 
           <section className="rounded-md border-2 border-border bg-card p-6 shadow-[4px_4px_0_0_var(--border)]">
@@ -78,6 +97,8 @@ export default async function LetterPage({
             </h2>
             <p className="mt-3 text-xl font-bold leading-snug text-foreground">{letter.summary}</p>
           </section>
+
+          <KeyFactsSection facts={keyFacts} heading={copy.keyFactsHeading} />
 
           {(deadlines.length > 0 || riskFlags.length > 0) && (
             <div className="flex flex-wrap gap-2">
@@ -146,13 +167,14 @@ export default async function LetterPage({
             </section>
           )}
 
-          <ReplyDraftCard
+          <ReplyWizardCard
             letterId={letter.id}
             language={language}
             initialReplyDraft={letter.reply_draft ?? ""}
             initialTranslation={letter.reply_draft_translation ?? ""}
             translationLanguageLabel={LANGUAGE_NAMES[language]}
             translationDir={isRtl ? "rtl" : "ltr"}
+            soonestDeadlineIso={soonestDeadlineIso}
           />
         </div>
       </div>
