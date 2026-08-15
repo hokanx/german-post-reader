@@ -55,7 +55,7 @@ export const REPLY_TONE_INSTRUCTIONS: Record<ReplyTone, string> = {
   request_time:
     "Write a reply that politely requests a short extension or more time before acting on the letter, giving a brief, reasonable justification.",
   object:
-    "Write a reply that politely but firmly objects to or disputes the letter's claim, amount, or decision, and asks for reconsideration or a clearer explanation of its basis.",
+    "Write a reply that politely but firmly objects to or disputes the letter's claim, amount, or decision, using the specific reason given in \"The user's answer to work into the reply\" above as the basis for the objection, and asks for reconsideration or a clearer explanation.",
   clarify:
-    "Write a reply that does not commit to anything yet, but asks a clarifying question about the point in the letter that is ambiguous or unclear before responding substantively.",
+    "Write a reply that does not commit to anything yet, but asks the recipient exactly the question given in \"The user's answer to work into the reply\" above, phrased formally for an official German letter — do not invent a different clarifying question of your own.",
 };
