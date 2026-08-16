@@ -74,6 +74,8 @@ export default async function SettingsPage() {
                   subscribe: paywallCopy.subscribe(formatEur(SUBSCRIPTION_PRICE_EUR)),
                   redirecting: paywallCopy.redirecting,
                   checkoutError: paywallCopy.checkoutError,
+                  earlyAccessConsent: paywallCopy.earlyAccessConsent,
+                  earlyAccessConsentRequired: paywallCopy.earlyAccessConsentRequired,
                 }}
               />
             )}

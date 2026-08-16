@@ -27,8 +27,13 @@ export function PaywallModal({
   const copy = APP_COPY[language].paywall;
   const [pending, startTransition] = useTransition();
   const [error, setError] = useState<string | null>(null);
+  const [consented, setConsented] = useState(false);
 
   function handleSubscribe() {
+    if (!consented) {
+      setError(copy.earlyAccessConsentRequired);
+      return;
+    }
     setError(null);
     startTransition(async () => {
       try {
@@ -63,6 +68,19 @@ export function PaywallModal({
             {copy.description(formatEur(SUBSCRIPTION_PRICE_EUR))}
           </DialogDescription>
         </DialogHeader>
+
+        <label className="flex items-start gap-2.5 text-sm text-foreground/80">
+          <input
+            type="checkbox"
+            checked={consented}
+            onChange={(e) => {
+              setConsented(e.target.checked);
+              if (e.target.checked) setError(null);
+            }}
+            className="mt-0.5 size-4 shrink-0 rounded-sm border-2 border-border accent-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+          />
+          {copy.earlyAccessConsent}
+        </label>
 
         {error && (
           <p role="alert" className="text-sm font-medium text-destructive">

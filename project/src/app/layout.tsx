@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { ThemeProvider } from "@/components/theme-provider";
 import { PosthogProvider } from "@/components/PosthogProvider";
+import { CookieConsentBanner } from "@/components/cookie-consent-banner";
 import { Toaster } from "@/components/ui/sonner";
 import { getPreAuthLanguage } from "@/lib/i18n/get-locale";
 // Self-hosted (bundled npm packages, not a live fonts.gstatic.com fetch at
@@ -94,6 +95,7 @@ export default async function RootLayout({
           <PosthogProvider>
             {children}
             <Toaster position="top-center" />
+            <CookieConsentBanner language={language} />
           </PosthogProvider>
         </ThemeProvider>
       </body>

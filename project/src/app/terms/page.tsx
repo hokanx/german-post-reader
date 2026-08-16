@@ -24,7 +24,7 @@ export default async function TermsPage() {
           {copy.sections.map((section) => (
             <section key={section.heading}>
               <h2 className="font-heading text-lg font-extrabold text-foreground">{section.heading}</h2>
-              <p className="mt-2">{section.body(FREE_LETTER_LIMIT, formatEur(SUBSCRIPTION_PRICE_EUR))}</p>
+              <p className="mt-2 whitespace-pre-line">{section.body(FREE_LETTER_LIMIT, formatEur(SUBSCRIPTION_PRICE_EUR))}</p>
             </section>
           ))}
         </div>

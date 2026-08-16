@@ -172,6 +172,8 @@ export type AppCopy = {
     redirecting: string;
     subscribe: (price: string) => string;
     checkoutError: string;
+    earlyAccessConsent: string;
+    earlyAccessConsentRequired: string;
   };
   languageSwitcher: {
     ariaLabel: string;
@@ -211,6 +213,12 @@ export type AppCopy = {
     senderInfoSavedToast: string;
     senderInfoSaveFailed: string;
     senderInfoSaveFailedRecovery: string;
+  };
+  cookieConsent: {
+    ariaLabel: string;
+    message: string;
+    accept: string;
+    decline: string;
   };
 };
 
@@ -385,6 +393,9 @@ export const APP_COPY: Record<AppLanguage, AppCopy> = {
       redirecting: "Redirecting…",
       subscribe: (price) => `Subscribe — ${price}/year`,
       checkoutError: "Couldn't start checkout.",
+      earlyAccessConsent:
+        "I want unlimited access to start right away. I understand I can still withdraw within 14 days, but I'll owe a proportionate amount for the access I've already used by then.",
+      earlyAccessConsentRequired: "Confirm this to continue.",
     },
     languageSwitcher: {
       ariaLabel: "Analysis language",
@@ -428,12 +439,32 @@ export const APP_COPY: Record<AppLanguage, AppCopy> = {
           {
             heading: "Free trial and billing",
             body: (limit, price) =>
-              `New accounts get ${limit} free letter analyses, no card required. Beyond that, a subscription of ${price} per year unlocks unlimited analyses. Billed annually via Stripe; cancel any time from your dashboard and you'll keep access until the current billing period ends.`,
+              `New accounts get ${limit} free letter analyses, no card required. Beyond that, a subscription of ${price} per year unlocks unlimited analyses. Billed annually via Stripe; cancel any time from your dashboard and you'll keep access until the current billing period ends. [VAT: whether this price includes VAT depends on our tax registration status, to be confirmed before launch.]`,
+          },
+          {
+            heading: "Right of withdrawal (Widerrufsrecht)",
+            body: () =>
+              "If you're subscribing as a consumer, you can withdraw from your subscription within 14 days of subscribing, without giving a reason. Email [operator email] with a clear, dated statement that you wish to withdraw — no form is required, though a model form is below. Unlimited access starts immediately when you subscribe, at your request; if you withdraw before the 14 days are up, you'll owe a proportionate amount for the days of access you already used, and we'll refund the rest.",
+          },
+          {
+            heading: "Model withdrawal form (Muster-Widerrufsformular)",
+            body: () =>
+              "To: [Operator legal name], [Operator address], [Operator email]\nI/We hereby give notice that I/we withdraw from my/our contract for the Papkram subscription.\nOrdered on: __________\nName of consumer(s): __________\nAddress of consumer(s): __________\nDate: __________",
           },
           {
             heading: "Account termination",
             body: () =>
-              "You can delete your account at any time. We may suspend accounts used to abuse the service (e.g. uploading non-letter content at scale).",
+              "You can request account deletion at any time by emailing [operator email]. We may suspend accounts used to abuse the service (e.g. uploading non-letter content at scale).",
+          },
+          {
+            heading: "Liability",
+            body: () =>
+              'We\'re not liable for losses from relying on the AI-generated summary or reply draft without independently checking anything involving money, deadlines, or legal obligations — see "Accuracy isn\'t guaranteed" above. Beyond that, our liability is limited to the subscription fee you paid in the 12 months before the claim, except where the law doesn\'t allow that limit — for intent, gross negligence, or injury to life, body, or health, for example.',
+          },
+          {
+            heading: "Governing law",
+            body: () =>
+              "These terms are governed by the law of the Federal Republic of Germany. If you're a consumer, this doesn't take away any protection given to you by the mandatory law of the country where you normally live. [Operator legal name]'s place of business is the place of jurisdiction for disputes with business customers.",
           },
         ],
       },
@@ -462,6 +493,12 @@ export const APP_COPY: Record<AppLanguage, AppCopy> = {
       senderInfoSavedToast: "Saved",
       senderInfoSaveFailed: "Couldn't save your details.",
       senderInfoSaveFailedRecovery: "Try again.",
+    },
+    cookieConsent: {
+      ariaLabel: "Cookie consent",
+      message: "We use analytics cookies to understand how Papkram is used. We never use your uploaded letters for this.",
+      accept: "Accept",
+      decline: "Decline",
     },
   },
   ar: {
@@ -632,6 +669,9 @@ export const APP_COPY: Record<AppLanguage, AppCopy> = {
       redirecting: "جارٍ التوجيه…",
       subscribe: (price) => `اشترك — ${price} سنويًا`,
       checkoutError: "تعذر بدء الدفع.",
+      earlyAccessConsent:
+        "أريد أن يبدأ الوصول غير المحدود فورًا. أفهم أنه لا يزال بإمكاني الانسحاب خلال 14 يومًا، لكنني سأكون مدينًا بمبلغ متناسب مقابل الوصول الذي استخدمته حتى ذلك الحين.",
+      earlyAccessConsentRequired: "أكّد هذا للمتابعة.",
     },
     languageSwitcher: {
       ariaLabel: "لغة التحليل",
@@ -675,12 +715,32 @@ export const APP_COPY: Record<AppLanguage, AppCopy> = {
           {
             heading: "التجربة المجانية والفوترة",
             body: (limit, price) =>
-              `تحصل الحسابات الجديدة على ${limit} تحليلات مجانية للخطابات، بدون بطاقة مطلوبة. بعد ذلك، يفتح اشتراك بقيمة ${price} سنويًا تحليلات غير محدودة. تُفوتر سنويًا عبر Stripe؛ ألغِ في أي وقت من لوحة التحكم وستحتفظ بالوصول حتى نهاية فترة الفوترة الحالية.`,
+              `تحصل الحسابات الجديدة على ${limit} تحليلات مجانية للخطابات، بدون بطاقة مطلوبة. بعد ذلك، يفتح اشتراك بقيمة ${price} سنويًا تحليلات غير محدودة. تُفوتر سنويًا عبر Stripe؛ ألغِ في أي وقت من لوحة التحكم وستحتفظ بالوصول حتى نهاية فترة الفوترة الحالية. [ضريبة القيمة المضافة: ما إذا كان هذا السعر يشمل الضريبة يعتمد على وضعنا الضريبي المسجل، وسيتم تأكيده قبل الإطلاق.]`,
+          },
+          {
+            heading: "حق الانسحاب (Widerrufsrecht)",
+            body: () =>
+              "إذا كنت تشترك بصفتك مستهلكًا، يمكنك الانسحاب من اشتراكك خلال 14 يومًا من الاشتراك، دون إبداء أي سبب. أرسل بريدًا إلكترونيًا إلى [البريد الإلكتروني للمشغّل] يتضمن بيانًا واضحًا ومؤرخًا برغبتك في الانسحاب — لا حاجة لنموذج محدد، وإن كان النموذج المعياري أدناه متاحًا. يبدأ الوصول غير المحدود فور الاشتراك، بناءً على طلبك؛ فإذا انسحبت قبل انتهاء الـ14 يومًا، ستكون مدينًا بمبلغ متناسب مقابل أيام الوصول التي استخدمتها بالفعل، وسنرد الباقي.",
+          },
+          {
+            heading: "النموذج المعياري للانسحاب (Muster-Widerrufsformular)",
+            body: () =>
+              "إلى: [الاسم القانوني للمشغّل]، [عنوان المشغّل]، [البريد الإلكتروني للمشغّل]\nأُعلن/نُعلن بموجب هذا عن انسحابي/انسحابنا من عقد اشتراك Papkram.\nتاريخ الطلب: __________\nاسم المستهلك (المستهلكين): __________\nعنوان المستهلك (المستهلكين): __________\nالتاريخ: __________",
           },
           {
             heading: "إنهاء الحساب",
             body: () =>
-              "يمكنك حذف حسابك في أي وقت. قد نعلّق الحسابات التي تُستخدم لإساءة استخدام الخدمة (مثل رفع محتوى ليس خطابات على نطاق واسع).",
+              "يمكنك طلب حذف حسابك في أي وقت عبر إرسال بريد إلكتروني إلى [البريد الإلكتروني للمشغّل]. قد نعلّق الحسابات التي تُستخدم لإساءة استخدام الخدمة (مثل رفع محتوى ليس خطابات على نطاق واسع).",
+          },
+          {
+            heading: "المسؤولية",
+            body: () =>
+              'لسنا مسؤولين عن أي خسائر ناتجة عن الاعتماد على الملخص أو مسودة الرد المُنتَجة بالذكاء الاصطناعي دون التحقق المستقل من أي شيء يتعلق بالمال أو المواعيد النهائية أو الالتزامات القانونية — راجع "الدقة غير مضمونة" أعلاه. وفيما عدا ذلك، تقتصر مسؤوليتنا على قيمة الاشتراك الذي دفعته خلال الـ12 شهرًا السابقة للمطالبة، إلا في الحالات التي لا يسمح فيها القانون بهذا الحد — كالقصد أو الإهمال الجسيم أو الإضرار بالحياة أو الجسد أو الصحة، على سبيل المثال.',
+          },
+          {
+            heading: "القانون الحاكم",
+            body: () =>
+              "تخضع هذه الشروط لقانون جمهورية ألمانيا الاتحادية. إذا كنت مستهلكًا، فإن هذا لا يسلبك أي حماية يمنحها لك القانون الإلزامي في بلد إقامتك المعتادة. مقر عمل [الاسم القانوني للمشغّل] هو مكان الاختصاص القضائي للنزاعات مع العملاء من الشركات.",
           },
         ],
       },
@@ -709,6 +769,12 @@ export const APP_COPY: Record<AppLanguage, AppCopy> = {
       senderInfoSavedToast: "تم الحفظ",
       senderInfoSaveFailed: "تعذر حفظ بياناتك.",
       senderInfoSaveFailedRecovery: "حاول مرة أخرى.",
+    },
+    cookieConsent: {
+      ariaLabel: "الموافقة على ملفات تعريف الارتباط",
+      message: "نستخدم ملفات تعريف ارتباط تحليلية لفهم كيفية استخدام Papkram. لا نستخدم خطاباتك المرفوعة في ذلك أبدًا.",
+      accept: "موافق",
+      decline: "رفض",
     },
   },
   tr: {
@@ -881,6 +947,9 @@ export const APP_COPY: Record<AppLanguage, AppCopy> = {
       redirecting: "Yönlendiriliyor…",
       subscribe: (price) => `Abone ol — yılda ${price}`,
       checkoutError: "Ödeme başlatılamadı.",
+      earlyAccessConsent:
+        "Sınırsız erişimin hemen başlamasını istiyorum. 14 gün içinde yine de cayabileceğimi, ancak o ana kadar kullandığım erişim için orantılı bir tutar borçlanacağımı anlıyorum.",
+      earlyAccessConsentRequired: "Devam etmek için bunu onaylayın.",
     },
     languageSwitcher: {
       ariaLabel: "Analiz dili",
@@ -924,12 +993,32 @@ export const APP_COPY: Record<AppLanguage, AppCopy> = {
           {
             heading: "Ücretsiz deneme ve faturalandırma",
             body: (limit, price) =>
-              `Yeni hesaplar, kart gerekmeden ${limit} ücretsiz mektup analizi alır. Bunun ötesinde, yılda ${price} tutarındaki bir abonelik sınırsız analizin kilidini açar. Stripe üzerinden yıllık faturalandırılır; panelinizden istediğiniz zaman iptal edebilirsiniz ve mevcut faturalandırma dönemi sona erene kadar erişiminizi korursunuz.`,
+              `Yeni hesaplar, kart gerekmeden ${limit} ücretsiz mektup analizi alır. Bunun ötesinde, yılda ${price} tutarındaki bir abonelik sınırsız analizin kilidini açar. Stripe üzerinden yıllık faturalandırılır; panelinizden istediğiniz zaman iptal edebilirsiniz ve mevcut faturalandırma dönemi sona erene kadar erişiminizi korursunuz. [KDV: bu fiyata KDV dahil olup olmadığı vergi kayıt durumumuza bağlıdır, lansmandan önce netleştirilecektir.]`,
+          },
+          {
+            heading: "Cayma hakkı (Widerrufsrecht)",
+            body: () =>
+              "Tüketici olarak abone oluyorsanız, abone olduktan sonra 14 gün içinde, herhangi bir gerekçe göstermeden aboneliğinizden cayabilirsiniz. [operatör e-postası] adresine cayma isteğinizi açıkça belirten, tarihli bir e-posta gönderin — belirli bir form gerekmez, ancak aşağıda örnek bir form bulunmaktadır. Sınırsız erişim, talebiniz üzerine abone olduğunuzda hemen başlar; 14 gün dolmadan cayarsanız, o ana kadar kullandığınız erişim günleri için orantılı bir tutar borçlanırsınız ve kalan kısmı iade ederiz.",
+          },
+          {
+            heading: "Örnek cayma formu (Muster-Widerrufsformular)",
+            body: () =>
+              "Kime: [Operatörün yasal adı], [Operatörün adresi], [Operatörün e-postası]\nİşbu belgeyle Papkram aboneliği sözleşmemden/sözleşmemizden caydığımı/caydığımızı bildiririm/bildiririz.\nSipariş tarihi: __________\nTüketici(ler)in adı: __________\nTüketici(ler)in adresi: __________\nTarih: __________",
           },
           {
             heading: "Hesap sonlandırma",
             body: () =>
-              "Hesabınızı istediğiniz zaman silebilirsiniz. Hizmeti kötüye kullanmak için kullanılan hesapları askıya alabiliriz (örneğin, büyük ölçekte mektup olmayan içerik yükleme).",
+              "[operatör e-postası] adresine e-posta göndererek hesabınızın silinmesini istediğiniz zaman talep edebilirsiniz. Hizmeti kötüye kullanmak için kullanılan hesapları askıya alabiliriz (örneğin, büyük ölçekte mektup olmayan içerik yükleme).",
+          },
+          {
+            heading: "Sorumluluk",
+            body: () =>
+              'Para, son tarihler veya yasal yükümlülüklerle ilgili herhangi bir şeyi bağımsız olarak kontrol etmeden yapay zeka tarafından oluşturulan özete veya yanıt taslağına güvenmekten kaynaklanan kayıplardan sorumlu değiliz — yukarıdaki "Doğruluk garanti edilmez" bölümüne bakın. Bunun ötesinde, sorumluluğumuz, talepten önceki 12 ay içinde ödediğiniz abonelik ücretiyle sınırlıdır; kasıt, ağır ihmal veya yaşam, beden ya da sağlığa verilen zarar gibi kanunun bu sınırlamaya izin vermediği durumlar hariçtir.',
+          },
+          {
+            heading: "Uygulanacak hukuk",
+            body: () =>
+              "Bu şartlar, Almanya Federal Cumhuriyeti kanunlarına tabidir. Tüketici iseniz, bu durum, olağan olarak ikamet ettiğiniz ülkenin emredici hukukunun size sağladığı korumayı ortadan kaldırmaz. [Operatörün yasal adı]'nın iş yeri, ticari müşterilerle olan uyuşmazlıklar için yetkili yargı yeridir.",
           },
         ],
       },
@@ -958,6 +1047,12 @@ export const APP_COPY: Record<AppLanguage, AppCopy> = {
       senderInfoSavedToast: "Kaydedildi",
       senderInfoSaveFailed: "Bilgileriniz kaydedilemedi.",
       senderInfoSaveFailedRecovery: "Tekrar deneyin.",
+    },
+    cookieConsent: {
+      ariaLabel: "Çerez izni",
+      message: "Papkram'ın nasıl kullanıldığını anlamak için analiz çerezleri kullanıyoruz. Yüklediğiniz mektupları bunun için asla kullanmıyoruz.",
+      accept: "Kabul et",
+      decline: "Reddet",
     },
   },
 };
