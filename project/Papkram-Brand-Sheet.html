@@ -1,0 +1,533 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Papkram — Brand Sheet</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#1A0A2E;         /* Aktenschwarz — plum-black */
+    --ink-2:#2A1840;
+    --violet:#7C3AED;      /* Klartext-Violett */
+    --violet-lt:#A78BFA;
+    --violet-2:#6D28D9;
+    --amber:#FB8136;       /* Frist-Amber */
+    --amber-deep:#EA6F2E;
+    --cream:#FFF7ED;       /* Papier */
+    --peach:#FFEEDD;
+    --butter:#FEF3C7;      /* Marker */
+    --red:#E11D2A;         /* Mahnung-Rot */
+    --muted:#6B5B73;
+    --line:rgba(26,10,46,.12);
+    --maxw:1080px;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    margin:0;color:var(--ink);
+    background:
+      radial-gradient(1200px 600px at 80% -10%, var(--peach), transparent 60%),
+      var(--cream);
+    font-family:'Plus Jakarta Sans',system-ui,sans-serif;
+    font-size:17px;line-height:1.6;-webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:var(--maxw);margin:0 auto;padding:0 28px}
+  h1,h2,h3,.disp{font-family:'Sora',system-ui,sans-serif;letter-spacing:-.02em}
+  .mono{font-family:'Space Mono',ui-monospace,monospace}
+
+  /* ---------- eyebrow ---------- */
+  .eyebrow{display:inline-flex;align-items:center;gap:8px;
+    font-family:'Space Mono',monospace;font-size:12px;font-weight:700;
+    letter-spacing:.22em;text-transform:uppercase;color:var(--violet);
+    background:var(--butter);border:1.5px solid var(--ink);
+    padding:6px 14px;border-radius:999px}
+  .eyebrow.amber{color:var(--amber-deep)}
+
+  /* ---------- section rhythm ---------- */
+  section{padding:76px 0;border-top:1px solid var(--line)}
+  section:first-of-type{border-top:0}
+  .sec-head{display:flex;flex-direction:column;gap:18px;margin-bottom:40px}
+  .sec-head h2{font-size:clamp(30px,4.4vw,46px);font-weight:800;margin:0;line-height:1.02}
+  .sec-head p{margin:0;max-width:60ch;color:var(--muted);font-size:18px}
+  .kicker{font-family:'Space Mono',monospace;font-size:12.5px;letter-spacing:.2em;
+    text-transform:uppercase;color:var(--muted)}
+
+  /* ---------- HERO ---------- */
+  .hero{padding:64px 0 40px}
+  .topbar{display:flex;justify-content:space-between;align-items:center;
+    padding:22px 0;font-family:'Space Mono',monospace;font-size:12.5px;
+    letter-spacing:.18em;text-transform:uppercase;color:var(--muted)}
+  .topbar b{color:var(--ink)}
+  .hero-logo{width:min(430px,84vw);height:auto;display:block;margin:8px 0 30px}
+  .hero h1{font-size:clamp(40px,7vw,78px);line-height:.98;font-weight:800;margin:0 0 22px;max-width:15ch}
+  .hero h1 .v{color:var(--violet)}
+  .hero .lede{font-size:clamp(19px,2.2vw,23px);max-width:56ch;color:var(--ink);opacity:.92}
+  .hero .lede b{color:var(--violet)}
+
+  /* signature decode strip */
+  .decode{margin-top:46px;display:grid;grid-template-columns:1fr auto 1fr;gap:0;
+    align-items:stretch;border:2px solid var(--ink);border-radius:20px;overflow:hidden;
+    box-shadow:10px 12px 0 rgba(26,10,46,.9)}
+  .decode .side{padding:26px 26px}
+  .decode .before{background:var(--ink);color:#fff}
+  .decode .after{background:#fff}
+  .decode .lbl{font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.2em;
+    text-transform:uppercase;opacity:.75;margin-bottom:14px;display:block}
+  .decode .before .lbl{color:var(--amber)}
+  .decode .after .lbl{color:var(--violet)}
+  .cipher{font-family:'Space Mono',monospace;font-size:14px;line-height:2.05;color:#b9a9d6}
+  .cipher .blur{background:linear-gradient(90deg,#4a3a63,#3a2a53);color:transparent;
+    border-radius:4px;padding:0 6px;filter:blur(.4px)}
+  .decode .arrow{display:flex;align-items:center;justify-content:center;
+    background:var(--amber);color:var(--ink);font-weight:800;font-family:'Sora';font-size:26px;padding:0 10px}
+  .out-row{display:flex;gap:10px;align-items:baseline;padding:7px 0;border-bottom:1px dashed var(--line)}
+  .out-row:last-child{border-bottom:0}
+  .out-row .k{font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.12em;
+    text-transform:uppercase;color:var(--muted);min-width:82px}
+  .out-row .val{font-weight:600}
+  .chip-deadline{display:inline-block;background:var(--amber);color:var(--ink);
+    font-weight:700;font-size:13px;padding:3px 10px;border-radius:8px}
+
+  /* ---------- generic cards ---------- */
+  .grid{display:grid;gap:18px}
+  .g2{grid-template-columns:repeat(2,1fr)}
+  .g3{grid-template-columns:repeat(3,1fr)}
+  .g4{grid-template-columns:repeat(4,1fr)}
+  .card{background:#fff;border:1.5px solid var(--ink);border-radius:16px;padding:24px;
+    box-shadow:5px 6px 0 rgba(26,10,46,.9)}
+  .card h3{margin:0 0 8px;font-size:19px;font-weight:700}
+  .card p{margin:0;color:var(--muted);font-size:15.5px}
+  .num{font-family:'Space Mono',monospace;font-weight:700;color:var(--amber-deep);
+    font-size:13px;letter-spacing:.1em}
+
+  /* dark band */
+  .band{background:
+      radial-gradient(900px 500px at 100% 0%, rgba(124,58,237,.5), transparent 55%),
+      var(--ink);
+    color:#fff;border-radius:26px;padding:56px 44px;margin:8px 0}
+  .band h2{color:#fff}
+  .band .sec-head p{color:#c9bce0}
+  .band .card{background:rgba(255,255,255,.05);border-color:rgba(255,255,255,.16);
+    box-shadow:none;color:#fff}
+  .band .card p{color:#c9bce0}
+  .band .out-row{border-color:rgba(255,255,255,.14)}
+  .band .eyebrow{background:transparent;color:var(--amber);border-color:var(--amber)}
+
+  /* pill list */
+  .pills{display:flex;flex-wrap:wrap;gap:10px}
+  .pill{font-family:'Space Mono',monospace;font-size:13px;background:#fff;
+    border:1.5px solid var(--ink);border-radius:999px;padding:7px 14px}
+
+  /* voice do/dont */
+  .vd{display:grid;grid-template-columns:1fr 1fr;gap:0;border:1.5px solid var(--ink);
+    border-radius:16px;overflow:hidden}
+  .vd .col{padding:24px}
+  .vd .do{background:#fff}
+  .vd .dont{background:var(--ink);color:#fff}
+  .vd h4{margin:0 0 14px;font-family:'Sora';font-size:15px;letter-spacing:.02em}
+  .vd .do h4{color:var(--violet)} .vd .dont h4{color:var(--amber)}
+  .vd ul{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:11px}
+  .vd li{font-size:15px;line-height:1.45;padding-left:26px;position:relative}
+  .vd .do li::before{content:"✓";position:absolute;left:0;color:var(--violet);font-weight:800}
+  .vd .dont li::before{content:"✕";position:absolute;left:0;color:var(--amber);font-weight:800}
+  .vd .dont li{color:#d9cdec}
+
+  /* color swatches */
+  .sw{border:1.5px solid var(--ink);border-radius:14px;overflow:hidden;background:#fff}
+  .sw .chip{height:96px}
+  .sw .meta{padding:14px 16px}
+  .sw .meta .nm{font-family:'Sora';font-weight:700;font-size:15px}
+  .sw .meta .hx{font-family:'Space Mono',monospace;font-size:13px;color:var(--muted);margin-top:2px}
+  .sw .meta .role{font-size:12.5px;color:var(--muted);margin-top:8px;line-height:1.35}
+
+  /* type specimen */
+  .spec{background:#fff;border:1.5px solid var(--ink);border-radius:16px;padding:26px 28px;
+    box-shadow:5px 6px 0 rgba(26,10,46,.9)}
+  .spec .big{font-family:'Sora';font-weight:800;font-size:54px;line-height:1;letter-spacing:-.03em;margin:0}
+  .spec .row{display:flex;justify-content:space-between;gap:16px;padding:12px 0;border-top:1px solid var(--line);flex-wrap:wrap}
+  .spec .row:first-of-type{border-top:0}
+  .spec .name{font-family:'Space Mono',monospace;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+
+  /* offer table */
+  .otable{width:100%;border-collapse:collapse;background:#fff;border:1.5px solid var(--ink);border-radius:14px;overflow:hidden}
+  .otable td{padding:13px 18px;border-top:1px solid var(--line);font-size:15.5px}
+  .otable tr:first-child td{border-top:0}
+  .otable .amt{text-align:right;font-family:'Space Mono',monospace;color:var(--muted);white-space:nowrap}
+  .otable .total td{background:var(--butter);font-weight:800}
+  .otable .total .amt{color:var(--ink)}
+  .price-final{display:flex;align-items:baseline;gap:12px;margin-top:18px;flex-wrap:wrap}
+  .price-final .p{font-family:'Sora';font-weight:800;font-size:40px;color:var(--violet)}
+  .price-final .s{color:var(--muted)}
+
+  .logo-usage{display:grid;grid-template-columns:1.1fr 1fr;gap:18px}
+  .swatchbox{background:#fff;border:1.5px solid var(--ink);border-radius:16px;padding:26px;display:flex;flex-direction:column;gap:18px;box-shadow:5px 6px 0 rgba(26,10,46,.9)}
+  .swatchbox .lbl{font-family:'Space Mono',monospace;font-size:11.5px;letter-spacing:.18em;text-transform:uppercase;color:var(--muted)}
+  .darkchip{background:var(--ink);border-radius:12px;padding:22px;display:flex;justify-content:center}
+
+  footer{padding:56px 0 80px;color:var(--muted);font-family:'Space Mono',monospace;font-size:12.5px;letter-spacing:.06em}
+  footer b{color:var(--ink)}
+
+  a.toclink{color:var(--violet);text-decoration:none}
+  .flag{display:inline-flex;gap:3px;vertical-align:middle;margin-left:6px}
+  .flag i{width:16px;height:11px;border-radius:2px;display:inline-block}
+
+  @media(max-width:860px){
+    .g3,.g4,.g2,.logo-usage{grid-template-columns:1fr}
+    .decode{grid-template-columns:1fr}
+    .decode .arrow{padding:10px;font-size:22px}
+    .vd{grid-template-columns:1fr}
+    .band{padding:40px 24px}
+  }
+  @media print{
+    body{background:#fff}
+    .band{background:var(--ink) !important;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+    section{page-break-inside:avoid}
+  }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+
+  <!-- ================= HERO ================= -->
+  <header class="hero">
+    <div class="topbar">
+      <span>Papkram — <b>Brand Sheet</b></span>
+      <span>v1.0 · Visual Identity &amp; Voice</span>
+    </div>
+
+    <img class="hero-logo" src="assets/papkram-logo.svg" alt="Papkram logo">
+
+    <span class="eyebrow">Regulatory Intent Decoding</span>
+    <h1 style="margin-top:22px">While Google Translate gives you words,<br>Papkram gives you <span class="v">answers.</span></h1>
+    <p class="lede">Papkram is the AI German-mail reader for people who don't speak German.
+      Upload any official letter and get a plain-language summary, every deadline flagged,
+      and a <b>ready-to-send German reply</b> — in under 60 seconds.</p>
+
+    <!-- SIGNATURE: the decode strip -->
+    <div class="decode" aria-label="Bureaucratic Encryption decoded into clarity">
+      <div class="side before">
+        <span class="lbl">Bureaucratic German · encrypted</span>
+        <div class="cipher">
+          „Bitte legen Sie die <span class="blur">angeforderten</span><br>
+          <span class="blur">Unterlagen</span> zur Wahrung Ihrer<br>
+          <span class="blur">Mitwirkungspflicht</span> fristgerecht vor.“
+        </div>
+      </div>
+      <div class="arrow">→</div>
+      <div class="side after">
+        <span class="lbl">Papkram · decoded</span>
+        <div class="out-row"><span class="k">Means</span><span class="val">Send your documents or your benefits stop.</span></div>
+        <div class="out-row"><span class="k">By when</span><span class="val"><span class="chip-deadline">Reply by Fri, 22 Aug</span></span></div>
+        <div class="out-row"><span class="k">Reply</span><span class="val">Formal German letter — ready to send.</span></div>
+      </div>
+    </div>
+  </header>
+
+  <!-- ================= AT A GLANCE ================= -->
+  <section id="glance">
+    <div class="sec-head">
+      <span class="kicker">01 — Brand at a glance</span>
+      <h2>One precise problem.<br>One decisive product.</h2>
+      <p>Everything in this identity exists to move one person from paralysis to confident action.
+        Keep every expression of the brand pointed at that single job.</p>
+    </div>
+    <div class="grid g3">
+      <div class="card"><div class="num">CATEGORY</div><h3>AI German mail reader</h3><p>Not a translator. A decoder for official German bureaucratic mail.</p></div>
+      <div class="card"><div class="num">FOR</div><h3>Non-German speakers in Germany</h3><p>Newcomers, expats, and residents facing letters from the Finanzamt, Krankenkasse, Jobcenter, landlords and utilities.</p></div>
+      <div class="card"><div class="num">PROMISE</div><h3>Clarity in 60 seconds</h3><p>What it means · when it's due · the exact reply to send.</p></div>
+      <div class="card"><div class="num">MECHANISM</div><h3>Regulatory Intent Decoding</h3><p>Reads the legal &amp; administrative intent behind the words — not the words alone.</p></div>
+      <div class="card"><div class="num">PRICE</div><h3>€5.99 / year</h3><p>Unlimited letters. Anchored against €368 of stacked value and real fines.</p></div>
+      <div class="card"><div class="num">FEELING</div><h3>Dread → Clarity → Action</h3><p>The emotional arc every screen, ad and word should advance.</p></div>
+    </div>
+  </section>
+
+  <!-- ================= THE ENEMY ================= -->
+  <section id="enemy">
+    <div class="band">
+      <div class="sec-head">
+        <span class="eyebrow amber">02 — The enemy we name</span>
+        <h2>It isn't German.<br>It's Bureaucratic Encryption.</h2>
+        <p>Official German letters aren't just a foreign language — they're a code. Rigid terminology,
+          implicit context and buried deadlines that even fluent speakers struggle with. Word-for-word
+          translation hands over the vocabulary and none of the meaning. That gap is the dread.</p>
+      </div>
+      <div class="grid g3">
+        <div class="card"><div class="num" style="color:var(--amber)">FROZEN</div><h3>Official Mail Paralysis</h3><p>The envelope sits on the table for days while dread quietly builds.</p></div>
+        <div class="card"><div class="num" style="color:var(--amber)">COSTLY</div><h3>Missed deadlines &amp; fines</h3><p>One overlooked <em>Frist</em> becomes a €50+ fine or a formal <em>Mahnung</em>.</p></div>
+        <div class="card"><div class="num" style="color:var(--amber)">STUCK</div><h3>Tools that failed them</h3><p>Google Translate, DeepL, asking friends — all tried, all still stuck.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= THE METHOD ================= -->
+  <section id="method">
+    <div class="sec-head">
+      <span class="kicker">03 — Methodology</span>
+      <h2>The DECODE Protocol™</h2>
+      <p>Our named 5-step method — internally <span class="mono">A.C.T.R.E.</span> — mirrors exactly what
+        happens inside the product, from upload to sent reply. Lead with <b>DECODE</b> in marketing;
+        each step name should sound like progress, not process.</p>
+    </div>
+    <div class="grid g4">
+      <div class="card"><div class="num">01 · ABSORB</div><h3>Upload</h3><p>Snap a photo or drop a PDF. The moment you stop avoiding the envelope.</p></div>
+      <div class="card"><div class="num">02 · CLASSIFY</div><h3>Name the letter</h3><p>Invoice, warning, notice, demand. Naming it shrinks the fear.</p></div>
+      <div class="card"><div class="num">03 · TRANSLATE INTENT</div><h3>Decode meaning</h3><p>What they want · what happens if ignored · what you must do.</p></div>
+      <div class="card"><div class="num">04 · REVEAL DEADLINES</div><h3>Surface the Frist</h3><p>Every critical date pulled out and flagged. Nothing buried.</p></div>
+    </div>
+    <div class="grid" style="grid-template-columns:1fr;margin-top:18px">
+      <div class="card" style="border-color:var(--violet);box-shadow:5px 6px 0 var(--violet-2);background:linear-gradient(180deg,#fff, #faf6ff)">
+        <div class="num" style="color:var(--violet)">05 · EXECUTE REPLY</div>
+        <h3>Hand over a ready German reply</h3>
+        <p>A formally correct letter, ready to copy and send. You never write a word of German. The letter is handled. Done.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= VOICE ================= -->
+  <section id="voice">
+    <div class="sec-head">
+      <span class="kicker">04 — Personality &amp; voice</span>
+      <h2>Calm expert. Plain words.<br>Zero condescension.</h2>
+      <p>Papkram talks like the knowledgeable friend who reads the scary letter for you and says,
+        “Here's what they want, here's why it matters, here's what you do.” Reassuring, precise,
+        and always on the reader's side of the screen.</p>
+    </div>
+    <div class="grid g4" style="margin-bottom:24px">
+      <div class="card"><h3>Reassuring</h3><p>Lower the temperature. Most letters are less dangerous than they feel.</p></div>
+      <div class="card"><h3>Precise</h3><p>Name the action, the date, the amount. Specific beats clever.</p></div>
+      <div class="card"><h3>Direct</h3><p>Short active sentences. “Send this reply,” not “A reply may be submitted.”</p></div>
+      <div class="card"><h3>On your side</h3><p>Never make the reader feel small. It's not your fault, and it's not your job to decode.</p></div>
+    </div>
+    <div class="vd">
+      <div class="col do">
+        <h4>DO</h4>
+        <ul>
+          <li>Say what the letter <em>means</em> and what to <em>do</em>.</li>
+          <li>Lead with the deadline and the consequence.</li>
+          <li>Use plain English (and the user's own language).</li>
+          <li>Keep German for the reply — never for the reader.</li>
+          <li>Frame progress: Reveal, Execute, Resolve, Done.</li>
+        </ul>
+      </div>
+      <div class="col dont">
+        <h4>DON'T</h4>
+        <ul>
+          <li>Call it “translation.” We decode, we don't translate.</li>
+          <li>Bury the action inside legal or product jargon.</li>
+          <li>Use fear as the message — name it, then dissolve it.</li>
+          <li>Over-promise legal advice. We clarify and draft.</li>
+          <li>Make the reader feel like a burden for not knowing.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= MESSAGING ================= -->
+  <section id="messaging">
+    <div class="sec-head">
+      <span class="kicker">05 — Messaging system</span>
+      <h2>The words that carry the brand</h2>
+    </div>
+
+    <div class="grid g2" style="margin-bottom:22px">
+      <div class="card">
+        <div class="num">PRIMARY TAGLINE</div>
+        <h3 style="font-size:26px;line-height:1.1">Understand any German letter in 60 seconds.</h3>
+        <p style="margin-top:12px">German lockup: <span class="mono">Deutsche Briefe verstehen — sofort, einfach &amp; sicher.</span></p>
+      </div>
+      <div class="card">
+        <div class="num">POSITIONING LINE</div>
+        <h3 style="font-size:26px;line-height:1.1">Google Translate gives you words. Papkram gives you answers.</h3>
+        <p style="margin-top:12px">The category wedge — repeat it in ads, landing hero, and onboarding.</p>
+      </div>
+    </div>
+
+    <div class="grid g3" style="margin-bottom:22px">
+      <div class="card"><div class="num">VALUE · MEANING</div><p style="color:var(--ink);font-weight:600;font-size:17px">Know exactly what the letter says — in your own language.</p></div>
+      <div class="card"><div class="num">VALUE · DEADLINE</div><p style="color:var(--ink);font-weight:600;font-size:17px">Never miss a Frist. Every date surfaced before it becomes a fine.</p></div>
+      <div class="card"><div class="num">VALUE · REPLY</div><p style="color:var(--ink);font-weight:600;font-size:17px">Send a formally correct German reply without writing a word.</p></div>
+    </div>
+
+    <div class="card" style="margin-bottom:22px">
+      <div class="num">ELEVATOR PITCH</div>
+      <p style="color:var(--ink);font-size:18px;margin-top:8px">What if your phone could read a German official letter and tell you not just what it says —
+        but what it actually <em>wants from you</em>, and hand you the exact reply to send?</p>
+    </div>
+
+    <div class="num" style="margin:0 0 12px">SEO / KEYWORD FIELD</div>
+    <div class="pills">
+      <span class="pill">German letter translator app</span>
+      <span class="pill">AI German mail reader</span>
+      <span class="pill">reply to a German letter</span>
+      <span class="pill">German document deadline tracker</span>
+      <span class="pill">translate German official letter</span>
+      <span class="pill">understand German utility bill</span>
+      <span class="pill">Jobcenter letter help</span>
+      <span class="pill">Finanzamt letter meaning</span>
+      <span class="pill">alternative to Google Translate</span>
+      <span class="pill">German to Arabic letter translator</span>
+    </div>
+  </section>
+
+  <!-- ================= LOGO ================= -->
+  <section id="logo">
+    <div class="sec-head">
+      <span class="kicker">06 — Logo &amp; mark</span>
+      <h2>The envelope, made primary</h2>
+      <p>The identity is the amber “sticker” envelope from the product itself — a rounded tile with a
+        1.5px ink outline, a hard offset shadow, and a white envelope, set beside <b>Papkram</b> in ink.
+        It's warm, tactile and unmistakably the app. It replaces the earlier document/speech-bubble mark
+        as the single primary logo.</p>
+    </div>
+
+    <div class="logo-usage">
+      <div class="swatchbox">
+        <span class="lbl">Primary lockup — on paper</span>
+        <img src="assets/papkram-logo.svg" alt="Papkram primary logo" style="width:100%;max-width:440px;margin:0 auto">
+        <span class="lbl">Reversed — on ink</span>
+        <div class="darkchip" style="background:var(--ink)"><img src="assets/papkram-logo-white.svg" alt="Papkram logo on dark background" style="width:88%"></div>
+      </div>
+      <div class="swatchbox">
+        <div style="display:flex;gap:26px;align-items:flex-end;flex-wrap:wrap">
+          <div style="display:flex;flex-direction:column;align-items:center;gap:9px"><span class="lbl">Brand icon</span><img src="assets/papkram-icon.svg" alt="Papkram brand icon" style="width:104px"></div>
+          <div style="display:flex;flex-direction:column;align-items:center;gap:9px"><span class="lbl">Store tile</span><img src="assets/papkram-appicon-store.svg" alt="Papkram app store icon" style="width:92px;border-radius:22px"></div>
+          <div style="display:flex;flex-direction:column;align-items:center;gap:9px"><span class="lbl">Stacked</span><img src="assets/papkram-logo-stacked.svg" alt="Papkram stacked logo" style="width:112px"></div>
+        </div>
+        <span class="lbl" style="margin-top:6px">Construction</span>
+        <ul style="margin:0;padding-left:18px;color:var(--muted);font-size:14.5px;line-height:1.6">
+          <li>Amber tile (gradient #FB9A4B→#F07E31), corner radius ≈ 30%.</li>
+          <li>Ink outline 1.5px + hard ink shadow offset down-right — the house “sticker” style.</li>
+          <li>White envelope with ink outline centred inside.</li>
+          <li>Wordmark: <b>Papkram</b>, sentence case, Sora ExtraBold in ink.</li>
+          <li>Brand icon = sticker (outline + shadow). Store tile = full-bleed, no shadow.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="grid g2" style="margin-top:18px">
+      <div class="vd" style="grid-template-columns:1fr">
+        <div class="col do">
+          <h4>CLEAR SPACE &amp; USE</h4>
+          <ul>
+            <li>Keep clear space ≥ the height of the icon tile on all sides.</li>
+            <li>Minimum icon size 24&nbsp;px; minimum lockup width 130&nbsp;px.</li>
+            <li>Use the sticker icon on light UI; the full-bleed tile for app-store &amp; favicons.</li>
+            <li>Reversed lockup on ink or photos; keep the amber tile — it's the brand pop.</li>
+          </ul>
+        </div>
+      </div>
+      <div class="vd" style="grid-template-columns:1fr">
+        <div class="col dont" style="background:var(--ink)">
+          <h4>MISUSE</h4>
+          <ul>
+            <li>Don't recolour the tile away from amber or drop the ink outline.</li>
+            <li>Don't set “Papkram” in all-caps, condense it, or add a second colour.</li>
+            <li>Don't keep the hard shadow on the full-bleed app-store tile.</li>
+            <li>Don't place the low-contrast lockup directly on busy imagery.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= COLOUR ================= -->
+  <section id="colour">
+    <div class="sec-head">
+      <span class="kicker">07 — Colour</span>
+      <h2>Six colours, clear jobs</h2>
+      <p>Violet leads, amber acts, ink anchors, cream breathes. Reserve red strictly for genuine urgency —
+        deadlines and warnings — so it never loses its meaning.</p>
+    </div>
+    <div class="grid g3" style="margin-bottom:18px">
+      <div class="sw"><div class="chip" style="background:#7C3AED"></div><div class="meta"><div class="nm">Klartext-Violett</div><div class="hx">#7C3AED</div><div class="role">Primary brand accent. Highlighted words, links, key UI, the “answer”.</div></div></div>
+      <div class="sw"><div class="chip" style="background:#FB8136"></div><div class="meta"><div class="nm">Frist-Amber</div><div class="hx">#FB8136</div><div class="role">Action &amp; energy. CTAs, underlines, app icon, deadline chips.</div></div></div>
+      <div class="sw"><div class="chip" style="background:#1A0A2E"></div><div class="meta"><div class="nm">Aktenschwarz (Ink)</div><div class="hx">#1A0A2E</div><div class="role">Primary text, outlines, dark surfaces. A plum-black, never pure black.</div></div></div>
+      <div class="sw"><div class="chip" style="background:#FFF7ED;border-bottom:1px solid var(--line)"></div><div class="meta"><div class="nm">Papier (Cream)</div><div class="hx">#FFF7ED</div><div class="role">Primary light background, warm and calm. Gradient partner: Peach #FFEEDD.</div></div></div>
+      <div class="sw"><div class="chip" style="background:#FEF3C7"></div><div class="meta"><div class="nm">Marker (Butter)</div><div class="hx">#FEF3C7</div><div class="role">Eyebrow pills, highlight fills. Soft, friendly emphasis.</div></div></div>
+      <div class="sw"><div class="chip" style="background:#E11D2A"></div><div class="meta"><div class="nm">Mahnung-Rot</div><div class="hx">#E11D2A</div><div class="role">Urgency only. Overdue, warnings, the “Frist?” stamp. Use sparingly.</div></div></div>
+    </div>
+    <div class="grid g2">
+      <div class="card"><div class="num">GRADIENTS</div><h3>Papier → Peach</h3><p>Soft radial on light surfaces (top-right light source). Ink → Violet on dark hero bands.</p></div>
+      <div class="card"><div class="num">CONTRAST</div><h3>Accessible pairings</h3><p>Ink on Cream and white passes AA/AAA. Amber is a surface/accent colour — set text on amber in Ink, never white text on amber.</p></div>
+    </div>
+  </section>
+
+  <!-- ================= TYPE ================= -->
+  <section id="type">
+    <div class="sec-head">
+      <span class="kicker">08 — Typography</span>
+      <h2>Heavy display. Humane body. Coded captions.</h2>
+      <p>A three-role system: a chunky geometric grotesque shouts the promise, a warm sans keeps the
+        explanation calm, and a monospace stamps the “code” we decode.</p>
+    </div>
+    <div class="spec" style="margin-bottom:18px">
+      <p class="big">You ran it through Google&nbsp;Translate.</p>
+      <div class="row"><span class="name">Display — Sora ExtraBold 800</span><span style="color:var(--muted)">Headlines, wordmark, big promises. Tight tracking (−2%).</span></div>
+      <div class="row"><span class="name" style="font-family:'Plus Jakarta Sans'">Body — Plus Jakarta Sans 400–700</span><span style="font-family:'Plus Jakarta Sans';color:var(--muted)">Explanations, UI copy, summaries. Readable at 16–18px.</span></div>
+      <div class="row"><span class="name">Utility — Space Mono 700</span><span class="mono" style="color:var(--muted);font-size:13px">EYEBROWS · DEADLINES · GERMAN CODE · DATA LABELS</span></div>
+    </div>
+    <div class="grid g3">
+      <div class="card"><div class="num">SCALE</div><h3 class="mono" style="font-family:'Space Mono'">Display 40–78</h3><p>Fluid clamp for hero + section heads.</p></div>
+      <div class="card"><div class="num">BODY</div><h3 class="mono" style="font-family:'Space Mono'">16 · 17 · 18</h3><p>Line-height 1.5–1.6. Max 60ch measure.</p></div>
+      <div class="card"><div class="num">CAPS</div><h3 class="mono" style="font-family:'Space Mono'">12 · .2em</h3><p>Mono, uppercase, wide tracking for labels.</p></div>
+    </div>
+  </section>
+
+  <!-- ================= OFFER ================= -->
+  <section id="offer">
+    <div class="sec-head">
+      <span class="kicker">09 — The offer, in brief</span>
+      <h2>Value stacked so high, no feels irrational</h2>
+      <p>Positioning context for anyone writing sales or product copy. Keep the anchor visible and the
+        guarantee loud.</p>
+    </div>
+    <div class="grid g2" style="align-items:start">
+      <div>
+        <table class="otable">
+          <tr><td>Papkram Decryption Engine — unlimited</td><td class="amt">€97</td></tr>
+          <tr><td>Confident Reply Composer</td><td class="amt">included</td></tr>
+          <tr><td>Deadline Shield</td><td class="amt">included</td></tr>
+          <tr><td>Document Vault</td><td class="amt">included</td></tr>
+          <tr><td>Bonus · Founder's Circle (lifetime)</td><td class="amt">€197</td></tr>
+          <tr><td>Bonus · Done-For-You Toolkit</td><td class="amt">€47</td></tr>
+          <tr><td>Bonus · Urgent Phrases Pocket Guide</td><td class="amt">€27</td></tr>
+          <tr class="total"><td>Total perceived value</td><td class="amt">€368</td></tr>
+        </table>
+        <div class="price-final">
+          <span class="p">€5.99<span style="font-size:20px;color:var(--muted)">/yr</span></span>
+          <span class="s">Locked in forever · unlimited letters</span>
+        </div>
+      </div>
+      <div class="grid" style="grid-template-columns:1fr;gap:18px">
+        <div class="card" style="border-color:var(--violet);box-shadow:5px 6px 0 var(--violet-2)">
+          <div class="num" style="color:var(--violet)">RISK REVERSAL</div>
+          <h3>30-Day Money-Back Guarantee</h3>
+          <p>If Papkram doesn't give you the clarity we promise, tell us within 30 days and we refund you in full. No questions. You risk nothing.</p>
+        </div>
+        <div class="card">
+          <div class="num">COST OF INACTION</div>
+          <h3>One missed Frist &gt; 8 years of Papkram</h3>
+          <p>A single €50 late fee outweighs almost a decade of the subscription — before counting the stress.</p>
+        </div>
+        <div class="card">
+          <div class="num">SCARCITY</div>
+          <h3>Founder's Circle — first 100</h3>
+          <p>Lifetime price-lock and direct support for the first 100 members. A capacity decision, not a tactic.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div><b>PAPKRAM</b> — Verstehen. Analysieren. Antworten.</div>
+    <div>Brand Sheet v1.0 · Palette: #7C3AED · #FB8136 · #1A0A2E · #FFF7ED · #FEF3C7 · #E11D2A</div>
+    <div>Companion document: Papkram — UI &amp; App Visual Sheet.</div>
+  </footer>
+
+</div>
+</body>
+</html>
