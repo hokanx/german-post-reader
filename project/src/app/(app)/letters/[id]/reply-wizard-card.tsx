@@ -261,6 +261,7 @@ export function ReplyWizardCard({
           <p className="mt-1 text-sm text-foreground/60">{copy.readyToSend}</p>
 
           <p
+            lang="de"
             dir="ltr"
             aria-busy={pending}
             className={`mt-4 whitespace-pre-wrap text-left text-sm leading-relaxed text-foreground transition-opacity ${pending ? "opacity-50" : ""}`}
@@ -294,6 +295,7 @@ export function ReplyWizardCard({
           {showTranslation && (
             <div
               id="reply-translation"
+              lang={language}
               dir={translationDir}
               className="mt-3 whitespace-pre-wrap rounded-sm border-2 border-border bg-muted px-4 py-3 text-sm leading-relaxed text-foreground/80"
             >

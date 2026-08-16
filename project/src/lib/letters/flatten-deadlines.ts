@@ -1,14 +1,18 @@
+import type { AppLanguage } from "./types";
+
 export type FlatDeadline = {
   date: string;
   description: string;
   letterId: string;
   letterSummary: string;
+  language: AppLanguage;
 };
 
 type LetterWithDeadlines = {
   id: string;
   summary: string | null;
   deadlines: { date: string; description: string }[] | null;
+  language: AppLanguage;
 };
 
 const ISO_DATE_RE = /^\d{4}-\d{2}-\d{2}$/;
@@ -31,6 +35,7 @@ export function flattenAndSortDeadlines(letters: LetterWithDeadlines[]): FlatDea
         description: deadline.description,
         letterId: letter.id,
         letterSummary: letter.summary ?? "",
+        language: letter.language,
       });
     }
   }

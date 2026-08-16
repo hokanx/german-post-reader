@@ -15,7 +15,7 @@ export function KeyFactsSection({ facts, heading }: { facts: KeyFact[]; heading:
               <span className="text-xs font-bold uppercase tracking-[0.04em] text-muted-foreground">{fact.label}</span>
               <span className="text-base font-bold text-foreground">{fact.value}</span>
             </div>
-            <p dir="ltr" className="flex items-start gap-1.5 text-left text-sm italic text-foreground/70">
+            <p lang="de" dir="ltr" className="flex items-start gap-1.5 text-left text-sm italic text-foreground/70">
               <Quote className="mt-0.5 size-3.5 shrink-0" strokeWidth={1.5} aria-hidden="true" />
               {fact.source_quote}
             </p>

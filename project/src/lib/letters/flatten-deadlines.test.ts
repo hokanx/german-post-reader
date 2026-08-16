@@ -14,6 +14,7 @@ const letters = [
     id: "letter-a",
     summary: "Electricity bill",
     deadlines: [{ date: "2026-03-15", description: "Pay balance" }],
+    language: "en" as const,
   },
   {
     id: "letter-b",
@@ -22,16 +23,19 @@ const letters = [
       { date: "2026-01-10", description: "Confirm renewal" },
       { date: "2026-06-01", description: "Submit form" },
     ],
+    language: "en" as const,
   },
   {
     id: "letter-c",
     summary: "No deadlines here",
     deadlines: [],
+    language: "en" as const,
   },
   {
     id: "letter-d",
     summary: null,
     deadlines: null,
+    language: "en" as const,
   },
 ];
 
@@ -49,6 +53,7 @@ const lettersWithNonIsoDate = [
     id: "letter-a",
     summary: "Electricity bill",
     deadlines: [{ date: "2026-03-15", description: "Pay balance" }],
+    language: "en" as const,
   },
   {
     id: "letter-b",
@@ -58,6 +63,7 @@ const lettersWithNonIsoDate = [
       { date: "innerhalb von 14 Tagen", description: "Respond to notice" },
       { date: "2026-06-01", description: "Submit form" },
     ],
+    language: "en" as const,
   },
 ];
 

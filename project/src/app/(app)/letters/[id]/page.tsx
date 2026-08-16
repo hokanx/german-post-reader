@@ -59,7 +59,7 @@ export default async function LetterPage({
   return (
     <main className="flex-1 bg-background">
       <div className="mx-auto max-w-2xl px-6 py-12">
-        <div dir={isRtl ? "rtl" : "ltr"} className="grid gap-6">
+        <div lang={language} dir={isRtl ? "rtl" : "ltr"} className="grid gap-6">
           {lowConfidence && (
             <div className="flex items-start gap-3 rounded-md border-2 border-destructive bg-destructive/10 px-4 py-3">
               <ShieldAlert

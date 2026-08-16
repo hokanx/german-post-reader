@@ -24,7 +24,7 @@ export default async function DeadlinesPage() {
 
   const [{ data: profile }, { data: letters }] = await Promise.all([
     supabase.from("profiles").select("language").eq("id", user.id).single(),
-    supabase.from("letters").select("id, summary, deadlines").eq("user_id", user.id),
+    supabase.from("letters").select("id, summary, deadlines, language").eq("user_id", user.id),
   ]);
 
   const language = (profile?.language ?? "en") as AppLanguage;
@@ -52,8 +52,8 @@ export default async function DeadlinesPage() {
                         className="flex flex-col gap-2 rounded-md border-2 border-border bg-card px-5 py-4 shadow-[3px_3px_0_0_var(--border)] transition-shadow hover:shadow-[5px_5px_0_0_var(--border)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring sm:flex-row sm:items-center sm:justify-between"
                       >
                         <div className="min-w-0 flex-1">
-                          <p dir="ltr" className="truncate text-base font-medium text-foreground">{d.description}</p>
-                          <p dir="ltr" className="mt-0.5 truncate text-xs text-foreground/60">{d.letterSummary}</p>
+                          <p lang={d.language} dir={d.language === "ar" ? "rtl" : "ltr"} className="truncate text-base font-medium text-foreground">{d.description}</p>
+                          <p lang={d.language} dir={d.language === "ar" ? "rtl" : "ltr"} className="mt-0.5 truncate text-xs text-foreground/60">{d.letterSummary}</p>
                         </div>
                         <span className="shrink-0 rounded-full border-2 border-border bg-accent px-3 py-1 text-xs font-bold uppercase tracking-[0.06em] text-accent-foreground">
                           {d.date}

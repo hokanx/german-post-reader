@@ -11,10 +11,10 @@ function assert(condition: boolean, message: string) {
 }
 
 const deadlines: FlatDeadline[] = [
-  { date: "2026-01-10", description: "Confirm renewal", letterId: "b", letterSummary: "Insurance renewal" },
-  { date: "2026-01-25", description: "Second January item", letterId: "e", letterSummary: "Another letter" },
-  { date: "2026-03-15", description: "Pay balance", letterId: "a", letterSummary: "Electricity bill" },
-  { date: "innerhalb von 14 Tagen", description: "Respond to notice", letterId: "c", letterSummary: "Some notice" },
+  { date: "2026-01-10", description: "Confirm renewal", letterId: "b", letterSummary: "Insurance renewal", language: "en" },
+  { date: "2026-01-25", description: "Second January item", letterId: "e", letterSummary: "Another letter", language: "en" },
+  { date: "2026-03-15", description: "Pay balance", letterId: "a", letterSummary: "Electricity bill", language: "en" },
+  { date: "innerhalb von 14 Tagen", description: "Respond to notice", letterId: "c", letterSummary: "Some notice", language: "en" },
 ];
 
 const groups = groupDeadlinesByMonth(deadlines, "en-GB", "No fixed date");
@@ -27,8 +27,8 @@ assert(groups[2].key === "undated" && groups[2].label === "No fixed date", "non-
 
 const decJanGroups = groupDeadlinesByMonth(
   [
-    { date: "2025-12-20", description: "December item", letterId: "x", letterSummary: "" },
-    { date: "2026-01-05", description: "January item", letterId: "y", letterSummary: "" },
+    { date: "2025-12-20", description: "December item", letterId: "x", letterSummary: "", language: "en" },
+    { date: "2026-01-05", description: "January item", letterId: "y", letterSummary: "", language: "en" },
   ],
   "en-GB",
   "No fixed date",

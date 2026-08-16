@@ -36,7 +36,7 @@ export default async function DashboardPage() {
       .single(),
     supabase
       .from("letters")
-      .select("id, summary, deadlines, action_required, created_at")
+      .select("id, summary, deadlines, action_required, created_at, language")
       .eq("user_id", user.id)
       .order("created_at", { ascending: false }),
   ]);
@@ -52,7 +52,13 @@ export default async function DashboardPage() {
   const ISO_DATE_RE = /^\d{4}-\d{2}-\d{2}$/;
   const todayIso = new Date().toISOString().slice(0, 10);
   const nextUp = (letters ?? [])
-    .flatMap((letter) => (letter.deadlines as Deadline[] | null ?? []).map((d) => ({ ...d, letterId: letter.id })))
+    .flatMap((letter) =>
+      (letter.deadlines as Deadline[] | null ?? []).map((d) => ({
+        ...d,
+        letterId: letter.id,
+        contentLanguage: letter.language as AppLanguage,
+      })),
+    )
     .filter((d) => ISO_DATE_RE.test(d.date) && d.date >= todayIso)
     .sort((a, b) => a.date.localeCompare(b.date))[0];
 
@@ -104,6 +110,7 @@ export default async function DashboardPage() {
               description={nextUp.description}
               date={nextUp.date}
               language={language}
+              contentLanguage={nextUp.contentLanguage}
               heading={copy.dashboard.nextUpHeading}
             />
           )}

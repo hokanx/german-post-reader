@@ -13,6 +13,7 @@ type LetterRow = {
   deadlines: { date: string; description: string }[] | null;
   action_required: boolean;
   created_at: string;
+  language: AppLanguage;
 };
 
 function soonestDeadline(deadlines: LetterRow["deadlines"]) {
@@ -52,7 +53,11 @@ export function LetterList({ letters, language }: { letters: LetterRow[]; langua
                 <p className="text-xs font-medium uppercase tracking-[0.04em] text-muted-foreground">
                   {formatDate(letter.created_at, language)}
                 </p>
-                <p className="mt-1 truncate text-base font-medium text-foreground">
+                <p
+                  lang={letter.summary ? letter.language : undefined}
+                  dir={letter.summary && letter.language === "ar" ? "rtl" : "ltr"}
+                  className="mt-1 truncate text-base font-medium text-foreground"
+                >
                   {letter.summary ?? copy.dashboard.analysisPending}
                 </p>
               </div>

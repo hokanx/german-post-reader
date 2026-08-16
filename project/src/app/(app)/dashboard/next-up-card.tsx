@@ -8,12 +8,14 @@ export function NextUpCard({
   description,
   date,
   language,
+  contentLanguage,
   heading,
 }: {
   letterId: string;
   description: string;
   date: string;
   language: AppLanguage;
+  contentLanguage: AppLanguage;
   heading: string;
 }) {
   return (
@@ -25,7 +27,13 @@ export function NextUpCard({
         <CalendarClock className="size-4" strokeWidth={1.5} aria-hidden="true" />
         {heading}
       </span>
-      <span className="text-xl font-extrabold tracking-[-0.02em]">{description}</span>
+      <span
+        lang={contentLanguage}
+        dir={contentLanguage === "ar" ? "rtl" : "ltr"}
+        className="text-xl font-extrabold tracking-[-0.02em]"
+      >
+        {description}
+      </span>
       <span className="text-sm font-medium opacity-90">{formatDate(date, language)}</span>
     </Link>
   );
