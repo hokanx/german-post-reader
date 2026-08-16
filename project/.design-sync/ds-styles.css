@@ -1,0 +1,47 @@
+/* design-sync stylesheet entry — compiled by compile-css.mjs into
+   .design-sync/.cache/ds-compiled.css, which cfg.cssEntry points at.
+
+   The app's real globals.css is imported rather than copied, so the locked
+   OKLCH tokens stay single-sourced. Everything below only widens which
+   Tailwind utilities get emitted, because the design agent writing new
+   layouts needs classes the app itself may not use yet. */
+@import "../src/app/globals.css";
+
+/* Every utility the Papkram app actually uses — a realistic vocabulary. */
+@source "../src";
+/* Utilities used by the authored preview compositions. */
+@source "./previews";
+
+/* Semantic color families across every utility the agent might reach for,
+   including the dark: variant. Raw palette classes are deliberately absent —
+   the project rule is semantic tokens only. */
+@source inline("{,dark:,hover:,focus-visible:}{bg,text,border,ring,fill,stroke,decoration}-{background,foreground,card,card-foreground,popover,popover-foreground,primary,primary-foreground,secondary,secondary-foreground,muted,muted-foreground,accent,accent-foreground,destructive,destructive-foreground,border,input,ring}");
+/* Common alpha steps on the same families (used for hovers, rings, scrims). */
+@source inline("{bg,text,border,ring}-{primary,secondary,muted,accent,destructive,foreground,border}/{5,10,20,30,40,50,60,70,80,90}");
+
+/* The locked chunky radius scale. */
+@source inline("rounded{,-t,-b,-l,-r,-tl,-tr,-bl,-br}-{none,sm,md,lg,xl,2xl,3xl,4xl,full}");
+
+/* The three brand families + the heading weights the design system uses. */
+@source inline("font-{heading,sans,mono}");
+@source inline("font-{normal,medium,semibold,bold,extrabold}");
+@source inline("text-{xs,sm,base,lg,xl,2xl,3xl,4xl,5xl,6xl,7xl}");
+@source inline("tracking-{tighter,tight,normal,wide}");
+@source inline("leading-{none,tight,snug,normal,relaxed}");
+
+/* Layout glue the agent writes around library components. */
+@source inline("{p,px,py,pt,pb,pl,pr,m,mx,my,mt,mb,ml,mr,gap,gap-x,gap-y}-{0,0.5,1,1.5,2,2.5,3,3.5,4,5,6,7,8,10,12,14,16,20,24}");
+@source inline("{w,h,size,min-w,min-h,max-w}-{0,1,2,3,4,5,6,8,10,12,16,20,24,32,40,48,56,64,full,screen,fit,auto}");
+@source inline("{flex,grid,inline-flex,inline-grid,block,inline-block,hidden}");
+@source inline("{flex-row,flex-col,flex-wrap,flex-1,flex-none,shrink-0,grow}");
+@source inline("{items,justify,self,content}-{start,end,center,between,around,stretch,baseline}");
+@source inline("grid-cols-{1,2,3,4,5,6,12}");
+@source inline("{sm,md,lg,xl}:grid-cols-{1,2,3,4,6}");
+@source inline("{sm,md,lg,xl}:{flex-row,flex-col,hidden,block,flex}");
+
+/* Hard-offset shadow + hard border are the locked structural invariants. */
+@source inline("border{,-t,-b,-l,-r}-{0,2,4}");
+@source inline("shadow-{none,sm,md,lg,xl}");
+@source inline("{relative,absolute,fixed,sticky,inset-0,z-10,z-20,z-50}");
+@source inline("{overflow-hidden,overflow-auto,truncate,text-center,text-left,text-right,text-balance,text-pretty}");
+@source inline("{uppercase,lowercase,capitalize,italic,underline,line-through}");
