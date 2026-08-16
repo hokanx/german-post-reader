@@ -22,12 +22,12 @@ export const Default = () => (
   </Dialog>
 );
 
-// A title long enough to reach the popup's right edge runs under the floating
-// close button, so this cell turns the close button off. See NOTES.md.
+// Deliberately long enough to reach the popup's right edge — it should wrap
+// clear of the close button, not run under it.
 export const Longer = () => (
   <Dialog open>
     <DialogTrigger render={<Button variant="outline" />}>Open</DialogTrigger>
-    <DialogContent showCloseButton={false}>
+    <DialogContent>
       <DialogHeader>
         <DialogTitle>
           You have used all four letters in your free trial

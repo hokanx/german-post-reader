@@ -77,21 +77,22 @@ Checked against on every re-sync — a warn **not** listed here is new.
   measures zero even though the toasts are visible. Confirmed in
   `_screenshots/review/general__Toaster.png`.
 
-## Real bugs this sync surfaced in the app (NOT fixed here)
+## Real bugs this sync surfaced in the app (both FIXED)
 
-The sync ships the components exactly as the repo has them. These are genuine
-app defects found while verifying previews — fix them in `src/`, then re-sync.
+Two genuine app defects were found while verifying previews. Both were fixed in
+`src/` during the first sync and re-verified from the fresh sheets.
 
-1. **`src/components/ui/sonner.tsx` sets `"--border-radius": "var(--radius)"`,
-   but `--radius` is never defined.** `globals.css` defines `--radius-sm`,
-   `--radius-md`, `--radius-lg` … but never bare `--radius`. Toasts therefore
-   render with **square corners**, contradicting the locked chunky-radius rule.
-   Likely fix: `var(--radius-md)`.
-2. **A long `DialogTitle` runs underneath the floating close button.**
-   `DialogContent`'s close button is `absolute top-2 right-2` and the popup has
-   no right padding reserved for it, so any title reaching the popup's right edge
-   is overlapped. Reproduce with the `Longer` cell of `DialogTitle` with
-   `showCloseButton` on. Likely fix: `pr-8` on the title, or reserve the corner.
+1. **Toasts had square corners.** `src/components/ui/sonner.tsx` set
+   `"--border-radius": "var(--radius)"`, but `globals.css` only ever defines
+   `--radius-sm` / `--radius-md` / `--radius-lg` — bare `--radius` does not
+   exist, so the radius resolved to nothing. Fixed by pointing it at
+   `var(--radius-md)` (22px, the locked `radius.md` step).
+2. **A long `DialogTitle` ran underneath the floating close button.**
+   `DialogContent`'s close button is `absolute top-2 right-2` with no room
+   reserved for it. Fixed in `dialog.tsx`: when `showCloseButton` is on, the
+   popup adds `[&_[data-slot=dialog-title]]:pr-6`, so long titles wrap clear of
+   the button. The `Longer` cell of `.design-sync/previews/DialogTitle.tsx` is
+   the regression case — keep it long enough to reach the popup's right edge.
 
 ## Re-sync risks — what can go stale
 
@@ -102,10 +103,10 @@ app defects found while verifying previews — fix them in `src/`, then re-sync.
   the design agent will write.** It is not derived from anything, so it cannot
   go "wrong" — it can only be too narrow. Symptom: unstyled output in the
   generated designs.
-- **Both bugs above were deliberately left in.** If either is fixed in `src/`,
-  the corresponding preview workaround should be removed:
-  `DialogTitle.tsx`'s `showCloseButton={false}` on the `Longer` cell, and the
-  Toaster grade note about square corners.
+- **The two fixes above are load-bearing for two preview cells.** If someone
+  reverts the `sonner.tsx` radius or the `dialog.tsx` title padding, the Toaster
+  and `DialogTitle/Longer` cards regress visibly — they are the regression
+  tests. Do not "simplify" the `showCloseButton && …` line out of `dialog.tsx`.
 - **`@base-ui/react` is pre-1.0-ish and the `Dialog` previews depend on
   `<Dialog open>` rendering statically.** If a version bump changes the open/portal
   behaviour, every Dialog card is affected at once.
