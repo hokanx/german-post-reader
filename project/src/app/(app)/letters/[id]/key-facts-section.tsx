@@ -1,9 +1,20 @@
 import { Quote } from "lucide-react";
+import type { AppLanguage } from "@/lib/letters/types";
 
 type KeyFact = { label: string; value: string; source_quote: string };
 
-export function KeyFactsSection({ facts, heading }: { facts: KeyFact[]; heading: string }) {
+export function KeyFactsSection({
+  facts,
+  heading,
+  contentLanguage,
+}: {
+  facts: KeyFact[];
+  heading: string;
+  contentLanguage: AppLanguage;
+}) {
   if (facts.length === 0) return null;
+
+  const contentDir = contentLanguage === "ar" ? "rtl" : "ltr";
 
   return (
     <section className="rounded-md border-2 border-border bg-card p-6 shadow-[4px_4px_0_0_var(--border)]">
@@ -11,7 +22,7 @@ export function KeyFactsSection({ facts, heading }: { facts: KeyFact[]; heading:
       <ul className="mt-4 grid gap-4">
         {facts.map((fact, i) => (
           <li key={i} className="grid gap-1.5">
-            <div className="flex flex-wrap items-baseline gap-2">
+            <div lang={contentLanguage} dir={contentDir} className="flex flex-wrap items-baseline gap-2">
               <span className="text-xs font-bold uppercase tracking-[0.04em] text-muted-foreground">{fact.label}</span>
               <span className="text-base font-bold text-foreground">{fact.value}</span>
             </div>

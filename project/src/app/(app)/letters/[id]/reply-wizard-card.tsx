@@ -4,7 +4,7 @@ import { useState, useTransition } from "react";
 import { toast } from "sonner";
 import { Languages, Mail, ArrowLeft } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { REPLY_TONE_LABELS, type AppLanguage, type ReplyTone } from "@/lib/letters/types";
+import { LANGUAGE_NAMES, REPLY_TONE_LABELS, type AppLanguage, type ReplyTone } from "@/lib/letters/types";
 import { APP_COPY } from "@/lib/i18n/copy";
 import { formatDate } from "@/lib/format-date";
 import { computeRequestTimeOptions, buildMailtoUrl, type RequestTimeOptionId } from "@/lib/letters/reply-wizard";
@@ -16,24 +16,22 @@ type Step = "intent" | "follow-up" | "reply";
 
 export function ReplyWizardCard({
   letterId,
-  language,
+  uiLanguage,
   initialReplyDraft,
   initialTranslation,
-  translationLanguageLabel,
-  translationDir,
+  initialTranslationLanguage,
   soonestDeadlineIso,
 }: {
   letterId: string;
-  language: AppLanguage;
+  uiLanguage: AppLanguage;
   initialReplyDraft: string;
   initialTranslation: string;
-  translationLanguageLabel: string;
-  translationDir: "ltr" | "rtl";
+  initialTranslationLanguage: AppLanguage;
   soonestDeadlineIso: string | null;
 }) {
-  const copy = APP_COPY[language].letters;
+  const copy = APP_COPY[uiLanguage].letters;
   const wizard = copy.wizard;
-  const toneLabels = REPLY_TONE_LABELS[language];
+  const toneLabels = REPLY_TONE_LABELS[uiLanguage];
 
   // The wizard is always the entry point (design spec) — every letter gets
   // a reply_draft written by the analysis pipeline at upload time, before
@@ -47,8 +45,15 @@ export function ReplyWizardCard({
   const [validationError, setValidationError] = useState<string | null>(null);
   const [replyDraft, setReplyDraft] = useState(initialReplyDraft);
   const [translation, setTranslation] = useState(initialTranslation);
+  // The stored reply_draft_translation was generated in whichever language
+  // was active back when it was written — never retranslated on its own —
+  // so its lang/dir must track that, separately from uiLanguage (today's
+  // account setting). Once the user actually regenerates a reply here, the
+  // new translation is generated in uiLanguage, so this moves to match.
+  const [translationLanguage, setTranslationLanguage] = useState<AppLanguage>(initialTranslationLanguage);
   const [showTranslation, setShowTranslation] = useState(false);
   const [pending, startTransition] = useTransition();
+  const translationDir = translationLanguage === "ar" ? "rtl" : "ltr";
 
   const todayIso = new Date().toISOString().slice(0, 10);
   const requestTimeOptions = computeRequestTimeOptions(soonestDeadlineIso);
@@ -81,7 +86,7 @@ export function ReplyWizardCard({
   // which Gemini would otherwise have to reinterpret for a reply that
   // actually gets sent to a German recipient.
   function buildDateAnswer(iso: string) {
-    return `${wizard.answerByDate(formatDate(iso, language))} (${iso})`;
+    return `${wizard.answerByDate(formatDate(iso, uiLanguage))} (${iso})`;
   }
 
   function handleRequestTimeOption(option: { id: RequestTimeOptionId; date: string | null }) {
@@ -109,7 +114,7 @@ export function ReplyWizardCard({
   function submit(submittedTone: ReplyTone, answer: string | undefined) {
     if (pending) return;
     startTransition(async () => {
-      const result = await regenerateReply(letterId, submittedTone, answer);
+      const result = await regenerateReply(letterId, submittedTone, uiLanguage, answer);
       if (!result.ok) {
         toast.error(result.error.message);
         return;
@@ -120,6 +125,7 @@ export function ReplyWizardCard({
       }
       setReplyDraft(result.data.reply_draft);
       setTranslation(result.data.reply_draft_translation);
+      setTranslationLanguage(uiLanguage);
       setStep("reply");
       toast.success(copy.replyRedraftedToast);
     });
@@ -193,7 +199,7 @@ export function ReplyWizardCard({
                     className="flex h-11 items-center justify-between rounded-sm border-2 border-border bg-muted px-4 text-sm font-bold text-foreground transition-colors hover:bg-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring disabled:opacity-60"
                   >
                     <span>{requestTimeLabel(option.id)}</span>
-                    {option.date && <span className="text-muted-foreground">{formatDate(option.date, language)}</span>}
+                    {option.date && <span className="text-muted-foreground">{formatDate(option.date, uiLanguage)}</span>}
                   </button>
                 ))}
                 <label className="flex h-11 items-center justify-between rounded-sm border-2 border-border bg-muted px-4 text-sm font-bold text-foreground transition-colors hover:bg-accent has-[:focus-visible]:outline-none has-[:focus-visible]:ring-2 has-[:focus-visible]:ring-ring has-[:disabled]:opacity-60">
@@ -279,8 +285,8 @@ export function ReplyWizardCard({
             >
               <Languages className="size-4" strokeWidth={1.5} aria-hidden="true" />
               {showTranslation
-                ? copy.hideTranslation(translationLanguageLabel)
-                : copy.showTranslation(translationLanguageLabel)}
+                ? copy.hideTranslation(LANGUAGE_NAMES[translationLanguage])
+                : copy.showTranslation(LANGUAGE_NAMES[translationLanguage])}
             </button>
             <button
               type="button"
@@ -295,7 +301,7 @@ export function ReplyWizardCard({
           {showTranslation && (
             <div
               id="reply-translation"
-              lang={language}
+              lang={translationLanguage}
               dir={translationDir}
               className="mt-3 whitespace-pre-wrap rounded-sm border-2 border-border bg-muted px-4 py-3 text-sm leading-relaxed text-foreground/80"
             >

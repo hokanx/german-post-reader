@@ -3,7 +3,7 @@ import { CalendarClock, TriangleAlert, ShieldAlert, FileText } from "lucide-reac
 import { createClient } from "@/lib/supabase/server";
 import { ReplyWizardCard } from "./reply-wizard-card";
 import { KeyFactsSection } from "./key-facts-section";
-import { LANGUAGE_NAMES, type AppLanguage } from "@/lib/letters/types";
+import type { AppLanguage } from "@/lib/letters/types";
 import { APP_COPY } from "@/lib/i18n/copy";
 
 type Deadline = { date: string; description: string };
@@ -32,34 +32,45 @@ export default async function LetterPage({
     return null;
   }
 
-  const { data: letter } = await supabase
-    .from("letters")
-    .select(
-      "id, summary, deadlines, key_facts, action_required, reply_draft, reply_draft_translation, detected_language_confirmed, risk_flags, language, created_at",
-    )
-    .eq("id", id)
-    .eq("user_id", user.id)
-    .single();
+  const [{ data: letter }, { data: profile }] = await Promise.all([
+    supabase
+      .from("letters")
+      .select(
+        "id, summary, deadlines, key_facts, action_required, reply_draft, reply_draft_translation, detected_language_confirmed, risk_flags, language, created_at",
+      )
+      .eq("id", id)
+      .eq("user_id", user.id)
+      .single(),
+    supabase.from("profiles").select("language").eq("id", user.id).single(),
+  ]);
 
   if (!letter) {
     notFound();
   }
 
-  const language = letter.language as AppLanguage;
-  const isRtl = language === "ar";
+  // uiLanguage drives every translatable chrome string (headings, badges,
+  // the wizard) and always follows the account's current language setting.
+  // contentLanguage is the letter's own stored analysis language — it never
+  // changes after the fact (nothing gets retranslated), so summary/deadline/
+  // quote text keeps its own lang+dir regardless of what uiLanguage the rest
+  // of the page is in.
+  const uiLanguage = (profile?.language ?? "en") as AppLanguage;
+  const contentLanguage = letter.language as AppLanguage;
+  const uiIsRtl = uiLanguage === "ar";
+  const contentIsRtl = contentLanguage === "ar";
   const deadlines = (letter.deadlines ?? []) as Deadline[];
   const riskFlags = (letter.risk_flags ?? []) as string[];
   const keyFacts = (letter.key_facts ?? []) as { label: string; value: string; source_quote: string }[];
   const actionRequired = letter.action_required === true;
   const lowConfidence = letter.detected_language_confirmed === false;
-  const copy = APP_COPY[language].letters;
+  const copy = APP_COPY[uiLanguage].letters;
   const soonestDeadlineIso =
     deadlines.filter((d) => ISO_DATE_RE.test(d.date)).sort((a, b) => a.date.localeCompare(b.date))[0]?.date ?? null;
 
   return (
     <main className="flex-1 bg-background">
       <div className="mx-auto max-w-2xl px-6 py-12">
-        <div lang={language} dir={isRtl ? "rtl" : "ltr"} className="grid gap-6">
+        <div dir={uiIsRtl ? "rtl" : "ltr"} className="grid gap-6">
           {lowConfidence && (
             <div className="flex items-start gap-3 rounded-md border-2 border-destructive bg-destructive/10 px-4 py-3">
               <ShieldAlert
@@ -95,10 +106,16 @@ export default async function LetterPage({
               <FileText className="size-5 text-primary" strokeWidth={1.5} aria-hidden="true" />
               {copy.summary}
             </h2>
-            <p className="mt-3 text-xl font-bold leading-snug text-foreground">{letter.summary}</p>
+            <p
+              lang={contentLanguage}
+              dir={contentIsRtl ? "rtl" : "ltr"}
+              className="mt-3 text-xl font-bold leading-snug text-foreground"
+            >
+              {letter.summary}
+            </p>
           </section>
 
-          <KeyFactsSection facts={keyFacts} heading={copy.keyFactsHeading} />
+          <KeyFactsSection facts={keyFacts} heading={copy.keyFactsHeading} contentLanguage={contentLanguage} />
 
           {(deadlines.length > 0 || riskFlags.length > 0) && (
             <div className="flex flex-wrap gap-2">
@@ -138,7 +155,9 @@ export default async function LetterPage({
                     key={i}
                     className="flex flex-col items-start gap-2 rounded-sm border-2 border-border bg-muted px-4 py-3 sm:flex-row sm:items-center sm:justify-between sm:gap-4"
                   >
-                    <span className="text-sm text-foreground">{deadline.description}</span>
+                    <span lang={contentLanguage} dir={contentIsRtl ? "rtl" : "ltr"} className="text-sm text-foreground">
+                      {deadline.description}
+                    </span>
                     <span className="shrink-0 rounded-full border-2 border-border bg-accent px-3 py-1 text-xs font-bold uppercase tracking-[0.06em] text-accent-foreground">
                       {deadline.date}
                     </span>
@@ -159,7 +178,7 @@ export default async function LetterPage({
               </h2>
               <ul className="mt-3 grid gap-2">
                 {riskFlags.map((flag, i) => (
-                  <li key={i} className="text-sm text-foreground">
+                  <li key={i} lang={contentLanguage} dir={contentIsRtl ? "rtl" : "ltr"} className="text-sm text-foreground">
                     • {flag}
                   </li>
                 ))}
@@ -169,11 +188,10 @@ export default async function LetterPage({
 
           <ReplyWizardCard
             letterId={letter.id}
-            language={language}
+            uiLanguage={uiLanguage}
             initialReplyDraft={letter.reply_draft ?? ""}
             initialTranslation={letter.reply_draft_translation ?? ""}
-            translationLanguageLabel={LANGUAGE_NAMES[language]}
-            translationDir={isRtl ? "rtl" : "ltr"}
+            initialTranslationLanguage={contentLanguage}
             soonestDeadlineIso={soonestDeadlineIso}
           />
         </div>

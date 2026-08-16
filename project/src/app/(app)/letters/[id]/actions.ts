@@ -18,6 +18,7 @@ type ReplyDraftResult = {
 export async function regenerateReply(
   letterId: string,
   tone: ReplyTone,
+  uiLanguage: AppLanguage,
   answer?: string,
 ): Promise<Result<ReplyDraftResult>> {
   const supabase = await createClient();
@@ -25,14 +26,13 @@ export async function regenerateReply(
     data: { user },
   } = await supabase.auth.getUser();
 
-  // Not known yet which letter (and so which language) is involved.
   if (!user) {
-    return { ok: false, error: { code: "UNAUTHENTICATED", message: APP_COPY.en.upload.pleaseLoginAgain } };
+    return { ok: false, error: { code: "UNAUTHENTICATED", message: APP_COPY[uiLanguage].upload.pleaseLoginAgain } };
   }
 
   const { data: letter, error: fetchError } = await supabase
     .from("letters")
-    .select("summary, deadlines, risk_flags, language")
+    .select("summary, deadlines, risk_flags")
     .eq("id", letterId)
     .eq("user_id", user.id)
     .single();
@@ -40,12 +40,15 @@ export async function regenerateReply(
   if (fetchError || !letter) {
     return {
       ok: false,
-      error: { code: "UNKNOWN", message: APP_COPY.en.letters.couldntFindLetter, recovery: APP_COPY.en.dashboard.errorRecovery },
+      error: {
+        code: "UNKNOWN",
+        message: APP_COPY[uiLanguage].letters.couldntFindLetter,
+        recovery: APP_COPY[uiLanguage].dashboard.errorRecovery,
+      },
     };
   }
 
-  const language = letter.language as AppLanguage;
-  const copy = APP_COPY[language].letters;
+  const copy = APP_COPY[uiLanguage].letters;
 
   const { data: profile } = await supabase
     .from("profiles")
@@ -53,6 +56,10 @@ export async function regenerateReply(
     .eq("id", user.id)
     .single();
 
+  // The reply draft is regenerated fresh right now, in the account's current
+  // language — it does not stay pinned to whatever language the letter's
+  // original analysis (summary/deadlines/risk_flags, passed below only as
+  // context text) happened to be written in.
   const result = await regenerateReplyDraft(
     {
       summary: letter.summary ?? "",
@@ -60,7 +67,7 @@ export async function regenerateReply(
       riskFlags: (letter.risk_flags ?? []) as string[],
     },
     tone,
-    language,
+    uiLanguage,
     answer,
     { fullName: profile?.full_name ?? null, postalAddress: profile?.postal_address ?? null },
   );
