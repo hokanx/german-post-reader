@@ -3,7 +3,8 @@ import { CalendarClock, TriangleAlert, ShieldAlert, FileText } from "lucide-reac
 import { createClient } from "@/lib/supabase/server";
 import { ReplyWizardCard } from "./reply-wizard-card";
 import { KeyFactsSection } from "./key-facts-section";
-import type { AppLanguage } from "@/lib/letters/types";
+import { AutoTranslateBanner } from "./auto-translate-banner";
+import { LANGUAGE_NAMES, type AppLanguage } from "@/lib/letters/types";
 import { APP_COPY } from "@/lib/i18n/copy";
 
 type Deadline = { date: string; description: string };
@@ -100,6 +101,16 @@ export default async function LetterPage({
               {actionRequired ? copy.actionRequiredDescription : copy.noActionDescription}
             </p>
           </div>
+
+          {contentLanguage !== uiLanguage && (
+            <AutoTranslateBanner
+              letterId={letter.id}
+              targetLanguage={uiLanguage}
+              bannerText={copy.translatingBanner(LANGUAGE_NAMES[uiLanguage])}
+              failedText={copy.translationFailedToast}
+              failedRecovery={copy.translationFailedRecovery}
+            />
+          )}
 
           <section className="rounded-md border-2 border-border bg-card p-6 shadow-[4px_4px_0_0_var(--border)]">
             <h2 className="flex items-center gap-2 font-heading text-lg font-extrabold tracking-[-0.02em] text-foreground">

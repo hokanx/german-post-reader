@@ -138,6 +138,9 @@ export type AppCopy = {
     noActionBadge: string;
     actionRequiredDescription: string;
     noActionDescription: string;
+    translatingBanner: (language: string) => string;
+    translationFailedToast: string;
+    translationFailedRecovery: string;
     wizard: {
       stepIntentHeading: string;
       stepFollowUpHeading: string;
@@ -348,6 +351,9 @@ export const APP_COPY: Record<AppLanguage, AppCopy> = {
       noActionBadge: "No action needed",
       actionRequiredDescription: "This letter needs a response from you.",
       noActionDescription: "Nothing to do here — for your records.",
+      translatingBanner: (language) => `Translating this letter to ${language}…`,
+      translationFailedToast: "Couldn't translate this letter.",
+      translationFailedRecovery: "It's still here in its original language — try again.",
       wizard: {
         stepIntentHeading: "What do you want to say?",
         stepFollowUpHeading: "A couple more details",
@@ -592,6 +598,9 @@ export const APP_COPY: Record<AppLanguage, AppCopy> = {
       noActionBadge: "لا يتطلب إجراء",
       actionRequiredDescription: "يتطلب هذا الخطاب ردًا منك.",
       noActionDescription: "لا شيء للقيام به هنا — للاحتفاظ بسجلك فقط.",
+      translatingBanner: (language) => `جارٍ ترجمة هذا الخطاب إلى ${language}…`,
+      translationFailedToast: "تعذرت ترجمة هذا الخطاب.",
+      translationFailedRecovery: "لا يزال متاحًا بلغته الأصلية — حاول مرة أخرى.",
       wizard: {
         stepIntentHeading: "ماذا تريد أن تقول؟",
         stepFollowUpHeading: "بضعة تفاصيل إضافية",
@@ -838,6 +847,9 @@ export const APP_COPY: Record<AppLanguage, AppCopy> = {
       noActionBadge: "İşlem gerekmiyor",
       actionRequiredDescription: "Bu mektup sizden bir yanıt gerektiriyor.",
       noActionDescription: "Burada yapılacak bir şey yok — sadece kayıtlarınız için.",
+      translatingBanner: (language) => `Bu mektup ${language} diline çevriliyor…`,
+      translationFailedToast: "Bu mektup çevrilemedi.",
+      translationFailedRecovery: "Hâlâ orijinal dilinde burada — tekrar deneyin.",
       wizard: {
         stepIntentHeading: "Ne söylemek istiyorsunuz?",
         stepFollowUpHeading: "Birkaç detay daha",
