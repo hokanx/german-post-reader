@@ -11,8 +11,14 @@ type LocaleContextValue = {
 
 const LocaleContext = createContext<LocaleContextValue | null>(null);
 
-export function LocaleProvider({ children }: { children: ReactNode }) {
-  const [locale, setLocaleState] = useState<MarketingLocale>("en");
+export function LocaleProvider({
+  children,
+  initialLocale = "en",
+}: {
+  children: ReactNode;
+  initialLocale?: MarketingLocale;
+}) {
+  const [locale, setLocaleState] = useState<MarketingLocale>(initialLocale);
 
   function setLocale(next: MarketingLocale) {
     setLocaleState(next);

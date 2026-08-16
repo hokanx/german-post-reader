@@ -7,10 +7,13 @@ import { ValueStack } from "@/components/landing/value-stack";
 import { Bonuses } from "@/components/landing/bonuses";
 import { CtaBand } from "@/components/landing/cta-band";
 import { LandingFooter } from "@/components/landing/footer";
+import { getPreAuthLanguage } from "@/lib/i18n/get-locale";
 
-export default function Home() {
+export default async function Home() {
+  const language = await getPreAuthLanguage();
+
   return (
-    <LocaleProvider>
+    <LocaleProvider initialLocale={language}>
       <LandingNav />
       <main className="flex-1">
         <Hero />
