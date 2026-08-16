@@ -12,6 +12,13 @@ const eslintConfig = defineConfig([
     "out/**",
     "build/**",
     "next-env.d.ts",
+    // design-sync: generated output and staged third-party scripts, never
+    // hand-edited. ds-bundle/ holds the compiled bundle, vendored React and
+    // compiled previews; .ds-sync/ is the converter copied in from the skill.
+    // The hand-written sync inputs under .design-sync/ ARE linted.
+    "ds-bundle/**",
+    ".ds-sync/**",
+    ".design-sync/.cache/**",
   ]),
 ]);
 

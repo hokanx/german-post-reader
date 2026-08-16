@@ -1,13 +1,18 @@
 import { Toaster, toast } from "papkram";
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 
 // Toasts are fired imperatively, so the preview raises them on mount and holds
 // them open (duration: Infinity) long enough for the card to capture them.
+// The ref guard keeps it to a single firing even though `fire` is a fresh
+// closure on every render.
 function useToasts(fire: () => void) {
+  const fired = useRef(false);
   useEffect(() => {
+    if (fired.current) return;
+    fired.current = true;
     toast.dismiss();
     fire();
-  }, []);
+  }, [fire]);
 }
 
 export const Statuses = () => {
