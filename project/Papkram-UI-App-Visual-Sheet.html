@@ -1,0 +1,494 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Papkram — UI &amp; App Visual Sheet</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#1A0A2E; --ink-2:#2A1840;
+    --violet:#7C3AED; --violet-lt:#A78BFA; --violet-2:#6D28D9; --violet-wash:#F3EDFF;
+    --amber:#FB8136; --amber-deep:#EA6F2E; --amber-wash:#FFF1E4;
+    --cream:#FFF7ED; --peach:#FFEEDD; --butter:#FEF3C7;
+    --red:#E11D2A; --green:#0F9D6B; --green-wash:#E6F6EF;
+    --muted:#6B5B73; --line:rgba(26,10,46,.12);
+    --maxw:1120px;
+    --r:16px;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{margin:0;color:var(--ink);
+    background:radial-gradient(1200px 600px at 82% -8%, var(--peach), transparent 60%), var(--cream);
+    font-family:'Plus Jakarta Sans',system-ui,sans-serif;font-size:17px;line-height:1.6;-webkit-font-smoothing:antialiased}
+  .wrap{max-width:var(--maxw);margin:0 auto;padding:0 28px}
+  h1,h2,h3,h4,.disp{font-family:'Sora',system-ui,sans-serif;letter-spacing:-.02em}
+  .mono{font-family:'Space Mono',ui-monospace,monospace}
+
+  .topbar{display:flex;justify-content:space-between;align-items:center;padding:22px 0;
+    font-family:'Space Mono',monospace;font-size:12.5px;letter-spacing:.18em;text-transform:uppercase;color:var(--muted)}
+  .topbar b{color:var(--ink)}
+
+  .eyebrow{display:inline-flex;align-items:center;gap:8px;font-family:'Space Mono',monospace;
+    font-size:12px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:var(--violet);
+    background:var(--butter);border:1.5px solid var(--ink);padding:6px 14px;border-radius:999px}
+
+  section{padding:72px 0;border-top:1px solid var(--line)}
+  .kicker{font-family:'Space Mono',monospace;font-size:12.5px;letter-spacing:.2em;text-transform:uppercase;color:var(--muted)}
+  .sec-head{display:flex;flex-direction:column;gap:16px;margin-bottom:38px}
+  .sec-head h2{font-size:clamp(28px,4.2vw,44px);font-weight:800;margin:0;line-height:1.03}
+  .sec-head p{margin:0;max-width:62ch;color:var(--muted);font-size:17.5px}
+
+  .hero h1{font-size:clamp(38px,6vw,68px);line-height:1;font-weight:800;margin:14px 0 20px;max-width:16ch}
+  .hero h1 .v{color:var(--violet)} .hero h1 .a{color:var(--amber-deep)}
+  .hero .lede{font-size:clamp(18px,2vw,22px);max-width:56ch;color:var(--ink);opacity:.92}
+
+  .grid{display:grid;gap:18px}
+  .g2{grid-template-columns:repeat(2,1fr)} .g3{grid-template-columns:repeat(3,1fr)} .g4{grid-template-columns:repeat(4,1fr)}
+  .card{background:#fff;border:1.5px solid var(--ink);border-radius:var(--r);padding:22px;box-shadow:5px 6px 0 rgba(26,10,46,.9)}
+  .card h3{margin:0 0 8px;font-size:18px;font-weight:700} .card p{margin:0;color:var(--muted);font-size:15px}
+  .num{font-family:'Space Mono',monospace;font-weight:700;color:var(--amber-deep);font-size:12.5px;letter-spacing:.1em}
+
+  /* ---------- PHONE MOCKUPS ---------- */
+  .screens{display:grid;grid-template-columns:repeat(4,1fr);gap:22px}
+  .screen-wrap{display:flex;flex-direction:column;gap:12px;align-items:center}
+  .screen-cap{font-family:'Space Mono',monospace;font-size:11.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);text-align:center}
+  .screen-cap b{color:var(--violet)}
+  .phone{width:100%;max-width:262px;aspect-ratio:262/540;background:var(--ink);border-radius:34px;padding:9px;
+    box-shadow:8px 10px 0 rgba(26,10,46,.85)}
+  .phone .scr{width:100%;height:100%;border-radius:26px;overflow:hidden;background:var(--cream);position:relative;display:flex;flex-direction:column}
+  .notch{height:22px;display:flex;align-items:center;justify-content:space-between;padding:0 16px;
+    font-family:'Space Mono',monospace;font-size:9px;color:var(--ink);flex:none}
+  .notch .dots{display:flex;gap:3px} .notch .dots i{width:5px;height:5px;border-radius:50%;background:var(--ink);opacity:.5}
+  .appbar{display:flex;align-items:center;gap:8px;padding:8px 14px 6px;flex:none}
+  .appbar .ic{width:22px;height:22px;border-radius:7px;background:linear-gradient(135deg,#FB9A4B,#EA6F2E);
+    display:flex;align-items:center;justify-content:center}
+  .appbar .ic svg{width:13px;height:13px}
+  .appbar .nm{font-family:'Sora';font-weight:800;font-size:14px}
+  .appbar .pg{margin-left:auto;font-family:'Space Mono';font-size:9px;color:var(--muted)}
+  .body{padding:6px 14px 14px;overflow:hidden;flex:1;display:flex;flex-direction:column;gap:9px}
+
+  .tag{display:inline-flex;align-items:center;gap:5px;font-family:'Space Mono';font-size:8.5px;font-weight:700;
+    letter-spacing:.12em;text-transform:uppercase;padding:4px 9px;border-radius:999px;border:1.5px solid var(--ink)}
+  .tag.butter{background:var(--butter);color:var(--violet)}
+  .tag.violet{background:var(--violet-wash);color:var(--violet-2);border-color:var(--violet)}
+  .tag.green{background:var(--green-wash);color:var(--green);border-color:var(--green)}
+  .tag.red{background:#fde7e8;color:var(--red);border-color:var(--red)}
+  .tag.amber{background:var(--amber-wash);color:var(--amber-deep);border-color:var(--amber)}
+
+  .h-title{font-family:'Sora';font-weight:800;font-size:19px;line-height:1.05;margin:2px 0}
+  .h-title .v{color:var(--violet)}
+  .mini{font-size:11px;color:var(--muted);line-height:1.45}
+
+  .ubox{border:2px dashed var(--violet);border-radius:14px;background:var(--violet-wash);
+    padding:18px 12px;text-align:center;display:flex;flex-direction:column;gap:8px;align-items:center}
+  .ubox .disc{width:44px;height:44px;border-radius:12px;background:#fff;border:1.5px solid var(--violet);
+    display:flex;align-items:center;justify-content:center}
+  .ubox .t{font-family:'Sora';font-weight:700;font-size:13px} .ubox .s{font-size:10px;color:var(--muted)}
+
+  .lettercard{background:#fff;border:1.5px solid var(--ink);border-radius:12px;padding:11px;position:relative}
+  .lettercard .from{display:flex;align-items:center;gap:7px}
+  .lettercard .from .b{width:20px;height:20px;border-radius:6px;background:var(--butter);border:1.5px solid var(--ink);display:flex;align-items:center;justify-content:center}
+  .lettercard .from .b svg{width:11px;height:11px}
+  .lettercard .org{font-family:'Sora';font-weight:700;font-size:12px;color:var(--violet)}
+  .lettercard .sub{font-size:8.5px;color:var(--muted)}
+  .lettercard .lines{margin-top:9px;display:flex;flex-direction:column;gap:5px}
+  .lettercard .lines i{height:5px;border-radius:3px;background:#E9E1D2;display:block}
+  .frist{position:absolute;right:-6px;bottom:-8px;transform:rotate(-6deg);background:#fff;border:2px solid var(--red);
+    color:var(--red);font-family:'Space Mono';font-weight:700;font-size:9px;padding:3px 8px;border-radius:6px}
+
+  .infobox{border:1.5px solid var(--ink);border-radius:12px;padding:10px 11px;background:#fff}
+  .infobox .lab{font-family:'Space Mono';font-size:8px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-bottom:4px}
+  .infobox .txt{font-size:11px;line-height:1.4}
+  .infobox.ink{background:var(--ink);color:#fff;border-color:var(--ink)}
+  .infobox.ink .txt{color:#EDE7F7} .infobox.ink .lab{color:var(--amber)}
+
+  .deadline-chip{display:flex;align-items:center;gap:8px;background:var(--amber);border:1.5px solid var(--ink);
+    border-radius:12px;padding:10px 12px}
+  .deadline-chip .cal{width:30px;height:30px;border-radius:8px;background:var(--ink);color:#fff;display:flex;
+    flex-direction:column;align-items:center;justify-content:center;font-family:'Space Mono';line-height:1;flex:none}
+  .deadline-chip .cal .d{font-weight:700;font-size:13px} .deadline-chip .cal .m{font-size:7px;letter-spacing:.1em}
+  .deadline-chip .meta .l{font-family:'Space Mono';font-size:8px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink);opacity:.8}
+  .deadline-chip .meta .v{font-family:'Sora';font-weight:800;font-size:13px;color:var(--ink)}
+
+  .reply{background:var(--butter);border:1.5px solid var(--ink);border-radius:12px;padding:11px}
+  .reply .head{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px}
+  .reply .head .l{font-family:'Space Mono';font-size:8px;letter-spacing:.12em;text-transform:uppercase;color:var(--amber-deep)}
+  .reply .de{font-size:10px;line-height:1.5;color:var(--ink)}
+  .reply .ready{display:inline-flex;align-items:center;gap:4px;margin-top:8px;font-family:'Space Mono';font-size:9px;color:var(--green);font-weight:700}
+
+  .btn{display:flex;align-items:center;justify-content:center;gap:6px;font-family:'Sora';font-weight:800;
+    font-size:12px;padding:11px;border-radius:12px;border:1.5px solid var(--ink)}
+  .btn.primary{background:var(--amber);color:var(--ink)}
+  .btn.ghost{background:#fff;color:var(--ink)}
+  .btn.violet{background:var(--violet);color:#fff;border-color:var(--ink)}
+  .btn-mt{margin-top:auto}
+
+  .dots{display:flex;gap:5px;justify-content:center;padding-top:4px}
+  .dots i{width:6px;height:6px;border-radius:50%;background:#E4D9C6}
+  .dots i.on{background:var(--amber);width:16px;border-radius:4px}
+
+  .vaultrow{display:flex;align-items:center;gap:9px;background:#fff;border:1.5px solid var(--ink);border-radius:11px;padding:9px 10px}
+  .vaultrow .ico{width:26px;height:26px;border-radius:8px;background:var(--violet-wash);border:1.5px solid var(--violet);display:flex;align-items:center;justify-content:center;flex:none}
+  .vaultrow .ico svg{width:13px;height:13px}
+  .vaultrow .t{font-family:'Sora';font-weight:700;font-size:11.5px} .vaultrow .d{font-size:9px;color:var(--muted)}
+
+  /* component board */
+  .board{background:#fff;border:1.5px solid var(--ink);border-radius:var(--r);padding:24px;box-shadow:5px 6px 0 rgba(26,10,46,.9)}
+  .board h4{margin:0 0 4px;font-size:14px} .board .cap{font-family:'Space Mono';font-size:11px;color:var(--muted);margin-bottom:16px}
+  .row{display:flex;gap:12px;flex-wrap:wrap;align-items:center}
+  .btnrow .btn{display:inline-flex;min-width:150px}
+
+  .sw{border:1.5px solid var(--ink);border-radius:12px;overflow:hidden;background:#fff}
+  .sw .c{height:56px} .sw .m{padding:9px 11px} .sw .m .n{font-family:'Sora';font-weight:700;font-size:12.5px}
+  .sw .m .h{font-family:'Space Mono';font-size:11px;color:var(--muted)} .sw .m .r{font-size:10.5px;color:var(--muted);margin-top:5px;line-height:1.35}
+
+  .specimen{display:flex;justify-content:space-between;gap:14px;padding:11px 0;border-top:1px solid var(--line);flex-wrap:wrap;align-items:baseline}
+  .specimen:first-child{border-top:0}
+  .specimen .lab{font-family:'Space Mono';font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);min-width:120px}
+
+  footer{padding:52px 0 80px;color:var(--muted);font-family:'Space Mono',monospace;font-size:12.5px;letter-spacing:.06em}
+  footer b{color:var(--ink)}
+
+  @media(max-width:980px){.screens{grid-template-columns:repeat(2,1fr)}}
+  @media(max-width:860px){.g3,.g4,.g2{grid-template-columns:1fr}}
+  @media(max-width:560px){.screens{grid-template-columns:1fr}}
+  @media print{body{background:#fff}.phone,.card,.board{box-shadow:none}section{page-break-inside:avoid}
+    *{-webkit-print-color-adjust:exact;print-color-adjust:exact}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <!-- HERO -->
+  <header class="hero" style="padding-top:8px">
+    <div class="topbar"><span>Papkram — <b>UI &amp; App Visual Sheet</b></span><span>v1.0 · Product Design System</span></div>
+    <img src="assets/papkram-logo.svg" alt="Papkram" style="width:min(330px,78vw);display:block;margin:22px 0 6px">
+    <span class="eyebrow" style="margin-top:18px">Dread → Clarity → Action</span>
+    <h1>Every screen moves one letter from <span class="a">dread</span> to <span class="v">done.</span></h1>
+    <p class="lede">The interface is the methodology made visible. Four steps — Upload, Understand,
+      Deadline, Reply — each a screen, each a step of the DECODE Protocol. Warm surfaces, one loud
+      action, and the answer always in violet.</p>
+  </header>
+
+  <!-- PRINCIPLES -->
+  <section>
+    <div class="sec-head"><span class="kicker">01 — Interface principles</span>
+      <h2>Calm surface, single action</h2>
+      <p>Reduce cognitive load at every step. The user is anxious; the screen should feel like a steady hand.</p>
+    </div>
+    <div class="grid g4">
+      <div class="card"><div class="num">SURFACE</div><h3>Warm, not clinical</h3><p>Papier-cream backgrounds and rounded cards. Never a cold white bureaucratic form.</p></div>
+      <div class="card"><div class="num">ONE ACTION</div><h3>One amber button</h3><p>Exactly one primary action per screen, always in Frist-Amber. Everything else recedes.</p></div>
+      <div class="card"><div class="num">THE ANSWER</div><h3>Violet = clarity</h3><p>Whatever decodes the letter — meaning, the reply — is marked in violet.</p></div>
+      <div class="card"><div class="num">URGENCY</div><h3>Red is earned</h3><p>Red only for real deadlines and warnings. If everything is urgent, nothing is.</p></div>
+    </div>
+  </section>
+
+  <!-- APP SCREENS -->
+  <section>
+    <div class="sec-head"><span class="kicker">02 — The DECODE flow</span>
+      <h2>Four screens, one journey</h2>
+      <p>The core loop a founding user runs for every letter — mapped directly onto the A.C.T.R.E. method.</p>
+    </div>
+    <div class="screens">
+
+      <!-- SCREEN 1: UPLOAD -->
+      <div class="screen-wrap">
+        <div class="phone"><div class="scr">
+          <div class="notch"><span>9:41</span><span class="dots"><i></i><i></i><i></i></span></div>
+          <div class="appbar">
+            <span class="ic"><svg viewBox="0 0 24 24"><rect x="3.5" y="5.5" width="17" height="13" rx="3" fill="#fff" stroke="#1A0A2E" stroke-width="1.7"/><path d="M4.6 7.2l7.4 5.3 7.4-5.3" fill="none" stroke="#1A0A2E" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+            <span class="nm">Papkram</span><span class="pg">STEP 1/4</span>
+          </div>
+          <div class="body">
+            <span class="tag butter" style="align-self:flex-start">The Moment</span>
+            <div class="h-title">A new letter?<br><span class="v">Let's decode it.</span></div>
+            <div class="ubox">
+              <span class="disc"><svg viewBox="0 0 24 24" fill="none" stroke="#7C3AED" stroke-width="2.2" width="22" height="22"><path d="M12 16V4M7 9l5-5 5 5"/><path d="M4 16v3a1 1 0 001 1h14a1 1 0 001-1v-3"/></svg></span>
+              <div class="t">Upload your letter</div>
+              <div class="s">Snap a photo or drop a PDF</div>
+            </div>
+            <div class="mini" style="text-align:center">No typing. No copy-paste.<br>Just hand it over.</div>
+            <div class="btn primary btn-mt">Take a photo →</div>
+            <div class="btn ghost">Choose a PDF</div>
+            <div class="dots"><i class="on"></i><i></i><i></i><i></i></div>
+          </div>
+        </div></div>
+        <div class="screen-cap"><b>ABSORB</b> · Upload</div>
+      </div>
+
+      <!-- SCREEN 2: UNDERSTAND -->
+      <div class="screen-wrap">
+        <div class="phone"><div class="scr">
+          <div class="notch"><span>9:41</span><span class="dots"><i></i><i></i><i></i></span></div>
+          <div class="appbar">
+            <span class="ic"><svg viewBox="0 0 24 24"><rect x="3.5" y="5.5" width="17" height="13" rx="3" fill="#fff" stroke="#1A0A2E" stroke-width="1.7"/><path d="M4.6 7.2l7.4 5.3 7.4-5.3" fill="none" stroke="#1A0A2E" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+            <span class="nm">Papkram</span><span class="pg">STEP 2/4</span>
+          </div>
+          <div class="body">
+            <div class="row" style="gap:6px"><span class="tag violet">Classified</span><span class="tag amber">Jobcenter</span></div>
+            <div class="h-title">What it <span class="v">means</span></div>
+            <div class="lettercard">
+              <div class="from"><span class="b"><svg viewBox="0 0 24 24" fill="none" stroke="#1A0A2E" stroke-width="2"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M4 7l8 6 8-6"/></svg></span>
+                <div><div class="org">Jobcenter</div><div class="sub">Bundesagentur für Arbeit</div></div></div>
+              <div class="lines"><i style="width:90%"></i><i style="width:75%"></i><i style="width:82%"></i></div>
+            </div>
+            <div class="infobox ink"><div class="lab">In plain English</div><div class="txt">They need your updated rental contract to keep your benefits running. No payment — just one document.</div></div>
+            <div class="infobox"><div class="lab">If you ignore it</div><div class="txt">Your benefit payments can be paused.</div></div>
+            <div class="btn violet btn-mt">See the deadline →</div>
+            <div class="dots"><i></i><i class="on"></i><i></i><i></i></div>
+          </div>
+        </div></div>
+        <div class="screen-cap"><b>CLASSIFY + INTENT</b> · Understand</div>
+      </div>
+
+      <!-- SCREEN 3: DEADLINE -->
+      <div class="screen-wrap">
+        <div class="phone"><div class="scr">
+          <div class="notch"><span>9:41</span><span class="dots"><i></i><i></i><i></i></span></div>
+          <div class="appbar">
+            <span class="ic"><svg viewBox="0 0 24 24"><rect x="3.5" y="5.5" width="17" height="13" rx="3" fill="#fff" stroke="#1A0A2E" stroke-width="1.7"/><path d="M4.6 7.2l7.4 5.3 7.4-5.3" fill="none" stroke="#1A0A2E" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+            <span class="nm">Papkram</span><span class="pg">STEP 3/4</span>
+          </div>
+          <div class="body">
+            <span class="tag red" style="align-self:flex-start">Deadline found</span>
+            <div class="h-title">Your <span class="v">Frist</span></div>
+            <div class="mini">The one date that changes everything — surfaced before it becomes a fine.</div>
+            <div class="deadline-chip">
+              <span class="cal"><span class="d">22</span><span class="m">AUG</span></span>
+              <div class="meta"><div class="l">Reply by</div><div class="v">Fri, 22 Aug 2026</div></div>
+            </div>
+            <div class="infobox"><div class="lab">What's due</div><div class="txt">Submit your current rental contract (Mietvertrag).</div></div>
+            <div class="row" style="gap:8px">
+              <div class="infobox" style="flex:1"><div class="lab">Days left</div><div class="txt" style="font-family:'Sora';font-weight:800;font-size:18px;color:var(--amber-deep)">13</div></div>
+              <div class="infobox" style="flex:1"><div class="lab">Consequence</div><div class="txt" style="font-weight:700;color:var(--red)">Benefits paused</div></div>
+            </div>
+            <div class="btn primary btn-mt">Add reminder</div>
+            <div class="btn violet">Write my reply →</div>
+            <div class="dots"><i></i><i></i><i class="on"></i><i></i></div>
+          </div>
+        </div></div>
+        <div class="screen-cap"><b>REVEAL DEADLINES</b> · Frist</div>
+      </div>
+
+      <!-- SCREEN 4: REPLY -->
+      <div class="screen-wrap">
+        <div class="phone"><div class="scr">
+          <div class="notch"><span>9:41</span><span class="dots"><i></i><i></i><i></i></span></div>
+          <div class="appbar">
+            <span class="ic"><svg viewBox="0 0 24 24"><rect x="3.5" y="5.5" width="17" height="13" rx="3" fill="#fff" stroke="#1A0A2E" stroke-width="1.7"/><path d="M4.6 7.2l7.4 5.3 7.4-5.3" fill="none" stroke="#1A0A2E" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+            <span class="nm">Papkram</span><span class="pg">STEP 4/4</span>
+          </div>
+          <div class="body">
+            <span class="tag green" style="align-self:flex-start">Ready to send</span>
+            <div class="h-title">Your German <span class="v">reply</span></div>
+            <div class="mini">Formally correct. You don't write a single word of German.</div>
+            <div class="reply">
+              <div class="head"><span class="l mono">Deutsch · fertig</span></div>
+              <div class="de">Sehr geehrte Damen und Herren, anbei übersende ich fristgerecht den angeforderten Mietvertrag zur Wahrung meiner Mitwirkungspflicht …</div>
+              <span class="ready"><svg viewBox="0 0 24 24" fill="none" stroke="#0F9D6B" stroke-width="3" width="11" height="11"><path d="M4 12l5 5L20 6"/></svg> Ready to send</span>
+            </div>
+            <div class="btn primary btn-mt">Copy reply</div>
+            <div class="btn ghost">Save to Vault</div>
+            <div class="mini" style="text-align:center;color:var(--violet);font-weight:700">The letter is handled. Done.</div>
+            <div class="dots"><i></i><i></i><i></i><i class="on"></i></div>
+          </div>
+        </div></div>
+        <div class="screen-cap"><b>EXECUTE REPLY</b> · Send</div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- HOME / VAULT -->
+  <section>
+    <div class="sec-head"><span class="kicker">03 — Home &amp; Document Vault</span>
+      <h2>Every letter, one calm place</h2>
+      <p>The home surface doubles as the Vault — a searchable history where dread turns into a tidy, resolved list.</p>
+    </div>
+    <div class="grid g2" style="align-items:center">
+      <div style="display:flex;justify-content:center">
+        <div class="phone" style="max-width:288px;aspect-ratio:288/560"><div class="scr">
+          <div class="notch"><span>9:41</span><span class="dots"><i></i><i></i><i></i></span></div>
+          <div class="appbar">
+            <span class="ic"><svg viewBox="0 0 24 24"><rect x="3.5" y="5.5" width="17" height="13" rx="3" fill="#fff" stroke="#1A0A2E" stroke-width="1.7"/><path d="M4.6 7.2l7.4 5.3 7.4-5.3" fill="none" stroke="#1A0A2E" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+            <span class="nm">Papkram</span><span class="pg">VAULT</span>
+          </div>
+          <div class="body">
+            <div class="h-title">Guten Tag 👋<br><span class="v">3 letters</span> handled</div>
+            <div class="vaultrow"><span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="#7C3AED" stroke-width="2"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M4 7l8 6 8-6"/></svg></span>
+              <div style="flex:1"><div class="t">Jobcenter</div><div class="d">Rental contract · due 22 Aug</div></div><span class="tag amber">Open</span></div>
+            <div class="vaultrow"><span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="#7C3AED" stroke-width="2"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M4 7l8 6 8-6"/></svg></span>
+              <div style="flex:1"><div class="t">Finanzamt</div><div class="d">Tax notice · replied</div></div><span class="tag green">Done</span></div>
+            <div class="vaultrow"><span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="#7C3AED" stroke-width="2"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M4 7l8 6 8-6"/></svg></span>
+              <div style="flex:1"><div class="t">Krankenkasse</div><div class="d">Routine notice · replied</div></div><span class="tag green">Done</span></div>
+            <div class="btn primary btn-mt">+ Decode a new letter</div>
+          </div>
+        </div></div>
+      </div>
+      <div class="grid" style="grid-template-columns:1fr;gap:14px">
+        <div class="card"><div class="num">STATUS SYSTEM</div><h3>Open · Replied · Overdue</h3><p>Amber “Open” = action needed, green “Done” = replied, red “Overdue” = past Frist. Colour carries the state at a glance.</p></div>
+        <div class="card"><div class="num">EMPTY STATE</div><h3>An invitation, not a void</h3><p>“No letters yet — upload the one on your table and watch the dread disappear.” One amber button beneath.</p></div>
+        <div class="card"><div class="num">SEARCH</div><h3>Find any past letter</h3><p>Search by sender, date or keyword. The follow-up letter arrives with full context intact.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- COLOUR IN UI -->
+  <section>
+    <div class="sec-head"><span class="kicker">04 — Colour in the UI</span>
+      <h2>Roles, not decoration</h2>
+      <p>Same six brand colours as the identity — here mapped to interface jobs and semantic states.</p>
+    </div>
+    <div class="grid g3" style="margin-bottom:18px">
+      <div class="sw"><div class="c" style="background:#FFF7ED;border-bottom:1px solid var(--line)"></div><div class="m"><div class="n">Surface / Papier</div><div class="h">#FFF7ED</div><div class="r">App background &amp; screens.</div></div></div>
+      <div class="sw"><div class="c" style="background:#fff;border-bottom:1px solid var(--line)"></div><div class="m"><div class="n">Card</div><div class="h">#FFFFFF · 1.5px ink border</div><div class="r">Content containers, hard shadow.</div></div></div>
+      <div class="sw"><div class="c" style="background:#1A0A2E"></div><div class="m"><div class="n">Text / Ink</div><div class="h">#1A0A2E</div><div class="r">Body, headings, outlines.</div></div></div>
+      <div class="sw"><div class="c" style="background:#7C3AED"></div><div class="m"><div class="n">Accent / Answer</div><div class="h">#7C3AED</div><div class="r">Meaning, links, key nav, “Write reply”.</div></div></div>
+      <div class="sw"><div class="c" style="background:#FB8136"></div><div class="m"><div class="n">Primary action</div><div class="h">#FB8136</div><div class="r">The one button. Deadline chips.</div></div></div>
+      <div class="sw"><div class="c" style="background:#E11D2A"></div><div class="m"><div class="n">Danger / Overdue</div><div class="h">#E11D2A</div><div class="r">Warnings, missed Frist only.</div></div></div>
+    </div>
+    <div class="grid g2">
+      <div class="card"><div class="num">SEMANTIC · SUCCESS</div><h3 style="color:var(--green)">#0F9D6B — Replied &amp; Done</h3><p>“Ready to send”, resolved status. Green washes: #E6F6EF.</p></div>
+      <div class="card"><div class="num">WASHES</div><h3>Tint backgrounds</h3><p>Violet #F3EDFF · Amber #FFF1E4 · Butter #FEF3C7 for soft, low-stakes emphasis blocks.</p></div>
+    </div>
+  </section>
+
+  <!-- COMPONENTS -->
+  <section>
+    <div class="sec-head"><span class="kicker">05 — Component library</span>
+      <h2>The building blocks</h2>
+      <p>Every component shares the language: 1.5px ink outline, generous radius, warm fills, mono labels.</p>
+    </div>
+
+    <div class="grid g2" style="align-items:start">
+      <div class="board">
+        <h4>Buttons</h4><div class="cap">Primary amber · violet answer · ghost. Ink border + hard shadow on press.</div>
+        <div class="row btnrow" style="flex-direction:column;align-items:stretch">
+          <div class="btn primary">Take a photo →</div>
+          <div class="btn violet">Write my reply →</div>
+          <div class="btn ghost">Save to Vault</div>
+        </div>
+      </div>
+      <div class="board">
+        <h4>Tags &amp; status pills</h4><div class="cap">Mono, uppercase, colour-coded to state.</div>
+        <div class="row">
+          <span class="tag butter">The Moment</span>
+          <span class="tag violet">Classified</span>
+          <span class="tag amber">Jobcenter</span>
+          <span class="tag green">Done</span>
+          <span class="tag red">Overdue</span>
+        </div>
+        <h4 style="margin-top:20px">Deadline chip</h4><div class="cap">The signal component — amber, dated, unmissable.</div>
+        <div class="deadline-chip" style="max-width:230px">
+          <span class="cal"><span class="d">22</span><span class="m">AUG</span></span>
+          <div class="meta"><div class="l">Reply by</div><div class="v">Fri, 22 Aug 2026</div></div>
+        </div>
+      </div>
+
+      <div class="board">
+        <h4>Letter card</h4><div class="cap">Sender identity + redacted lines + “Frist?” stamp.</div>
+        <div class="lettercard" style="max-width:260px">
+          <div class="from"><span class="b"><svg viewBox="0 0 24 24" fill="none" stroke="#1A0A2E" stroke-width="2"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M4 7l8 6 8-6"/></svg></span>
+            <div><div class="org">Jobcenter</div><div class="sub">Bundesagentur für Arbeit</div></div></div>
+          <div class="lines"><i style="width:92%"></i><i style="width:70%"></i><i style="width:84%"></i><i style="width:60%"></i></div>
+          <span class="frist">Frist?</span>
+        </div>
+      </div>
+      <div class="board">
+        <h4>Decoded blocks</h4><div class="cap">Ink block = meaning · light block = detail · butter = the German reply.</div>
+        <div class="infobox ink" style="margin-bottom:10px"><div class="lab">In plain English</div><div class="txt">They need your rental contract to keep your benefits running.</div></div>
+        <div class="reply">
+          <div class="head"><span class="l mono">Deutsch · fertig</span></div>
+          <div class="de">Sehr geehrte Damen und Herren, anbei übersende ich fristgerecht …</div>
+          <span class="ready"><svg viewBox="0 0 24 24" fill="none" stroke="#0F9D6B" stroke-width="3" width="11" height="11"><path d="M4 12l5 5L20 6"/></svg> Ready to send</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TYPE IN UI -->
+  <section>
+    <div class="sec-head"><span class="kicker">06 — Type in product</span>
+      <h2>Readable under stress</h2>
+      <p>Same three-role system as the brand, tuned for small screens. Bigger line-height, shorter measure.</p>
+    </div>
+    <div class="board">
+      <div class="specimen"><span class="lab">Screen title</span><span class="disp" style="font-weight:800;font-size:22px">What it means</span></div>
+      <div class="specimen"><span class="lab">Body / summary</span><span style="font-size:15px;max-width:44ch;color:var(--ink)">They need your updated rental contract to keep your benefits running.</span></div>
+      <div class="specimen"><span class="lab">Label / meta</span><span class="mono" style="font-size:11px;letter-spacing:.14em;color:var(--muted)">REPLY BY · DEADLINE · CLASSIFIED</span></div>
+      <div class="specimen"><span class="lab">German source</span><span class="mono" style="font-size:12px;color:var(--ink-2)">„… zur Wahrung Ihrer Mitwirkungspflicht …“</span></div>
+    </div>
+  </section>
+
+  <!-- MARKETING TEMPLATE -->
+  <section>
+    <div class="sec-head"><span class="kicker">07 — Marketing carousel template</span>
+      <h2>Social &amp; ad system</h2>
+      <p>The 4:5 carousel used for growth — same tokens, higher contrast. Two surfaces: warm Papier
+        cards and dark ink/violet cards for the “here's the truth” beats.</p>
+    </div>
+    <div class="grid g2" style="align-items:start">
+      <div class="board" style="background:linear-gradient(160deg,#FFF7ED,#FFEEDD)">
+        <div class="row" style="justify-content:space-between;margin-bottom:14px">
+          <div class="row" style="gap:8px"><span class="ic" style="width:24px;height:24px;border-radius:7px;background:linear-gradient(135deg,#FB9A4B,#EA6F2E);display:flex;align-items:center;justify-content:center"><svg viewBox="0 0 24 24" width="13" height="13"><rect x="3.5" y="5.5" width="17" height="13" rx="3" fill="#fff" stroke="#1A0A2E" stroke-width="1.7"/><path d="M4.6 7.2l7.4 5.3 7.4-5.3" fill="none" stroke="#1A0A2E" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></span><b class="disp" style="font-size:15px">Papkram</b></div>
+          <span class="mono" style="font-size:11px;color:var(--muted)">01 / 08</span>
+        </div>
+        <span class="tag butter">The Moment</span>
+        <div class="disp" style="font-weight:800;font-size:30px;line-height:1;margin:12px 0 10px">You got a letter from the <span style="color:var(--violet)">Jobcenter.</span></div>
+        <p style="margin:0 0 14px;color:var(--ink);font-size:15px">You don't know if it's urgent. You don't know what happens if you ignore it.</p>
+        <div class="lettercard" style="max-width:100%"><div class="from"><span class="b"><svg viewBox="0 0 24 24" fill="none" stroke="#1A0A2E" stroke-width="2"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M4 7l8 6 8-6"/></svg></span><div><div class="org">Jobcenter</div><div class="sub">Bundesagentur für Arbeit</div></div></div><div class="lines"><i style="width:88%"></i><i style="width:66%"></i><i style="width:80%"></i></div><span class="frist">Frist?</span></div>
+        <div class="row" style="justify-content:space-between;margin-top:20px;align-items:center">
+          <div class="dots" style="padding:0"><i class="on"></i><i></i><i></i><i></i><i></i></div>
+          <span class="disp" style="font-weight:800;font-size:14px;color:var(--amber-deep)">swipe →</span>
+        </div>
+      </div>
+
+      <div class="board" style="background:radial-gradient(600px 300px at 100% 0%, rgba(124,58,237,.55), transparent 55%), #1A0A2E;border-color:var(--ink);color:#fff">
+        <div class="row" style="justify-content:space-between;margin-bottom:14px">
+          <div class="row" style="gap:8px"><span class="ic" style="width:24px;height:24px;border-radius:7px;background:linear-gradient(135deg,#FB9A4B,#EA6F2E);display:flex;align-items:center;justify-content:center"><svg viewBox="0 0 24 24" width="13" height="13"><rect x="3.5" y="5.5" width="17" height="13" rx="3" fill="#fff" stroke="#1A0A2E" stroke-width="1.7"/><path d="M4.6 7.2l7.4 5.3 7.4-5.3" fill="none" stroke="#1A0A2E" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></span><b class="disp" style="font-size:15px;color:#fff">Papkram</b></div>
+          <span class="mono" style="font-size:11px;color:#c9bce0">03 / 08</span>
+        </div>
+        <span class="tag amber">Here's what nobody tells you</span>
+        <div class="disp" style="font-weight:800;font-size:30px;line-height:1.02;margin:12px 0 10px;color:#fff">Jobcenter letters aren't just German.</div>
+        <p style="margin:0 0 14px;color:#d8ccee;font-size:15px">They're written in a different <span style="color:var(--amber)">code</span> — one even fluent speakers struggle to crack.</p>
+        <div style="border:1.5px solid rgba(255,255,255,.2);border-radius:12px;padding:12px;background:rgba(255,255,255,.05)">
+          <div style="display:flex;justify-content:space-between;font-size:12.5px;padding:5px 0;border-bottom:1px dashed rgba(255,255,255,.15)"><span style="color:var(--amber);font-family:'Space Mono'">Mitwirkungspflicht</span><span style="color:#d8ccee">do this or your money stops</span></div>
+          <div style="display:flex;justify-content:space-between;font-size:12.5px;padding:5px 0"><span style="color:var(--amber);font-family:'Space Mono'">Frist</span><span style="color:#d8ccee">the date that changes everything</span></div>
+        </div>
+        <p class="disp" style="font-weight:700;font-size:15px;margin:16px 0 0;color:#fff">Translation gives you words.<br><span style="color:var(--amber)">It doesn't give you the meaning.</span></p>
+      </div>
+    </div>
+    <div class="grid g3" style="margin-top:18px">
+      <div class="card"><div class="num">FORMAT</div><h3>1080 × 1350 (4:5)</h3><p>8-card swipe. Card 01 warm, mid-cards alternate ink/violet, final card = amber CTA.</p></div>
+      <div class="card"><div class="num">ANATOMY</div><h3>Logo · index · eyebrow · headline · proof · swipe</h3><p>Fixed skeleton so every carousel feels like one system.</p></div>
+      <div class="card"><div class="num">CTA CARD</div><h3>“Try Papkram — free”</h3><p>Amber button on violet. “Just clarity. In 60 seconds.”</p></div>
+    </div>
+  </section>
+
+  <!-- MOTION & STATES -->
+  <section>
+    <div class="sec-head"><span class="kicker">08 — Motion &amp; states</span>
+      <h2>Movement that reassures</h2>
+      <p>Motion should feel like a breath out, not a flourish. Respect reduced-motion; nothing blinks or races.</p>
+    </div>
+    <div class="grid g4">
+      <div class="card"><div class="num">DECODE</div><h3>Blur → sharp</h3><p>On analysis, German text de-blurs into the plain-language summary. The core brand gesture.</p></div>
+      <div class="card"><div class="num">PROGRESS</div><h3>Amber dot travels</h3><p>The 4-step dots advance one screen at a time — visible momentum through the flow.</p></div>
+      <div class="card"><div class="num">SUCCESS</div><h3>Reply settles in</h3><p>The German reply eases up with a soft check. Calm, not confetti.</p></div>
+      <div class="card"><div class="num">PRESS</div><h3>Shadow collapses</h3><p>Buttons push their 6px hard shadow to 0 on tap. Tactile, physical, honest.</p></div>
+    </div>
+  </section>
+
+  <footer>
+    <div><b>PAPKRAM</b> — UI &amp; App Visual Sheet v1.0</div>
+    <div>Surfaces #FFF7ED · Text #1A0A2E · Accent #7C3AED · Action #FB8136 · Danger #E11D2A · Success #0F9D6B</div>
+    <div>Companion document: Papkram — Brand Sheet.</div>
+  </footer>
+
+</div>
+</body>
+</html>

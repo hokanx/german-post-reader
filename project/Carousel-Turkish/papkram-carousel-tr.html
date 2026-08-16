@@ -1,0 +1,361 @@
+<!doctype html>
+<html lang="tr" dir="ltr">
+<head>
+<meta charset="utf-8">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#1A0A2E; --violet:#7C3AED; --violet-lt:#A78BFA; --violet-2:#6D28D9;
+    --amber:#FB8136; --amber-deep:#EA6F2E; --cream:#FFF7ED; --peach:#FFEEDD;
+    --butter:#FEF3C7; --red:#E11D2A; --green:#0F9D6B; --muted:#6B5B73;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:#c9ccd1;font-family:'Plus Jakarta Sans',sans-serif;padding:40px;display:flex;flex-wrap:wrap;gap:40px;justify-content:center}
+
+  .card{width:1080px;height:1350px;flex:0 0 auto;overflow:hidden;position:relative;
+    padding:80px 76px;display:flex;flex-direction:column;color:var(--ink)}
+  .c-cream{background:linear-gradient(160deg,#FFF7ED 0%,#FFEFE0 60%,#FFE7CF 100%)}
+  .c-ink{background:radial-gradient(900px 520px at 100% 0%, rgba(124,58,237,.42), transparent 55%),#1A0A2E;color:#fff}
+  .c-plum{background:radial-gradient(760px 520px at 90% -5%, rgba(124,58,237,.30), transparent 55%),#160823;color:#fff}
+  .c-violet{background:radial-gradient(760px 520px at 100% 0%, rgba(167,139,250,.55), transparent 55%),linear-gradient(160deg,#7C3AED,#6D28D9);color:#fff}
+
+  .top{display:flex;justify-content:space-between;align-items:center}
+  .brand{display:flex;align-items:center;gap:16px}
+  .brand .tile{width:64px;height:64px;border-radius:18px;background:linear-gradient(135deg,#FB9A4B,#F07E31);
+    border:3px solid var(--ink);box-shadow:6px 7px 0 rgba(26,10,46,.9);display:flex;align-items:center;justify-content:center}
+  .c-ink .brand .tile,.c-plum .brand .tile,.c-violet .brand .tile{border-color:#fff;box-shadow:6px 7px 0 rgba(0,0,0,.35)}
+  .brand .tile svg{width:34px;height:34px}
+  .brand .wm{font-family:'Sora';font-weight:800;font-size:40px;letter-spacing:-1px}
+  .idx{font-family:'JetBrains Mono';font-size:26px;letter-spacing:2px;color:var(--muted)}
+  .c-ink .idx,.c-plum .idx,.c-violet .idx{color:rgba(255,255,255,.7)}
+
+  .eyebrow{align-self:flex-start;margin-top:56px;font-family:'Sora';font-weight:700;font-size:23px;letter-spacing:.5px;
+    padding:12px 26px;border-radius:999px;border:2.5px solid var(--ink);background:var(--butter);color:var(--violet-2)}
+  .c-ink .eyebrow,.c-plum .eyebrow{background:transparent;border-color:var(--amber);color:var(--amber)}
+  .c-violet .eyebrow{background:rgba(255,255,255,.14);border-color:#fff;color:#fff}
+
+  h1{font-family:'Sora';font-weight:800;font-size:78px;line-height:1.06;margin-top:30px;letter-spacing:-2px}
+  h1.sm{font-size:64px;line-height:1.08}
+  .hl{color:var(--violet)} .hl-a{color:var(--amber-deep)}
+  .c-ink .hl,.c-plum .hl{color:var(--violet-lt)} .c-ink .hl-a,.c-plum .hl-a,.c-violet .hl-a{color:var(--amber)}
+  .c-violet .hl{color:#fff;text-decoration:underline;text-decoration-color:rgba(255,255,255,.5);text-underline-offset:8px}
+
+  .lead{font-family:'Plus Jakarta Sans';font-weight:500;font-size:38px;line-height:1.5;margin-top:30px}
+  .c-cream .lead{color:#2c1e3d}
+  .c-ink .lead,.c-plum .lead{color:#d8ccee} .c-violet .lead{color:#f3ecff}
+
+  .spacer{flex:1}
+  .kicker{font-family:'Sora';font-weight:800;font-size:40px;line-height:1.28;margin-top:24px;letter-spacing:-.5px}
+  .kicker .u{text-decoration:underline;text-decoration-color:var(--amber);text-decoration-thickness:6px;text-underline-offset:8px}
+
+  .foot{display:flex;justify-content:space-between;align-items:center;margin-top:40px}
+  .dots{display:flex;gap:12px}
+  .dots i{width:14px;height:14px;border-radius:50%;background:#E1D6C4;display:block}
+  .c-ink .dots i,.c-plum .dots i,.c-violet .dots i{background:rgba(255,255,255,.28)}
+  .dots i.on{width:38px;border-radius:8px;background:var(--amber)}
+  .swipe{font-family:'Sora';font-weight:800;font-size:30px;color:var(--amber-deep)}
+  .c-ink .swipe,.c-plum .swipe,.c-violet .swipe{color:var(--amber)}
+
+  .letter{position:relative;background:#fff;border:3px solid var(--ink);border-radius:22px;padding:30px 32px;
+    box-shadow:12px 14px 0 rgba(26,10,46,.9);margin-top:44px}
+  .letter .hdr{display:flex;align-items:center;gap:16px;border-bottom:2px solid #eee;padding-bottom:18px}
+  .letter .hdr .b{width:52px;height:52px;border-radius:12px;background:var(--butter);border:2.5px solid var(--ink);display:flex;align-items:center;justify-content:center}
+  .letter .hdr .b svg{width:26px;height:26px}
+  .letter .org{font-family:'Sora';font-weight:800;font-size:30px;color:var(--violet)}
+  .letter .sub{font-size:20px;color:var(--muted);font-family:'JetBrains Mono'}
+  .letter .lines{display:flex;flex-direction:column;gap:14px;margin-top:22px}
+  .letter .lines i{height:14px;border-radius:7px;background:#EAE1D2;display:block}
+  .stamp{position:absolute;right:-10px;bottom:-22px;transform:rotate(7deg);background:#fff;border:3px solid var(--red);
+    color:var(--red);font-family:'JetBrains Mono';font-weight:700;font-size:30px;padding:8px 20px;border-radius:10px}
+
+  .box{border:2.5px solid var(--ink);border-radius:18px;padding:28px 30px;background:#fff;margin-top:26px}
+  .box.tinted{background:var(--butter)}
+  .box .lab{font-family:'JetBrains Mono';font-size:20px;letter-spacing:1px;color:var(--muted);margin-bottom:12px;display:flex;align-items:center;gap:8px}
+  .box .de{font-family:'JetBrains Mono';font-size:28px;line-height:1.5;color:var(--ink)}
+  .box .tr{font-family:'Plus Jakarta Sans';font-weight:500;font-size:30px;line-height:1.45}
+  .box .dim{font-size:24px;color:var(--muted);margin-top:12px}
+  .arrow-d{text-align:center;font-size:40px;color:var(--amber-deep);margin-top:14px}
+
+  .codebox{border:2.5px solid var(--amber);border-radius:18px;padding:24px 30px;margin-top:30px;background:rgba(251,129,54,.08)}
+  .c-plum .codebox{background:rgba(251,129,54,.10)}
+  .code-row{display:flex;align-items:center;gap:20px;padding:16px 0;border-bottom:1px dashed rgba(255,255,255,.18)}
+  .c-cream .code-row{border-color:rgba(26,10,46,.15)}
+  .code-row:last-child{border-bottom:0}
+  .code-row .de{font-family:'JetBrains Mono';font-weight:700;font-size:26px;color:var(--amber);white-space:nowrap}
+  .code-row .g{flex:1;text-align:right;font-family:'Plus Jakarta Sans';font-weight:500;font-size:27px}
+  .c-plum .code-row .g{color:#e7ddf5}
+
+  .items{display:flex;flex-direction:column;gap:22px;margin-top:36px}
+  .item{display:flex;align-items:center;gap:22px;background:#fff;border:2.5px solid var(--ink);border-radius:18px;
+    padding:26px 30px;box-shadow:8px 9px 0 rgba(26,10,46,.9)}
+  .item .ic{width:60px;height:60px;border-radius:14px;flex:none;display:flex;align-items:center;justify-content:center;font-size:30px;
+    background:var(--violet);color:#fff;border:2.5px solid var(--ink);font-family:'Sora';font-weight:800}
+  .item .ic.amber{background:var(--amber)} .item .ic.red{background:var(--red)}
+  .item .t{font-family:'Sora';font-weight:800;font-size:32px;letter-spacing:-.5px}
+  .item .d{font-family:'Plus Jakarta Sans';font-weight:500;font-size:25px;color:var(--muted);margin-top:4px}
+  .item .n{font-family:'JetBrains Mono';font-weight:700;font-size:34px;color:var(--amber-deep);min-width:56px}
+
+  .gapbox{background:rgba(255,255,255,.12);border:2.5px solid rgba(255,255,255,.4);border-radius:18px;padding:30px 34px;margin-top:28px}
+  .gapbox .lab{font-family:'JetBrains Mono';font-size:22px;letter-spacing:1px;color:#f3ecff;opacity:.8;margin-bottom:10px}
+  .gapbox .val{font-family:'Sora';font-weight:700;font-size:38px;color:#fff;letter-spacing:-.5px}
+  .gap-div{display:flex;align-items:center;gap:20px;margin:22px 0;color:var(--amber);font-family:'JetBrains Mono';font-weight:700;font-size:24px;letter-spacing:4px}
+  .gap-div::before,.gap-div::after{content:"";flex:1;height:3px;background:rgba(251,129,54,.5);border-radius:2px}
+
+  .chat{background:#fff;border:3px solid var(--ink);border-radius:24px;padding:30px 32px;box-shadow:12px 14px 0 rgba(26,10,46,.9);margin-top:36px}
+  .chat .up{display:inline-flex;align-items:center;gap:12px;background:var(--violet);color:#fff;border:2.5px solid var(--ink);
+    border-radius:12px;padding:12px 22px;font-family:'Sora';font-weight:700;font-size:24px}
+  .chat .sec{margin-top:24px}
+  .chat .lab{font-family:'JetBrains Mono';font-size:19px;letter-spacing:1px;color:var(--muted);margin-bottom:8px}
+  .chat .txt{font-family:'Plus Jakarta Sans';font-weight:500;font-size:29px;line-height:1.45}
+  .chat .txt .b{color:var(--amber-deep);font-weight:700}
+  .dl-chip{display:inline-flex;align-items:center;gap:14px;background:var(--amber);border:2.5px solid var(--ink);border-radius:14px;padding:14px 22px;margin-top:4px}
+  .dl-chip .d{font-family:'Sora';font-weight:800;font-size:29px;color:var(--ink)}
+  .reply-de{background:var(--butter);border:2.5px solid var(--ink);border-radius:14px;padding:20px 22px;
+    font-family:'JetBrains Mono';font-size:26px;line-height:1.5;color:var(--ink);margin-top:8px}
+  .ready{display:inline-flex;align-items:center;gap:10px;margin-top:16px;font-family:'Sora';font-weight:700;font-size:24px;color:var(--green)}
+
+  .blist{display:flex;flex-direction:column;gap:22px;margin-top:36px}
+  .blist .b{display:flex;align-items:center;gap:18px;font-family:'Sora';font-weight:700;font-size:37px;color:#fff;letter-spacing:-.5px}
+  .blist .b .dot{width:20px;height:20px;border-radius:50%;background:var(--amber);flex:none;border:2px solid #fff}
+  .cta{align-self:flex-start;margin-top:44px;display:inline-flex;align-items:center;gap:14px;background:var(--amber);
+    color:var(--ink);border:3px solid var(--ink);border-radius:18px;padding:26px 44px;font-family:'Sora';font-weight:800;font-size:38px;
+    box-shadow:10px 11px 0 rgba(0,0,0,.35)}
+  .just{font-family:'Plus Jakarta Sans';font-weight:500;font-size:32px;color:#f3ecff;margin-top:26px}
+
+  .wmk{position:absolute;right:26px;top:50%;transform:translateY(-50%);writing-mode:vertical-rl;
+    font-family:'Sora';font-weight:800;font-size:26px;letter-spacing:14px;color:rgba(26,10,46,.06)}
+  .c-ink .wmk,.c-plum .wmk,.c-violet .wmk{color:rgba(255,255,255,.10)}
+</style>
+</head>
+<body>
+
+<!-- ============ CARD 1 ============ -->
+<div class="card c-cream" id="c1">
+  <div class="wmk">PAPKRAM</div>
+  <div class="top">
+    <div class="brand">
+      <span class="tile"><svg viewBox="0 0 24 24"><rect x="3.5" y="5.5" width="17" height="13" rx="3" fill="#fff" stroke="#1A0A2E" stroke-width="1.7"/><path d="M4.6 7.2l7.4 5.3 7.4-5.3" fill="none" stroke="#1A0A2E" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+      <span class="wm">Papkram</span>
+    </div>
+    <span class="idx">01 / 08</span>
+  </div>
+  <span class="eyebrow">O AN</span>
+  <h1><span class="hl">Jobcenter</span>'dan bir mektup geldi.</h1>
+  <p class="lead">Acil mi, bilmiyorsun.<br>Başın belada mı, bilmiyorsun.<br>Görmezden gelirsen ne olur, bilmiyorsun.</p>
+  <div class="letter">
+    <div class="hdr">
+      <span class="b"><svg viewBox="0 0 24 24"><rect x="3.5" y="5.5" width="17" height="13" rx="3" fill="#fff" stroke="#1A0A2E" stroke-width="1.7"/><path d="M4.6 7.2l7.4 5.3 7.4-5.3" fill="none" stroke="#1A0A2E" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+      <div><div class="org">Jobcenter</div><div class="sub">Bundesagentur für Arbeit</div></div>
+    </div>
+    <div class="lines"><i style="width:92%"></i><i style="width:74%"></i><i style="width:84%"></i></div>
+    <span class="stamp">Frist?</span>
+  </div>
+  <div class="spacer"></div>
+  <div class="kicker">Ve masanın üstünde öylece kalır. <span class="u">Günlerce.</span></div>
+  <div class="foot">
+    <div class="dots"><i class="on"></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+    <span class="swipe">kaydır →</span>
+  </div>
+</div>
+
+<!-- ============ CARD 2 ============ -->
+<div class="card c-ink" id="c2">
+  <div class="wmk">PAPKRAM</div>
+  <div class="top">
+    <div class="brand">
+      <span class="tile"><svg viewBox="0 0 24 24"><rect x="3.5" y="5.5" width="17" height="13" rx="3" fill="#fff" stroke="#1A0A2E" stroke-width="1.7"/><path d="M4.6 7.2l7.4 5.3 7.4-5.3" fill="none" stroke="#1A0A2E" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+      <span class="wm" style="color:#fff">Papkram</span>
+    </div>
+    <span class="idx">02 / 08</span>
+  </div>
+  <span class="eyebrow">ZATEN DENEDİN</span>
+  <h1>Onu <span class="hl">Google&nbsp;Translate</span>'e yaptırdın.</h1>
+  <div class="box">
+    <div class="lab">🇩🇪 ALMANCA</div>
+    <div class="de">„Bitte legen Sie die angeforderten Unterlagen zur Wahrung Ihrer Mitwirkungspflicht fristgerecht vor.“</div>
+  </div>
+  <div class="arrow-d">↓</div>
+  <div class="box tinted">
+    <div class="lab">ÇEVİRİ</div>
+    <div class="tr">„İşbirliği yükümlülüğünüzü korumak için istenen belgeleri zamanında ibraz ediniz.“</div>
+    <div class="dim">…ve hâlâ ne yapman gerektiğini bilmiyorsun.</div>
+  </div>
+  <div class="spacer"></div>
+  <div class="kicker">Bu bir dil sorunu değil.<br><span class="u">Bambaşka bir şey.</span></div>
+  <div class="foot">
+    <div class="dots"><i></i><i class="on"></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+    <span class="swipe">kaydır →</span>
+  </div>
+</div>
+
+<!-- ============ CARD 3 ============ -->
+<div class="card c-plum" id="c3">
+  <div class="wmk">PAPKRAM</div>
+  <div class="top">
+    <div class="brand">
+      <span class="tile"><svg viewBox="0 0 24 24"><rect x="3.5" y="5.5" width="17" height="13" rx="3" fill="#fff" stroke="#1A0A2E" stroke-width="1.7"/><path d="M4.6 7.2l7.4 5.3 7.4-5.3" fill="none" stroke="#1A0A2E" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+      <span class="wm" style="color:#fff">Papkram</span>
+    </div>
+    <span class="idx">03 / 08</span>
+  </div>
+  <span class="eyebrow">KİMSENİN SÖYLEMEDİĞİ ŞEY</span>
+  <h1 class="sm"><span style="color:#fff">Jobcenter</span> mektupları sadece Almanca değil.</h1>
+  <p class="lead">Bambaşka bir <span class="hl-a">şifreyle</span> yazılmışlar — anadili Almanca olanların bile bazen çözemediği bir şifre.</p>
+  <div class="codebox">
+    <div class="code-row"><span class="de">Mitwirkungspflicht</span><span class="g">bunu yap, yoksa ödemen kesilir</span></div>
+    <div class="code-row"><span class="de">Rechtsbehelfsbelehrung</span><span class="g">nasıl itiraz edilir — ve ne zamana kadar</span></div>
+    <div class="code-row"><span class="de">Eingliederungsvereinbarung</span><span class="g">artık uymak zorunda olduğun kurallar</span></div>
+  </div>
+  <div class="spacer"></div>
+  <div class="kicker">Çeviri sana kelimeleri verir.<br><span style="color:var(--amber)">Anlamı vermez.</span></div>
+  <div class="foot">
+    <div class="dots"><i></i><i></i><i class="on"></i><i></i><i></i><i></i><i></i><i></i></div>
+    <span class="swipe">kaydır →</span>
+  </div>
+</div>
+
+<!-- ============ CARD 4 ============ -->
+<div class="card c-cream" id="c4">
+  <div class="wmk">PAPKRAM</div>
+  <div class="top">
+    <div class="brand">
+      <span class="tile"><svg viewBox="0 0 24 24"><rect x="3.5" y="5.5" width="17" height="13" rx="3" fill="#fff" stroke="#1A0A2E" stroke-width="1.7"/><path d="M4.6 7.2l7.4 5.3 7.4-5.3" fill="none" stroke="#1A0A2E" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+      <span class="wm">Papkram</span>
+    </div>
+    <span class="idx">04 / 08</span>
+  </div>
+  <span class="eyebrow">ASIL ÖNEMLİ OLAN</span>
+  <h1 class="sm">Hukuki dilin içine gömülü, <span class="hl">üç şey.</span></h1>
+  <div class="items">
+    <div class="item"><span class="ic">✓</span><div><div class="t">Senden ne yapmanı istedikleri</div><div class="d">Net kelimelerle, asıl eylem</div></div></div>
+    <div class="item"><span class="ic amber">⏱</span><div><div class="t">Bunun için kesin son tarih</div><div class="d">Her şeyi değiştiren tarih</div></div></div>
+    <div class="item"><span class="ic red">!</span><div><div class="t">Kaçırırsan ne olacağı</div><div class="d">Kimsenin açıkça yazmadığı sonuç</div></div></div>
+  </div>
+  <div class="spacer"></div>
+  <div class="kicker">Çevirmen sana cümleleri gösterir.<br><span class="u">Bu üç şeyi göstermez.</span></div>
+  <div class="foot">
+    <div class="dots"><i></i><i></i><i></i><i class="on"></i><i></i><i></i><i></i><i></i></div>
+    <span class="swipe">kaydır →</span>
+  </div>
+</div>
+
+<!-- ============ CARD 5 ============ -->
+<div class="card c-cream" id="c5">
+  <div class="wmk">PAPKRAM</div>
+  <div class="top">
+    <div class="brand">
+      <span class="tile"><svg viewBox="0 0 24 24"><rect x="3.5" y="5.5" width="17" height="13" rx="3" fill="#fff" stroke="#1A0A2E" stroke-width="1.7"/><path d="M4.6 7.2l7.4 5.3 7.4-5.3" fill="none" stroke="#1A0A2E" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+      <span class="wm">Papkram</span>
+    </div>
+    <span class="idx">05 / 08</span>
+  </div>
+  <span class="eyebrow">SON TARİH NEDEN ÖNEMLİ</span>
+  <h1 class="sm">Tek bir son tarihi kaçırmak sadece <span class="hl">stres değil.</span></h1>
+  <div class="items">
+    <div class="item"><span class="n">01</span><div class="t" style="font-size:30px">Resmî bir uyarı başlatabilir.</div></div>
+    <div class="item"><span class="n">02</span><div class="t" style="font-size:30px">Ödemelerini durdurabilir.</div></div>
+    <div class="item"><span class="n">03</span><div class="t" style="font-size:30px">Haberin bile olmadığı bir süreç başlatabilir.</div></div>
+  </div>
+  <div class="spacer"></div>
+  <div class="kicker">Mektubu görmezden geldiğin için değil.<br>Gerçekten <span class="u">okuyamadığın için.</span><br><span style="font-weight:600;font-size:34px;color:var(--muted)">Bu adil değil. Ve senin suçun değil.</span></div>
+  <div class="foot">
+    <div class="dots"><i></i><i></i><i></i><i></i><i class="on"></i><i></i><i></i><i></i></div>
+    <span class="swipe">kaydır →</span>
+  </div>
+</div>
+
+<!-- ============ CARD 6 ============ -->
+<div class="card c-violet" id="c6">
+  <div class="wmk">PAPKRAM</div>
+  <div class="top">
+    <div class="brand">
+      <span class="tile"><svg viewBox="0 0 24 24"><rect x="3.5" y="5.5" width="17" height="13" rx="3" fill="#fff" stroke="#1A0A2E" stroke-width="1.7"/><path d="M4.6 7.2l7.4 5.3 7.4-5.3" fill="none" stroke="#1A0A2E" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+      <span class="wm" style="color:#fff">Papkram</span>
+    </div>
+    <span class="idx">06 / 08</span>
+  </div>
+  <span class="eyebrow">ASIL DÜŞMAN</span>
+  <h1>Sorun Almanca değil.<br>Sorun <span class="hl-a">boşluk.</span></h1>
+  <div class="gapbox">
+    <div class="lab">MEKTUBUN SÖYLEDİĞİ</div>
+    <div class="val">resmî · hukuki · yoğun</div>
+  </div>
+  <div class="gap-div">BOŞLUK</div>
+  <div class="gapbox">
+    <div class="lab">ASIL ANLAMI</div>
+    <div class="val">ne yapmalı · ne zamana kadar · nasıl yanıtlamalı</div>
+  </div>
+  <div class="spacer"></div>
+  <div class="kicker" style="color:#fff">Kaygıyı yaratan işte bu boşluk.<br><span style="color:var(--amber)">Onu kapat, mektup gücünü kaybeder.</span></div>
+  <div class="foot">
+    <div class="dots"><i></i><i></i><i></i><i></i><i></i><i class="on"></i><i></i><i></i></div>
+    <span class="swipe">kaydır →</span>
+  </div>
+</div>
+
+<!-- ============ CARD 7 ============ -->
+<div class="card c-cream" id="c7">
+  <div class="wmk">PAPKRAM</div>
+  <div class="top">
+    <div class="brand">
+      <span class="tile"><svg viewBox="0 0 24 24"><rect x="3.5" y="5.5" width="17" height="13" rx="3" fill="#fff" stroke="#1A0A2E" stroke-width="1.7"/><path d="M4.6 7.2l7.4 5.3 7.4-5.3" fill="none" stroke="#1A0A2E" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+      <span class="wm">Papkram</span>
+    </div>
+    <span class="idx">07 / 08</span>
+  </div>
+  <span class="eyebrow">ÇÖZÜM</span>
+  <h1 class="sm"><span>Papkram</span> tam da bunun için <span class="hl">yapıldı.</span></h1>
+  <div class="chat">
+    <span class="up"><svg viewBox="0 0 24 24" width="24" height="24"><rect x="3.5" y="5.5" width="17" height="13" rx="3" fill="none" stroke="#fff" stroke-width="1.8"/><path d="M4.6 7.2l7.4 5.3 7.4-5.3" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg> Mektup yüklendi</span>
+    <div class="sec">
+      <div class="lab">ÖZET · KENDİ DİLİNDE</div>
+      <div class="txt">Ödemelerinin devam etmesi için <span class="b">22 Ağustos</span>'a kadar güncel kira sözleşmeni istiyorlar. Ödeme yok, ceza yok — sadece tek bir belge.</div>
+    </div>
+    <div class="sec">
+      <div class="lab">SON TARİH</div>
+      <span class="dl-chip"><span class="d">22 Ağustos 2026 Cuma'ya kadar yanıtla</span></span>
+    </div>
+    <div class="sec">
+      <div class="lab">ALMANCA YANIT · GÖNDERİME HAZIR</div>
+      <div class="reply-de">Sehr geehrte Damen und Herren, anbei übersende ich fristgerecht den angeforderten Mietvertrag …</div>
+      <span class="ready">✓ Gönderime hazır</span>
+    </div>
+  </div>
+  <div class="spacer"></div>
+  <div class="kicker">Tek kelime Almanca yazmıyorsun.<br><span class="u">Mektup halledildi. Bitti.</span></div>
+  <div class="foot">
+    <div class="dots"><i></i><i></i><i></i><i></i><i></i><i></i><i class="on"></i><i></i></div>
+    <span class="swipe">kaydır →</span>
+  </div>
+</div>
+
+<!-- ============ CARD 8 ============ -->
+<div class="card c-violet" id="c8">
+  <div class="wmk">PAPKRAM</div>
+  <div class="top">
+    <div class="brand">
+      <span class="tile"><svg viewBox="0 0 24 24"><rect x="3.5" y="5.5" width="17" height="13" rx="3" fill="#fff" stroke="#1A0A2E" stroke-width="1.7"/><path d="M4.6 7.2l7.4 5.3 7.4-5.3" fill="none" stroke="#1A0A2E" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+      <span class="wm" style="color:#fff">Papkram</span>
+    </div>
+    <span class="idx">08 / 08</span>
+  </div>
+  <span class="eyebrow">SON BİR ŞEY</span>
+  <h1>Bir sonraki mektup <span class="hl-a">böyle hissettirmek</span> zorunda değil.</h1>
+  <div class="blist">
+    <div class="b"><span class="dot"></span> Masada geçen kaygılı günler yok.</div>
+    <div class="b"><span class="dot"></span> Çeviri için bir arkadaşı aramak yok.</div>
+    <div class="b"><span class="dot"></span> Doğru anladın mı diye tahmin etmek yok.</div>
+  </div>
+  <a class="cta">Papkram'ı ücretsiz dene →</a>
+  <div class="just">Sadece netlik. 60 saniyede.</div>
+  <div class="spacer"></div>
+  <div class="foot">
+    <div class="dots"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i class="on"></i></div>
+    <span class="swipe">bio'daki bağlantı ↘</span>
+  </div>
+</div>
+
+</body>
+</html>
