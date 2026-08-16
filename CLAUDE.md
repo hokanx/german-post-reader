@@ -139,6 +139,7 @@ never claim a step is done without running the verify command in *this* response
 
 ## env vars
 
+- `NEXT_PUBLIC_SITE_URL` (production canonical URL, e.g. `https://papkram.de` — used for `metadataBase`, OG tags, and sitemap/robots; falls back to `VERCEL_URL` on preview deploys, `localhost:3000` locally)
 - `NEXT_PUBLIC_SUPABASE_URL` (Supabase)
 - `NEXT_PUBLIC_SUPABASE_ANON_KEY` (Supabase)
 - `SUPABASE_SERVICE_ROLE_KEY` (Supabase)
