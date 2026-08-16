@@ -96,7 +96,7 @@ export async function signup(
     };
   }
 
-  await sendWelcomeEmail(email);
+  await sendWelcomeEmail(email, language);
 
   redirect("/onboarding");
 }

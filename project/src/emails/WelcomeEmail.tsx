@@ -1,84 +1,75 @@
 import {
   Body,
+  Button,
   Container,
   Head,
   Heading,
+  Hr,
   Html,
+  Img,
   Preview,
   Section,
   Text,
 } from "@react-email/components";
 import { FREE_LETTER_LIMIT, SUBSCRIPTION_PRICE_EUR } from "@/lib/constants";
 import { formatEur } from "@/lib/format-currency";
+import type { AppLanguage } from "@/lib/letters/types";
+import { WELCOME_EMAIL_COPY } from "./copy";
+import { LOGO_URL, styles } from "./theme";
 
-export function WelcomeEmail() {
+export function WelcomeEmail({ language = "en" }: { language?: AppLanguage }) {
+  const copy = WELCOME_EMAIL_COPY[language];
+  const align = copy.dir === "rtl" ? "right" : "left";
+
   return (
-    <Html>
+    <Html lang={language} dir={copy.dir}>
       <Head />
-      <Preview>{`Your first ${FREE_LETTER_LIMIT} letters are free — no card required`}</Preview>
+      <Preview>{copy.preview(FREE_LETTER_LIMIT)}</Preview>
       <Body style={styles.body}>
         <Container style={styles.container}>
           <Section style={styles.header}>
-            <Heading style={styles.heading}>Papkram</Heading>
+            <table role="presentation" cellPadding={0} cellSpacing={0}>
+              <tr>
+                <td>
+                  <Img src={LOGO_URL} width={32} height={32} alt="Papkram" style={styles.logoImg} />
+                </td>
+                <td style={styles.wordmark}>Papkram</td>
+              </tr>
+            </table>
           </Section>
-          <Section style={styles.section}>
-            <Text style={styles.text}>
-              Welcome. Your account is ready — you have {FREE_LETTER_LIMIT} free
-              letter analyses to start with, no card required.
+
+          <Section style={{ ...styles.body_section, textAlign: align }}>
+            <span style={styles.pill}>{copy.pill}</span>
+            <Heading style={{ ...styles.heading, textAlign: align }}>{copy.heading}</Heading>
+            <Text style={{ ...styles.text, textAlign: align }}>
+              {copy.intro(FREE_LETTER_LIMIT)}
             </Text>
-            <Text style={styles.text}>
-              Upload a photo or PDF of any German letter and we&apos;ll give
-              you a plain-language summary, flag any deadlines, and draft a
-              reply in German — with a translation so you know exactly what
-              it says, in English, Arabic, or Turkish.
+
+            {copy.features.map((feature) => (
+              <div key={feature.label} style={{ ...styles.featureCard, textAlign: align }}>
+                <Text style={{ ...styles.featureLabel, textAlign: align }}>{feature.label}</Text>
+                <Text style={{ ...styles.featureText, textAlign: align }}>{feature.text}</Text>
+              </div>
+            ))}
+
+            <Text style={{ ...styles.muted, textAlign: align }}>{copy.riskNote}</Text>
+            <Text style={{ ...styles.muted, textAlign: align }}>
+              {copy.priceNote(formatEur(SUBSCRIPTION_PRICE_EUR))}
             </Text>
-            <Text style={styles.text}>
-              If a letter mentions an amount or date we&apos;re not fully
-              sure about, we&apos;ll say so plainly rather than guess.
-            </Text>
-            <Text style={styles.text}>
-              After your free letters, unlocking unlimited letters is{" "}
-              {formatEur(SUBSCRIPTION_PRICE_EUR)} per year.
-            </Text>
+
+            <Button href="https://papkram.de/upload" style={styles.button}>
+              {copy.cta}
+            </Button>
+          </Section>
+
+          <Hr style={{ borderColor: "#fef3c7", margin: 0 }} />
+          <Section style={styles.footer}>
+            <Text style={{ ...styles.footerText, textAlign: align }}>{copy.footer}</Text>
           </Section>
         </Container>
       </Body>
     </Html>
   );
 }
-
-const styles = {
-  body: {
-    backgroundColor: "#fff7ed",
-    fontFamily:
-      "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
-  },
-  container: {
-    backgroundColor: "#ffffff",
-    margin: "0 auto",
-    padding: "32px",
-    maxWidth: "480px",
-    border: "2px solid #1a0a2e",
-    borderRadius: "22px",
-  },
-  header: {
-    marginBottom: "16px",
-  },
-  heading: {
-    color: "#1a0a2e",
-    fontSize: "24px",
-    fontWeight: 800,
-    letterSpacing: "-0.02em",
-    margin: 0,
-  },
-  section: {
-    marginTop: "8px",
-  },
-  text: {
-    color: "#1a0a2e",
-    fontSize: "16px",
-    lineHeight: "24px",
-  },
-};
 
 export default WelcomeEmail;
