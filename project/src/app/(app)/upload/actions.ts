@@ -158,6 +158,23 @@ export async function uploadLetter(
     };
   }
 
+  // Seeds the translation cache with the language this letter was already
+  // analyzed in — free, since that content already exists — so switching
+  // back to it later is a cache read instead of a re-translation. Best-effort:
+  // a failed write here just costs one extra Gemini call the first time the
+  // user switches back, not the upload itself.
+  await service.from("letter_translations").insert({
+    letter_id: letterId,
+    language,
+    summary: analysis.summary,
+    deadlines: analysis.deadlines,
+    risk_flags: analysis.risk_flags,
+    payments: analysis.payments,
+    appointments: analysis.appointments,
+    key_facts: analysis.key_facts,
+    reply_draft_translation: analysis.reply_draft_translation,
+  });
+
   await service
     .from("profiles")
     .update({ trial_letters_used: profile.trial_letters_used + 1 })

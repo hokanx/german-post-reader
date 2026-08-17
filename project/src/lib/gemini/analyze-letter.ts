@@ -386,6 +386,10 @@ export async function translateLetterContent(
           systemInstruction: `You translate an already-extracted structured analysis of a German postal letter into ${LANGUAGE_NAMES[targetLanguage]}. Translate meaning faithfully — do not summarize further, add, remove, or reorder items. Every array in your response must have exactly the same number of items, in the same order, as the corresponding array given to you. Dates and source quotes are handled separately and are not part of this task.`,
           responseMimeType: "application/json",
           responseSchema: TRANSLATE_CONTENT_SCHEMA,
+          // Straight text-in/JSON-out translation of already-extracted
+          // content — no extraction or judgment call involved, so the
+          // model's thinking-token budget buys nothing here.
+          thinkingConfig: { thinkingBudget: 0 },
         },
       }),
     );
@@ -480,6 +484,9 @@ export async function regenerateReplyDraft(
           systemInstruction: `You draft replies to official German postal letters on behalf of someone who cannot read German confidently. reply_draft must be written entirely in GERMAN, formal and correct, since the recipient reads German. ${SENDER_INSTRUCTION} reply_draft_translation must translate reply_draft's exact meaning into ${LANGUAGE_NAMES[language]}. If the context above includes a line starting with "The user's answer to work into the reply" and that text is gibberish, empty of real meaning, spam, or unrelated to responding to this letter, set answer_understood to false, write answer_clarification in ${LANGUAGE_NAMES[language]} explaining what's needed instead, and do not try to force that answer into reply_draft. If there is no such line, or the answer is coherent, set answer_understood to true and leave answer_clarification as an empty string.`,
           responseMimeType: "application/json",
           responseSchema: REPLY_DRAFT_SCHEMA,
+          // A short templated reply from already-extracted context, not a
+          // reasoning task — skip the thinking-token budget here too.
+          thinkingConfig: { thinkingBudget: 0 },
         },
       }),
     );
