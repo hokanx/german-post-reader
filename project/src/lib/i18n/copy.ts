@@ -105,6 +105,8 @@ export type AppCopy = {
     accountLoadFailedRecovery: string;
     trialLimitReached: (limit: number) => string;
     trialLimitReachedRecovery: (price: string) => string;
+    dailyLimitReached: string;
+    dailyLimitReachedRecovery: string;
     letterSaveFailed: string;
     letterSaveFailedRecovery: string;
   };
@@ -168,9 +170,10 @@ export type AppCopy = {
   paywall: {
     badge: string;
     heading: (limit: number) => string;
-    description: (price: string) => string;
+    description: (price: string, interval: "year" | "month") => string;
+    planToggle: { yearly: string; monthly: string };
     redirecting: string;
-    subscribe: (price: string) => string;
+    subscribe: (price: string, interval: "year" | "month") => string;
     checkoutError: string;
     earlyAccessConsent: string;
     earlyAccessConsentRequired: string;
@@ -325,6 +328,8 @@ export const APP_COPY: Record<AppLanguage, AppCopy> = {
       accountLoadFailedRecovery: "Try again.",
       trialLimitReached: (limit) => `You've used all ${limit} free letters.`,
       trialLimitReachedRecovery: (price) => `Unlock unlimited letters for ${price}/year.`,
+      dailyLimitReached: "You've reached today's letter limit.",
+      dailyLimitReachedRecovery: "Try again tomorrow, or contact us if you need more.",
       letterSaveFailed: "Your letter was analyzed but couldn't be saved.",
       letterSaveFailedRecovery: "Try uploading again.",
     },
@@ -389,9 +394,11 @@ export const APP_COPY: Record<AppLanguage, AppCopy> = {
     paywall: {
       badge: "Free trial ended",
       heading: (limit) => `You've used all ${limit} free letters`,
-      description: (price) => `Unlock unlimited letters for ${price}/year — cancel any time from your dashboard.`,
+      description: (price, interval) =>
+        `Unlock unlimited letters for ${price}/${interval} — cancel any time from your dashboard.`,
+      planToggle: { yearly: "Yearly — best value", monthly: "Monthly" },
       redirecting: "Redirecting…",
-      subscribe: (price) => `Subscribe — ${price}/year`,
+      subscribe: (price, interval) => `Subscribe — ${price}/${interval}`,
       checkoutError: "Couldn't start checkout.",
       earlyAccessConsent:
         "I want unlimited access to start right away. I understand I can still withdraw within 14 days, but I'll owe a proportionate amount for the access I've already used by then.",
@@ -601,6 +608,8 @@ export const APP_COPY: Record<AppLanguage, AppCopy> = {
       accountLoadFailedRecovery: "حاول مرة أخرى.",
       trialLimitReached: (limit) => `لقد استخدمت جميع خطاباتك المجانية الـ ${limit}.`,
       trialLimitReachedRecovery: (price) => `افتح خطابات غير محدودة مقابل ${price} سنويًا.`,
+      dailyLimitReached: "لقد وصلت إلى الحد الأقصى من الخطابات لهذا اليوم.",
+      dailyLimitReachedRecovery: "حاول مرة أخرى غدًا، أو تواصل معنا إذا احتجت إلى المزيد.",
       letterSaveFailed: "تم تحليل خطابك لكن تعذر حفظه.",
       letterSaveFailedRecovery: "حاول الرفع مرة أخرى.",
     },
@@ -665,9 +674,11 @@ export const APP_COPY: Record<AppLanguage, AppCopy> = {
     paywall: {
       badge: "انتهت التجربة المجانية",
       heading: (limit) => `لقد استخدمت جميع خطاباتك المجانية الـ ${limit}`,
-      description: (price) => `افتح خطابات غير محدودة مقابل ${price} سنويًا — ألغِ في أي وقت من لوحة التحكم.`,
+      description: (price, interval) =>
+        `افتح خطابات غير محدودة مقابل ${price} ${interval === "year" ? "سنويًا" : "شهريًا"} — ألغِ في أي وقت من لوحة التحكم.`,
+      planToggle: { yearly: "سنويًا — أفضل قيمة", monthly: "شهريًا" },
       redirecting: "جارٍ التوجيه…",
-      subscribe: (price) => `اشترك — ${price} سنويًا`,
+      subscribe: (price, interval) => `اشترك — ${price} ${interval === "year" ? "سنويًا" : "شهريًا"}`,
       checkoutError: "تعذر بدء الدفع.",
       earlyAccessConsent:
         "أريد أن يبدأ الوصول غير المحدود فورًا. أفهم أنه لا يزال بإمكاني الانسحاب خلال 14 يومًا، لكنني سأكون مدينًا بمبلغ متناسب مقابل الوصول الذي استخدمته حتى ذلك الحين.",
@@ -879,6 +890,8 @@ export const APP_COPY: Record<AppLanguage, AppCopy> = {
       accountLoadFailedRecovery: "Tekrar deneyin.",
       trialLimitReached: (limit) => `${limit} ücretsiz mektubunuzun tamamını kullandınız.`,
       trialLimitReachedRecovery: (price) => `Yılda ${price} karşılığında sınırsız mektubun kilidini açın.`,
+      dailyLimitReached: "Bugünkü mektup sınırınıza ulaştınız.",
+      dailyLimitReachedRecovery: "Yarın tekrar deneyin, ya da daha fazlasına ihtiyacınız varsa bize ulaşın.",
       letterSaveFailed: "Mektubunuz analiz edildi ama kaydedilemedi.",
       letterSaveFailedRecovery: "Tekrar yüklemeyi deneyin.",
     },
@@ -943,9 +956,11 @@ export const APP_COPY: Record<AppLanguage, AppCopy> = {
     paywall: {
       badge: "Ücretsiz deneme sona erdi",
       heading: (limit) => `${limit} ücretsiz mektubunuzun tamamını kullandınız`,
-      description: (price) => `Yılda ${price} karşılığında sınırsız mektubun kilidini açın — istediğiniz zaman panelinizden iptal edin.`,
+      description: (price, interval) =>
+        `${interval === "year" ? "Yılda" : "Ayda"} ${price} karşılığında sınırsız mektubun kilidini açın — istediğiniz zaman panelinizden iptal edin.`,
+      planToggle: { yearly: "Yıllık — en avantajlı", monthly: "Aylık" },
       redirecting: "Yönlendiriliyor…",
-      subscribe: (price) => `Abone ol — yılda ${price}`,
+      subscribe: (price, interval) => `Abone ol — ${interval === "year" ? "yılda" : "ayda"} ${price}`,
       checkoutError: "Ödeme başlatılamadı.",
       earlyAccessConsent:
         "Sınırsız erişimin hemen başlamasını istiyorum. 14 gün içinde yine de cayabileceğimi, ancak o ana kadar kullandığım erişim için orantılı bir tutar borçlanacağımı anlıyorum.",

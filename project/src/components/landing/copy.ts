@@ -40,6 +40,7 @@ export type MarketingCopy = {
     totalComparisonValue: string;
     priceLabel: string;
     perYearLabel: string;
+    monthlyNote: (price: string) => string;
     cta: string;
   };
   bonuses: {
@@ -144,6 +145,7 @@ export const MARKETING_COPY: Record<MarketingLocale, MarketingCopy> = {
       totalComparisonValue: "368,00 €",
       priceLabel: "Your price",
       perYearLabel: "/ year",
+      monthlyNote: (price) => `or ${price}/month, cancel any time`,
       cta: "Start free trial",
     },
     bonuses: {
@@ -267,6 +269,7 @@ export const MARKETING_COPY: Record<MarketingLocale, MarketingCopy> = {
       totalComparisonValue: "368,00 €",
       priceLabel: "سعرك",
       perYearLabel: "/ سنويًا",
+      monthlyNote: (price) => `أو ${price} شهريًا، ألغِ في أي وقت`,
       cta: "ابدأ تجربتك المجانية",
     },
     bonuses: {
@@ -390,6 +393,7 @@ export const MARKETING_COPY: Record<MarketingLocale, MarketingCopy> = {
       totalComparisonValue: "368,00 €",
       priceLabel: "Sizin fiyatınız",
       perYearLabel: "/ yıl",
+      monthlyNote: (price) => `veya ayda ${price}, istediğiniz zaman iptal edin`,
       cta: "Ücretsiz denemeyi başlat",
     },
     bonuses: {

@@ -71,7 +71,7 @@ export default async function SettingsPage() {
             ) : (
               <SettingsUpgradeButton
                 copy={{
-                  subscribe: paywallCopy.subscribe(formatEur(SUBSCRIPTION_PRICE_EUR)),
+                  subscribe: paywallCopy.subscribe(formatEur(SUBSCRIPTION_PRICE_EUR), "year"),
                   redirecting: paywallCopy.redirecting,
                   checkoutError: paywallCopy.checkoutError,
                   earlyAccessConsent: paywallCopy.earlyAccessConsent,

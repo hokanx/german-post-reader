@@ -4,7 +4,7 @@ import Link from "next/link";
 import { motion, useReducedMotion } from "framer-motion";
 import { Check } from "lucide-react";
 import { buttonVariants } from "@/components/ui/button";
-import { FREE_LETTER_LIMIT, SUBSCRIPTION_PRICE_EUR } from "@/lib/constants";
+import { FREE_LETTER_LIMIT, SUBSCRIPTION_PRICE_EUR, SUBSCRIPTION_PRICE_MONTHLY_EUR } from "@/lib/constants";
 import { formatEur } from "@/lib/format-currency";
 import { useMarketingLocale } from "./locale-context";
 import { MARKETING_COPY } from "./copy";
@@ -64,6 +64,9 @@ export function ValueStack() {
               <span className="ms-1 text-sm font-normal text-foreground/60">{copy.offer.perYearLabel}</span>
             </span>
           </div>
+          <p className="mt-1 text-end text-xs text-foreground/60">
+            {copy.offer.monthlyNote(formatEur(SUBSCRIPTION_PRICE_MONTHLY_EUR))}
+          </p>
 
           <Link
             href="/signup"

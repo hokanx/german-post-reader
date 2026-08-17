@@ -14,7 +14,11 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: "Unauthenticated" }, { status: 401 });
   }
 
-  if (!env.STRIPE_PRICE_ID) {
+  const body = await request.json().catch(() => ({}));
+  const plan = body?.plan === "monthly" ? "monthly" : "yearly";
+  const priceId = plan === "monthly" ? env.STRIPE_PRICE_ID_MONTHLY : env.STRIPE_PRICE_ID;
+
+  if (!priceId) {
     return NextResponse.json({ error: "Billing is not configured yet" }, { status: 503 });
   }
 
@@ -42,7 +46,7 @@ export async function POST(request: NextRequest) {
   const session = await stripe.checkout.sessions.create({
     mode: "subscription",
     customer: customerId,
-    line_items: [{ price: env.STRIPE_PRICE_ID, quantity: 1 }],
+    line_items: [{ price: priceId, quantity: 1 }],
     success_url: `${origin}/dashboard?subscribed=true`,
     cancel_url: `${origin}/dashboard`,
   });

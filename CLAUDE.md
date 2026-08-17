@@ -91,8 +91,9 @@ Arabic output must render in a right-to-left container (`dir="rtl"`). Any compon
 ### Stripe rules
 - Access state is stored in Supabase on the `profiles` table as `has_active_subscription` (boolean) and `trial_letters_used` (integer).
 - The free trial limit is 4 letters (`FREE_LETTER_LIMIT` in `src/lib/constants.ts` — the single source of truth; never hardcode the number elsewhere). Enforce server-side in the upload server action — never trust client-side counts.
-- Unlocking unlimited letters is a €5.99/year subscription (`SUBSCRIPTION_PRICE_EUR` in the same constants file), billed via Stripe Checkout (mode: subscription).
-- The Stripe webhook listens for `customer.subscription.created/updated/deleted` and sets `has_active_subscription` via the service role key, matched on `stripe_customer_id`.
+- Unlocking unlimited letters is a subscription, either €29.99/year (`SUBSCRIPTION_PRICE_EUR`) or €3.99/month (`SUBSCRIPTION_PRICE_MONTHLY_EUR`), both in the same constants file. The `PaywallModal` lets the user toggle plan; the choice is posted as `{ plan: "yearly" | "monthly" }` to `/api/stripe/checkout`, which maps it to `STRIPE_PRICE_ID` (yearly) or `STRIPE_PRICE_ID_MONTHLY` — both must exist as real Stripe Price objects with matching amounts before checkout works for that plan.
+- Even on the unlimited plan, uploads are capped at `DAILY_LETTER_LIMIT` (also in constants.ts) per user per day — enforced server-side in the upload action. This isn't a cost control (Gemini cost per letter is near-zero); it's a backstop against a bug or abuse turning "unlimited" into a real bill.
+- The Stripe webhook listens for `customer.subscription.created/updated/deleted` and sets `has_active_subscription` via the service role key, matched on `stripe_customer_id`. It's price-agnostic — works the same for either plan.
 - Customer Portal (`/api/stripe/portal`) lets a subscribed user cancel/manage billing self-service — linked from the dashboard's "Unlimited letters" banner.
 - Stripe Checkout and Customer Portal URLs are generated server-side. Never pass the Stripe secret key to the client.
 
@@ -147,7 +148,9 @@ never claim a step is done without running the verify command in *this* response
 - `STRIPE_SECRET_KEY` (Stripe)
 - `NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY` (Stripe)
 - `STRIPE_WEBHOOK_SECRET` (Stripe)
-- `STRIPE_PRICE_ID` (Stripe)
+- `STRIPE_PRICE_ID` (Stripe — yearly plan, €29.99)
+- `STRIPE_PRICE_ID_MONTHLY` (Stripe — monthly plan, €3.99)
+- `CRON_SECRET` (optional — protects `/api/cron/keep-alive`; Vercel Cron sends it automatically as `Authorization: Bearer $CRON_SECRET` when the env var is set)
 - `RESEND_API_KEY` (Resend)
 - `RESEND_FROM_EMAIL` (Resend)
 - `NEXT_PUBLIC_POSTHOG_KEY` (Posthog)
@@ -159,4 +162,4 @@ never claim a step is done without running the verify command in *this* response
 
 ## last updated
 
-2026-07-30
+2026-08-17

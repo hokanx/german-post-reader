@@ -10,7 +10,7 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
-import { FREE_LETTER_LIMIT, SUBSCRIPTION_PRICE_EUR } from "@/lib/constants";
+import { FREE_LETTER_LIMIT, SUBSCRIPTION_PRICE_EUR, SUBSCRIPTION_PRICE_MONTHLY_EUR } from "@/lib/constants";
 import { formatEur } from "@/lib/format-currency";
 import type { AppLanguage } from "@/lib/letters/types";
 import { APP_COPY } from "@/lib/i18n/copy";
@@ -28,6 +28,10 @@ export function PaywallModal({
   const [pending, startTransition] = useTransition();
   const [error, setError] = useState<string | null>(null);
   const [consented, setConsented] = useState(false);
+  const [plan, setPlan] = useState<"yearly" | "monthly">("yearly");
+
+  const interval = plan === "yearly" ? "year" : "month";
+  const price = formatEur(plan === "yearly" ? SUBSCRIPTION_PRICE_EUR : SUBSCRIPTION_PRICE_MONTHLY_EUR);
 
   function handleSubscribe() {
     if (!consented) {
@@ -37,7 +41,11 @@ export function PaywallModal({
     setError(null);
     startTransition(async () => {
       try {
-        const response = await fetch("/api/stripe/checkout", { method: "POST" });
+        const response = await fetch("/api/stripe/checkout", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ plan }),
+        });
         const data = await response.json();
         if (!response.ok || !data.url) {
           throw new Error(data.error ?? copy.checkoutError);
@@ -65,9 +73,32 @@ export function PaywallModal({
             {copy.heading(FREE_LETTER_LIMIT)}
           </DialogTitle>
           <DialogDescription className="text-sm text-foreground/70">
-            {copy.description(formatEur(SUBSCRIPTION_PRICE_EUR))}
+            {copy.description(price, interval)}
           </DialogDescription>
         </DialogHeader>
+
+        <div
+          role="radiogroup"
+          aria-label={copy.planToggle.yearly}
+          className="grid grid-cols-2 gap-2 rounded-sm border-2 border-border bg-muted p-1"
+        >
+          {(["yearly", "monthly"] as const).map((option) => (
+            <button
+              key={option}
+              type="button"
+              role="radio"
+              aria-checked={plan === option}
+              onClick={() => setPlan(option)}
+              className={`h-10 rounded-sm text-sm font-bold transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring ${
+                plan === option
+                  ? "bg-primary text-primary-foreground"
+                  : "text-foreground/70 hover:text-foreground"
+              }`}
+            >
+              {option === "yearly" ? copy.planToggle.yearly : copy.planToggle.monthly}
+            </button>
+          ))}
+        </div>
 
         <label className="flex items-start gap-2.5 text-sm text-foreground/80">
           <input
@@ -94,7 +125,7 @@ export function PaywallModal({
           onClick={handleSubscribe}
           className="h-12 w-full rounded-sm text-base font-bold"
         >
-          {pending ? copy.redirecting : copy.subscribe(formatEur(SUBSCRIPTION_PRICE_EUR))}
+          {pending ? copy.redirecting : copy.subscribe(price, interval)}
         </Button>
       </DialogContent>
     </Dialog>

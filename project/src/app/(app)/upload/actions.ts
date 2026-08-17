@@ -4,7 +4,7 @@ import { randomUUID } from "node:crypto";
 import { createClient } from "@/lib/supabase/server";
 import { createServiceClient } from "@/lib/supabase/service";
 import { analyzeDocument } from "@/lib/gemini/analyze-letter";
-import { FREE_LETTER_LIMIT, SUBSCRIPTION_PRICE_EUR } from "@/lib/constants";
+import { DAILY_LETTER_LIMIT, FREE_LETTER_LIMIT, SUBSCRIPTION_PRICE_EUR } from "@/lib/constants";
 import { formatEur } from "@/lib/format-currency";
 import type { AppLanguage } from "@/lib/letters/types";
 import { APP_COPY } from "@/lib/i18n/copy";
@@ -70,6 +70,30 @@ export async function uploadLetter(
         recovery: copy.trialLimitReachedRecovery(formatEur(SUBSCRIPTION_PRICE_EUR)),
       },
     };
+  }
+
+  // Unlimited plan still gets a generous daily backstop — Gemini cost per
+  // letter is near-zero, so this isn't about cost, it's about a bug or a
+  // single bad actor not being able to turn "unlimited" into a real bill.
+  if (profile.has_active_subscription) {
+    const dayStart = new Date();
+    dayStart.setHours(0, 0, 0, 0);
+    const { count, error: countError } = await service
+      .from("letters")
+      .select("id", { count: "exact", head: true })
+      .eq("user_id", user.id)
+      .gte("created_at", dayStart.toISOString());
+
+    if (!countError && (count ?? 0) >= DAILY_LETTER_LIMIT) {
+      return {
+        ok: false,
+        error: {
+          code: "DAILY_LIMIT_REACHED",
+          message: copy.dailyLimitReached,
+          recovery: copy.dailyLimitReachedRecovery,
+        },
+      };
+    }
   }
 
   const bytes = Buffer.from(await file.arrayBuffer());
