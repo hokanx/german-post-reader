@@ -7,6 +7,7 @@
 import path from "node:path";
 import { faker } from "@faker-js/faker";
 import { createClient } from "@supabase/supabase-js";
+import type { SenderCategory } from "../letters/types";
 
 process.loadEnvFile(path.resolve(__dirname, "../../../.env.local"));
 
@@ -17,6 +18,7 @@ const DEMO_PASSWORD = "DemoAccount123!";
 
 type SeedLetter = {
   sender: string;
+  sender_category: SenderCategory;
   summary: string;
   deadlines: { date: string; description: string }[];
   key_facts: { label: string; value: string; source_quote: string }[];
@@ -31,6 +33,7 @@ type SeedLetter = {
 const LETTERS: SeedLetter[] = [
   {
     sender: "Stadtwerke München",
+    sender_category: "utility",
     summary:
       "Your 2025 electricity annual statement shows you used more power than your monthly payments covered. You owe an extra 187,42 €.",
     deadlines: [{ date: "2026-02-28", description: "Pay the 187,42 € balance to Stadtwerke München" }],
@@ -47,6 +50,7 @@ const LETTERS: SeedLetter[] = [
   },
   {
     sender: "Techniker Krankenkasse",
+    sender_category: "insurer",
     summary:
       "Your health insurer confirms your monthly contribution is increasing from 1 March 2026 because your reported income changed.",
     deadlines: [{ date: "2026-03-01", description: "New contribution amount takes effect" }],
@@ -62,6 +66,7 @@ const LETTERS: SeedLetter[] = [
   },
   {
     sender: "Finanzamt München",
+    sender_category: "authority",
     summary:
       "The tax office is requesting your 2025 income tax return documents. If you don't respond, they may estimate your tax owed themselves — which is usually higher than the real amount.",
     deadlines: [{ date: "2026-04-15", description: "Submit 2025 tax return documents" }],
@@ -80,6 +85,7 @@ const LETTERS: SeedLetter[] = [
   },
   {
     sender: "Vermieter — Hausverwaltung Schmidt",
+    sender_category: "landlord",
     summary:
       "Your landlord's property management company is notifying you of a routine gas heating inspection in your building.",
     deadlines: [{ date: "2026-02-10", description: "Be present or allow access for the heating inspection" }],
@@ -95,6 +101,7 @@ const LETTERS: SeedLetter[] = [
   },
   {
     sender: "Ausländerbehörde Berlin",
+    sender_category: "authority",
     summary:
       "The immigration office is asking you to book an appointment to renew your residence permit before it expires.",
     deadlines: [{ date: "2026-05-20", description: "Residence permit expires — renew before this date" }],
@@ -112,6 +119,7 @@ const LETTERS: SeedLetter[] = [
   },
   {
     sender: "ARD ZDF Deutschlandradio Beitragsservice",
+    sender_category: "authority",
     summary:
       "This is the mandatory German broadcasting fee (Rundfunkbeitrag) confirming your registration and quarterly payment amount.",
     deadlines: [{ date: "2026-02-15", description: "Quarterly broadcasting fee payment due" }],
@@ -127,6 +135,7 @@ const LETTERS: SeedLetter[] = [
   },
   {
     sender: "Deutsche Rentenversicherung Bund",
+    sender_category: "authority",
     summary:
       "Your annual pension contribution statement — this is informational only and shows how much has been paid into your pension so far. No action needed.",
     deadlines: [],
@@ -140,6 +149,7 @@ const LETTERS: SeedLetter[] = [
   },
   {
     sender: "Jobcenter Berlin Mitte",
+    sender_category: "authority",
     summary:
       "The Jobcenter needs updated proof of your current employment status to continue processing your case.",
     deadlines: [{ date: "2026-02-20", description: "Submit updated employment documents" }],
@@ -155,6 +165,7 @@ const LETTERS: SeedLetter[] = [
   },
   {
     sender: "Bürgeramt Friedrichshain-Kreuzberg",
+    sender_category: "authority",
     summary:
       "Confirmation that your address registration (Anmeldung) was successfully processed. Keep this for your records.",
     deadlines: [],
@@ -168,6 +179,7 @@ const LETTERS: SeedLetter[] = [
   },
   {
     sender: "Sparkasse Berlin",
+    sender_category: "bank",
     summary:
       "Your bank is notifying you of a change to their account fee schedule starting next quarter.",
     deadlines: [{ date: "2026-04-01", description: "New account fees take effect" }],
@@ -185,6 +197,7 @@ const LETTERS: SeedLetter[] = [
   },
   {
     sender: "DHL Paket",
+    sender_category: "delivery",
     summary:
       "A parcel delivery attempt failed while you were out. It's being held at a local DHL pickup point for 7 days.",
     deadlines: [{ date: "2026-02-06", description: "Collect parcel from DHL pickup point" }],
@@ -200,6 +213,7 @@ const LETTERS: SeedLetter[] = [
   },
   {
     sender: "Grundschule am Rathaus",
+    sender_category: "school",
     summary:
       "Your child's school is informing you about the upcoming parent-teacher conference and asking you to confirm a time slot.",
     deadlines: [{ date: "2026-02-12", description: "Confirm parent-teacher conference time slot" }],
@@ -215,6 +229,7 @@ const LETTERS: SeedLetter[] = [
   },
   {
     sender: "HUK-COBURG Kfz-Versicherung",
+    sender_category: "insurer",
     summary:
       "Your car insurance renewal notice — the annual premium is increasing slightly due to a regional rate adjustment.",
     deadlines: [{ date: "2026-03-15", description: "Renewal takes effect, new premium applies" }],
@@ -230,6 +245,7 @@ const LETTERS: SeedLetter[] = [
   },
   {
     sender: "Vodafone Kabel Deutschland",
+    sender_category: "utility",
     summary:
       "Your internet provider is notifying you that your promotional discount is ending, and your monthly bill will increase.",
     deadlines: [{ date: "2026-03-01", description: "Standard pricing begins after promotional period ends" }],
@@ -245,6 +261,7 @@ const LETTERS: SeedLetter[] = [
   },
   {
     sender: "Handwerker Elektro Meier",
+    sender_category: "other",
     summary:
       "An invoice for electrical repair work completed in your apartment last month.",
     deadlines: [{ date: "2026-02-25", description: "Pay invoice for completed electrical work" }],
@@ -260,6 +277,7 @@ const LETTERS: SeedLetter[] = [
   },
   {
     sender: "Stadtreinigung Berlin (BSR)",
+    sender_category: "utility",
     summary:
       "Notice of a small increase to your annual waste collection fee, effective with your next invoice.",
     deadlines: [],
@@ -273,6 +291,7 @@ const LETTERS: SeedLetter[] = [
   },
   {
     sender: "AOK Nordost",
+    sender_category: "insurer",
     summary:
       "Your health insurer is inviting you to a free preventive health checkup available once every two years.",
     deadlines: [],
@@ -286,6 +305,7 @@ const LETTERS: SeedLetter[] = [
   },
   {
     sender: "Amtsgericht Berlin-Mitte",
+    sender_category: "authority",
     summary:
       "You are being asked to appear as a witness in a minor civil case. This is a formal court summons, not a fine or accusation against you.",
     deadlines: [{ date: "2026-03-10", description: "Appear at Amtsgericht Berlin-Mitte as a witness" }],
@@ -303,6 +323,7 @@ const LETTERS: SeedLetter[] = [
   },
   {
     sender: "Techem Energy Services",
+    sender_category: "utility",
     summary:
       "Your annual heating cost statement from the building's metering company. This is informational and shows your share of the building's heating costs.",
     deadlines: [],
@@ -316,6 +337,7 @@ const LETTERS: SeedLetter[] = [
   },
   {
     sender: "Deutsche Post — Nachsendeauftrag",
+    sender_category: "delivery",
     summary:
       "Confirmation that your mail forwarding order to your new address has been set up successfully.",
     deadlines: [],
@@ -383,6 +405,7 @@ async function main() {
       storage_path: `${userId}/${letterId}`,
       raw_ocr_text: null,
       summary: `${letter.sender}: ${letter.summary}`,
+      sender_category: letter.sender_category,
       deadlines: letter.deadlines,
       key_facts: letter.key_facts,
       action_required: letter.action_required,

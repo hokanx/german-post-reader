@@ -3,6 +3,7 @@ import { createGeminiClient, GEMINI_MODEL } from "./client";
 import {
   LANGUAGE_NAMES,
   REPLY_TONE_INSTRUCTIONS,
+  SENDER_CATEGORIES,
   type AppLanguage,
   type LetterAnalysis,
   type ReplyTone,
@@ -34,7 +35,14 @@ const RESPONSE_SCHEMA = {
   properties: {
     summary: {
       type: Type.STRING,
-      description: "Plain-language summary of the letter, written for someone who doesn't read German.",
+      description:
+        "Plain-language summary of the letter, written for someone who doesn't read German. The first sentence must name who the letter is from (e.g. 'Finanzamt München is...', 'Your landlord's property management company...') before explaining what it's about.",
+    },
+    sender_category: {
+      type: Type.STRING,
+      enum: SENDER_CATEGORIES,
+      description:
+        "Broad category of who sent the letter: 'authority' (Behörde — tax office, immigration office, Jobcenter, Bürgeramt, court, pension insurance, broadcasting fee, etc.), 'insurer', 'bank', 'landlord', 'utility' (electricity/gas/water/internet/heating), 'school', 'delivery' (parcel/post), or 'other'.",
     },
     deadlines: {
       type: Type.ARRAY,
@@ -86,6 +94,7 @@ const RESPONSE_SCHEMA = {
   },
   required: [
     "summary",
+    "sender_category",
     "deadlines",
     "key_facts",
     "action_required",
@@ -96,6 +105,7 @@ const RESPONSE_SCHEMA = {
   ],
   propertyOrdering: [
     "summary",
+    "sender_category",
     "deadlines",
     "key_facts",
     "action_required",
@@ -111,7 +121,8 @@ function buildSystemInstruction(language: AppLanguage, sender?: SenderInfo) {
   return `You read official German postal letters (Behörde notices, bank mail, insurance, landlord letters) for someone who cannot read German confidently. Extract the letter's content, then respond ONLY with the JSON object matching the required schema.
 ${senderLine ? `\n${senderLine}\n` : ""}
 Rules:
-- summary: plain language, no legal jargon, explain what the letter is about and why it matters. Written entirely in ${LANGUAGE_NAMES[language]}.
+- summary: plain language, no legal jargon. The first sentence names who the letter is from, then explain what it's about and why it matters. Written entirely in ${LANGUAGE_NAMES[language]}.
+- sender_category: classify who sent it as one of authority, insurer, bank, landlord, utility, school, delivery, or other.
 - deadlines: list every date the recipient must act by. If no deadline exists, return an empty array. Descriptions written in ${LANGUAGE_NAMES[language]}.
 - key_facts: pull out concrete facts worth backing with the original text — amounts, dates, reference numbers, names. Each fact needs label and value written in ${LANGUAGE_NAMES[language]}, plus source_quote copied verbatim in the ORIGINAL GERMAN regardless of target language, so the reader can see exactly what the letter said. Empty array if there's nothing worth citing this way. Don't duplicate deadlines here.
 - action_required: true if the recipient must do something (pay, respond, submit, appear) by a deadline or in general; false for purely informational letters.

@@ -64,6 +64,17 @@ export type AppCopy = {
     saveFailed: string;
     saveFailedRecovery: string;
   };
+  /** Accessible label for each sender-category icon on a dashboard letter card — e.g. "Authority" / "Bank". Not visible text by default, just the icon's aria-label/title. */
+  senderCategories: {
+    authority: string;
+    insurer: string;
+    bank: string;
+    landlord: string;
+    utility: string;
+    school: string;
+    delivery: string;
+    other: string;
+  };
   dashboard: {
     uploadButton: string;
     yourLetters: string;
@@ -284,6 +295,16 @@ export const APP_COPY: Record<AppLanguage, AppCopy> = {
       unsupportedLanguage: "Unsupported language.",
       saveFailed: "Couldn't save your language preference.",
       saveFailedRecovery: "Try again.",
+    },
+    senderCategories: {
+      authority: "Authority",
+      insurer: "Insurer",
+      bank: "Bank",
+      landlord: "Landlord",
+      utility: "Utility",
+      school: "School",
+      delivery: "Delivery",
+      other: "Other",
     },
     dashboard: {
       uploadButton: "Upload a letter",
@@ -567,6 +588,16 @@ export const APP_COPY: Record<AppLanguage, AppCopy> = {
       saveFailed: "تعذر حفظ تفضيل اللغة.",
       saveFailedRecovery: "حاول مرة أخرى.",
     },
+    senderCategories: {
+      authority: "جهة حكومية",
+      insurer: "شركة تأمين",
+      bank: "بنك",
+      landlord: "مالك العقار",
+      utility: "مرافق",
+      school: "مدرسة",
+      delivery: "توصيل",
+      other: "أخرى",
+    },
     dashboard: {
       uploadButton: "ارفع خطابًا",
       yourLetters: "خطاباتك",
@@ -846,6 +877,16 @@ export const APP_COPY: Record<AppLanguage, AppCopy> = {
       unsupportedLanguage: "Desteklenmeyen dil.",
       saveFailed: "Dil tercihiniz kaydedilemedi.",
       saveFailedRecovery: "Tekrar deneyin.",
+    },
+    senderCategories: {
+      authority: "Resmi kurum",
+      insurer: "Sigorta şirketi",
+      bank: "Banka",
+      landlord: "Ev sahibi",
+      utility: "Hizmet sağlayıcı",
+      school: "Okul",
+      delivery: "Teslimat",
+      other: "Diğer",
     },
     dashboard: {
       uploadButton: "Mektup yükle",

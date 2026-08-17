@@ -1,7 +1,23 @@
 export type AppLanguage = "en" | "ar" | "tr";
 
+/** Broad category of who sent the letter — drives the dashboard card's icon. Not translated text; the DB stores this fixed slug and each locale supplies its own label (see SENDER_CATEGORY_ICONS / copy.ts). */
+export type SenderCategory = "authority" | "insurer" | "bank" | "landlord" | "utility" | "school" | "delivery" | "other";
+
+export const SENDER_CATEGORIES: SenderCategory[] = [
+  "authority",
+  "insurer",
+  "bank",
+  "landlord",
+  "utility",
+  "school",
+  "delivery",
+  "other",
+];
+
 export type LetterAnalysis = {
   summary: string;
+  /** Broad category of who sent the letter (Behörde, insurer, bank, landlord, utility, school, delivery, or other) — powers the dashboard card's icon. */
+  sender_category: SenderCategory;
   deadlines: { date: string; description: string }[];
   /** Concrete facts (amounts, dates, reference numbers) each backed by their original German wording. */
   key_facts: { label: string; value: string; source_quote: string }[];

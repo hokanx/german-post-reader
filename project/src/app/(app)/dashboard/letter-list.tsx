@@ -2,18 +2,43 @@
 
 import Link from "next/link";
 import { motion, useReducedMotion } from "framer-motion";
-import { CalendarClock, ChevronRight, ChevronLeft } from "lucide-react";
-import type { AppLanguage } from "@/lib/letters/types";
+import {
+  CalendarClock,
+  ChevronRight,
+  ChevronLeft,
+  Landmark,
+  ShieldCheck,
+  Banknote,
+  Building2,
+  Zap,
+  GraduationCap,
+  Truck,
+  FileText,
+  type LucideIcon,
+} from "lucide-react";
+import type { AppLanguage, SenderCategory } from "@/lib/letters/types";
 import { APP_COPY } from "@/lib/i18n/copy";
 import { formatDate } from "@/lib/format-date";
 
 type LetterRow = {
   id: string;
   summary: string | null;
+  sender_category: SenderCategory;
   deadlines: { date: string; description: string }[] | null;
   action_required: boolean;
   created_at: string;
   language: AppLanguage;
+};
+
+const SENDER_CATEGORY_ICONS: Record<SenderCategory, LucideIcon> = {
+  authority: Landmark,
+  insurer: ShieldCheck,
+  bank: Banknote,
+  landlord: Building2,
+  utility: Zap,
+  school: GraduationCap,
+  delivery: Truck,
+  other: FileText,
 };
 
 function soonestDeadline(deadlines: LetterRow["deadlines"]) {
@@ -35,6 +60,7 @@ export function LetterList({ letters, language }: { letters: LetterRow[]; langua
     >
       {letters.map((letter) => {
         const deadline = soonestDeadline(letter.deadlines);
+        const CategoryIcon = SENDER_CATEGORY_ICONS[letter.sender_category];
         return (
           <motion.li
             key={letter.id}
@@ -49,17 +75,26 @@ export function LetterList({ letters, language }: { letters: LetterRow[]; langua
               href={`/letters/${letter.id}`}
               className="flex w-full flex-col gap-3 overflow-hidden rounded-md border-2 border-border bg-card px-5 py-4 shadow-[3px_3px_0_0_var(--border)] transition-shadow hover:shadow-[5px_5px_0_0_var(--border)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring sm:flex-row sm:items-center sm:justify-between"
             >
-              <div className="min-w-0 flex-1">
-                <p className="text-xs font-medium uppercase tracking-[0.04em] text-muted-foreground">
-                  {formatDate(letter.created_at, language)}
-                </p>
-                <p
-                  lang={letter.summary ? letter.language : undefined}
-                  dir={letter.summary && letter.language === "ar" ? "rtl" : "ltr"}
-                  className="mt-1 truncate text-base font-medium text-foreground"
+              <div className="flex min-w-0 flex-1 items-center gap-3">
+                <span
+                  title={copy.senderCategories[letter.sender_category]}
+                  className="flex size-10 shrink-0 items-center justify-center rounded-md border-2 border-border bg-muted"
                 >
-                  {letter.summary ?? copy.dashboard.analysisPending}
-                </p>
+                  <CategoryIcon className="size-5 text-muted-foreground" strokeWidth={1.5} aria-hidden="true" />
+                  <span className="sr-only">{copy.senderCategories[letter.sender_category]}</span>
+                </span>
+                <div className="min-w-0 flex-1">
+                  <p className="text-xs font-medium uppercase tracking-[0.04em] text-muted-foreground">
+                    {formatDate(letter.created_at, language)}
+                  </p>
+                  <p
+                    lang={letter.summary ? letter.language : undefined}
+                    dir={letter.summary && letter.language === "ar" ? "rtl" : "ltr"}
+                    className="mt-1 truncate text-base font-medium text-foreground"
+                  >
+                    {letter.summary ?? copy.dashboard.analysisPending}
+                  </p>
+                </div>
               </div>
               <div className="flex shrink-0 items-center gap-3">
                 <span
