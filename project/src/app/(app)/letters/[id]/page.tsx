@@ -1,5 +1,5 @@
 import { notFound } from "next/navigation";
-import { CalendarClock, TriangleAlert, ShieldAlert, FileText } from "lucide-react";
+import { CalendarClock, CalendarCheck, TriangleAlert, ShieldAlert, FileText, Receipt, Quote } from "lucide-react";
 import { createClient } from "@/lib/supabase/server";
 import { ReplyWizardCard } from "./reply-wizard-card";
 import { KeyFactsSection } from "./key-facts-section";
@@ -9,6 +9,8 @@ import { SENDER_CATEGORY_ICONS } from "@/lib/letters/sender-category";
 import { APP_COPY } from "@/lib/i18n/copy";
 
 type Deadline = { date: string; description: string };
+type Payment = { description: string; amount: string; source_quote: string };
+type Appointment = { description: string; date: string; source_quote: string };
 
 const ISO_DATE_RE = /^\d{4}-\d{2}-\d{2}$/;
 
@@ -38,7 +40,7 @@ export default async function LetterPage({
     supabase
       .from("letters")
       .select(
-        "id, summary, sender_name, sender_category, deadlines, key_facts, action_required, reply_draft, reply_draft_translation, detected_language_confirmed, risk_flags, language, created_at",
+        "id, summary, sender_name, sender_category, deadlines, payments, appointments, key_facts, action_required, reply_draft, reply_draft_translation, detected_language_confirmed, risk_flags, language, created_at",
       )
       .eq("id", id)
       .eq("user_id", user.id)
@@ -61,6 +63,8 @@ export default async function LetterPage({
   const uiIsRtl = uiLanguage === "ar";
   const contentIsRtl = contentLanguage === "ar";
   const deadlines = (letter.deadlines ?? []) as Deadline[];
+  const payments = (letter.payments ?? []) as Payment[];
+  const appointments = (letter.appointments ?? []) as Appointment[];
   const riskFlags = (letter.risk_flags ?? []) as string[];
   const keyFacts = (letter.key_facts ?? []) as { label: string; value: string; source_quote: string }[];
   const actionRequired = letter.action_required === true;
@@ -142,6 +146,60 @@ export default async function LetterPage({
             >
               {letter.summary}
             </p>
+
+            {payments.length > 0 && (
+              <div dir={contentIsRtl ? "rtl" : "ltr"} className="mt-4 border-t-2 border-border pt-4">
+                <h3 className="flex items-center gap-1.5 text-xs font-bold uppercase tracking-[0.06em] text-muted-foreground">
+                  <Receipt className="size-4" strokeWidth={1.5} aria-hidden="true" />
+                  {copy.paymentsHeading}
+                </h3>
+                <ul className="mt-2.5 grid gap-2.5">
+                  {payments.map((payment, i) => (
+                    <li key={i} className="grid gap-1">
+                      <div className="flex flex-wrap items-center justify-between gap-2 rounded-sm border-2 border-border bg-muted px-4 py-2.5">
+                        <span lang={contentLanguage} className="text-sm font-bold text-foreground">
+                          {payment.description}
+                        </span>
+                        <span className="shrink-0 rounded-full border-2 border-border bg-accent px-3 py-1 text-sm font-extrabold text-accent-foreground">
+                          {payment.amount}
+                        </span>
+                      </div>
+                      <p lang="de" dir="ltr" className="flex items-start gap-1.5 px-1 text-left text-xs italic text-foreground/60">
+                        <Quote className="mt-0.5 size-4 shrink-0" strokeWidth={1.5} aria-hidden="true" />
+                        {payment.source_quote}
+                      </p>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
+
+            {appointments.length > 0 && (
+              <div dir={contentIsRtl ? "rtl" : "ltr"} className="mt-4 border-t-2 border-border pt-4">
+                <h3 className="flex items-center gap-1.5 text-xs font-bold uppercase tracking-[0.06em] text-muted-foreground">
+                  <CalendarCheck className="size-4" strokeWidth={1.5} aria-hidden="true" />
+                  {copy.appointmentsHeading}
+                </h3>
+                <ul className="mt-2.5 grid gap-2.5">
+                  {appointments.map((appointment, i) => (
+                    <li key={i} className="grid gap-1">
+                      <div className="flex flex-wrap items-center justify-between gap-2 rounded-sm border-2 border-border bg-muted px-4 py-2.5">
+                        <span lang={contentLanguage} className="text-sm font-bold text-foreground">
+                          {appointment.description}
+                        </span>
+                        <span className="shrink-0 rounded-full border-2 border-border bg-accent px-3 py-1 text-sm font-extrabold text-accent-foreground">
+                          {appointment.date}
+                        </span>
+                      </div>
+                      <p lang="de" dir="ltr" className="flex items-start gap-1.5 px-1 text-left text-xs italic text-foreground/60">
+                        <Quote className="mt-0.5 size-4 shrink-0" strokeWidth={1.5} aria-hidden="true" />
+                        {appointment.source_quote}
+                      </p>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
           </section>
 
           <KeyFactsSection facts={keyFacts} heading={copy.keyFactsHeading} contentLanguage={contentLanguage} />

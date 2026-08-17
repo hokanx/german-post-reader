@@ -147,6 +147,8 @@ export type AppCopy = {
     errorTitle: string;
     errorRecovery: string;
     keyFactsHeading: string;
+    paymentsHeading: string;
+    appointmentsHeading: string;
     actionRequiredBadge: string;
     noActionBadge: string;
     actionRequiredDescription: string;
@@ -381,6 +383,8 @@ export const APP_COPY: Record<AppLanguage, AppCopy> = {
       errorTitle: "Couldn't load this letter",
       errorRecovery: "This is usually temporary. Try again in a moment.",
       keyFactsHeading: "Where this comes from",
+      paymentsHeading: "Payment",
+      appointmentsHeading: "Appointment",
       actionRequiredBadge: "Action needed",
       noActionBadge: "No action needed",
       actionRequiredDescription: "This letter needs a response from you.",
@@ -671,6 +675,8 @@ export const APP_COPY: Record<AppLanguage, AppCopy> = {
       errorTitle: "تعذر تحميل هذا الخطاب",
       errorRecovery: "هذا عادةً مؤقت. حاول مرة أخرى بعد قليل.",
       keyFactsHeading: "من أين جاءت هذه المعلومات",
+      paymentsHeading: "الدفع",
+      appointmentsHeading: "الموعد",
       actionRequiredBadge: "يتطلب إجراء",
       noActionBadge: "لا يتطلب إجراء",
       actionRequiredDescription: "يتطلب هذا الخطاب ردًا منك.",
@@ -963,6 +969,8 @@ export const APP_COPY: Record<AppLanguage, AppCopy> = {
       errorTitle: "Bu mektup yüklenemedi",
       errorRecovery: "Bu genellikle geçicidir. Biraz sonra tekrar deneyin.",
       keyFactsHeading: "Bu bilgi nereden geliyor",
+      paymentsHeading: "Ödeme",
+      appointmentsHeading: "Randevu",
       actionRequiredBadge: "İşlem gerekiyor",
       noActionBadge: "İşlem gerekmiyor",
       actionRequiredDescription: "Bu mektup sizden bir yanıt gerektiriyor.",

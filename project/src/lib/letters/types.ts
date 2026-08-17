@@ -21,6 +21,10 @@ export type LetterAnalysis = {
   /** Broad category of who sent the letter (Behörde, insurer, bank, landlord, utility, school, delivery, or other) — powers the dashboard card's icon. */
   sender_category: SenderCategory;
   deadlines: { date: string; description: string }[];
+  /** Every payment amount or payment change in the letter (amount owed, a new/changed fee, an installment) — never omitted when the letter states one. Empty array only if the letter truly has no payment component. */
+  payments: { description: string; amount: string; source_quote: string }[];
+  /** Every fixed date/time the recipient must physically be present for (an inspection, a hearing, a checkup) — distinct from deadlines, which are dates to act by with no attendance required. */
+  appointments: { description: string; date: string; source_quote: string }[];
   /** Concrete facts (amounts, dates, reference numbers) each backed by their original German wording. */
   key_facts: { label: string; value: string; source_quote: string }[];
   /** True if the recipient must do something (pay, respond, submit, appear) — false for purely informational letters. */

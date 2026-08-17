@@ -21,6 +21,8 @@ type SeedLetter = {
   sender_category: SenderCategory;
   summary: string;
   deadlines: { date: string; description: string }[];
+  payments: { description: string; amount: string; source_quote: string }[];
+  appointments: { description: string; date: string; source_quote: string }[];
   key_facts: { label: string; value: string; source_quote: string }[];
   action_required: boolean;
   /** Always German — matches the real pipeline's contract (see CLAUDE.md Stripe/AI pipeline rules). */
@@ -37,8 +39,11 @@ const LETTERS: SeedLetter[] = [
     summary:
       "Your 2025 electricity annual statement shows you used more power than your monthly payments covered. You owe an extra 187,42 €.",
     deadlines: [{ date: "2026-02-28", description: "Pay the 187,42 € balance to Stadtwerke München" }],
+    payments: [
+      { description: "Amount you owe", amount: "187,42 €", source_quote: "Nachzahlung: 187,42 €" },
+    ],
+    appointments: [],
     key_facts: [
-      { label: "Amount owed", value: "187,42 €", source_quote: "Nachzahlung: 187,42 €" },
       { label: "Payment deadline", value: "28. Februar 2026", source_quote: "fällig zum 28.02.2026" },
     ],
     action_required: true,
@@ -54,6 +59,8 @@ const LETTERS: SeedLetter[] = [
     summary:
       "Your health insurer confirms your monthly contribution is increasing from 1 March 2026 because your reported income changed.",
     deadlines: [{ date: "2026-03-01", description: "New contribution amount takes effect" }],
+    payments: [],
+    appointments: [],
     key_facts: [
       { label: "Effective date", value: "1. März 2026", source_quote: "mit Wirkung zum 01.03.2026" },
     ],
@@ -70,6 +77,8 @@ const LETTERS: SeedLetter[] = [
     summary:
       "The tax office is requesting your 2025 income tax return documents. If you don't respond, they may estimate your tax owed themselves — which is usually higher than the real amount.",
     deadlines: [{ date: "2026-04-15", description: "Submit 2025 tax return documents" }],
+    payments: [],
+    appointments: [],
     key_facts: [
       { label: "Submission deadline", value: "15. April 2026", source_quote: "Frist: 15.04.2026" },
       { label: "Tax year", value: "2025", source_quote: "Einkommensteuererklärung 2025" },
@@ -88,10 +97,12 @@ const LETTERS: SeedLetter[] = [
     sender_category: "landlord",
     summary:
       "Your landlord's property management company is notifying you of a routine gas heating inspection in your building.",
-    deadlines: [{ date: "2026-02-10", description: "Be present or allow access for the heating inspection" }],
-    key_facts: [
-      { label: "Inspection date", value: "10. Februar 2026", source_quote: "Die Überprüfung findet am 10.02.2026 statt" },
+    deadlines: [],
+    payments: [],
+    appointments: [
+      { description: "Heating inspection", date: "2026-02-10", source_quote: "Die Überprüfung findet am 10.02.2026 statt" },
     ],
+    key_facts: [],
     action_required: true,
     reply_draft:
       "Sehr geehrte Damen und Herren,\n\nvielen Dank für die Ankündigung der Heizungsinspektion am 10. Februar 2026. Ich bestätige, dass ich anwesend sein werde, um den Zugang zu ermöglichen.\n\nMit freundlichen Grüßen,",
@@ -105,6 +116,8 @@ const LETTERS: SeedLetter[] = [
     summary:
       "The immigration office is asking you to book an appointment to renew your residence permit before it expires.",
     deadlines: [{ date: "2026-05-20", description: "Residence permit expires — renew before this date" }],
+    payments: [],
+    appointments: [],
     key_facts: [
       { label: "Permit expiry date", value: "20. Mai 2026", source_quote: "Ihr Aufenthaltstitel läuft am 20.05.2026 ab" },
     ],
@@ -123,6 +136,10 @@ const LETTERS: SeedLetter[] = [
     summary:
       "This is the mandatory German broadcasting fee (Rundfunkbeitrag) confirming your registration and quarterly payment amount.",
     deadlines: [{ date: "2026-02-15", description: "Quarterly broadcasting fee payment due" }],
+    payments: [
+      { description: "Quarterly broadcasting fee", amount: "18,36 €", source_quote: "vierteljährlicher Beitrag: 18,36 €" },
+    ],
+    appointments: [],
     key_facts: [
       { label: "Payment deadline", value: "15. Februar 2026", source_quote: "fällig am 15.02.2026" },
     ],
@@ -139,6 +156,8 @@ const LETTERS: SeedLetter[] = [
     summary:
       "Your annual pension contribution statement — this is informational only and shows how much has been paid into your pension so far. No action needed.",
     deadlines: [],
+    payments: [],
+    appointments: [],
     key_facts: [],
     action_required: false,
     reply_draft:
@@ -153,6 +172,8 @@ const LETTERS: SeedLetter[] = [
     summary:
       "The Jobcenter needs updated proof of your current employment status to continue processing your case.",
     deadlines: [{ date: "2026-02-20", description: "Submit updated employment documents" }],
+    payments: [],
+    appointments: [],
     key_facts: [
       { label: "Submission deadline", value: "20. Februar 2026", source_quote: "bis zum 20.02.2026 einzureichen" },
     ],
@@ -169,6 +190,8 @@ const LETTERS: SeedLetter[] = [
     summary:
       "Confirmation that your address registration (Anmeldung) was successfully processed. Keep this for your records.",
     deadlines: [],
+    payments: [],
+    appointments: [],
     key_facts: [],
     action_required: false,
     reply_draft:
@@ -183,6 +206,10 @@ const LETTERS: SeedLetter[] = [
     summary:
       "Your bank is notifying you of a change to their account fee schedule starting next quarter.",
     deadlines: [{ date: "2026-04-01", description: "New account fees take effect" }],
+    payments: [
+      { description: "New monthly account fee", amount: "4,90 €", source_quote: "neue monatliche Kontoführungsgebühr: 4,90 €" },
+    ],
+    appointments: [],
     key_facts: [
       { label: "Effective date", value: "1. April 2026", source_quote: "gültig ab dem 01.04.2026" },
     ],
@@ -201,6 +228,8 @@ const LETTERS: SeedLetter[] = [
     summary:
       "A parcel delivery attempt failed while you were out. It's being held at a local DHL pickup point for 7 days.",
     deadlines: [{ date: "2026-02-06", description: "Collect parcel from DHL pickup point" }],
+    payments: [],
+    appointments: [],
     key_facts: [
       { label: "Pickup deadline", value: "6. Februar 2026", source_quote: "Abholung bis 06.02.2026 möglich" },
     ],
@@ -217,6 +246,8 @@ const LETTERS: SeedLetter[] = [
     summary:
       "Your child's school is informing you about the upcoming parent-teacher conference and asking you to confirm a time slot.",
     deadlines: [{ date: "2026-02-12", description: "Confirm parent-teacher conference time slot" }],
+    payments: [],
+    appointments: [],
     key_facts: [
       { label: "Confirmation deadline", value: "12. Februar 2026", source_quote: "Bitte bestätigen Sie bis zum 12.02.2026" },
     ],
@@ -233,6 +264,10 @@ const LETTERS: SeedLetter[] = [
     summary:
       "Your car insurance renewal notice — the annual premium is increasing slightly due to a regional rate adjustment.",
     deadlines: [{ date: "2026-03-15", description: "Renewal takes effect, new premium applies" }],
+    payments: [
+      { description: "New annual premium", amount: "412,50 €", source_quote: "neue Jahresprämie: 412,50 €" },
+    ],
+    appointments: [],
     key_facts: [
       { label: "Renewal date", value: "15. März 2026", source_quote: "Verlängerung zum 15.03.2026" },
     ],
@@ -249,6 +284,10 @@ const LETTERS: SeedLetter[] = [
     summary:
       "Your internet provider is notifying you that your promotional discount is ending, and your monthly bill will increase.",
     deadlines: [{ date: "2026-03-01", description: "Standard pricing begins after promotional period ends" }],
+    payments: [
+      { description: "New monthly price after the promotion ends", amount: "39,99 €", source_quote: "regulärer monatlicher Preis: 39,99 €" },
+    ],
+    appointments: [],
     key_facts: [
       { label: "Standard pricing starts", value: "1. März 2026", source_quote: "ab dem 01.03.2026" },
     ],
@@ -265,6 +304,10 @@ const LETTERS: SeedLetter[] = [
     summary:
       "An invoice for electrical repair work completed in your apartment last month.",
     deadlines: [{ date: "2026-02-25", description: "Pay invoice for completed electrical work" }],
+    payments: [
+      { description: "Invoice amount due", amount: "245,80 €", source_quote: "Rechnungsbetrag: 245,80 €" },
+    ],
+    appointments: [],
     key_facts: [
       { label: "Invoice due", value: "25. Februar 2026", source_quote: "Zahlbar bis 25.02.2026" },
     ],
@@ -281,6 +324,10 @@ const LETTERS: SeedLetter[] = [
     summary:
       "Notice of a small increase to your annual waste collection fee, effective with your next invoice.",
     deadlines: [],
+    payments: [
+      { description: "New annual waste collection fee", amount: "186,00 €", source_quote: "neue Jahresgebühr: 186,00 €" },
+    ],
+    appointments: [],
     key_facts: [],
     action_required: false,
     reply_draft:
@@ -295,6 +342,8 @@ const LETTERS: SeedLetter[] = [
     summary:
       "Your health insurer is inviting you to a free preventive health checkup available once every two years.",
     deadlines: [],
+    payments: [],
+    appointments: [],
     key_facts: [],
     action_required: false,
     reply_draft:
@@ -308,10 +357,12 @@ const LETTERS: SeedLetter[] = [
     sender_category: "authority",
     summary:
       "You are being asked to appear as a witness in a minor civil case. This is a formal court summons, not a fine or accusation against you.",
-    deadlines: [{ date: "2026-03-10", description: "Appear at Amtsgericht Berlin-Mitte as a witness" }],
-    key_facts: [
-      { label: "Appearance date", value: "10. März 2026", source_quote: "Sie werden geladen für den 10.03.2026" },
+    deadlines: [],
+    payments: [],
+    appointments: [
+      { description: "Appear as a witness", date: "2026-03-10", source_quote: "Sie werden geladen für den 10.03.2026" },
     ],
+    key_facts: [],
     action_required: true,
     reply_draft:
       "Sehr geehrte Damen und Herren,\n\nhiermit bestätige ich den Erhalt der Zeugenladung für den 10. März 2026 und werde wie gewünscht erscheinen. Bitte teilen Sie mir mit, falls Unterlagen mitzubringen sind.\n\nMit freundlichen Grüßen,",
@@ -327,6 +378,10 @@ const LETTERS: SeedLetter[] = [
     summary:
       "Your annual heating cost statement from the building's metering company. This is informational and shows your share of the building's heating costs.",
     deadlines: [],
+    payments: [
+      { description: "Your share of the heating costs", amount: "312,45 €", source_quote: "Ihr Anteil: 312,45 €" },
+    ],
+    appointments: [],
     key_facts: [],
     action_required: false,
     reply_draft:
@@ -341,6 +396,8 @@ const LETTERS: SeedLetter[] = [
     summary:
       "Confirmation that your mail forwarding order to your new address has been set up successfully.",
     deadlines: [],
+    payments: [],
+    appointments: [],
     key_facts: [],
     action_required: false,
     reply_draft:
@@ -408,6 +465,8 @@ async function main() {
       sender_name: letter.sender,
       sender_category: letter.sender_category,
       deadlines: letter.deadlines,
+      payments: letter.payments,
+      appointments: letter.appointments,
       key_facts: letter.key_facts,
       action_required: letter.action_required,
       reply_draft: letter.reply_draft,

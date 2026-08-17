@@ -25,6 +25,14 @@ export default function LetterLoading() {
               <Skeleton className="h-7 w-full" />
               <Skeleton className="h-7 w-2/3" />
             </div>
+            <div className="mt-4 border-t-2 border-border pt-4">
+              <Skeleton className="h-4 w-20" />
+              <Skeleton className="mt-2.5 h-11 w-full rounded-sm" />
+            </div>
+            <div className="mt-4 border-t-2 border-border pt-4">
+              <Skeleton className="h-4 w-24" />
+              <Skeleton className="mt-2.5 h-11 w-full rounded-sm" />
+            </div>
           </div>
 
           <div className="rounded-md border-2 border-border bg-card p-6 shadow-[4px_4px_0_0_var(--border)]">

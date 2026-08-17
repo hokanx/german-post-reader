@@ -6,8 +6,6 @@ import { SettingsUpgradeButton } from "@/components/settings-upgrade-button";
 import { SenderInfoForm } from "./sender-info-form";
 import type { AppLanguage } from "@/lib/letters/types";
 import { APP_COPY } from "@/lib/i18n/copy";
-import { SUBSCRIPTION_PRICE_EUR } from "@/lib/constants";
-import { formatEur } from "@/lib/format-currency";
 
 export const metadata = {
   title: "Settings — Papkram",
@@ -34,7 +32,6 @@ export default async function SettingsPage() {
   const hasActiveSubscription = profile?.has_active_subscription ?? false;
   const copy = APP_COPY[language].settings;
   const dashboardCopy = APP_COPY[language].dashboard;
-  const paywallCopy = APP_COPY[language].paywall;
   const dir = language === "ar" ? "rtl" : "ltr";
 
   return (
@@ -69,15 +66,7 @@ export default async function SettingsPage() {
                 }}
               />
             ) : (
-              <SettingsUpgradeButton
-                copy={{
-                  subscribe: paywallCopy.subscribe(formatEur(SUBSCRIPTION_PRICE_EUR), "year"),
-                  redirecting: paywallCopy.redirecting,
-                  checkoutError: paywallCopy.checkoutError,
-                  earlyAccessConsent: paywallCopy.earlyAccessConsent,
-                  earlyAccessConsentRequired: paywallCopy.earlyAccessConsentRequired,
-                }}
-              />
+              <SettingsUpgradeButton language={language} />
             )}
           </div>
         </section>

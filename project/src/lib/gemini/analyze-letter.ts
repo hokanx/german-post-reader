@@ -61,19 +61,47 @@ const RESPONSE_SCHEMA = {
         propertyOrdering: ["date", "description"],
       },
     },
+    payments: {
+      type: Type.ARRAY,
+      items: {
+        type: Type.OBJECT,
+        properties: {
+          description: { type: Type.STRING, description: "Plain-language description of what this payment is, e.g. 'Amount you owe' or 'New monthly fee'." },
+          amount: { type: Type.STRING, description: "The amount exactly as it should be shown to the reader, e.g. '187,42 €'. Never rounded, reformatted, or converted." },
+          source_quote: { type: Type.STRING, description: "The exact original German text this amount was read from, verbatim from the letter." },
+        },
+        required: ["description", "amount", "source_quote"],
+        propertyOrdering: ["description", "amount", "source_quote"],
+      },
+      description: "EVERY payment amount or payment change stated in the letter — an amount owed, a new or changed fee, an installment, a partial payment. This is frequently the single most consequential number in the letter; scan the whole letter specifically for it and never omit one that's present. Empty array only if the letter genuinely has no payment component.",
+    },
+    appointments: {
+      type: Type.ARRAY,
+      items: {
+        type: Type.OBJECT,
+        properties: {
+          description: { type: Type.STRING, description: "Plain-language description of what the recipient must attend, e.g. 'Heating inspection' or 'Court appearance as a witness'." },
+          date: { type: Type.STRING, description: "ISO 8601 date (YYYY-MM-DD), plus the time if the letter states one (e.g. '2026-03-10, 10:00'), otherwise the date as written." },
+          source_quote: { type: Type.STRING, description: "The exact original German text this appointment was read from, verbatim from the letter." },
+        },
+        required: ["description", "date", "source_quote"],
+        propertyOrdering: ["description", "date", "source_quote"],
+      },
+      description: "Every fixed date/time the recipient must physically be present for or attend — an inspection, a hearing, a medical appointment, a scheduled visit. Distinct from deadlines: a deadline is a date to act by (pay, submit, respond) with no attendance required; an appointment is somewhere the recipient must actually show up. If a letter only asks the recipient to pick or confirm a time (no fixed slot yet), that's a deadline, not an appointment. Empty array if the letter has no fixed appointment.",
+    },
     key_facts: {
       type: Type.ARRAY,
       items: {
         type: Type.OBJECT,
         properties: {
-          label: { type: Type.STRING, description: "Short plain-language name for the fact, e.g. 'Amount owed' or 'Reference number'." },
-          value: { type: Type.STRING, description: "The fact's value as the reader should see it, e.g. '142,60 €'." },
+          label: { type: Type.STRING, description: "Short plain-language name for the fact, e.g. 'Reference number' or 'Policy number'." },
+          value: { type: Type.STRING, description: "The fact's value as the reader should see it." },
           source_quote: { type: Type.STRING, description: "The exact original German text this fact was read from, verbatim from the letter." },
         },
         required: ["label", "value", "source_quote"],
         propertyOrdering: ["label", "value", "source_quote"],
       },
-      description: "Concrete facts worth backing with the original text — amounts, dates, reference numbers, names. Empty array if the letter has no such facts. Do not duplicate the deadlines list; key_facts is for facts, deadlines is for dates to act by.",
+      description: "Concrete facts worth backing with the original text — reference numbers, names, non-payment figures. Empty array if the letter has no such facts. Do not duplicate the deadlines, payments, or appointments lists here.",
     },
     action_required: {
       type: Type.BOOLEAN,
@@ -102,6 +130,8 @@ const RESPONSE_SCHEMA = {
     "sender_name",
     "sender_category",
     "deadlines",
+    "payments",
+    "appointments",
     "key_facts",
     "action_required",
     "reply_draft",
@@ -114,6 +144,8 @@ const RESPONSE_SCHEMA = {
     "sender_name",
     "sender_category",
     "deadlines",
+    "payments",
+    "appointments",
     "key_facts",
     "action_required",
     "reply_draft",
@@ -131,8 +163,10 @@ Rules:
 - summary: plain language, no legal jargon. The first sentence names who the letter is from, then explain what it's about and why it matters. Written entirely in ${LANGUAGE_NAMES[language]}.
 - sender_name: the sender's name exactly as printed on the letter, in its original form — never translated.
 - sender_category: classify who sent it as one of authority, insurer, bank, landlord, utility, school, delivery, or other.
-- deadlines: list every date the recipient must act by. If no deadline exists, return an empty array. Descriptions written in ${LANGUAGE_NAMES[language]}.
-- key_facts: pull out concrete facts worth backing with the original text — amounts, dates, reference numbers, names. Each fact needs label and value written in ${LANGUAGE_NAMES[language]}, plus source_quote copied verbatim in the ORIGINAL GERMAN regardless of target language, so the reader can see exactly what the letter said. Empty array if there's nothing worth citing this way. Don't duplicate deadlines here.
+- deadlines: list every date the recipient must act by (pay, submit, respond) with no physical presence required. If no deadline exists, return an empty array. Descriptions written in ${LANGUAGE_NAMES[language]}.
+- payments: this is critical — re-read the letter specifically looking for every payment amount or payment change (an amount owed, a new or changed fee, an installment, a partial payment already made). This is often the single most consequential number in the letter and must never be missed. Each entry needs description in ${LANGUAGE_NAMES[language]}, the amount exactly as written (never rounded or reformatted), and source_quote copied verbatim in the ORIGINAL GERMAN. Empty array only if the letter truly has no payment component.
+- appointments: list every fixed date/time the recipient must physically be present for or attend — an inspection, a hearing, a medical appointment, a scheduled visit. If the letter only asks them to pick or confirm a time (no fixed slot yet), that belongs in deadlines instead, not here. Descriptions written in ${LANGUAGE_NAMES[language]}; date is ISO 8601 plus a time if one is given; source_quote copied verbatim in the ORIGINAL GERMAN. Empty array if there's no fixed appointment.
+- key_facts: pull out concrete facts worth backing with the original text — reference numbers, names, non-payment figures. Each fact needs label and value written in ${LANGUAGE_NAMES[language]}, plus source_quote copied verbatim in the ORIGINAL GERMAN regardless of target language, so the reader can see exactly what the letter said. Empty array if there's nothing worth citing this way. Don't duplicate deadlines, payments, or appointments here.
 - action_required: true if the recipient must do something (pay, respond, submit, appear) by a deadline or in general; false for purely informational letters.
 - reply_draft: write a complete, ready-to-send reply appropriate to the sender, formal and correct — written entirely in GERMAN, regardless of the target language, because the recipient reads German. ${SENDER_INSTRUCTION}
 - reply_draft_translation: translate reply_draft's exact meaning into ${LANGUAGE_NAMES[language]}, so the person can understand what they're about to send before they send it. This is a translation of reply_draft, not an independent reply.
@@ -265,6 +299,8 @@ export type TranslatableLetterContent = {
   summary: string;
   deadlines: { date: string; description: string }[];
   riskFlags: string[];
+  payments: { description: string; amount: string; source_quote: string }[];
+  appointments: { description: string; date: string; source_quote: string }[];
   keyFacts: { label: string; value: string; source_quote: string }[];
   replyDraftTranslation: string;
 };
@@ -279,6 +315,16 @@ const TRANSLATE_CONTENT_SCHEMA = {
       description: "Translated deadline descriptions, same count and order as given.",
     },
     risk_flags: { type: Type.ARRAY, items: { type: Type.STRING } },
+    payment_descriptions: {
+      type: Type.ARRAY,
+      items: { type: Type.STRING },
+      description: "Translated payment descriptions, same count and order as given. Amounts and source quotes are not translated.",
+    },
+    appointment_descriptions: {
+      type: Type.ARRAY,
+      items: { type: Type.STRING },
+      description: "Translated appointment descriptions, same count and order as given. Dates and source quotes are not translated.",
+    },
     key_fact_labels: {
       type: Type.ARRAY,
       items: { type: Type.STRING },
@@ -291,14 +337,16 @@ const TRANSLATE_CONTENT_SCHEMA = {
     },
     reply_draft_translation: { type: Type.STRING },
   },
-  required: ["summary", "deadline_descriptions", "risk_flags", "key_fact_labels", "key_fact_values", "reply_draft_translation"],
-  propertyOrdering: ["summary", "deadline_descriptions", "risk_flags", "key_fact_labels", "key_fact_values", "reply_draft_translation"],
+  required: ["summary", "deadline_descriptions", "risk_flags", "payment_descriptions", "appointment_descriptions", "key_fact_labels", "key_fact_values", "reply_draft_translation"],
+  propertyOrdering: ["summary", "deadline_descriptions", "risk_flags", "payment_descriptions", "appointment_descriptions", "key_fact_labels", "key_fact_values", "reply_draft_translation"],
 };
 
 type TranslateContentResponse = {
   summary: string;
   deadline_descriptions: string[];
   risk_flags: string[];
+  payment_descriptions: string[];
+  appointment_descriptions: string[];
   key_fact_labels: string[];
   key_fact_values: string[];
   reply_draft_translation: string;
@@ -323,6 +371,8 @@ export async function translateLetterContent(
       `Summary: ${content.summary}`,
       `Deadline descriptions (${content.deadlines.length} items, in order): ${JSON.stringify(content.deadlines.map((d) => d.description))}`,
       `Risk flags (${content.riskFlags.length} items, in order): ${JSON.stringify(content.riskFlags)}`,
+      `Payment descriptions (${content.payments.length} items, in order): ${JSON.stringify(content.payments.map((p) => p.description))}`,
+      `Appointment descriptions (${content.appointments.length} items, in order): ${JSON.stringify(content.appointments.map((a) => a.description))}`,
       `Key fact labels (${content.keyFacts.length} items, in order): ${JSON.stringify(content.keyFacts.map((f) => f.label))}`,
       `Key fact values (${content.keyFacts.length} items, in order): ${JSON.stringify(content.keyFacts.map((f) => f.value))}`,
       `Reply translation: ${content.replyDraftTranslation}`,
@@ -346,6 +396,8 @@ export async function translateLetterContent(
 
     if (
       t.deadline_descriptions.length !== content.deadlines.length ||
+      t.payment_descriptions.length !== content.payments.length ||
+      t.appointment_descriptions.length !== content.appointments.length ||
       t.key_fact_labels.length !== content.keyFacts.length ||
       t.key_fact_values.length !== content.keyFacts.length
     ) {
@@ -361,6 +413,16 @@ export async function translateLetterContent(
         summary: t.summary,
         deadlines: content.deadlines.map((d, i) => ({ date: d.date, description: t.deadline_descriptions[i] })),
         riskFlags: t.risk_flags,
+        payments: content.payments.map((p, i) => ({
+          description: t.payment_descriptions[i],
+          amount: p.amount,
+          source_quote: p.source_quote,
+        })),
+        appointments: content.appointments.map((a, i) => ({
+          description: t.appointment_descriptions[i],
+          date: a.date,
+          source_quote: a.source_quote,
+        })),
         keyFacts: content.keyFacts.map((f, i) => ({
           label: t.key_fact_labels[i],
           value: t.key_fact_values[i],

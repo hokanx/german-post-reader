@@ -135,6 +135,8 @@ export async function uploadLetter(
     sender_name: analysis.sender_name,
     sender_category: analysis.sender_category,
     deadlines: analysis.deadlines,
+    payments: analysis.payments,
+    appointments: analysis.appointments,
     key_facts: analysis.key_facts,
     action_required: analysis.action_required,
     reply_draft: analysis.reply_draft,

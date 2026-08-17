@@ -7,6 +7,8 @@ import { APP_COPY } from "@/lib/i18n/copy";
 import type { Result } from "@/lib/result";
 
 type Deadline = { date: string; description: string };
+type Payment = { description: string; amount: string; source_quote: string };
+type Appointment = { description: string; date: string; source_quote: string };
 type KeyFact = { label: string; value: string; source_quote: string };
 
 type ReplyDraftResult = {
@@ -124,7 +126,7 @@ export async function translateLetter(letterId: string, targetLanguage: AppLangu
 
   const { data: letter, error: fetchError } = await supabase
     .from("letters")
-    .select("summary, deadlines, risk_flags, key_facts, reply_draft_translation, language")
+    .select("summary, deadlines, risk_flags, payments, appointments, key_facts, reply_draft_translation, language")
     .eq("id", letterId)
     .eq("user_id", user.id)
     .single();
@@ -151,6 +153,8 @@ export async function translateLetter(letterId: string, targetLanguage: AppLangu
       summary: letter.summary ?? "",
       deadlines: (letter.deadlines ?? []) as Deadline[],
       riskFlags: (letter.risk_flags ?? []) as string[],
+      payments: (letter.payments ?? []) as Payment[],
+      appointments: (letter.appointments ?? []) as Appointment[],
       keyFacts: (letter.key_facts ?? []) as KeyFact[],
       replyDraftTranslation: letter.reply_draft_translation ?? "",
     },
@@ -167,6 +171,8 @@ export async function translateLetter(letterId: string, targetLanguage: AppLangu
       summary: result.data.summary,
       deadlines: result.data.deadlines,
       risk_flags: result.data.riskFlags,
+      payments: result.data.payments,
+      appointments: result.data.appointments,
       key_facts: result.data.keyFacts,
       reply_draft_translation: result.data.replyDraftTranslation,
       language: targetLanguage,
