@@ -25,7 +25,7 @@ if a task appears mid-build that exceeds this size, STOP and move it to later_st
 - Letter upload via file picker (PDF or image) works. (Camera-capture upload was removed post-launch in favor of file-picker-only.)
 - Gemini analysis pipeline (native multimodal — reads images and PDFs directly, no separate OCR step) returns summary, deadline detection, and reply draft in the user's chosen language within 30 seconds works.
 - Language toggle (English, Arabic, Turkish) persists to the user's profile and re-renders the analysis output works.
-- Free trial limit of 4 letters enforced; Stripe Checkout yearly subscription (€5.99/year) unlocks unlimited letters works.
+- Free trial limit of 4 letters enforced; Stripe Checkout yearly (€29.99/year) or monthly (€3.99/month) subscription unlocks unlimited letters works.
 - Letter history dashboard listing all past uploads with their summary previews works.
 - Onboarding welcome email sent on signup via Resend works.
 - Posthog analytics and Sentry error tracking instrumented works.
