@@ -56,7 +56,7 @@
   --muted-foreground: oklch(0.4383 0.1983 303.72); /* #6b21a8 */
   --accent: oklch(0.7576 0.159 55.93); /* #fb923c */
   --accent-foreground: oklch(0.1929 0.0691 300.44); /* never white-on-accent, contrast fails */
-  --destructive: oklch(0.5771 0.2152 27.33); /* #dc2626 */
+  --destructive: oklch(0.5049 0.1882 27.32); /* #b81e1e — darkened from #dc2626, which failed 4.5:1 as text-destructive on bg-destructive/10 (3.91:1, Lighthouse) */
   --destructive-foreground: oklch(1 0 0);
   --border: oklch(0.1929 0.0691 300.44); /* = foreground, for a visible hard border */
   --input: oklch(0.1929 0.0691 300.44);

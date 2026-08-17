@@ -135,7 +135,7 @@ export default async function LetterPage({
                   href="#deadlines"
                   className="flex h-9 items-center gap-1.5 rounded-full border-2 border-border bg-accent px-3 text-xs font-bold uppercase tracking-[0.04em] text-accent-foreground transition-colors hover:bg-accent/80 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
                 >
-                  <CalendarClock className="size-3.5" strokeWidth={1.5} aria-hidden="true" />
+                  <CalendarClock className="size-4" strokeWidth={1.5} aria-hidden="true" />
                   {copy.deadlineCount(deadlines.length)}
                 </a>
               )}
@@ -144,7 +144,7 @@ export default async function LetterPage({
                   href="#risk-flags"
                   className="flex h-9 items-center gap-1.5 rounded-full border-2 border-destructive bg-destructive/10 px-3 text-xs font-bold uppercase tracking-[0.04em] text-destructive transition-colors hover:bg-destructive/20 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
                 >
-                  <TriangleAlert className="size-3.5" strokeWidth={1.5} aria-hidden="true" />
+                  <TriangleAlert className="size-4" strokeWidth={1.5} aria-hidden="true" />
                   {copy.riskFlagCount(riskFlags.length)}
                 </a>
               )}

@@ -27,7 +27,7 @@ export function KeyFactsSection({
               <span className="text-base font-bold text-foreground">{fact.value}</span>
             </div>
             <p lang="de" dir="ltr" className="flex items-start gap-1.5 text-left text-sm italic text-foreground/70">
-              <Quote className="mt-0.5 size-3.5 shrink-0" strokeWidth={1.5} aria-hidden="true" />
+              <Quote className="mt-0.5 size-4 shrink-0" strokeWidth={1.5} aria-hidden="true" />
               {fact.source_quote}
             </p>
           </li>
