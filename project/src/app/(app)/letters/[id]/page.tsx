@@ -4,7 +4,8 @@ import { createClient } from "@/lib/supabase/server";
 import { ReplyWizardCard } from "./reply-wizard-card";
 import { KeyFactsSection } from "./key-facts-section";
 import { AutoTranslateBanner } from "./auto-translate-banner";
-import { LANGUAGE_NAMES, type AppLanguage } from "@/lib/letters/types";
+import { LANGUAGE_NAMES, type AppLanguage, type SenderCategory } from "@/lib/letters/types";
+import { SENDER_CATEGORY_ICONS } from "@/lib/letters/sender-category";
 import { APP_COPY } from "@/lib/i18n/copy";
 
 type Deadline = { date: string; description: string };
@@ -37,7 +38,7 @@ export default async function LetterPage({
     supabase
       .from("letters")
       .select(
-        "id, summary, deadlines, key_facts, action_required, reply_draft, reply_draft_translation, detected_language_confirmed, risk_flags, language, created_at",
+        "id, summary, sender_name, sender_category, deadlines, key_facts, action_required, reply_draft, reply_draft_translation, detected_language_confirmed, risk_flags, language, created_at",
       )
       .eq("id", id)
       .eq("user_id", user.id)
@@ -65,6 +66,10 @@ export default async function LetterPage({
   const actionRequired = letter.action_required === true;
   const lowConfidence = letter.detected_language_confirmed === false;
   const copy = APP_COPY[uiLanguage].letters;
+  const senderName = letter.sender_name as string | null;
+  const senderCategory = letter.sender_category as SenderCategory;
+  const SenderIcon = SENDER_CATEGORY_ICONS[senderCategory];
+  const senderCategoryLabel = APP_COPY[uiLanguage].senderCategories[senderCategory];
   const soonestDeadlineIso =
     deadlines.filter((d) => ISO_DATE_RE.test(d.date)).sort((a, b) => a.date.localeCompare(b.date))[0]?.date ?? null;
 
@@ -117,6 +122,19 @@ export default async function LetterPage({
               <FileText className="size-5 text-primary" strokeWidth={1.5} aria-hidden="true" />
               {copy.summary}
             </h2>
+            {senderName && (
+              <div className="mt-3 flex flex-wrap items-center gap-2.5">
+                <span className="flex size-9 shrink-0 items-center justify-center rounded-md border-2 border-border bg-muted">
+                  <SenderIcon className="size-4 text-muted-foreground" strokeWidth={1.5} aria-hidden="true" />
+                </span>
+                <span lang="de" dir="ltr" className="text-base font-bold text-foreground">
+                  {senderName}
+                </span>
+                <span className="rounded-full border-2 border-border bg-muted px-3 py-1 text-xs font-bold uppercase tracking-[0.04em] text-muted-foreground">
+                  {senderCategoryLabel}
+                </span>
+              </div>
+            )}
             <p
               lang={contentLanguage}
               dir={contentIsRtl ? "rtl" : "ltr"}

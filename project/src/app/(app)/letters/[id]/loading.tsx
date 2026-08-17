@@ -15,6 +15,11 @@ export default function LetterLoading() {
 
           <div className="rounded-md border-2 border-border bg-card p-6 shadow-[4px_4px_0_0_var(--border)]">
             <Skeleton className="h-5 w-28" />
+            <div className="mt-3 flex items-center gap-2.5">
+              <Skeleton className="size-9 shrink-0 rounded-md" />
+              <Skeleton className="h-5 w-32" />
+              <Skeleton className="h-6 w-20 rounded-full" />
+            </div>
             <div className="mt-3 grid gap-2">
               <Skeleton className="h-7 w-full" />
               <Skeleton className="h-7 w-full" />

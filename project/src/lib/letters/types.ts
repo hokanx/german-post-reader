@@ -16,6 +16,8 @@ export const SENDER_CATEGORIES: SenderCategory[] = [
 
 export type LetterAnalysis = {
   summary: string;
+  /** The sender's name as printed on the letter (e.g. "Finanzamt München"), in the original German/Latin form — never translated, same treatment as an org name or a source_quote. */
+  sender_name: string;
   /** Broad category of who sent the letter (Behörde, insurer, bank, landlord, utility, school, delivery, or other) — powers the dashboard card's icon. */
   sender_category: SenderCategory;
   deadlines: { date: string; description: string }[];

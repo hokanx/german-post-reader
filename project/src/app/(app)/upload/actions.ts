@@ -132,6 +132,7 @@ export async function uploadLetter(
     user_id: user.id,
     storage_path: storagePath,
     summary: analysis.summary,
+    sender_name: analysis.sender_name,
     sender_category: analysis.sender_category,
     deadlines: analysis.deadlines,
     key_facts: analysis.key_facts,

@@ -2,21 +2,9 @@
 
 import Link from "next/link";
 import { motion, useReducedMotion } from "framer-motion";
-import {
-  CalendarClock,
-  ChevronRight,
-  ChevronLeft,
-  Landmark,
-  ShieldCheck,
-  Banknote,
-  Building2,
-  Zap,
-  GraduationCap,
-  Truck,
-  FileText,
-  type LucideIcon,
-} from "lucide-react";
+import { CalendarClock, ChevronRight, ChevronLeft } from "lucide-react";
 import type { AppLanguage, SenderCategory } from "@/lib/letters/types";
+import { SENDER_CATEGORY_ICONS } from "@/lib/letters/sender-category";
 import { APP_COPY } from "@/lib/i18n/copy";
 import { formatDate } from "@/lib/format-date";
 
@@ -28,17 +16,6 @@ type LetterRow = {
   action_required: boolean;
   created_at: string;
   language: AppLanguage;
-};
-
-const SENDER_CATEGORY_ICONS: Record<SenderCategory, LucideIcon> = {
-  authority: Landmark,
-  insurer: ShieldCheck,
-  bank: Banknote,
-  landlord: Building2,
-  utility: Zap,
-  school: GraduationCap,
-  delivery: Truck,
-  other: FileText,
 };
 
 function soonestDeadline(deadlines: LetterRow["deadlines"]) {

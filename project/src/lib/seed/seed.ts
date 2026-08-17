@@ -405,6 +405,7 @@ async function main() {
       storage_path: `${userId}/${letterId}`,
       raw_ocr_text: null,
       summary: `${letter.sender}: ${letter.summary}`,
+      sender_name: letter.sender,
       sender_category: letter.sender_category,
       deadlines: letter.deadlines,
       key_facts: letter.key_facts,

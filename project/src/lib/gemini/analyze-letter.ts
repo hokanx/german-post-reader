@@ -38,6 +38,11 @@ const RESPONSE_SCHEMA = {
       description:
         "Plain-language summary of the letter, written for someone who doesn't read German. The first sentence must name who the letter is from (e.g. 'Finanzamt München is...', 'Your landlord's property management company...') before explaining what it's about.",
     },
+    sender_name: {
+      type: Type.STRING,
+      description:
+        "The sender's name exactly as printed on the letter (e.g. 'Finanzamt München', 'Vodafone Kabel Deutschland'). Never translated — organization names stay in their original form regardless of target language.",
+    },
     sender_category: {
       type: Type.STRING,
       enum: SENDER_CATEGORIES,
@@ -94,6 +99,7 @@ const RESPONSE_SCHEMA = {
   },
   required: [
     "summary",
+    "sender_name",
     "sender_category",
     "deadlines",
     "key_facts",
@@ -105,6 +111,7 @@ const RESPONSE_SCHEMA = {
   ],
   propertyOrdering: [
     "summary",
+    "sender_name",
     "sender_category",
     "deadlines",
     "key_facts",
@@ -122,6 +129,7 @@ function buildSystemInstruction(language: AppLanguage, sender?: SenderInfo) {
 ${senderLine ? `\n${senderLine}\n` : ""}
 Rules:
 - summary: plain language, no legal jargon. The first sentence names who the letter is from, then explain what it's about and why it matters. Written entirely in ${LANGUAGE_NAMES[language]}.
+- sender_name: the sender's name exactly as printed on the letter, in its original form — never translated.
 - sender_category: classify who sent it as one of authority, insurer, bank, landlord, utility, school, delivery, or other.
 - deadlines: list every date the recipient must act by. If no deadline exists, return an empty array. Descriptions written in ${LANGUAGE_NAMES[language]}.
 - key_facts: pull out concrete facts worth backing with the original text — amounts, dates, reference numbers, names. Each fact needs label and value written in ${LANGUAGE_NAMES[language]}, plus source_quote copied verbatim in the ORIGINAL GERMAN regardless of target language, so the reader can see exactly what the letter said. Empty array if there's nothing worth citing this way. Don't duplicate deadlines here.
