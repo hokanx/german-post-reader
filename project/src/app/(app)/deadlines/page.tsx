@@ -5,7 +5,11 @@ import { EmptyState } from "@/components/empty-state";
 import type { AppLanguage } from "@/lib/letters/types";
 import { APP_COPY } from "@/lib/i18n/copy";
 import { flattenAndSortDeadlines } from "@/lib/letters/flatten-deadlines";
-import { groupDeadlinesByMonth } from "@/lib/letters/group-deadlines-by-month";
+import { groupDeadlinesByDay } from "@/lib/letters/group-deadlines-by-day";
+import { appLanguageToLocale } from "@/lib/letters/locale";
+import { DeadlinesCalendar } from "./deadlines-calendar";
+
+const ISO_DATE_RE = /^\d{4}-\d{2}-\d{2}$/;
 
 export const metadata = {
   title: "Deadlines — Papkram",
@@ -30,8 +34,11 @@ export default async function DeadlinesPage() {
   const language = (profile?.language ?? "en") as AppLanguage;
   const copy = APP_COPY[language].deadlines;
   const dir = language === "ar" ? "rtl" : "ltr";
+  const locale = appLanguageToLocale(language);
   const deadlines = flattenAndSortDeadlines(letters ?? []);
-  const monthGroups = groupDeadlinesByMonth(deadlines, language === "ar" ? "ar-EG" : language === "tr" ? "tr-TR" : "en-GB", copy.undatedLabel);
+  const datedDeadlines = deadlines.filter((d) => ISO_DATE_RE.test(d.date));
+  const undatedDeadlines = deadlines.filter((d) => !ISO_DATE_RE.test(d.date));
+  const deadlinesByDay = groupDeadlinesByDay(datedDeadlines);
 
   return (
     <main dir={dir} className="flex-1 bg-background">
@@ -39,13 +46,24 @@ export default async function DeadlinesPage() {
         <h1 className="mb-4 text-xl font-extrabold tracking-[-0.02em] text-foreground">{copy.heading}</h1>
         {deadlines.length > 0 ? (
           <div className="grid gap-6">
-            {monthGroups.map((group) => (
-              <div key={group.key}>
+            <DeadlinesCalendar
+              deadlinesByDay={deadlinesByDay}
+              language={language}
+              locale={locale}
+              prevMonthLabel={copy.prevMonth}
+              nextMonthLabel={copy.nextMonth}
+              todayLabel={copy.todayLabel}
+              deadlineWordSingular={copy.deadlineWordSingular}
+              deadlineWordPlural={copy.deadlineWordPlural}
+            />
+
+            {undatedDeadlines.length > 0 && (
+              <div>
                 <h2 className="mb-3 text-sm font-bold uppercase tracking-[0.06em] text-muted-foreground">
-                  {group.label}
+                  {copy.undatedLabel}
                 </h2>
                 <ul className="grid grid-cols-1 gap-3">
-                  {group.deadlines.map((d, i) => (
+                  {undatedDeadlines.map((d, i) => (
                     <li key={`${d.letterId}-${i}`}>
                       <Link
                         href={`/letters/${d.letterId}#deadlines`}
@@ -63,7 +81,7 @@ export default async function DeadlinesPage() {
                   ))}
                 </ul>
               </div>
-            ))}
+            )}
           </div>
         ) : (
           <EmptyState

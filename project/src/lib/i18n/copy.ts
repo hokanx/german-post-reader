@@ -227,6 +227,12 @@ export type AppCopy = {
     emptyDescription: string;
     uploadCta: string;
     undatedLabel: string;
+    prevMonth: string;
+    nextMonth: string;
+    todayLabel: string;
+    /** Singular/plural word for "deadline(s)", combined client-side as `${n} ${word}` for a day cell's aria-label — a template *function* can't cross the Server -> Client Component prop boundary (only serializable data can), unlike `letters.deadlineCount` which is only ever called server-side. */
+    deadlineWordSingular: string;
+    deadlineWordPlural: string;
   };
   settings: {
     heading: string;
@@ -542,6 +548,11 @@ export const APP_COPY: Record<AppLanguage, AppCopy> = {
       emptyDescription: "Upload a letter and any deadlines it mentions will show up here, soonest first.",
       uploadCta: "Upload a letter",
       undatedLabel: "No fixed date",
+      prevMonth: "Previous month",
+      nextMonth: "Next month",
+      todayLabel: "Today",
+      deadlineWordSingular: "deadline",
+      deadlineWordPlural: "deadlines",
     },
     settings: {
       heading: "Settings",
@@ -853,6 +864,11 @@ export const APP_COPY: Record<AppLanguage, AppCopy> = {
       emptyDescription: "ارفع خطابًا وستظهر هنا أي مواعيد نهائية مذكورة فيه، الأقرب أولاً.",
       uploadCta: "ارفع خطابًا",
       undatedLabel: "بدون تاريخ محدد",
+      prevMonth: "الشهر السابق",
+      nextMonth: "الشهر التالي",
+      todayLabel: "اليوم",
+      deadlineWordSingular: "موعد نهائي",
+      deadlineWordPlural: "مواعيد نهائية",
     },
     settings: {
       heading: "الإعدادات",
@@ -1166,6 +1182,11 @@ export const APP_COPY: Record<AppLanguage, AppCopy> = {
       emptyDescription: "Bir mektup yükleyin, içinde geçen son tarihler burada en yakın olandan başlayarak görünsün.",
       uploadCta: "Mektup yükle",
       undatedLabel: "Sabit tarih yok",
+      prevMonth: "Önceki ay",
+      nextMonth: "Sonraki ay",
+      todayLabel: "Bugün",
+      deadlineWordSingular: "son tarih",
+      deadlineWordPlural: "son tarih",
     },
     settings: {
       heading: "Ayarlar",
