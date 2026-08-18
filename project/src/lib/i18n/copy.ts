@@ -101,6 +101,10 @@ export type AppCopy = {
     filterEmptyTitle: string;
     filterEmptyDescription: string;
     clearFilters: string;
+    sortBy: string;
+    sortNewest: string;
+    sortOldest: string;
+    sortDeadline: string;
   };
   upload: {
     heading: string;
@@ -347,6 +351,10 @@ export const APP_COPY: Record<AppLanguage, AppCopy> = {
       filterEmptyTitle: "No letters match these filters",
       filterEmptyDescription: "Try a different combination, or clear all filters to see every letter again.",
       clearFilters: "Clear filters",
+      sortBy: "Sort by",
+      sortNewest: "Newest first",
+      sortOldest: "Oldest first",
+      sortDeadline: "Soonest deadline",
     },
     upload: {
       heading: "Upload a letter",
@@ -655,6 +663,10 @@ export const APP_COPY: Record<AppLanguage, AppCopy> = {
       filterEmptyTitle: "لا توجد خطابات مطابقة لهذه الفلاتر",
       filterEmptyDescription: "جرّب مجموعة مختلفة، أو امسح كل الفلاتر لرؤية جميع الخطابات مجددًا.",
       clearFilters: "مسح الفلاتر",
+      sortBy: "الترتيب حسب",
+      sortNewest: "الأحدث أولاً",
+      sortOldest: "الأقدم أولاً",
+      sortDeadline: "أقرب موعد نهائي",
     },
     upload: {
       heading: "ارفع خطابًا",
@@ -963,6 +975,10 @@ export const APP_COPY: Record<AppLanguage, AppCopy> = {
       filterEmptyTitle: "Bu filtrelere uyan mektup yok",
       filterEmptyDescription: "Farklı bir kombinasyon deneyin veya tüm mektupları tekrar görmek için filtreleri temizleyin.",
       clearFilters: "Filtreleri temizle",
+      sortBy: "Sırala",
+      sortNewest: "En yeni",
+      sortOldest: "En eski",
+      sortDeadline: "En yakın son tarih",
     },
     upload: {
       heading: "Mektup yükle",

@@ -10,6 +10,7 @@ import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
 export type ActionFilter = "all" | "required" | "none";
+export type SortOption = "newest" | "oldest" | "deadline";
 
 function chipClasses(active: boolean) {
   return [
@@ -28,6 +29,8 @@ export function LetterFilters({
   categoryFilter,
   onToggleCategory,
   onClearFilters,
+  sortOption,
+  onSortOptionChange,
 }: {
   language: AppLanguage;
   actionFilter: ActionFilter;
@@ -35,6 +38,8 @@ export function LetterFilters({
   categoryFilter: Set<SenderCategory>;
   onToggleCategory: (category: SenderCategory) => void;
   onClearFilters: () => void;
+  sortOption: SortOption;
+  onSortOptionChange: (value: SortOption) => void;
 }) {
   const copy = APP_COPY[language];
 
@@ -42,6 +47,12 @@ export function LetterFilters({
     { value: "all", label: copy.dashboard.filterAll },
     { value: "required", label: copy.dashboard.filterActionNeeded },
     { value: "none", label: copy.dashboard.filterNoAction },
+  ];
+
+  const sortOptions: { value: SortOption; label: string }[] = [
+    { value: "newest", label: copy.dashboard.sortNewest },
+    { value: "oldest", label: copy.dashboard.sortOldest },
+    { value: "deadline", label: copy.dashboard.sortDeadline },
   ];
 
   const activeCount = (actionFilter !== "all" ? 1 : 0) + categoryFilter.size;
@@ -65,6 +76,25 @@ export function LetterFilters({
         </PopoverTrigger>
         <PopoverContent dir={language === "ar" ? "rtl" : "ltr"}>
           <div className="grid gap-4">
+            <div>
+              <p className="mb-2 text-xs font-bold uppercase tracking-[0.06em] text-muted-foreground">
+                {copy.dashboard.sortBy}
+              </p>
+              <div role="radiogroup" aria-label={copy.dashboard.sortBy} className="flex flex-wrap gap-1.5">
+                {sortOptions.map((option) => (
+                  <button
+                    key={option.value}
+                    type="button"
+                    role="radio"
+                    aria-checked={sortOption === option.value}
+                    onClick={() => onSortOptionChange(option.value)}
+                    className={chipClasses(sortOption === option.value)}
+                  >
+                    {option.label}
+                  </button>
+                ))}
+              </div>
+            </div>
             <div>
               <p className="mb-2 text-xs font-bold uppercase tracking-[0.06em] text-muted-foreground">
                 {copy.dashboard.yourLetters}

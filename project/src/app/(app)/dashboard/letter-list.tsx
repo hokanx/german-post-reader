@@ -9,7 +9,7 @@ import { SENDER_CATEGORY_ICONS } from "@/lib/letters/sender-category";
 import { APP_COPY } from "@/lib/i18n/copy";
 import { formatDate } from "@/lib/format-date";
 import { EmptyState } from "@/components/empty-state";
-import { LetterFilters, type ActionFilter } from "./letter-filters";
+import { LetterFilters, type ActionFilter, type SortOption } from "./letter-filters";
 
 type LetterRow = {
   id: string;
@@ -34,6 +34,7 @@ export function LetterList({ letters, language }: { letters: LetterRow[]; langua
 
   const [actionFilter, setActionFilter] = useState<ActionFilter>("all");
   const [categoryFilter, setCategoryFilter] = useState<Set<SenderCategory>>(new Set());
+  const [sortOption, setSortOption] = useState<SortOption>("newest");
 
   const toggleCategory = (category: SenderCategory) => {
     setCategoryFilter((prev) => {
@@ -61,6 +62,20 @@ export function LetterList({ letters, language }: { letters: LetterRow[]; langua
     });
   }, [letters, actionFilter, categoryFilter]);
 
+  const sortedLetters = useMemo(() => {
+    return [...filteredLetters].sort((a, b) => {
+      if (sortOption === "newest") return b.created_at.localeCompare(a.created_at);
+      if (sortOption === "oldest") return a.created_at.localeCompare(b.created_at);
+
+      const deadlineA = soonestDeadline(a.deadlines)?.date ?? null;
+      const deadlineB = soonestDeadline(b.deadlines)?.date ?? null;
+      if (deadlineA && deadlineB) return deadlineA.localeCompare(deadlineB);
+      if (deadlineA) return -1;
+      if (deadlineB) return 1;
+      return b.created_at.localeCompare(a.created_at);
+    });
+  }, [filteredLetters, sortOption]);
+
   return (
     <div>
       <LetterFilters
@@ -70,8 +85,10 @@ export function LetterList({ letters, language }: { letters: LetterRow[]; langua
         categoryFilter={categoryFilter}
         onToggleCategory={toggleCategory}
         onClearFilters={clearFilters}
+        sortOption={sortOption}
+        onSortOptionChange={setSortOption}
       />
-      {filteredLetters.length === 0 ? (
+      {sortedLetters.length === 0 ? (
         <EmptyState
           icon={ListFilter}
           title={copy.dashboard.filterEmptyTitle}
@@ -85,7 +102,7 @@ export function LetterList({ letters, language }: { letters: LetterRow[]; langua
           variants={{ show: { transition: { staggerChildren: 0.06 } } }}
           className="grid grid-cols-1 gap-3"
         >
-          {filteredLetters.map((letter) => {
+          {sortedLetters.map((letter) => {
             const deadline = soonestDeadline(letter.deadlines);
             const CategoryIcon = SENDER_CATEGORY_ICONS[letter.sender_category];
             return (
