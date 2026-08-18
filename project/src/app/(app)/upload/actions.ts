@@ -4,7 +4,8 @@ import { randomUUID } from "node:crypto";
 import { createClient } from "@/lib/supabase/server";
 import { createServiceClient } from "@/lib/supabase/service";
 import { analyzeDocument } from "@/lib/gemini/analyze-letter";
-import { DAILY_LETTER_LIMIT, FREE_LETTER_LIMIT, SUBSCRIPTION_PRICE_EUR } from "@/lib/constants";
+import { DAILY_LETTER_LIMIT, FREE_LETTER_LIMIT, MAX_UPLOAD_BYTES, SUBSCRIPTION_PRICE_EUR } from "@/lib/constants";
+import { matchesDeclaredType } from "@/lib/file-signature";
 import { formatEur } from "@/lib/format-currency";
 import type { AppLanguage } from "@/lib/letters/types";
 import { APP_COPY } from "@/lib/i18n/copy";
@@ -61,6 +62,36 @@ export async function uploadLetter(
     };
   }
 
+  // The client pre-checks this too (upload-form.tsx), but that's a UX
+  // nicety only — a request can always bypass client-side JavaScript, so
+  // this is the real boundary.
+  if (file.size > MAX_UPLOAD_BYTES) {
+    return {
+      ok: false,
+      error: {
+        code: "INVALID_INPUT",
+        message: copy.fileTooLarge,
+        recovery: file.type === "application/pdf" ? copy.fileTooLargePdfRecovery : copy.fileTooLargeImageRecovery,
+      },
+    };
+  }
+
+  const bytes = Buffer.from(await file.arrayBuffer());
+
+  // The browser-supplied Content-Type on a multipart upload is whatever the
+  // client claims it is, not a guarantee of the file's actual content — an
+  // attacker can label anything "image/png". Checking the real magic bytes
+  // closes that gap before the file is ever sent to Gemini or stored.
+  if (!matchesDeclaredType(bytes, file.type)) {
+    return {
+      ok: false,
+      error: {
+        code: "INVALID_INPUT",
+        message: copy.unsupportedFileType,
+      },
+    };
+  }
+
   if (!profile.has_active_subscription && profile.trial_letters_used >= FREE_LETTER_LIMIT) {
     return {
       ok: false,
@@ -95,8 +126,6 @@ export async function uploadLetter(
       };
     }
   }
-
-  const bytes = Buffer.from(await file.arrayBuffer());
 
   const analysisResult = await analyzeDocument(bytes, file.type, language, {
     fullName: profile.full_name,

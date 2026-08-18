@@ -1,0 +1,13 @@
+-- The "letters: insert own rows" RLS policy (0001_init.sql) only checks
+-- ownership, not that the insert actually went through the app's upload
+-- pipeline. Every real insert into letters already goes through the
+-- service-role client (upload/actions.ts, signup/actions.ts,
+-- lib/seed/seed.ts) -- the RLS-scoped client never inserts into this table.
+-- So a user could otherwise write a fabricated letter row directly via the
+-- public anon key plus their own session, bypassing FREE_LETTER_LIMIT and
+-- the Gemini analysis step entirely: trial_letters_used is only incremented
+-- by the upload action itself, never by the insert (security audit
+-- finding, 2026-08-18). Removing insert privilege from anon/authenticated
+-- closes this without affecting any real flow -- the service role bypasses
+-- table grants entirely.
+revoke insert on public.letters from anon, authenticated;

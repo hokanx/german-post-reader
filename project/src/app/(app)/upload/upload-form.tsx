@@ -11,14 +11,8 @@ import { trackEvent } from "@/lib/analytics/track-event";
 import { compressImageIfNeeded } from "@/lib/image-compression";
 import type { AppLanguage } from "@/lib/letters/types";
 import { APP_COPY } from "@/lib/i18n/copy";
+import { MAX_UPLOAD_BYTES } from "@/lib/constants";
 import { uploadLetter } from "./actions";
-
-// Vercel's serverless functions have a hard 4.5MB request body ceiling that
-// no Next.js config can raise (docs.vercel.com/docs/errors/function_payload_too_large).
-// Images get compressed client-side first (see image-compression.ts) so they
-// almost never hit this; PDFs pass through untouched, so they're checked
-// directly against a safe margin below the platform limit.
-const MAX_UPLOAD_BYTES = 4 * 1024 * 1024;
 
 export function UploadForm({ language }: { language: AppLanguage }) {
   const copy = APP_COPY[language].upload;
