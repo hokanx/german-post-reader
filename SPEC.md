@@ -25,6 +25,7 @@ if a task appears mid-build that exceeds this size, STOP and move it to later_st
 - Letter upload via file picker (PDF or image) works. (Camera-capture upload was removed post-launch in favor of file-picker-only.)
 - Gemini analysis pipeline (native multimodal — reads images and PDFs directly, no separate OCR step) returns summary, deadline detection, and reply draft in the user's chosen language within 30 seconds works.
 - Gemini analysis pipeline also extracts sender name + sender category (icon on dashboard cards and letter-detail page), plus dedicated payments and appointments sections (distinct from deadlines) works.
+- The letter-detail page has a small overflow ("•••") menu with two actions — viewing the original uploaded letter (image or PDF), and copying/exporting a ready-to-send plain-text summary of the letter branded with a Papkram signature line — works.
 - Language toggle (English, Arabic, Turkish) persists to the user's profile and re-renders the analysis output works.
 - Free trial limit of 4 letters enforced; Stripe Checkout yearly (€29.99/year) or monthly (€3.99/month) subscription unlocks unlimited letters works.
 - Letter history dashboard listing all past uploads with their summary previews works.
