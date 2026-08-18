@@ -24,9 +24,11 @@ if a task appears mid-build that exceeds this size, STOP and move it to later_st
 - Email + password auth with a post-signup redirect to the onboarding language-picker page works.
 - Letter upload via file picker (PDF or image) works. (Camera-capture upload was removed post-launch in favor of file-picker-only.)
 - Gemini analysis pipeline (native multimodal — reads images and PDFs directly, no separate OCR step) returns summary, deadline detection, and reply draft in the user's chosen language within 30 seconds works.
+- Gemini analysis pipeline also extracts sender name + sender category (icon on dashboard cards and letter-detail page), plus dedicated payments and appointments sections (distinct from deadlines) works.
 - Language toggle (English, Arabic, Turkish) persists to the user's profile and re-renders the analysis output works.
 - Free trial limit of 4 letters enforced; Stripe Checkout yearly (€29.99/year) or monthly (€3.99/month) subscription unlocks unlimited letters works.
 - Letter history dashboard listing all past uploads with their summary previews works.
+- Dashboard letter filters — by action-required status and by sender category — work.
 - Onboarding welcome email sent on signup via Resend works.
 - Posthog analytics and Sentry error tracking instrumented works.
 
