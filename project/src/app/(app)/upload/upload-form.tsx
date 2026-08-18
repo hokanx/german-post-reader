@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState, useTransition } from "react";
+import { useEffect, useRef, useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
 import { motion, useReducedMotion, AnimatePresence } from "framer-motion";
 import { Upload, FileText } from "lucide-react";
@@ -31,6 +31,19 @@ export function UploadForm({ language }: { language: AppLanguage }) {
   const [isDragging, setIsDragging] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
   const shouldReduceMotion = useReducedMotion();
+  const [stageIndex, setStageIndex] = useState(0);
+
+  // Cycles through readingStages every few seconds so a ~10-20s analysis
+  // wait reads as forward motion instead of one static message the whole
+  // time. Purely cosmetic — not tied to real backend progress, since the
+  // upload is a single request with no intermediate events to report.
+  useEffect(() => {
+    if (!pending) return;
+    const interval = setInterval(() => {
+      setStageIndex((i) => Math.min(i + 1, copy.readingStages.length - 1));
+    }, 4000);
+    return () => clearInterval(interval);
+  }, [pending, copy.readingStages.length]);
 
   async function handleFiles(files: FileList | null) {
     const picked = files?.[0];
@@ -63,6 +76,7 @@ export function UploadForm({ language }: { language: AppLanguage }) {
     if (!file) return;
     setError(null);
     setTrialLimitReached(false);
+    setStageIndex(0);
 
     const formData = new FormData();
     formData.append("file", file);
@@ -109,10 +123,19 @@ export function UploadForm({ language }: { language: AppLanguage }) {
         >
           <FileText className="size-6 text-accent-foreground" strokeWidth={1.5} aria-hidden="true" />
         </motion.div>
-        <p className="font-heading text-xl font-extrabold tracking-[-0.02em] text-foreground">
-          {copy.readingTitle}
-        </p>
-        <p className="mt-2 text-sm text-foreground/70">{copy.readingSubtitle}</p>
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={stageIndex}
+            initial={shouldReduceMotion ? false : { opacity: 0, y: 4 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={shouldReduceMotion ? undefined : { opacity: 0 }}
+          >
+            <p className="font-heading text-xl font-extrabold tracking-[-0.02em] text-foreground">
+              {copy.readingStages[stageIndex].title}
+            </p>
+            <p className="mt-2 text-sm text-foreground/70">{copy.readingStages[stageIndex].subtitle}</p>
+          </motion.div>
+        </AnimatePresence>
       </motion.div>
     );
   }

@@ -16,30 +16,39 @@ export async function compressImageIfNeeded(file: File): Promise<File> {
     return file;
   }
 
-  const bitmap = await createImageBitmap(file);
-  const scale = Math.min(1, MAX_DIMENSION / Math.max(bitmap.width, bitmap.height));
-  const width = Math.round(bitmap.width * scale);
-  const height = Math.round(bitmap.height * scale);
+  // Best-effort: some real phone photos (odd EXIF, unusual JPEG variants)
+  // fail to decode via createImageBitmap in some browsers. That must never
+  // strand the upload flow — fall back to the original file, which the
+  // caller still size-checks against MAX_UPLOAD_BYTES with a proper error.
+  try {
+    const bitmap = await createImageBitmap(file);
+    const scale = Math.min(1, MAX_DIMENSION / Math.max(bitmap.width, bitmap.height));
+    const width = Math.round(bitmap.width * scale);
+    const height = Math.round(bitmap.height * scale);
 
-  const canvas = document.createElement("canvas");
-  canvas.width = width;
-  canvas.height = height;
-  const ctx = canvas.getContext("2d");
-  if (!ctx) {
+    const canvas = document.createElement("canvas");
+    canvas.width = width;
+    canvas.height = height;
+    const ctx = canvas.getContext("2d");
+    if (!ctx) {
+      bitmap.close();
+      return file;
+    }
+    ctx.drawImage(bitmap, 0, 0, width, height);
     bitmap.close();
+
+    const blob = await new Promise<Blob | null>((resolve) =>
+      canvas.toBlob(resolve, "image/jpeg", JPEG_QUALITY),
+    );
+
+    if (!blob || blob.size >= file.size) {
+      return file;
+    }
+
+    const newName = file.name.replace(/\.[^.]+$/, "") + ".jpg";
+    return new File([blob], newName, { type: "image/jpeg" });
+  } catch (error) {
+    console.warn("Image compression skipped — using original file", error);
     return file;
   }
-  ctx.drawImage(bitmap, 0, 0, width, height);
-  bitmap.close();
-
-  const blob = await new Promise<Blob | null>((resolve) =>
-    canvas.toBlob(resolve, "image/jpeg", JPEG_QUALITY),
-  );
-
-  if (!blob || blob.size >= file.size) {
-    return file;
-  }
-
-  const newName = file.name.replace(/\.[^.]+$/, "") + ".jpg";
-  return new File([blob], newName, { type: "image/jpeg" });
 }

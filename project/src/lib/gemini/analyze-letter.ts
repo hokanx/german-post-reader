@@ -36,7 +36,7 @@ const RESPONSE_SCHEMA = {
     summary: {
       type: Type.STRING,
       description:
-        "Plain-language summary of the letter, written for someone who doesn't read German. The first sentence must name who the letter is from (e.g. 'Finanzamt München is...', 'Your landlord's property management company...') before explaining what it's about.",
+        "Plain-language summary of the letter, written for someone who doesn't read German. Do NOT name the sender — that's captured separately in sender_name and shown on its own. Go straight into what the letter is about and why it matters.",
     },
     sender_name: {
       type: Type.STRING,
@@ -175,7 +175,11 @@ Rules:
 }
 
 const RETRYABLE_STATUSES = new Set([429, 503]);
-const RETRY_DELAYS_MS = [500, 1500];
+// gemini-flash-latest's free tier occasionally needs more than one retry to
+// ride out a demand spike (observed: two consecutive 503s before a third
+// attempt succeeded) — a third attempt with more backoff room turns more of
+// these into an automatic success instead of a user-facing failure.
+const RETRY_DELAYS_MS = [500, 1500, 3000];
 
 function isRetryableStatus(error: unknown): boolean {
   const status = (error as { status?: number } | null)?.status;

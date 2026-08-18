@@ -104,7 +104,10 @@ export async function uploadLetter(
   });
 
   if (!analysisResult.ok) {
-    return analysisResult;
+    return {
+      ok: false,
+      error: { code: analysisResult.error.code, message: copy.analysisFailed, recovery: copy.analysisFailedRecovery },
+    };
   }
 
   const letterId = randomUUID();

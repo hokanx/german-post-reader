@@ -110,6 +110,8 @@ export type AppCopy = {
     analyzeLetter: string;
     readingTitle: string;
     readingSubtitle: string;
+    /** Cycled every few seconds while the upload is pending, so a ~10-20s wait feels like forward motion instead of one static message. First entry mirrors readingTitle/readingSubtitle. */
+    readingStages: { title: string; subtitle: string }[];
     preparingPhoto: string;
     dismiss: string;
     fileTooLarge: string;
@@ -118,6 +120,8 @@ export type AppCopy = {
     unsupportedFileType: string;
     uploadFailed: string;
     uploadFailedRecovery: string;
+    analysisFailed: string;
+    analysisFailedRecovery: string;
     pleaseLoginAgain: string;
     chooseFileFirst: string;
     accountLoadFailed: string;
@@ -353,6 +357,11 @@ export const APP_COPY: Record<AppLanguage, AppCopy> = {
       analyzeLetter: "Analyze letter",
       readingTitle: "Reading your letter…",
       readingSubtitle: "This usually takes a few seconds.",
+      readingStages: [
+        { title: "Reading your letter…", subtitle: "This usually takes a few seconds." },
+        { title: "Pulling out the details…", subtitle: "Deadlines, amounts, and who it's from." },
+        { title: "Drafting your reply…", subtitle: "Almost there." },
+      ],
       preparingPhoto: "Preparing photo…",
       dismiss: "Dismiss",
       fileTooLarge: "That file is too large.",
@@ -361,6 +370,8 @@ export const APP_COPY: Record<AppLanguage, AppCopy> = {
       unsupportedFileType: "Only JPEG, PNG, or PDF files are supported.",
       uploadFailed: "Upload failed — try again.",
       uploadFailedRecovery: "Check your connection. If the file is very large, try a smaller photo.",
+      analysisFailed: "Analysis failed — try again.",
+      analysisFailedRecovery: "Check your connection and try uploading again.",
       pleaseLoginAgain: "Please log in again.",
       chooseFileFirst: "Choose a file to upload first.",
       accountLoadFailed: "Couldn't load your account.",
@@ -653,6 +664,11 @@ export const APP_COPY: Record<AppLanguage, AppCopy> = {
       analyzeLetter: "حلّل الخطاب",
       readingTitle: "جارٍ قراءة خطابك…",
       readingSubtitle: "يستغرق هذا عادةً بضع ثوانٍ.",
+      readingStages: [
+        { title: "جارٍ قراءة خطابك…", subtitle: "يستغرق هذا عادةً بضع ثوانٍ." },
+        { title: "جارٍ استخراج التفاصيل…", subtitle: "المواعيد النهائية والمبالغ والجهة المرسلة." },
+        { title: "جارٍ صياغة ردك…", subtitle: "أوشكنا على الانتهاء." },
+      ],
       preparingPhoto: "جارٍ تجهيز الصورة…",
       dismiss: "إغلاق",
       fileTooLarge: "هذا الملف كبير جدًا.",
@@ -661,6 +677,8 @@ export const APP_COPY: Record<AppLanguage, AppCopy> = {
       unsupportedFileType: "يُدعم فقط JPEG أو PNG أو PDF.",
       uploadFailed: "فشل الرفع — حاول مرة أخرى.",
       uploadFailedRecovery: "تحقق من اتصالك. إذا كان الملف كبيرًا جدًا، جرّب صورة أصغر.",
+      analysisFailed: "فشل التحليل — حاول مرة أخرى.",
+      analysisFailedRecovery: "تحقق من اتصالك وحاول الرفع مرة أخرى.",
       pleaseLoginAgain: "يرجى تسجيل الدخول مرة أخرى.",
       chooseFileFirst: "اختر ملفًا لرفعه أولاً.",
       accountLoadFailed: "تعذر تحميل حسابك.",
@@ -955,6 +973,11 @@ export const APP_COPY: Record<AppLanguage, AppCopy> = {
       analyzeLetter: "Mektubu analiz et",
       readingTitle: "Mektubunuz okunuyor…",
       readingSubtitle: "Bu genellikle birkaç saniye sürer.",
+      readingStages: [
+        { title: "Mektubunuz okunuyor…", subtitle: "Bu genellikle birkaç saniye sürer." },
+        { title: "Ayrıntılar çıkarılıyor…", subtitle: "Son tarihler, tutarlar ve gönderen." },
+        { title: "Yanıtınız hazırlanıyor…", subtitle: "Neredeyse bitti." },
+      ],
       preparingPhoto: "Fotoğraf hazırlanıyor…",
       dismiss: "Kapat",
       fileTooLarge: "Bu dosya çok büyük.",
@@ -963,6 +986,8 @@ export const APP_COPY: Record<AppLanguage, AppCopy> = {
       unsupportedFileType: "Yalnızca JPEG, PNG veya PDF dosyaları desteklenir.",
       uploadFailed: "Yükleme başarısız — tekrar deneyin.",
       uploadFailedRecovery: "Bağlantınızı kontrol edin. Dosya çok büyükse daha küçük bir fotoğraf deneyin.",
+      analysisFailed: "Analiz başarısız — tekrar deneyin.",
+      analysisFailedRecovery: "Bağlantınızı kontrol edin ve tekrar yüklemeyi deneyin.",
       pleaseLoginAgain: "Lütfen tekrar giriş yapın.",
       chooseFileFirst: "Önce yüklenecek bir dosya seçin.",
       accountLoadFailed: "Hesabınız yüklenemedi.",
