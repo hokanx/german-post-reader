@@ -93,6 +93,13 @@ export type AppCopy = {
     nextUpHeading: string;
     actionRequiredBadge: string;
     noActionBadge: string;
+    filterAll: string;
+    filterActionNeeded: string;
+    filterNoAction: string;
+    filterByCategory: string;
+    filterEmptyTitle: string;
+    filterEmptyDescription: string;
+    clearFilters: string;
   };
   upload: {
     heading: string;
@@ -327,6 +334,13 @@ export const APP_COPY: Record<AppLanguage, AppCopy> = {
       nextUpHeading: "Next up",
       actionRequiredBadge: "Action needed",
       noActionBadge: "No action needed",
+      filterAll: "All",
+      filterActionNeeded: "Action needed",
+      filterNoAction: "No action needed",
+      filterByCategory: "Category",
+      filterEmptyTitle: "No letters match these filters",
+      filterEmptyDescription: "Try a different combination, or clear all filters to see every letter again.",
+      clearFilters: "Clear filters",
     },
     upload: {
       heading: "Upload a letter",
@@ -620,6 +634,13 @@ export const APP_COPY: Record<AppLanguage, AppCopy> = {
       nextUpHeading: "التالي",
       actionRequiredBadge: "يتطلب إجراء",
       noActionBadge: "لا يتطلب إجراء",
+      filterAll: "الكل",
+      filterActionNeeded: "يتطلب إجراء",
+      filterNoAction: "لا يتطلب إجراء",
+      filterByCategory: "الفئة",
+      filterEmptyTitle: "لا توجد خطابات مطابقة لهذه الفلاتر",
+      filterEmptyDescription: "جرّب مجموعة مختلفة، أو امسح كل الفلاتر لرؤية جميع الخطابات مجددًا.",
+      clearFilters: "مسح الفلاتر",
     },
     upload: {
       heading: "ارفع خطابًا",
@@ -913,6 +934,13 @@ export const APP_COPY: Record<AppLanguage, AppCopy> = {
       nextUpHeading: "Sırada",
       actionRequiredBadge: "İşlem gerekiyor",
       noActionBadge: "İşlem gerekmiyor",
+      filterAll: "Tümü",
+      filterActionNeeded: "İşlem gerekiyor",
+      filterNoAction: "İşlem gerekmiyor",
+      filterByCategory: "Kategori",
+      filterEmptyTitle: "Bu filtrelere uyan mektup yok",
+      filterEmptyDescription: "Farklı bir kombinasyon deneyin veya tüm mektupları tekrar görmek için filtreleri temizleyin.",
+      clearFilters: "Filtreleri temizle",
     },
     upload: {
       heading: "Mektup yükle",

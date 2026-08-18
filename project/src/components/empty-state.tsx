@@ -1,12 +1,13 @@
 import type { LucideIcon } from "lucide-react";
 import Link from "next/link";
 import { buttonVariants } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
 
 type EmptyStateProps = {
   icon: LucideIcon;
   title: string;
   description: string;
-  action?: { label: string; href: string };
+  action?: { label: string; href: string } | { label: string; onClick: () => void };
 };
 
 export function EmptyState({ icon: Icon, title, description, action }: EmptyStateProps) {
@@ -19,13 +20,25 @@ export function EmptyState({ icon: Icon, title, description, action }: EmptyStat
         {title}
       </h2>
       <p className="mt-2 max-w-sm text-sm text-foreground/70">{description}</p>
-      {action && (
+      {action && "href" in action && (
         <Link
           href={action.href}
           className={buttonVariants({ className: "mt-6 h-11 rounded-sm font-bold" })}
         >
           {action.label}
         </Link>
+      )}
+      {action && "onClick" in action && (
+        <button
+          type="button"
+          onClick={action.onClick}
+          className={cn(
+            buttonVariants({ variant: "outline" }),
+            "mt-6 h-11 rounded-sm border-2 border-border font-bold",
+          )}
+        >
+          {action.label}
+        </button>
       )}
     </div>
   );
