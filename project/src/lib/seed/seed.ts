@@ -461,7 +461,7 @@ async function main() {
       user_id: userId,
       storage_path: `${userId}/${letterId}`,
       raw_ocr_text: null,
-      summary: `${letter.sender}: ${letter.summary}`,
+      summary: letter.summary,
       sender_name: letter.sender,
       sender_category: letter.sender_category,
       deadlines: letter.deadlines,

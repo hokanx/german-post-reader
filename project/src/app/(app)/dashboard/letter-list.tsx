@@ -14,6 +14,7 @@ import { LetterFilters, type ActionFilter } from "./letter-filters";
 type LetterRow = {
   id: string;
   summary: string | null;
+  sender_name: string | null;
   sender_category: SenderCategory;
   deadlines: { date: string; description: string }[] | null;
   action_required: boolean;
@@ -68,6 +69,7 @@ export function LetterList({ letters, language }: { letters: LetterRow[]; langua
         onActionFilterChange={setActionFilter}
         categoryFilter={categoryFilter}
         onToggleCategory={toggleCategory}
+        onClearFilters={clearFilters}
       />
       {filteredLetters.length === 0 ? (
         <EmptyState
@@ -109,8 +111,13 @@ export function LetterList({ letters, language }: { letters: LetterRow[]; langua
                       <span className="sr-only">{copy.senderCategories[letter.sender_category]}</span>
                     </span>
                     <div className="min-w-0 flex-1">
-                      <p className="text-xs font-medium uppercase tracking-[0.04em] text-muted-foreground">
-                        {formatDate(letter.created_at, language)}
+                      <p className="flex flex-wrap items-baseline gap-x-1.5 text-xs font-medium uppercase tracking-[0.04em] text-muted-foreground">
+                        {letter.sender_name && (
+                          <span lang="de" dir="ltr" className="text-foreground">
+                            {letter.sender_name}
+                          </span>
+                        )}
+                        <span>{formatDate(letter.created_at, language)}</span>
                       </p>
                       <p
                         lang={letter.summary ? letter.language : undefined}

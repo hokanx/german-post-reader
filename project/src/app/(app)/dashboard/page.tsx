@@ -36,7 +36,7 @@ export default async function DashboardPage() {
       .single(),
     supabase
       .from("letters")
-      .select("id, summary, sender_category, deadlines, action_required, created_at, language")
+      .select("id, summary, sender_name, sender_category, deadlines, action_required, created_at, language")
       .eq("user_id", user.id)
       .order("created_at", { ascending: false }),
   ]);

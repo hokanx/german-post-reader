@@ -93,6 +93,7 @@ export type AppCopy = {
     nextUpHeading: string;
     actionRequiredBadge: string;
     noActionBadge: string;
+    filtersTrigger: string;
     filterAll: string;
     filterActionNeeded: string;
     filterNoAction: string;
@@ -334,6 +335,7 @@ export const APP_COPY: Record<AppLanguage, AppCopy> = {
       nextUpHeading: "Next up",
       actionRequiredBadge: "Action needed",
       noActionBadge: "No action needed",
+      filtersTrigger: "Filters",
       filterAll: "All",
       filterActionNeeded: "Action needed",
       filterNoAction: "No action needed",
@@ -634,6 +636,7 @@ export const APP_COPY: Record<AppLanguage, AppCopy> = {
       nextUpHeading: "التالي",
       actionRequiredBadge: "يتطلب إجراء",
       noActionBadge: "لا يتطلب إجراء",
+      filtersTrigger: "الفلاتر",
       filterAll: "الكل",
       filterActionNeeded: "يتطلب إجراء",
       filterNoAction: "لا يتطلب إجراء",
@@ -934,6 +937,7 @@ export const APP_COPY: Record<AppLanguage, AppCopy> = {
       nextUpHeading: "Sırada",
       actionRequiredBadge: "İşlem gerekiyor",
       noActionBadge: "İşlem gerekmiyor",
+      filtersTrigger: "Filtreler",
       filterAll: "Tümü",
       filterActionNeeded: "İşlem gerekiyor",
       filterNoAction: "İşlem gerekmiyor",

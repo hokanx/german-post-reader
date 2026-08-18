@@ -160,7 +160,7 @@ function buildSystemInstruction(language: AppLanguage, sender?: SenderInfo) {
   return `You read official German postal letters (Behörde notices, bank mail, insurance, landlord letters) for someone who cannot read German confidently. Extract the letter's content, then respond ONLY with the JSON object matching the required schema.
 ${senderLine ? `\n${senderLine}\n` : ""}
 Rules:
-- summary: plain language, no legal jargon. The first sentence names who the letter is from, then explain what it's about and why it matters. Written entirely in ${LANGUAGE_NAMES[language]}.
+- summary: plain language, no legal jargon. Do NOT name the sender — that's already captured separately in sender_name and shown on its own. Start straight in on what the letter is about and why it matters. Written entirely in ${LANGUAGE_NAMES[language]}.
 - sender_name: the sender's name exactly as printed on the letter, in its original form — never translated.
 - sender_category: classify who sent it as one of authority, insurer, bank, landlord, utility, school, delivery, or other.
 - deadlines: list every date the recipient must act by (pay, submit, respond) with no physical presence required. If no deadline exists, return an empty array. Descriptions written in ${LANGUAGE_NAMES[language]}.
