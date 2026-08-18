@@ -4,6 +4,7 @@ import { createClient } from "@/lib/supabase/server";
 import { ReplyWizardCard } from "./reply-wizard-card";
 import { KeyFactsSection } from "./key-facts-section";
 import { AutoTranslateBanner } from "./auto-translate-banner";
+import { LetterMenu } from "./letter-menu";
 import { LANGUAGE_NAMES, type AppLanguage, type SenderCategory } from "@/lib/letters/types";
 import { SENDER_CATEGORY_ICONS } from "@/lib/letters/sender-category";
 import { APP_COPY } from "@/lib/i18n/copy";
@@ -93,17 +94,37 @@ export default async function LetterPage({
           )}
 
           <div>
-            <div className="flex flex-wrap items-center gap-2">
-              <span className="rounded-full border-2 border-border bg-muted px-4 py-1.5 text-xs font-bold uppercase tracking-[0.06em] text-muted-foreground">
-                {copy.analysisComplete}
-              </span>
-              <span
-                className={`rounded-full border-2 border-border px-4 py-1.5 text-xs font-bold uppercase tracking-[0.06em] ${
-                  actionRequired ? "bg-destructive/10 text-destructive" : "bg-muted text-muted-foreground"
-                }`}
-              >
-                {actionRequired ? copy.actionRequiredBadge : copy.noActionBadge}
-              </span>
+            <div className="flex flex-wrap items-center justify-between gap-2">
+              <div className="flex flex-wrap items-center gap-2">
+                <span className="rounded-full border-2 border-border bg-muted px-4 py-1.5 text-xs font-bold uppercase tracking-[0.06em] text-muted-foreground">
+                  {copy.analysisComplete}
+                </span>
+                <span
+                  className={`rounded-full border-2 border-border px-4 py-1.5 text-xs font-bold uppercase tracking-[0.06em] ${
+                    actionRequired ? "bg-destructive/10 text-destructive" : "bg-muted text-muted-foreground"
+                  }`}
+                >
+                  {actionRequired ? copy.actionRequiredBadge : copy.noActionBadge}
+                </span>
+              </div>
+              <LetterMenu
+                letterId={letter.id}
+                letter={{ senderName, summary: letter.summary, payments, appointments, deadlines, keyFacts }}
+                language={uiLanguage}
+                copy={{
+                  moreOptions: copy.moreOptions,
+                  viewOriginalLetter: copy.viewOriginalLetter,
+                  shareSummary: copy.shareSummary,
+                  openOriginalFailedToast: copy.openOriginalFailedToast,
+                  copiedToast: copy.copiedToast,
+                  copyFailedToast: copy.copyFailedToast,
+                  summaryWatermark: copy.summaryWatermark,
+                  paymentsHeading: copy.paymentsHeading,
+                  appointmentsHeading: copy.appointmentsHeading,
+                  deadlines: copy.deadlines,
+                  keyFactsHeading: copy.keyFactsHeading,
+                }}
+              />
             </div>
             <h1 className="sr-only">{copy.analysisComplete}</h1>
             <p className="mt-2 text-sm text-foreground/70">

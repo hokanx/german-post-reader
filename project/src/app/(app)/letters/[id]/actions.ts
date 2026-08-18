@@ -258,3 +258,46 @@ export async function translateLetter(letterId: string, targetLanguage: AppLangu
 
   return { ok: true, data: null };
 }
+
+/**
+ * A fresh, short-lived signed URL to the letter's original uploaded file.
+ * Uses the RLS-scoped client (not service role) for both the row fetch and
+ * createSignedUrl itself — Supabase Storage checks the caller's JWT against
+ * the "letters bucket: read own folder" policy, so this is already scoped
+ * to the owner without bypassing RLS. 60s is enough for the browser to open
+ * and load the file once; short enough that the URL isn't useful if it
+ * leaked (referrer, browser history).
+ */
+export async function getOriginalLetterUrl(letterId: string, uiLanguage: AppLanguage): Promise<Result<{ url: string }>> {
+  const supabase = await createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
+  if (!user) {
+    return { ok: false, error: { code: "UNAUTHENTICATED", message: APP_COPY[uiLanguage].upload.pleaseLoginAgain } };
+  }
+
+  const copy = APP_COPY[uiLanguage].letters;
+
+  const { data: letter, error: fetchError } = await supabase
+    .from("letters")
+    .select("storage_path")
+    .eq("id", letterId)
+    .eq("user_id", user.id)
+    .single();
+
+  if (fetchError || !letter) {
+    return { ok: false, error: { code: "UNKNOWN", message: copy.openOriginalFailedToast } };
+  }
+
+  const { data: signed, error: signError } = await supabase.storage
+    .from("letters")
+    .createSignedUrl(letter.storage_path, 60);
+
+  if (signError || !signed) {
+    return { ok: false, error: { code: "UNKNOWN", message: copy.openOriginalFailedToast } };
+  }
+
+  return { ok: true, data: { url: signed.signedUrl } };
+}

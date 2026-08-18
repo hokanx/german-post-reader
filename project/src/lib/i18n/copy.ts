@@ -155,6 +155,11 @@ export type AppCopy = {
     copied: string;
     copiedToast: string;
     copyFailedToast: string;
+    moreOptions: string;
+    viewOriginalLetter: string;
+    shareSummary: string;
+    openOriginalFailedToast: string;
+    summaryWatermark: string;
     replyToneGroupLabel: string;
     notFoundTitle: string;
     notFoundDescription: string;
@@ -416,6 +421,11 @@ export const APP_COPY: Record<AppLanguage, AppCopy> = {
       copied: "Copied",
       copiedToast: "Reply copied",
       copyFailedToast: "Couldn't copy — select and copy the text manually.",
+      moreOptions: "More options",
+      viewOriginalLetter: "View uploaded letter",
+      shareSummary: "Share summary",
+      openOriginalFailedToast: "Couldn't open the letter — try again.",
+      summaryWatermark: "— Summarized by Papkram · papkram.de",
       replyToneGroupLabel: "Reply tone",
       notFoundTitle: "We can't find that letter",
       notFoundDescription: "It may have been removed, or the link doesn't belong to your account.",
@@ -732,6 +742,11 @@ export const APP_COPY: Record<AppLanguage, AppCopy> = {
       copied: "تم النسخ",
       copiedToast: "تم نسخ الرد",
       copyFailedToast: "تعذر النسخ — حدد النص وانسخه يدويًا.",
+      moreOptions: "خيارات إضافية",
+      viewOriginalLetter: "عرض الخطاب المرفوع",
+      shareSummary: "مشاركة الملخص",
+      openOriginalFailedToast: "تعذر فتح الخطاب — حاول مرة أخرى.",
+      summaryWatermark: "— تم التلخيص بواسطة Papkram · papkram.de",
       replyToneGroupLabel: "نبرة الرد",
       notFoundTitle: "لا يمكننا العثور على هذا الخطاب",
       notFoundDescription: "ربما تمت إزالته، أو أن الرابط لا يخص حسابك.",
@@ -1050,6 +1065,11 @@ export const APP_COPY: Record<AppLanguage, AppCopy> = {
       copied: "Kopyalandı",
       copiedToast: "Yanıt kopyalandı",
       copyFailedToast: "Kopyalanamadı — metni seçip elle kopyalayın.",
+      moreOptions: "Diğer seçenekler",
+      viewOriginalLetter: "Yüklenen mektubu görüntüle",
+      shareSummary: "Özeti paylaş",
+      openOriginalFailedToast: "Mektup açılamadı — tekrar deneyin.",
+      summaryWatermark: "— Papkram ile özetlendi · papkram.de",
       replyToneGroupLabel: "Yanıt tonu",
       notFoundTitle: "Bu mektubu bulamıyoruz",
       notFoundDescription: "Kaldırılmış olabilir veya bağlantı hesabınıza ait olmayabilir.",
