@@ -29,6 +29,7 @@ if a task appears mid-build that exceeds this size, STOP and move it to later_st
 - Free trial limit of 4 letters enforced; Stripe Checkout yearly (€29.99/year) or monthly (€3.99/month) subscription unlocks unlimited letters works.
 - Letter history dashboard listing all past uploads with their summary previews works.
 - Dashboard letter filters — by action-required status and by sender category — work.
+- Dashboard letter sorting — by upload date (newest/oldest) or by soonest deadline — works.
 - Onboarding welcome email sent on signup via Resend works.
 - Posthog analytics and Sentry error tracking instrumented works.
 
