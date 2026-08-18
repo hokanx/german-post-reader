@@ -18,7 +18,10 @@ const CSP = [
   // still comes from output escaping (React's default) plus every other
   // directive here; closing this specific gap needs per-request nonce
   // middleware, which is a separate, larger change if wanted later.
-  "script-src 'self' 'unsafe-inline'",
+  // PostHog's client SDK dynamically loads its config and surveys scripts
+  // from its own asset host (posthog-js, not something this app's own code
+  // controls) — without it, script-src silently breaks analytics entirely.
+  "script-src 'self' 'unsafe-inline' https://*.posthog.com",
   // framer-motion and Tailwind's arbitrary-value utilities set inline
   // style attributes at runtime — style-src-attr has no browser-wide
   // nonce mechanism for that, so 'unsafe-inline' here is a deliberate,
