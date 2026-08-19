@@ -217,6 +217,12 @@ export type AppCopy = {
     earlyAccessConsent: string;
     earlyAccessConsentRequired: string;
   };
+  demoLimit: {
+    badge: string;
+    heading: (limit: number) => string;
+    body: string;
+    backToDashboard: string;
+  };
   languageSwitcher: {
     ariaLabel: string;
     updatedToast: string;
@@ -510,6 +516,12 @@ export const APP_COPY: Record<AppLanguage, AppCopy> = {
       earlyAccessConsent:
         "I want unlimited access to start right away. I understand I can still withdraw within 14 days, but I'll owe a proportionate amount for the access I've already used by then.",
       earlyAccessConsentRequired: "Confirm this to continue.",
+    },
+    demoLimit: {
+      badge: "Demo complete",
+      heading: (limit) => `You've used all ${limit} demo letters.`,
+      body: "That's the full experience — upload, plain-language summary, deadlines, ready-to-send reply. We'll email you at launch.",
+      backToDashboard: "Back to dashboard",
     },
     languageSwitcher: {
       ariaLabel: "Analysis language",
@@ -866,6 +878,12 @@ export const APP_COPY: Record<AppLanguage, AppCopy> = {
       earlyAccessConsent:
         "أريد أن يبدأ الوصول غير المحدود فورًا. أفهم أنه لا يزال بإمكاني الانسحاب خلال 14 يومًا، لكنني سأكون مدينًا بمبلغ متناسب مقابل الوصول الذي استخدمته حتى ذلك الحين.",
       earlyAccessConsentRequired: "أكّد هذا للمتابعة.",
+    },
+    demoLimit: {
+      badge: "اكتملت التجربة",
+      heading: (limit) => `لقد استخدمت جميع الـ ${limit} خطابات التجريبية.`,
+      body: "هذه هي التجربة الكاملة — الرفع، والملخص بلغة واضحة، والمواعيد النهائية، ورد جاهز للإرسال. سنراسلك بالبريد الإلكتروني عند الإطلاق.",
+      backToDashboard: "العودة إلى لوحة التحكم",
     },
     languageSwitcher: {
       ariaLabel: "لغة التحليل",
@@ -1224,6 +1242,12 @@ export const APP_COPY: Record<AppLanguage, AppCopy> = {
       earlyAccessConsent:
         "Sınırsız erişimin hemen başlamasını istiyorum. 14 gün içinde yine de cayabileceğimi, ancak o ana kadar kullandığım erişim için orantılı bir tutar borçlanacağımı anlıyorum.",
       earlyAccessConsentRequired: "Devam etmek için bunu onaylayın.",
+    },
+    demoLimit: {
+      badge: "Demo tamamlandı",
+      heading: (limit) => `${limit} demo mektubun tümünü kullandınız.`,
+      body: "İşte tam deneyim — yükleme, sade bir özet, son tarihler, gönderime hazır bir yanıt. Yayına girdiğimizde size e-posta göndereceğiz.",
+      backToDashboard: "Panele dön",
     },
     languageSwitcher: {
       ariaLabel: "Analiz dili",

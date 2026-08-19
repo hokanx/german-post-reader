@@ -7,11 +7,12 @@ import { Upload, FileText } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { ErrorState } from "@/components/error-state";
 import { PaywallModal } from "@/components/PaywallModal";
+import { DemoLimitModal } from "@/components/DemoLimitModal";
 import { trackEvent } from "@/lib/analytics/track-event";
 import { compressImageIfNeeded } from "@/lib/image-compression";
 import type { AppLanguage } from "@/lib/letters/types";
 import { APP_COPY } from "@/lib/i18n/copy";
-import { MAX_UPLOAD_BYTES } from "@/lib/constants";
+import { MAX_UPLOAD_BYTES, DEMO_MODE } from "@/lib/constants";
 import { uploadLetter } from "./actions";
 
 export function UploadForm({ language }: { language: AppLanguage }) {
@@ -135,7 +136,11 @@ export function UploadForm({ language }: { language: AppLanguage }) {
   }
 
   if (trialLimitReached) {
-    return <PaywallModal open={trialLimitReached} onOpenChange={setTrialLimitReached} language={language} />;
+    return DEMO_MODE ? (
+      <DemoLimitModal open={trialLimitReached} onOpenChange={setTrialLimitReached} language={language} />
+    ) : (
+      <PaywallModal open={trialLimitReached} onOpenChange={setTrialLimitReached} language={language} />
+    );
   }
 
   return (
