@@ -294,6 +294,7 @@ export type AppCopy = {
     shareWhatsapp: string;
     shareCopyLink: string;
     linkCopiedToast: string;
+    linkCopyFailed: string;
     shareTweetText: string;
     shareWhatsappText: string;
     continueButton: string;
@@ -662,6 +663,7 @@ export const APP_COPY: Record<AppLanguage, AppCopy> = {
       shareWhatsapp: "Share on WhatsApp",
       shareCopyLink: "Copy link",
       linkCopiedToast: "Link copied.",
+      linkCopyFailed: "Couldn't copy the link — select and copy it manually instead.",
       shareTweetText: "Papkram translates confusing German mail into plain language, with deadlines and a ready-to-send reply.",
       shareWhatsappText: "I've been using Papkram to make sense of confusing German mail — worth a look:",
       continueButton: "Continue to dashboard",
@@ -1026,6 +1028,7 @@ export const APP_COPY: Record<AppLanguage, AppCopy> = {
       shareWhatsapp: "شارك على واتساب",
       shareCopyLink: "نسخ الرابط",
       linkCopiedToast: "تم نسخ الرابط.",
+      linkCopyFailed: "تعذر نسخ الرابط — حدده وانسخه يدويًا بدلاً من ذلك.",
       shareTweetText: "يترجم Papkram البريد الألماني المربك إلى لغة واضحة، مع المواعيد النهائية ورد جاهز للإرسال.",
       shareWhatsappText: "أستخدم Papkram لفهم البريد الألماني المربك — يستحق نظرة:",
       continueButton: "الانتقال إلى لوحة التحكم",
@@ -1392,6 +1395,7 @@ export const APP_COPY: Record<AppLanguage, AppCopy> = {
       shareWhatsapp: "WhatsApp'ta paylaş",
       shareCopyLink: "Bağlantıyı kopyala",
       linkCopiedToast: "Bağlantı kopyalandı.",
+      linkCopyFailed: "Bağlantı kopyalanamadı — bunun yerine seçip elle kopyalayın.",
       shareTweetText: "Papkram, kafa karıştırıcı Almanca mektupları anlaşılır bir dile, son tarihlerle ve gönderime hazır bir yanıtla birlikte çeviriyor.",
       shareWhatsappText: "Kafa karıştırıcı Almanca mektupları anlamak için Papkram kullanıyorum — göz atmaya değer:",
       continueButton: "Panele devam et",

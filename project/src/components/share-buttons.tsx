@@ -41,8 +41,13 @@ export function ShareButtons({ language = "en" }: { language?: AppLanguage }) {
 
   async function handleCopyLink() {
     trackEvent("share_link_clicked", { platform: "copy_link" });
-    await navigator.clipboard.writeText(landingUrl("copy_link"));
-    toast.success(copy.linkCopiedToast);
+    try {
+      await navigator.clipboard.writeText(landingUrl("copy_link"));
+      toast.success(copy.linkCopiedToast);
+    } catch (error) {
+      console.error("navigator.clipboard.writeText failed", error);
+      toast.error(copy.linkCopyFailed);
+    }
   }
 
   return (
