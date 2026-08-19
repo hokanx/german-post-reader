@@ -151,16 +151,18 @@ if any UI deviates from this direction, claude code rolls it back. the user pick
 
 each stage below is built incrementally via `/next-stage` after v1 ships and the user has validated it. stages are ordered highest priority to lowest. do NOT build them as part of v1.
 
-### Stage 2 · Reply PDF + Sending
+### Stage 2 · Demo Mode + Pre-Release Marketing
 
-**goal:** Users can download a formatted reply letter as a PDF and optionally send it directly from the app.
+**goal:** Turn off selling, turn on hype — accounts unlock a free 4-letter demo, capture emails for the real launch, and give people a reason to share.
 
 scope:
-- Formatted reply PDF export with user name and address pre-filled works.
-- In-app email send of the reply draft (via Resend) to a user-specified recipient works.
-- Reply sent confirmation logged to letter history works.
+- A `DEMO_MODE` flag hides the paywall and Stripe checkout from the UI (Stripe code itself stays intact, just unreachable) works.
+- Newsletter opt-in at signup, wired to a Resend Audience, captures emails for the launch announcement works.
+- A one-time post-onboarding `/welcome` screen offers X/Twitter, WhatsApp, and copy-link sharing works.
+- The landing page shows an honest, unpadded signup counter and a demo pitch in place of the pricing table works.
+- Hitting the 4-letter demo cap shows a "demo complete" message instead of a paywall works.
 
-stage status: `not started` (change to `shipped` once `/next-stage` finishes stage 1)
+stage status: `shipped`
 
 ### Stage 3 · Deadline Calendar Sync
 
@@ -183,6 +185,17 @@ scope:
 - Per-seat billing via Stripe Billing quantity update works.
 
 stage status: `not started` (change to `shipped` once `/next-stage` finishes stage 3)
+
+### Stage 5 · Reply PDF + Sending
+
+**goal:** Users can download a formatted reply letter as a PDF and optionally send it directly from the app.
+
+scope:
+- Formatted reply PDF export with user name and address pre-filled works.
+- In-app email send of the reply draft (via Resend) to a user-specified recipient works.
+- Reply sent confirmation logged to letter history works.
+
+stage status: `not started` (change to `shipped` once `/next-stage` finishes stage 4)
 
 ## success metrics
 
