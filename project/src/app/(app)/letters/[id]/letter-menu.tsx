@@ -4,22 +4,21 @@ import { useState, useTransition } from "react";
 import { MoreHorizontal, ExternalLink, Share2 } from "lucide-react";
 import { toast } from "sonner";
 import { Popover, PopoverTrigger, PopoverContent } from "@/components/ui/popover";
-import { buildShareSummary, type ShareableLetter } from "@/lib/letters/build-share-summary";
+import { buildShareSummary } from "@/lib/letters/build-share-summary";
+import { formatDate } from "@/lib/format-date";
+import { APP_COPY } from "@/lib/i18n/copy";
 import type { AppLanguage } from "@/lib/letters/types";
 import { getOriginalLetterUrl } from "./actions";
 
-type MenuCopy = {
-  moreOptions: string;
-  viewOriginalLetter: string;
-  shareSummary: string;
-  openOriginalFailedToast: string;
-  copiedToast: string;
-  copyFailedToast: string;
-  summaryWatermark: string;
-  paymentsHeading: string;
-  appointmentsHeading: string;
-  deadlines: string;
-  keyFactsHeading: string;
+type LetterMenuLetter = {
+  senderName: string | null;
+  /** ISO 8601 or null — the date the letter itself is dated/issued, not when it was uploaded. See letter_date on the letters table. */
+  letterDate: string | null;
+  summary: string;
+  payments: { description: string; amount: string }[];
+  appointments: { description: string; date: string }[];
+  deadlines: { date: string; description: string }[];
+  keyFacts: { label: string; value: string }[];
 };
 
 const menuItemClasses =
@@ -29,13 +28,12 @@ export function LetterMenu({
   letterId,
   letter,
   language,
-  copy,
 }: {
   letterId: string;
-  letter: ShareableLetter;
+  letter: LetterMenuLetter;
   language: AppLanguage;
-  copy: MenuCopy;
 }) {
+  const copy = APP_COPY[language].letters;
   const [open, setOpen] = useState(false);
   const [pending, startTransition] = useTransition();
   const dir = language === "ar" ? "rtl" : "ltr";
@@ -54,7 +52,26 @@ export function LetterMenu({
 
   async function handleShareSummary() {
     setOpen(false);
-    const text = buildShareSummary(letter, copy);
+
+    // Explains the letter the way a person would — who it's from and when
+    // it was dated — rather than opening straight into the raw summary.
+    const openingLine = letter.senderName
+      ? letter.letterDate
+        ? copy.letterExplainerWithDate(letter.senderName, formatDate(letter.letterDate, language))
+        : copy.letterExplainerWithoutDate(letter.senderName)
+      : "";
+
+    const text = buildShareSummary(
+      {
+        openingLine,
+        summary: letter.summary,
+        payments: letter.payments,
+        appointments: letter.appointments,
+        deadlines: letter.deadlines,
+        keyFacts: letter.keyFacts,
+      },
+      copy,
+    );
 
     if (typeof navigator.share === "function") {
       try {
@@ -69,7 +86,7 @@ export function LetterMenu({
 
     try {
       await navigator.clipboard.writeText(text);
-      toast.success(copy.copiedToast);
+      toast.success(copy.summaryCopiedToast);
     } catch {
       toast.error(copy.copyFailedToast);
     }

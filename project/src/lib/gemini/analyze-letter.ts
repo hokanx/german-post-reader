@@ -49,6 +49,11 @@ const RESPONSE_SCHEMA = {
       description:
         "Broad category of who sent the letter: 'authority' (Behörde — tax office, immigration office, Jobcenter, Bürgeramt, court, pension insurance, broadcasting fee, etc.), 'insurer', 'bank', 'landlord', 'utility' (electricity/gas/water/internet/heating), 'school', 'delivery' (parcel/post), or 'other'.",
     },
+    letter_date: {
+      type: Type.STRING,
+      description:
+        "The date the letter itself is dated/issued, exactly as printed near the sender's address or signature (e.g. 'München, den 15.03.2026'), converted to ISO 8601 (YYYY-MM-DD). This is when the SENDER wrote/issued the letter, not any deadline or appointment date. Empty string if no such date is printed or it can't be confidently read.",
+    },
     deadlines: {
       type: Type.ARRAY,
       items: {
@@ -129,6 +134,7 @@ const RESPONSE_SCHEMA = {
     "summary",
     "sender_name",
     "sender_category",
+    "letter_date",
     "deadlines",
     "payments",
     "appointments",
@@ -143,6 +149,7 @@ const RESPONSE_SCHEMA = {
     "summary",
     "sender_name",
     "sender_category",
+    "letter_date",
     "deadlines",
     "payments",
     "appointments",
@@ -163,6 +170,7 @@ Rules:
 - summary: plain language, no legal jargon. Do NOT name the sender — that's already captured separately in sender_name and shown on its own. Start straight in on what the letter is about and why it matters. Written entirely in ${LANGUAGE_NAMES[language]}.
 - sender_name: the sender's name exactly as printed on the letter, in its original form — never translated.
 - sender_category: classify who sent it as one of authority, insurer, bank, landlord, utility, school, delivery, or other.
+- letter_date: the date the letter itself is dated/issued, exactly as printed near the sender's address or signature (e.g. "München, den 15.03.2026") — this is when the sender wrote the letter, not a deadline or appointment date. Convert to ISO 8601 (YYYY-MM-DD). Empty string if no such date is printed or you can't confidently read it.
 - deadlines: list every date the recipient must act by (pay, submit, respond) with no physical presence required. If no deadline exists, return an empty array. Descriptions written in ${LANGUAGE_NAMES[language]}.
 - payments: this is critical — re-read the letter specifically looking for every payment amount or payment change (an amount owed, a new or changed fee, an installment, a partial payment already made). This is often the single most consequential number in the letter and must never be missed. Each entry needs description in ${LANGUAGE_NAMES[language]}, the amount exactly as written (never rounded or reformatted), and source_quote copied verbatim in the ORIGINAL GERMAN. Empty array only if the letter truly has no payment component.
 - appointments: list every fixed date/time the recipient must physically be present for or attend — an inspection, a hearing, a medical appointment, a scheduled visit. If the letter only asks them to pick or confirm a time (no fixed slot yet), that belongs in deadlines instead, not here. Descriptions written in ${LANGUAGE_NAMES[language]}; date is ISO 8601 plus a time if one is given; source_quote copied verbatim in the ORIGINAL GERMAN. Empty array if there's no fixed appointment.

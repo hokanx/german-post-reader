@@ -41,7 +41,7 @@ export default async function LetterPage({
     supabase
       .from("letters")
       .select(
-        "id, summary, sender_name, sender_category, deadlines, payments, appointments, key_facts, action_required, reply_draft, reply_draft_translation, detected_language_confirmed, risk_flags, language, created_at",
+        "id, summary, sender_name, sender_category, letter_date, deadlines, payments, appointments, key_facts, action_required, reply_draft, reply_draft_translation, detected_language_confirmed, risk_flags, language, created_at",
       )
       .eq("id", id)
       .eq("user_id", user.id)
@@ -109,21 +109,16 @@ export default async function LetterPage({
               </div>
               <LetterMenu
                 letterId={letter.id}
-                letter={{ senderName, summary: letter.summary, payments, appointments, deadlines, keyFacts }}
-                language={uiLanguage}
-                copy={{
-                  moreOptions: copy.moreOptions,
-                  viewOriginalLetter: copy.viewOriginalLetter,
-                  shareSummary: copy.shareSummary,
-                  openOriginalFailedToast: copy.openOriginalFailedToast,
-                  copiedToast: copy.copiedToast,
-                  copyFailedToast: copy.copyFailedToast,
-                  summaryWatermark: copy.summaryWatermark,
-                  paymentsHeading: copy.paymentsHeading,
-                  appointmentsHeading: copy.appointmentsHeading,
-                  deadlines: copy.deadlines,
-                  keyFactsHeading: copy.keyFactsHeading,
+                letter={{
+                  senderName,
+                  letterDate: letter.letter_date,
+                  summary: letter.summary,
+                  payments,
+                  appointments,
+                  deadlines,
+                  keyFacts,
                 }}
+                language={uiLanguage}
               />
             </div>
             <h1 className="sr-only">{copy.analysisComplete}</h1>

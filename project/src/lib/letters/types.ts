@@ -20,6 +20,8 @@ export type LetterAnalysis = {
   sender_name: string;
   /** Broad category of who sent the letter (Behörde, insurer, bank, landlord, utility, school, delivery, or other) — powers the dashboard card's icon. */
   sender_category: SenderCategory;
+  /** ISO 8601 date the letter itself is dated/issued (e.g. "München, den 15.03.2026"), distinct from when the user uploaded it. Empty string if no date is printed or determinable. */
+  letter_date: string;
   deadlines: { date: string; description: string }[];
   /** Every payment amount or payment change in the letter (amount owed, a new/changed fee, an installment) — never omitted when the letter states one. Empty array only if the letter truly has no payment component. */
   payments: { description: string; amount: string; source_quote: string }[];

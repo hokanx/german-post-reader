@@ -159,7 +159,11 @@ export type AppCopy = {
     viewOriginalLetter: string;
     shareSummary: string;
     openOriginalFailedToast: string;
+    summaryCopiedToast: string;
     summaryWatermark: string;
+    /** Opening line of the exported/shared summary, written as a natural sentence explaining who the letter is from and when it was dated — not a bare data dump. */
+    letterExplainerWithDate: (sender: string, date: string) => string;
+    letterExplainerWithoutDate: (sender: string) => string;
     replyToneGroupLabel: string;
     notFoundTitle: string;
     notFoundDescription: string;
@@ -425,7 +429,10 @@ export const APP_COPY: Record<AppLanguage, AppCopy> = {
       viewOriginalLetter: "View uploaded letter",
       shareSummary: "Share summary",
       openOriginalFailedToast: "Couldn't open the letter — try again.",
+      summaryCopiedToast: "Summary copied",
       summaryWatermark: "— Summarized by Papkram · papkram.de",
+      letterExplainerWithDate: (sender, date) => `This letter is from ${sender}, dated ${date}.`,
+      letterExplainerWithoutDate: (sender) => `This letter is from ${sender}.`,
       replyToneGroupLabel: "Reply tone",
       notFoundTitle: "We can't find that letter",
       notFoundDescription: "It may have been removed, or the link doesn't belong to your account.",
@@ -746,7 +753,10 @@ export const APP_COPY: Record<AppLanguage, AppCopy> = {
       viewOriginalLetter: "عرض الخطاب المرفوع",
       shareSummary: "مشاركة الملخص",
       openOriginalFailedToast: "تعذر فتح الخطاب — حاول مرة أخرى.",
+      summaryCopiedToast: "تم نسخ الملخص",
       summaryWatermark: "— تم التلخيص بواسطة Papkram · papkram.de",
+      letterExplainerWithDate: (sender, date) => `هذا خطاب من ${sender}، بتاريخ ${date}.`,
+      letterExplainerWithoutDate: (sender) => `هذا خطاب من ${sender}.`,
       replyToneGroupLabel: "نبرة الرد",
       notFoundTitle: "لا يمكننا العثور على هذا الخطاب",
       notFoundDescription: "ربما تمت إزالته، أو أن الرابط لا يخص حسابك.",
@@ -1069,7 +1079,10 @@ export const APP_COPY: Record<AppLanguage, AppCopy> = {
       viewOriginalLetter: "Yüklenen mektubu görüntüle",
       shareSummary: "Özeti paylaş",
       openOriginalFailedToast: "Mektup açılamadı — tekrar deneyin.",
+      summaryCopiedToast: "Özet kopyalandı",
       summaryWatermark: "— Papkram ile özetlendi · papkram.de",
+      letterExplainerWithDate: (sender, date) => `Bu, ${sender} tarafından gönderilen ve ${date} tarihli bir mektuptur.`,
+      letterExplainerWithoutDate: (sender) => `Bu, ${sender} tarafından gönderilen bir mektuptur.`,
       replyToneGroupLabel: "Yanıt tonu",
       notFoundTitle: "Bu mektubu bulamıyoruz",
       notFoundDescription: "Kaldırılmış olabilir veya bağlantı hesabınıza ait olmayabilir.",
