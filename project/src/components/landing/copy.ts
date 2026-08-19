@@ -30,7 +30,7 @@ export type MarketingCopy = {
     heading: string;
     steps: { title: string; description: string; mockup: StepMockup }[];
   };
-  trust: { heading: string; body: string };
+  trust: { heading: string; body: string }[];
   offer: {
     heading: string;
     trialBadge: (freeLetterLimit: number) => string;
@@ -91,10 +91,16 @@ export const MARKETING_COPY: Record<MarketingLocale, MarketingCopy> = {
         },
       ],
     },
-    trust: {
-      heading: "We tell you when we're not sure",
-      body: "German bureaucratic letters are dense — amounts and dates matter. If anything in a letter is ambiguous, we flag it plainly instead of guessing. Never a silent guess on a number that could cost you.",
-    },
+    trust: [
+      {
+        heading: "We tell you when we're not sure",
+        body: "German bureaucratic letters are dense — amounts and dates matter. If anything in a letter is ambiguous, we flag it plainly instead of guessing. Never a silent guess on a number that could cost you.",
+      },
+      {
+        heading: "Your letters stay private",
+        body: "Uploaded letters are processed only to generate your summary and reply draft — never used to train any AI model. Delete your data any time from your account settings.",
+      },
+    ],
     offer: {
       heading: "Everything you get.",
       trialBadge: (n) => `${n} free letters, no card`,
@@ -215,10 +221,16 @@ export const MARKETING_COPY: Record<MarketingLocale, MarketingCopy> = {
         },
       ],
     },
-    trust: {
-      heading: "نخبرك عندما لا نكون متأكدين",
-      body: "الخطابات الألمانية الرسمية معقدة — المبالغ والتواريخ مهمة. إذا كان أي شيء في الخطاب غامضًا، نشير إليه بوضوح بدلاً من التخمين. لا تخمين صامت لرقم قد يكلفك المال.",
-    },
+    trust: [
+      {
+        heading: "نخبرك عندما لا نكون متأكدين",
+        body: "الخطابات الألمانية الرسمية معقدة — المبالغ والتواريخ مهمة. إذا كان أي شيء في الخطاب غامضًا، نشير إليه بوضوح بدلاً من التخمين. لا تخمين صامت لرقم قد يكلفك المال.",
+      },
+      {
+        heading: "خطاباتك تبقى خاصة",
+        body: "تُعالَج الخطابات المرفوعة فقط لإنشاء ملخصك ومسودة ردك — ولا تُستخدم أبدًا لتدريب أي نموذج ذكاء اصطناعي. احذف بياناتك في أي وقت من إعدادات حسابك.",
+      },
+    ],
     offer: {
       heading: "كل ما تحصل عليه.",
       trialBadge: (n) => `${n} خطابات مجانية، بدون بطاقة`,
@@ -339,10 +351,16 @@ export const MARKETING_COPY: Record<MarketingLocale, MarketingCopy> = {
         },
       ],
     },
-    trust: {
-      heading: "Emin olmadığımızda size söyleriz",
-      body: "Alman resmi mektupları yoğun içeriklidir — tutarlar ve tarihler önemlidir. Bir mektupta belirsiz bir şey varsa, tahmin etmek yerine açıkça belirtiriz. Size zarar verebilecek bir rakamda asla sessizce tahmin yürütmeyiz.",
-    },
+    trust: [
+      {
+        heading: "Emin olmadığımızda size söyleriz",
+        body: "Alman resmi mektupları yoğun içeriklidir — tutarlar ve tarihler önemlidir. Bir mektupta belirsiz bir şey varsa, tahmin etmek yerine açıkça belirtiriz. Size zarar verebilecek bir rakamda asla sessizce tahmin yürütmeyiz.",
+      },
+      {
+        heading: "Mektuplarınız gizli kalır",
+        body: "Yüklenen mektuplar yalnızca özetinizi ve yanıt taslağınızı oluşturmak için işlenir — hiçbir yapay zeka modelini eğitmek için kullanılmaz. Verilerinizi istediğiniz zaman hesap ayarlarınızdan silebilirsiniz.",
+      },
+    ],
     offer: {
       heading: "Elde ettiğiniz her şey.",
       trialBadge: (n) => `${n} ücretsiz mektup, kart gerekmez`,
