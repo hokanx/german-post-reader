@@ -5,6 +5,7 @@ import { cookies } from "next/headers";
 import { createClient } from "@/lib/supabase/server";
 import type { Result } from "@/lib/result";
 import { APP_COPY } from "@/lib/i18n/copy";
+import { DEMO_MODE } from "@/lib/constants";
 
 const LANGUAGES = ["en", "ar", "tr"] as const;
 type Language = (typeof LANGUAGES)[number];
@@ -50,5 +51,5 @@ export async function setLanguage(language: Language, uiLanguage: Language = "en
   const cookieStore = await cookies();
   cookieStore.set("marketing_locale", language, { path: "/", maxAge: 60 * 60 * 24 * 365 });
 
-  redirect("/dashboard");
+  redirect(DEMO_MODE ? "/welcome" : "/dashboard");
 }

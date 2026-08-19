@@ -278,6 +278,18 @@ export type AppCopy = {
     accept: string;
     decline: string;
   };
+  welcome: {
+    heading: string;
+    body: string;
+    shareHeading: string;
+    shareTwitter: string;
+    shareWhatsapp: string;
+    shareCopyLink: string;
+    linkCopiedToast: string;
+    shareTweetText: string;
+    shareWhatsappText: string;
+    continueButton: string;
+  };
 };
 
 export const APP_COPY: Record<AppLanguage, AppCopy> = {
@@ -626,6 +638,18 @@ export const APP_COPY: Record<AppLanguage, AppCopy> = {
       accept: "Accept",
       decline: "Decline",
     },
+    welcome: {
+      heading: "You're in.",
+      body: "We'll email you the moment Papkram fully launches.",
+      shareHeading: "Know someone who gets confusing German mail?",
+      shareTwitter: "Share on X",
+      shareWhatsapp: "Share on WhatsApp",
+      shareCopyLink: "Copy link",
+      linkCopiedToast: "Link copied.",
+      shareTweetText: "Papkram translates confusing German mail into plain language, with deadlines and a ready-to-send reply.",
+      shareWhatsappText: "I've been using Papkram to make sense of confusing German mail — worth a look:",
+      continueButton: "Continue to dashboard",
+    },
   },
   ar: {
     header: {
@@ -969,6 +993,18 @@ export const APP_COPY: Record<AppLanguage, AppCopy> = {
       message: "نستخدم ملفات تعريف ارتباط تحليلية لفهم كيفية استخدام Papkram. لا نستخدم خطاباتك المرفوعة في ذلك أبدًا.",
       accept: "موافق",
       decline: "رفض",
+    },
+    welcome: {
+      heading: "أنت الآن ضمن القائمة.",
+      body: "سنراسلك بالبريد الإلكتروني بمجرد إطلاق Papkram رسميًا.",
+      shareHeading: "تعرف شخصًا يستلم بريدًا ألمانيًا مربكًا؟",
+      shareTwitter: "شارك على X",
+      shareWhatsapp: "شارك على واتساب",
+      shareCopyLink: "نسخ الرابط",
+      linkCopiedToast: "تم نسخ الرابط.",
+      shareTweetText: "يترجم Papkram البريد الألماني المربك إلى لغة واضحة، مع المواعيد النهائية ورد جاهز للإرسال.",
+      shareWhatsappText: "أستخدم Papkram لفهم البريد الألماني المربك — يستحق نظرة:",
+      continueButton: "الانتقال إلى لوحة التحكم",
     },
   },
   tr: {
@@ -1315,6 +1351,18 @@ export const APP_COPY: Record<AppLanguage, AppCopy> = {
       message: "Papkram'ın nasıl kullanıldığını anlamak için analiz çerezleri kullanıyoruz. Yüklediğiniz mektupları bunun için asla kullanmıyoruz.",
       accept: "Kabul et",
       decline: "Reddet",
+    },
+    welcome: {
+      heading: "Kaydınız alındı.",
+      body: "Papkram tam olarak yayına girer girmez size e-posta göndereceğiz.",
+      shareHeading: "Kafa karıştırıcı Almanca mektuplar alan birini tanıyor musunuz?",
+      shareTwitter: "X'te paylaş",
+      shareWhatsapp: "WhatsApp'ta paylaş",
+      shareCopyLink: "Bağlantıyı kopyala",
+      linkCopiedToast: "Bağlantı kopyalandı.",
+      shareTweetText: "Papkram, kafa karıştırıcı Almanca mektupları anlaşılır bir dile, son tarihlerle ve gönderime hazır bir yanıtla birlikte çeviriyor.",
+      shareWhatsappText: "Kafa karıştırıcı Almanca mektupları anlamak için Papkram kullanıyorum — göz atmaya değer:",
+      continueButton: "Panele devam et",
     },
   },
 };
