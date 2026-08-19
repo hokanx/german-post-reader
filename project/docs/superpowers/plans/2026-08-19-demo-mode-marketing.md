@@ -357,7 +357,7 @@ git commit -m "feat: add newsletter opt-in checkbox to signup"
 - Test: `src/lib/profile/count-registered.test.ts`
 
 **Interfaces:**
-- Produces: `countRegisteredUsers(service: SupabaseClient): Promise<number>` — consumed by Task 7's landing page.
+- Produces: `countRegisteredUsers(service: SupabaseClient): Promise<number>` — consumed by Task 8's landing page.
 
 - [ ] **Step 1: Write the test**
 
@@ -755,7 +755,204 @@ git commit -m "feat: add post-onboarding /welcome share screen"
 
 ---
 
-## Task 7: Landing page — signup counter + demo pitch section
+## Task 7: Welcome email — demo-mode rewrite
+
+The existing signup welcome email (`WelcomeEmail.tsx`, sent immediately on signup via `sendWelcomeEmail()`) currently quotes the €29.99/year subscription price in its `priceNote` line — wrong messaging once nothing's actually for sale. This task gates that one line (plus the pill badge and heading, which reference "account" language) behind `DEMO_MODE`, leaving the original pricing-aware copy fully intact for when selling resumes — same discipline as every other gated surface in this plan. The three feature cards, the risk note, the CTA, and the footer are already accurate regardless of demo mode and stay untouched.
+
+**Files:**
+- Modify: `src/emails/copy.ts` (type + EN/AR/TR content)
+- Modify: `src/emails/WelcomeEmail.tsx`
+- Modify: `src/lib/email/send-welcome-email.ts`
+
+**Interfaces:**
+- Consumes: `DEMO_MODE` from Task 2.
+- Produces: nothing new consumed by later tasks.
+
+- [ ] **Step 1: Add the demo-mode fields to the type**
+
+In `src/emails/copy.ts`, find the `WelcomeEmailCopy` type:
+```ts
+type WelcomeEmailCopy = {
+  dir: "ltr" | "rtl";
+  subject: (freeLetterLimit: number) => string;
+  preview: (freeLetterLimit: number) => string;
+  pill: string;
+  heading: string;
+  intro: (freeLetterLimit: number) => string;
+  features: { label: string; text: string }[];
+  riskNote: string;
+  priceNote: (price: string) => string;
+  cta: string;
+  footer: string;
+};
+```
+Add three fields after `priceNote`:
+```ts
+type WelcomeEmailCopy = {
+  dir: "ltr" | "rtl";
+  subject: (freeLetterLimit: number) => string;
+  preview: (freeLetterLimit: number) => string;
+  pill: string;
+  heading: string;
+  intro: (freeLetterLimit: number) => string;
+  features: { label: string; text: string }[];
+  riskNote: string;
+  priceNote: (price: string) => string;
+  pillDemo: string;
+  headingDemo: string;
+  demoNote: string;
+  cta: string;
+  footer: string;
+};
+```
+
+- [ ] **Step 2: Add the EN content**
+
+In `WELCOME_EMAIL_COPY.en`, find the `priceNote: (price) => ...` line and add the three new fields immediately after it:
+```ts
+    priceNote: (price) => `After your free letters, unlocking unlimited letters is ${price} per year.`,
+    pillDemo: "Demo ready",
+    headingDemo: "Your free demo is ready",
+    demoNote: "We're not selling yet — once Papkram fully launches, we'll email you.",
+```
+
+- [ ] **Step 3: Add the AR content**
+
+In `WELCOME_EMAIL_COPY.ar`, same insertion point:
+```ts
+    priceNote: (price) => `بعد خطاباتك المجانية، فتح خطابات غير محدودة يكلف ${price} سنويًا.`,
+    pillDemo: "التجربة جاهزة",
+    headingDemo: "تجربتك المجانية جاهزة الآن",
+    demoNote: "لسنا نبيع بعد — بمجرد إطلاق Papkram رسميًا، سنراسلك بالبريد الإلكتروني.",
+```
+
+- [ ] **Step 4: Add the TR content**
+
+In `WELCOME_EMAIL_COPY.tr`, same insertion point:
+```ts
+    priceNote: (price) => `Ücretsiz mektuplarınızdan sonra sınırsız mektubun kilidini açmak yılda ${price}.`,
+    pillDemo: "Demo hazır",
+    headingDemo: "Ücretsiz demonuz hazır",
+    demoNote: "Henüz satış yapmıyoruz — Papkram tam olarak yayına girdiğinde size e-posta göndereceğiz.",
+```
+
+- [ ] **Step 5: Branch the rendered email on `DEMO_MODE`**
+
+In `src/emails/WelcomeEmail.tsx`, add the import:
+```ts
+import { DEMO_MODE } from "@/lib/constants";
+```
+Change:
+```tsx
+            <span style={styles.pill}>{copy.pill}</span>
+            <Heading style={{ ...styles.heading, textAlign: align }}>{copy.heading}</Heading>
+            <Text style={{ ...styles.text, textAlign: align }}>
+              {copy.intro(FREE_LETTER_LIMIT)}
+            </Text>
+
+            {copy.features.map((feature) => (
+              <div key={feature.label} style={{ ...styles.featureCard, textAlign: align }}>
+                <Text style={{ ...styles.featureLabel, textAlign: align }}>{feature.label}</Text>
+                <Text style={{ ...styles.featureText, textAlign: align }}>{feature.text}</Text>
+              </div>
+            ))}
+
+            <Text style={{ ...styles.muted, textAlign: align }}>{copy.riskNote}</Text>
+            <Text style={{ ...styles.muted, textAlign: align }}>
+              {copy.priceNote(formatEur(SUBSCRIPTION_PRICE_EUR))}
+            </Text>
+```
+to:
+```tsx
+            <span style={styles.pill}>{DEMO_MODE ? copy.pillDemo : copy.pill}</span>
+            <Heading style={{ ...styles.heading, textAlign: align }}>
+              {DEMO_MODE ? copy.headingDemo : copy.heading}
+            </Heading>
+            <Text style={{ ...styles.text, textAlign: align }}>
+              {copy.intro(FREE_LETTER_LIMIT)}
+            </Text>
+
+            {copy.features.map((feature) => (
+              <div key={feature.label} style={{ ...styles.featureCard, textAlign: align }}>
+                <Text style={{ ...styles.featureLabel, textAlign: align }}>{feature.label}</Text>
+                <Text style={{ ...styles.featureText, textAlign: align }}>{feature.text}</Text>
+              </div>
+            ))}
+
+            <Text style={{ ...styles.muted, textAlign: align }}>{copy.riskNote}</Text>
+            <Text style={{ ...styles.muted, textAlign: align }}>
+              {DEMO_MODE ? copy.demoNote : copy.priceNote(formatEur(SUBSCRIPTION_PRICE_EUR))}
+            </Text>
+```
+
+- [ ] **Step 6: Branch the plain-text fallback the same way**
+
+In `src/lib/email/send-welcome-email.ts`, add the import:
+```ts
+import { DEMO_MODE } from "@/lib/constants";
+```
+Change:
+```ts
+function plainTextBody(language: AppLanguage) {
+  const copy = WELCOME_EMAIL_COPY[language];
+  const lines = [
+    copy.heading,
+    "",
+    copy.intro(FREE_LETTER_LIMIT),
+    "",
+    ...copy.features.map((f) => `${f.label}: ${f.text}`),
+    "",
+    copy.riskNote,
+    copy.priceNote(formatEur(SUBSCRIPTION_PRICE_EUR)),
+    "",
+    `${copy.cta}: https://papkram.de/upload`,
+    "",
+    copy.footer,
+  ];
+  return lines.join("\n");
+}
+```
+to:
+```ts
+function plainTextBody(language: AppLanguage) {
+  const copy = WELCOME_EMAIL_COPY[language];
+  const lines = [
+    DEMO_MODE ? copy.headingDemo : copy.heading,
+    "",
+    copy.intro(FREE_LETTER_LIMIT),
+    "",
+    ...copy.features.map((f) => `${f.label}: ${f.text}`),
+    "",
+    copy.riskNote,
+    DEMO_MODE ? copy.demoNote : copy.priceNote(formatEur(SUBSCRIPTION_PRICE_EUR)),
+    "",
+    `${copy.cta}: https://papkram.de/upload`,
+    "",
+    copy.footer,
+  ];
+  return lines.join("\n");
+}
+```
+
+- [ ] **Step 7: Typecheck and lint**
+
+Run: `cd project && npx tsc --noEmit && npx eslint src/emails/copy.ts src/emails/WelcomeEmail.tsx src/lib/email/send-welcome-email.ts`
+Expected: no errors.
+
+- [ ] **Step 8: Manual verification**
+
+React Email templates render server-side only (via Resend's `react:` option), so there's no dev-server route to view this in a browser directly. Instead, temporarily add a throwaway preview route or use `@react-email/render`'s `render()` function in a quick one-off script to render `WelcomeEmail({ language: "en" })` to HTML and open the output file in a browser — confirm the pill reads "Demo ready", the heading reads "Your free demo is ready", and the price line is replaced by the demo note. Delete any throwaway script/route created for this check before committing. Screenshot the rendered HTML to `artifacts/review/welcome-email-demo.png`.
+
+- [ ] **Step 9: Commit**
+
+```bash
+git add project/src/emails/copy.ts project/src/emails/WelcomeEmail.tsx project/src/lib/email/send-welcome-email.ts project/artifacts/review/welcome-email-demo.png
+git commit -m "feat: rewrite welcome email for demo mode, drop price mention"
+```
+
+---
+
+## Task 8: Landing page — signup counter + demo pitch section
 
 **Files:**
 - Modify: `src/components/landing/copy.ts` (type + EN/AR/TR content)
@@ -965,7 +1162,7 @@ git commit -m "feat: replace landing pricing section with demo pitch + signup co
 
 ---
 
-## Task 8: `DemoLimitModal` — the 4-letter cap experience
+## Task 9: `DemoLimitModal` — the 4-letter cap experience
 
 **Files:**
 - Modify: `src/lib/i18n/copy.ts` (new top-level `demoLimit` type + EN/AR/TR content)
@@ -1130,7 +1327,7 @@ git commit -m "feat: add DemoLimitModal for the 4-letter demo cap"
 
 ---
 
-## Task 9: Dashboard — demo-mode letter-count copy
+## Task 10: Dashboard — demo-mode letter-count copy
 
 **Files:**
 - Modify: `src/lib/i18n/copy.ts` (new `lettersUsedDemo` key in the `dashboard` type + EN/AR/TR content)
@@ -1222,7 +1419,7 @@ git commit -m "feat: reword dashboard letter count for demo mode"
 
 ---
 
-## Task 10: Settings — hide Subscription section in demo mode
+## Task 11: Settings — hide Subscription section in demo mode
 
 **Files:**
 - Modify: `src/lib/i18n/copy.ts` (new `demoNotice` key in the `settings` type + EN/AR/TR content)
@@ -1338,7 +1535,7 @@ git commit -m "feat: hide settings subscription section in demo mode"
 
 ---
 
-## Task 11: OG image — demo/waitlist tagline
+## Task 12: OG image — demo/waitlist tagline
 
 **Files:**
 - Modify: `src/app/opengraph-image.tsx`
@@ -1400,7 +1597,7 @@ git commit -m "feat: update OG image tagline for demo mode"
 
 ---
 
-## Task 12: Final verification
+## Task 13: Final verification
 
 **Files:** None — verification only.
 
