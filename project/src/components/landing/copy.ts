@@ -47,6 +47,12 @@ export type MarketingCopy = {
     heading: string;
     items: { name: string; badge?: string; description: (price: string) => string }[];
   };
+  demoPitch: {
+    counter: (registeredCount: number) => string;
+    heading: string;
+    body: string;
+    cta: string;
+  };
   cta: { badge: string; heading: string; button: string };
   footer: { privacy: string; terms: string; contact: string };
 };
@@ -101,6 +107,12 @@ export const MARKETING_COPY: Record<MarketingLocale, MarketingCopy> = {
         body: "Uploaded letters are processed only to generate your summary and reply draft — never used to train any AI model. Delete your data any time from your account settings.",
       },
     ],
+    demoPitch: {
+      counter: (registeredCount) => `${registeredCount} people signed up for early access`,
+      heading: "Free demo, no card needed.",
+      body: "Try 4 real letters. We're not selling yet — sign up and we'll email you the moment Papkram fully launches.",
+      cta: "Start free demo",
+    },
     offer: {
       heading: "Everything you get.",
       trialBadge: (n) => `${n} free letters, no card`,
@@ -231,6 +243,12 @@ export const MARKETING_COPY: Record<MarketingLocale, MarketingCopy> = {
         body: "تُعالَج الخطابات المرفوعة فقط لإنشاء ملخصك ومسودة ردك — ولا تُستخدم أبدًا لتدريب أي نموذج ذكاء اصطناعي. احذف بياناتك في أي وقت من إعدادات حسابك.",
       },
     ],
+    demoPitch: {
+      counter: (registeredCount) => `${registeredCount} شخصًا سجلوا للوصول المبكر`,
+      heading: "تجربة مجانية، بدون بطاقة.",
+      body: "جرّب 4 خطابات حقيقية. لسنا نبيع بعد — سجّل وسنراسلك بالبريد الإلكتروني بمجرد إطلاق Papkram رسميًا.",
+      cta: "ابدأ التجربة المجانية",
+    },
     offer: {
       heading: "كل ما تحصل عليه.",
       trialBadge: (n) => `${n} خطابات مجانية، بدون بطاقة`,
@@ -361,6 +379,12 @@ export const MARKETING_COPY: Record<MarketingLocale, MarketingCopy> = {
         body: "Yüklenen mektuplar yalnızca özetinizi ve yanıt taslağınızı oluşturmak için işlenir — hiçbir yapay zeka modelini eğitmek için kullanılmaz. Verilerinizi istediğiniz zaman hesap ayarlarınızdan silebilirsiniz.",
       },
     ],
+    demoPitch: {
+      counter: (registeredCount) => `${registeredCount} kişi erken erişim için kaydoldu`,
+      heading: "Ücretsiz demo, kart gerekmez.",
+      body: "4 gerçek mektubu deneyin. Henüz satış yapmıyoruz — kaydolun, Papkram tam olarak yayına girer girmez size e-posta gönderelim.",
+      cta: "Ücretsiz demoyu başlat",
+    },
     offer: {
       heading: "Elde ettiğiniz her şey.",
       trialBadge: (n) => `${n} ücretsiz mektup, kart gerekmez`,
