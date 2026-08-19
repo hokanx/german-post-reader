@@ -2,6 +2,7 @@
 
 import { useEffect, type ReactNode } from "react";
 import posthog from "posthog-js";
+import { flushQueuedEvents } from "@/lib/analytics/track-event";
 
 const CONSENT_COOKIE = "consent_analytics";
 const CONSENT_GRANTED_EVENT = "papkram:consent-granted";
@@ -19,6 +20,10 @@ function initPosthog() {
     person_profiles: "identified_only",
     capture_pageview: true,
   });
+  // Replay any events fired (e.g. by descendant components' mount effects)
+  // before this init call ran — see track-event.ts for why that ordering
+  // happens even when consent was already granted.
+  flushQueuedEvents();
 }
 
 /**
