@@ -50,7 +50,7 @@ export type MarketingCopy = {
   demoPitch: {
     counter: (registeredCount: number) => string;
     heading: string;
-    body: string;
+    body: (freeLetterLimit: number) => string;
     cta: string;
   };
   cta: { badge: string; heading: string; button: string };
@@ -110,7 +110,8 @@ export const MARKETING_COPY: Record<MarketingLocale, MarketingCopy> = {
     demoPitch: {
       counter: (registeredCount) => `${registeredCount} people signed up for early access`,
       heading: "Free demo, no card needed.",
-      body: "Try 4 real letters. We're not selling yet — sign up and we'll email you the moment Papkram fully launches.",
+      body: (freeLetterLimit) =>
+        `Try ${freeLetterLimit} real letters. We're not selling yet — sign up and we'll email you the moment Papkram fully launches.`,
       cta: "Start free demo",
     },
     offer: {
@@ -246,7 +247,8 @@ export const MARKETING_COPY: Record<MarketingLocale, MarketingCopy> = {
     demoPitch: {
       counter: (registeredCount) => `${registeredCount} شخصًا سجلوا للوصول المبكر`,
       heading: "تجربة مجانية، بدون بطاقة.",
-      body: "جرّب 4 خطابات حقيقية. لسنا نبيع بعد — سجّل وسنراسلك بالبريد الإلكتروني بمجرد إطلاق Papkram رسميًا.",
+      body: (freeLetterLimit) =>
+        `جرّب ${freeLetterLimit} خطابات حقيقية. لسنا نبيع بعد — سجّل وسنراسلك بالبريد الإلكتروني بمجرد إطلاق Papkram رسميًا.`,
       cta: "ابدأ التجربة المجانية",
     },
     offer: {
@@ -382,7 +384,8 @@ export const MARKETING_COPY: Record<MarketingLocale, MarketingCopy> = {
     demoPitch: {
       counter: (registeredCount) => `${registeredCount} kişi erken erişim için kaydoldu`,
       heading: "Ücretsiz demo, kart gerekmez.",
-      body: "4 gerçek mektubu deneyin. Henüz satış yapmıyoruz — kaydolun, Papkram tam olarak yayına girer girmez size e-posta gönderelim.",
+      body: (freeLetterLimit) =>
+        `${freeLetterLimit} gerçek mektubu deneyin. Henüz satış yapmıyoruz — kaydolun, Papkram tam olarak yayına girer girmez size e-posta gönderelim.`,
       cta: "Ücretsiz demoyu başlat",
     },
     offer: {
