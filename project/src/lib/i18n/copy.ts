@@ -260,6 +260,16 @@ export type AppCopy = {
     senderInfoSavedToast: string;
     senderInfoSaveFailed: string;
     senderInfoSaveFailedRecovery: string;
+    deleteAccountButton: string;
+    deleteAccountTitle: string;
+    deleteAccountWarning: string;
+    deleteAccountConfirmLabel: string;
+    deleteAccountConfirmCta: string;
+    deleteAccountDeleting: string;
+    deleteAccountSuccessToast: string;
+    deleteAccountFailed: string;
+    deleteAccountFailedRecovery: string;
+    deleteAccountUnauthenticated: string;
   };
   cookieConsent: {
     ariaLabel: string;
@@ -588,6 +598,17 @@ export const APP_COPY: Record<AppLanguage, AppCopy> = {
       senderInfoSavedToast: "Saved",
       senderInfoSaveFailed: "Couldn't save your details.",
       senderInfoSaveFailedRecovery: "Try again.",
+      deleteAccountButton: "Delete account",
+      deleteAccountTitle: "Delete your account?",
+      deleteAccountWarning:
+        "This permanently deletes all your letters, reply drafts, and uploaded files, and cancels any active subscription immediately. This cannot be undone.",
+      deleteAccountConfirmLabel: "Type DELETE to confirm",
+      deleteAccountConfirmCta: "Delete my account",
+      deleteAccountDeleting: "Deleting…",
+      deleteAccountSuccessToast: "Your account and all associated data have been deleted.",
+      deleteAccountFailed: "Couldn't delete your account.",
+      deleteAccountFailedRecovery: "Try again in a moment, or email hello@papkram.de.",
+      deleteAccountUnauthenticated: "You need to be logged in to delete your account.",
     },
     cookieConsent: {
       ariaLabel: "Cookie consent",
@@ -912,6 +933,17 @@ export const APP_COPY: Record<AppLanguage, AppCopy> = {
       senderInfoSavedToast: "تم الحفظ",
       senderInfoSaveFailed: "تعذر حفظ بياناتك.",
       senderInfoSaveFailedRecovery: "حاول مرة أخرى.",
+      deleteAccountButton: "حذف الحساب",
+      deleteAccountTitle: "هل تريد حذف حسابك؟",
+      deleteAccountWarning:
+        "سيؤدي هذا إلى حذف جميع خطاباتك ومسودات الرد والملفات المرفوعة نهائيًا، وإلغاء أي اشتراك نشط فورًا. لا يمكن التراجع عن هذا الإجراء.",
+      deleteAccountConfirmLabel: "اكتب DELETE للتأكيد",
+      deleteAccountConfirmCta: "احذف حسابي",
+      deleteAccountDeleting: "جارٍ الحذف…",
+      deleteAccountSuccessToast: "تم حذف حسابك وجميع البيانات المرتبطة به.",
+      deleteAccountFailed: "تعذر حذف حسابك.",
+      deleteAccountFailedRecovery: "حاول مرة أخرى بعد قليل، أو راسلنا على hello@papkram.de.",
+      deleteAccountUnauthenticated: "يجب تسجيل الدخول لحذف حسابك.",
     },
     cookieConsent: {
       ariaLabel: "الموافقة على ملفات تعريف الارتباط",
@@ -1238,6 +1270,17 @@ export const APP_COPY: Record<AppLanguage, AppCopy> = {
       senderInfoSavedToast: "Kaydedildi",
       senderInfoSaveFailed: "Bilgileriniz kaydedilemedi.",
       senderInfoSaveFailedRecovery: "Tekrar deneyin.",
+      deleteAccountButton: "Hesabı sil",
+      deleteAccountTitle: "Hesabınızı silmek istiyor musunuz?",
+      deleteAccountWarning:
+        "Bu işlem tüm mektuplarınızı, yanıt taslaklarınızı ve yüklediğiniz dosyaları kalıcı olarak siler, aktif bir aboneliği varsa hemen iptal eder. Bu işlem geri alınamaz.",
+      deleteAccountConfirmLabel: "Onaylamak için DELETE yazın",
+      deleteAccountConfirmCta: "Hesabımı sil",
+      deleteAccountDeleting: "Siliniyor…",
+      deleteAccountSuccessToast: "Hesabınız ve ilişkili tüm verileriniz silindi.",
+      deleteAccountFailed: "Hesabınız silinemedi.",
+      deleteAccountFailedRecovery: "Birazdan tekrar deneyin veya hello@papkram.de adresine e-posta gönderin.",
+      deleteAccountUnauthenticated: "Hesabınızı silmek için giriş yapmış olmanız gerekir.",
     },
     cookieConsent: {
       ariaLabel: "Çerez izni",
