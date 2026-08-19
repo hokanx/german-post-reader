@@ -36,6 +36,7 @@ export type AppCopy = {
       submit: string;
       haveAccount: string;
       loginLink: string;
+      newsletterOptInLabel: string;
     };
     errors: {
       enterEmailPassword: string;
@@ -310,6 +311,7 @@ export const APP_COPY: Record<AppLanguage, AppCopy> = {
         submit: "Start free trial",
         haveAccount: "Already have an account?",
         loginLink: "Log in",
+        newsletterOptInLabel: "Notify me when Papkram fully launches.",
       },
       errors: {
         enterEmailPassword: "Enter your email and password.",
@@ -655,6 +657,7 @@ export const APP_COPY: Record<AppLanguage, AppCopy> = {
         submit: "ابدأ تجربتك المجانية",
         haveAccount: "لديك حساب بالفعل؟",
         loginLink: "تسجيل الدخول",
+        newsletterOptInLabel: "أخبرني عندما يُطلق Papkram رسميًا.",
       },
       errors: {
         enterEmailPassword: "أدخل بريدك الإلكتروني وكلمة المرور.",
@@ -998,6 +1001,7 @@ export const APP_COPY: Record<AppLanguage, AppCopy> = {
         submit: "Ücretsiz denemeyi başlat",
         haveAccount: "Zaten bir hesabınız var mı?",
         loginLink: "Giriş yap",
+        newsletterOptInLabel: "Papkram tam olarak yayına girdiğinde bana haber ver.",
       },
       errors: {
         enterEmailPassword: "E-posta adresinizi ve şifrenizi girin.",

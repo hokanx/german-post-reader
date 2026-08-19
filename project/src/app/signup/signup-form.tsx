@@ -7,6 +7,8 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import type { AppLanguage } from "@/lib/letters/types";
 import { APP_COPY } from "@/lib/i18n/copy";
+import { DEMO_MODE } from "@/lib/constants";
+import { trackEvent } from "@/lib/analytics/track-event";
 import { signup } from "./actions";
 
 export function SignupForm({ language }: { language: AppLanguage }) {
@@ -16,6 +18,9 @@ export function SignupForm({ language }: { language: AppLanguage }) {
 
   function handleSubmit(formData: FormData) {
     setError(null);
+    if (formData.get("newsletterOptIn") === "on") {
+      trackEvent("newsletter_opted_in");
+    }
     startTransition(async () => {
       const result = await signup(formData, language);
       if (!result.ok) {
@@ -49,6 +54,16 @@ export function SignupForm({ language }: { language: AppLanguage }) {
           className="h-12 rounded-sm border-2 border-border text-base"
         />
       </div>
+      {DEMO_MODE && (
+        <label className="flex items-start gap-2.5 text-sm text-foreground/80">
+          <input
+            type="checkbox"
+            name="newsletterOptIn"
+            className="mt-0.5 size-4 shrink-0 rounded-sm border-2 border-border accent-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+          />
+          {copy.signup.newsletterOptInLabel}
+        </label>
+      )}
       {error && (
         <div
           role="alert"

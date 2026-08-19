@@ -5,6 +5,7 @@ import { z } from "zod";
 import { createClient } from "@/lib/supabase/server";
 import { createServiceClient } from "@/lib/supabase/service";
 import { sendWelcomeEmail } from "@/lib/email/send-welcome-email";
+import { addToLaunchAudience } from "@/lib/email/add-to-launch-audience";
 import type { Result } from "@/lib/result";
 import type { AppLanguage } from "@/lib/letters/types";
 import { APP_COPY } from "@/lib/i18n/copy";
@@ -97,6 +98,10 @@ export async function signup(
   }
 
   await sendWelcomeEmail(email, language);
+
+  if (formData.get("newsletterOptIn") === "on") {
+    await addToLaunchAudience(email);
+  }
 
   redirect("/onboarding");
 }
