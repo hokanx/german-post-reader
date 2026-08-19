@@ -10,6 +10,7 @@ export type AppCopy = {
   header: {
     logo: string;
     backToDashboard: string;
+    backToHome: string;
   };
   nav: {
     navLabel: string;
@@ -306,6 +307,7 @@ export const APP_COPY: Record<AppLanguage, AppCopy> = {
     header: {
       logo: "Papkram",
       backToDashboard: "Back to dashboard",
+      backToHome: "Back to home",
     },
     nav: {
       navLabel: "Main navigation",
@@ -673,6 +675,7 @@ export const APP_COPY: Record<AppLanguage, AppCopy> = {
     header: {
       logo: "Papkram",
       backToDashboard: "العودة إلى لوحة التحكم",
+      backToHome: "العودة إلى الرئيسية",
     },
     nav: {
       navLabel: "التنقل الرئيسي",
@@ -1038,6 +1041,7 @@ export const APP_COPY: Record<AppLanguage, AppCopy> = {
     header: {
       logo: "Papkram",
       backToDashboard: "Panele dön",
+      backToHome: "Ana sayfaya dön",
     },
     nav: {
       navLabel: "Ana gezinme",

@@ -3,11 +3,19 @@
 import { toast } from "sonner";
 import { Copy } from "lucide-react";
 import { trackEvent } from "@/lib/analytics/track-event";
-import type { AppLanguage } from "@/lib/letters/types";
-import { APP_COPY } from "@/lib/i18n/copy";
 
 const X_LOGO_PATH =
   "M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z";
+
+export type ShareButtonsCopy = {
+  shareTwitter: string;
+  shareWhatsapp: string;
+  shareCopyLink: string;
+  shareTweetText: string;
+  shareWhatsappText: string;
+  linkCopiedToast: string;
+  linkCopyFailed: string;
+};
 
 function shareUrl(base: string, via: "twitter" | "whatsapp" | "copy_link") {
   const url = new URL(base);
@@ -16,9 +24,8 @@ function shareUrl(base: string, via: "twitter" | "whatsapp" | "copy_link") {
   return url.toString();
 }
 
-export function ShareButtons({ language = "en" }: { language?: AppLanguage }) {
-  const copy = APP_COPY[language].welcome;
-
+/** Shared by the authenticated /welcome screen and the pre-auth landing page — each passes its own copy dictionary rather than this component owning one. */
+export function ShareButtons({ copy }: { copy: ShareButtonsCopy }) {
   function landingUrl(via: "twitter" | "whatsapp" | "copy_link") {
     const origin = typeof window !== "undefined" ? window.location.origin : "https://papkram.de";
     return shareUrl(origin, via);

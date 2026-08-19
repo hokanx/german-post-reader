@@ -52,6 +52,16 @@ export type MarketingCopy = {
     heading: string;
     body: (freeLetterLimit: number) => string;
     cta: string;
+    share: {
+      heading: string;
+      twitter: string;
+      whatsapp: string;
+      copyLink: string;
+      tweetText: string;
+      whatsappText: string;
+      linkCopiedToast: string;
+      linkCopyFailed: string;
+    };
   };
   cta: { badge: string; heading: string; button: string };
   footer: { privacy: string; terms: string; contact: string };
@@ -113,6 +123,17 @@ export const MARKETING_COPY: Record<MarketingLocale, MarketingCopy> = {
       body: (freeLetterLimit) =>
         `Try ${freeLetterLimit} real letters. We're not selling yet — sign up and we'll email you the moment Papkram fully launches.`,
       cta: "Start free demo",
+      share: {
+        heading: "Know someone drowning in German paperwork?",
+        twitter: "Share on X",
+        whatsapp: "Share on WhatsApp",
+        copyLink: "Copy link",
+        tweetText:
+          "Papkram translates confusing German mail into plain language, with deadlines and a ready-to-send reply.",
+        whatsappText: "Papkram translates confusing German mail into plain language — worth a look:",
+        linkCopiedToast: "Link copied.",
+        linkCopyFailed: "Couldn't copy the link — select and copy it manually instead.",
+      },
     },
     offer: {
       heading: "Everything you get.",
@@ -250,6 +271,16 @@ export const MARKETING_COPY: Record<MarketingLocale, MarketingCopy> = {
       body: (freeLetterLimit) =>
         `جرّب ${freeLetterLimit} خطابات حقيقية. لسنا نبيع بعد — سجّل وسنراسلك بالبريد الإلكتروني بمجرد إطلاق Papkram رسميًا.`,
       cta: "ابدأ التجربة المجانية",
+      share: {
+        heading: "تعرف شخصًا يغرق في الأوراق الألمانية؟",
+        twitter: "شارك على X",
+        whatsapp: "شارك على واتساب",
+        copyLink: "نسخ الرابط",
+        tweetText: "يترجم Papkram البريد الألماني المربك إلى لغة واضحة، مع المواعيد النهائية ورد جاهز للإرسال.",
+        whatsappText: "يترجم Papkram البريد الألماني المربك إلى لغة واضحة — يستحق نظرة:",
+        linkCopiedToast: "تم نسخ الرابط.",
+        linkCopyFailed: "تعذر نسخ الرابط — حدده وانسخه يدويًا بدلاً من ذلك.",
+      },
     },
     offer: {
       heading: "كل ما تحصل عليه.",
@@ -387,6 +418,17 @@ export const MARKETING_COPY: Record<MarketingLocale, MarketingCopy> = {
       body: (freeLetterLimit) =>
         `${freeLetterLimit} gerçek mektubu deneyin. Henüz satış yapmıyoruz — kaydolun, Papkram tam olarak yayına girer girmez size e-posta gönderelim.`,
       cta: "Ücretsiz demoyu başlat",
+      share: {
+        heading: "Almanca evraklarda boğulan biri var mı?",
+        twitter: "X'te paylaş",
+        whatsapp: "WhatsApp'ta paylaş",
+        copyLink: "Bağlantıyı kopyala",
+        tweetText:
+          "Papkram, kafa karıştırıcı Almanca mektupları anlaşılır bir dile, son tarihlerle ve gönderime hazır bir yanıtla birlikte çeviriyor.",
+        whatsappText: "Papkram, kafa karıştırıcı Almanca mektupları anlaşılır bir dile çeviriyor — göz atmaya değer:",
+        linkCopiedToast: "Bağlantı kopyalandı.",
+        linkCopyFailed: "Bağlantı kopyalanamadı — bunun yerine seçip elle kopyalayın.",
+      },
     },
     offer: {
       heading: "Elde ettiğiniz her şey.",
