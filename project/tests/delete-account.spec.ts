@@ -1,5 +1,6 @@
 import { test, expect } from "@playwright/test";
 import { createClient } from "@supabase/supabase-js";
+import { completeOnboarding } from "./helpers/onboarding";
 
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
 const serviceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY!;
@@ -28,11 +29,7 @@ test.describe("self-service account deletion", () => {
     await expect(page).toHaveURL(/\/onboarding$/);
     await page.getByRole("button", { name: /English/ }).click();
 
-    // Demo mode redirects post-onboarding to /welcome first, not straight to
-    // /dashboard — follow that hop before asserting the dashboard is reached.
-    await expect(page).toHaveURL(/\/welcome$/);
-    await page.getByRole("link", { name: "Continue to dashboard" }).click();
-    await expect(page).toHaveURL(/\/dashboard$/);
+    await completeOnboarding(page);
 
     const admin = createClient(supabaseUrl, serviceRoleKey);
     const { data: listData } = await admin.auth.admin.listUsers();
