@@ -27,6 +27,11 @@ test.describe("self-service account deletion", () => {
     await page.getByRole("button", { name: "Start free trial" }).click();
     await expect(page).toHaveURL(/\/onboarding$/);
     await page.getByRole("button", { name: /English/ }).click();
+
+    // Demo mode redirects post-onboarding to /welcome first, not straight to
+    // /dashboard — follow that hop before asserting the dashboard is reached.
+    await expect(page).toHaveURL(/\/welcome$/);
+    await page.getByRole("link", { name: "Continue to dashboard" }).click();
     await expect(page).toHaveURL(/\/dashboard$/);
 
     const admin = createClient(supabaseUrl, serviceRoleKey);

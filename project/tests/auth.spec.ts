@@ -31,6 +31,11 @@ test.describe("auth flow", () => {
 
     await page.getByRole("button", { name: /English/ }).click();
 
+    // Demo mode redirects post-onboarding to /welcome first, not straight to
+    // /dashboard — follow that hop before asserting the dashboard is reached.
+    await expect(page).toHaveURL(/\/welcome$/);
+    await page.getByRole("link", { name: "Continue to dashboard" }).click();
+
     await expect(page).toHaveURL(/\/dashboard$/);
   });
 });
