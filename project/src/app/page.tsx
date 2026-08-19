@@ -21,7 +21,23 @@ export default async function Home({
 }) {
   const language = await getPreAuthLanguage();
   const { src, via } = await searchParams;
-  const registeredCount = DEMO_MODE ? await countRegisteredUsers(createServiceClient()) : 0;
+
+  // Absence of a count (query failure, or createServiceClient() throwing —
+  // e.g. SUPABASE_SERVICE_ROLE_KEY unset) must render as "no counter shown",
+  // never as a false "0 people signed up" social-proof claim.
+  let registeredCount: number | null = null;
+  if (DEMO_MODE) {
+    try {
+      const result = await countRegisteredUsers(createServiceClient());
+      if (result.ok) {
+        registeredCount = result.data;
+      } else {
+        console.error("countRegisteredUsers failed", result.error);
+      }
+    } catch (error) {
+      console.error("countRegisteredUsers threw", error);
+    }
+  }
 
   return (
     <LocaleProvider initialLocale={language}>

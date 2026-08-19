@@ -13,30 +13,39 @@ function assert(condition: boolean, message: string) {
 async function run() {
   const fakeClient = {
     from: () => ({
-      select: async () => ({ count: 348 }),
+      select: async () => ({ count: 348, error: null }),
     }),
   } as unknown as SupabaseClient;
 
   const result = await countRegisteredUsers(fakeClient);
-  assert(result === 347, "subtracts the fixed seed/demo account from the raw count");
+  assert(
+    result.ok === true && result.data === 347,
+    "subtracts the fixed seed/demo account from the raw count",
+  );
 
   const emptyClient = {
     from: () => ({
-      select: async () => ({ count: 0 }),
+      select: async () => ({ count: 0, error: null }),
     }),
   } as unknown as SupabaseClient;
 
   const emptyResult = await countRegisteredUsers(emptyClient);
-  assert(emptyResult === 0, "never returns negative when the raw count is 0 (floors at 0, not -1)");
+  assert(
+    emptyResult.ok === true && emptyResult.data === 0,
+    "never returns negative when the raw count is 0 (floors at 0, not -1)",
+  );
 
-  const nullClient = {
+  const errorClient = {
     from: () => ({
-      select: async () => ({ count: null }),
+      select: async () => ({ count: null, error: { message: "connection refused" } }),
     }),
   } as unknown as SupabaseClient;
 
-  const nullResult = await countRegisteredUsers(nullClient);
-  assert(nullResult === 0, "treats a null count (query failure) as 0, not a crash");
+  const errorResult = await countRegisteredUsers(errorClient);
+  assert(
+    errorResult.ok === false,
+    "returns a failed Result on a Supabase query error, instead of silently coercing it to 0",
+  );
 }
 
 run();
