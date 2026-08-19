@@ -8,6 +8,9 @@ import { env } from "@/lib/env";
  * profiles by design) and the upload pipeline's trial-limit enforcement.
  */
 export function createServiceClient() {
+  if (!env.SUPABASE_SERVICE_ROLE_KEY) {
+    throw new Error("SUPABASE_SERVICE_ROLE_KEY is not set");
+  }
   return createSupabaseClient(
     env.NEXT_PUBLIC_SUPABASE_URL,
     env.SUPABASE_SERVICE_ROLE_KEY,

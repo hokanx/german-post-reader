@@ -1,6 +1,7 @@
 import { createClient } from "@/lib/supabase/server";
 import { LanguageSwitcher } from "@/components/language-switcher";
 import { LogoutButton } from "@/components/logout-button";
+import { DeleteAccountDialog } from "@/components/delete-account-dialog";
 import { ManageSubscriptionLink } from "@/components/manage-subscription-link";
 import { SettingsUpgradeButton } from "@/components/settings-upgrade-button";
 import { SenderInfoForm } from "./sender-info-form";
@@ -89,8 +90,9 @@ export default async function SettingsPage() {
           <h2 className="font-heading text-lg font-extrabold tracking-[-0.02em] text-foreground">
             {copy.accountHeading}
           </h2>
-          <div className="mt-4">
+          <div className="mt-4 flex flex-wrap gap-3">
             <LogoutButton language={language} />
+            <DeleteAccountDialog language={language} />
           </div>
         </section>
       </div>
