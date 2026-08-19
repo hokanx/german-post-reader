@@ -83,6 +83,7 @@ export type AppCopy = {
     emptyDescription: string;
     unlimitedBadge: string;
     lettersUsed: (used: number, limit: number) => string;
+    lettersUsedDemo: (used: number, limit: number) => string;
     unlockCta: (price: string) => string;
     analysisPending: string;
     manageSubscription: string;
@@ -377,6 +378,7 @@ export const APP_COPY: Record<AppLanguage, AppCopy> = {
         "Upload your first German letter to get a plain-language summary, deadlines, and a ready-to-send reply.",
       unlimitedBadge: "Unlimited letters",
       lettersUsed: (used, limit) => `${used} of ${limit} free letters used`,
+      lettersUsedDemo: (used, limit) => `${used} of ${limit} demo letters used`,
       unlockCta: (price) => `Unlock unlimited letters for ${price}/year.`,
       analysisPending: "Analysis pending…",
       manageSubscription: "Manage subscription",
@@ -740,6 +742,7 @@ export const APP_COPY: Record<AppLanguage, AppCopy> = {
       emptyDescription: "ارفع أول خطاب ألماني لك للحصول على ملخص بلغة واضحة ومواعيد نهائية ورد جاهز للإرسال.",
       unlimitedBadge: "خطابات غير محدودة",
       lettersUsed: (used, limit) => `${used} من ${limit} خطابات مجانية مستخدمة`,
+      lettersUsedDemo: (used, limit) => `${used} من ${limit} خطابات تجريبية مستخدمة`,
       unlockCta: (price) => `افتح خطابات غير محدودة مقابل ${price} سنويًا.`,
       analysisPending: "التحليل قيد الانتظار…",
       manageSubscription: "إدارة الاشتراك",
@@ -1103,6 +1106,7 @@ export const APP_COPY: Record<AppLanguage, AppCopy> = {
         "Sade bir özet, son tarihler ve gönderime hazır bir yanıt almak için ilk Alman mektubunuzu yükleyin.",
       unlimitedBadge: "Sınırsız mektup",
       lettersUsed: (used, limit) => `${limit} ücretsiz mektuptan ${used} tanesi kullanıldı`,
+      lettersUsedDemo: (used, limit) => `${limit} demo mektuptan ${used} tanesi kullanıldı`,
       unlockCta: (price) => `Yılda ${price} karşılığında sınırsız mektubun kilidini açın.`,
       analysisPending: "Analiz bekleniyor…",
       manageSubscription: "Aboneliği yönet",

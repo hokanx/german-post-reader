@@ -4,7 +4,7 @@ import { Upload, Mail } from "lucide-react";
 import { createClient } from "@/lib/supabase/server";
 import { buttonVariants } from "@/components/ui/button";
 import { EmptyState } from "@/components/empty-state";
-import { FREE_LETTER_LIMIT, SUBSCRIPTION_PRICE_EUR } from "@/lib/constants";
+import { DEMO_MODE, FREE_LETTER_LIMIT, SUBSCRIPTION_PRICE_EUR } from "@/lib/constants";
 import { formatEur } from "@/lib/format-currency";
 import type { AppLanguage } from "@/lib/letters/types";
 import { APP_COPY } from "@/lib/i18n/copy";
@@ -84,9 +84,11 @@ export default async function DashboardPage() {
           ) : (
             <div className="mb-6 inline-flex flex-col items-start gap-2 rounded-md border-2 border-border bg-accent px-5 py-4">
               <span className="rounded-full border-2 border-border bg-background px-3 py-1 text-xs font-bold uppercase tracking-[0.06em] text-foreground">
-                {copy.dashboard.lettersUsed(trialUsed, FREE_LETTER_LIMIT)}
+                {DEMO_MODE
+                  ? copy.dashboard.lettersUsedDemo(trialUsed, FREE_LETTER_LIMIT)
+                  : copy.dashboard.lettersUsed(trialUsed, FREE_LETTER_LIMIT)}
               </span>
-              {lettersLeft === 0 && (
+              {!DEMO_MODE && lettersLeft === 0 && (
                 <p className="text-sm font-medium text-accent-foreground">
                   {copy.dashboard.unlockCta(formatEur(SUBSCRIPTION_PRICE_EUR))}
                 </p>
