@@ -258,6 +258,7 @@ export type AppCopy = {
     subscriptionHeading: string;
     subscriptionActive: string;
     subscriptionFree: string;
+    demoNotice: string;
     accountHeading: string;
     senderInfoHeading: string;
     senderInfoDescription: string;
@@ -624,6 +625,7 @@ export const APP_COPY: Record<AppLanguage, AppCopy> = {
       subscriptionHeading: "Subscription",
       subscriptionActive: "You have unlimited letters.",
       subscriptionFree: "You're on the free trial.",
+      demoNotice: "Papkram is currently a free demo. You'll be notified by email when full access launches.",
       accountHeading: "Account",
       senderInfoHeading: "Your details",
       senderInfoDescription: "Add your name and postal address once, and every reply draft will use them as the letterhead — instead of a placeholder you'd have to fill in yourself before sending.",
@@ -987,6 +989,7 @@ export const APP_COPY: Record<AppLanguage, AppCopy> = {
       subscriptionHeading: "الاشتراك",
       subscriptionActive: "لديك خطابات غير محدودة.",
       subscriptionFree: "أنت في التجربة المجانية.",
+      demoNotice: "Papkram حاليًا في وضع التجربة المجانية. سنُخطرك بالبريد الإلكتروني عند إطلاق الوصول الكامل.",
       accountHeading: "الحساب",
       senderInfoHeading: "بياناتك",
       senderInfoDescription: "أضف اسمك وعنوانك البريدي مرة واحدة، وستستخدمهما كل مسودة رد كترويسة — بدلاً من عنصر نائب يتعين عليك تعبئته يدويًا قبل الإرسال.",
@@ -1352,6 +1355,7 @@ export const APP_COPY: Record<AppLanguage, AppCopy> = {
       subscriptionHeading: "Abonelik",
       subscriptionActive: "Sınırsız mektubunuz var.",
       subscriptionFree: "Ücretsiz denemedesiniz.",
+      demoNotice: "Papkram şu anda ücretsiz demo aşamasında. Tam erişim yayına girdiğinde size e-posta ile haber vereceğiz.",
       accountHeading: "Hesap",
       senderInfoHeading: "Bilgileriniz",
       senderInfoDescription: "Adınızı ve posta adresinizi bir kez ekleyin; her yanıt taslağı bunları antet olarak kullansın — göndermeden önce kendinizin doldurması gereken bir yer tutucu yerine.",

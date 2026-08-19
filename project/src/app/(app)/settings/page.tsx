@@ -7,6 +7,7 @@ import { SettingsUpgradeButton } from "@/components/settings-upgrade-button";
 import { SenderInfoForm } from "./sender-info-form";
 import type { AppLanguage } from "@/lib/letters/types";
 import { APP_COPY } from "@/lib/i18n/copy";
+import { DEMO_MODE } from "@/lib/constants";
 
 export const metadata = {
   title: "Settings — Papkram",
@@ -54,22 +55,28 @@ export default async function SettingsPage() {
           <h2 className="font-heading text-lg font-extrabold tracking-[-0.02em] text-foreground">
             {copy.subscriptionHeading}
           </h2>
-          <p className="mt-1 text-sm text-foreground/70">
-            {hasActiveSubscription ? copy.subscriptionActive : copy.subscriptionFree}
-          </p>
-          <div className="mt-4">
-            {hasActiveSubscription ? (
-              <ManageSubscriptionLink
-                copy={{
-                  manageSubscription: dashboardCopy.manageSubscription,
-                  openingPortal: dashboardCopy.openingPortal,
-                  portalError: dashboardCopy.portalError,
-                }}
-              />
-            ) : (
-              <SettingsUpgradeButton language={language} />
-            )}
-          </div>
+          {DEMO_MODE ? (
+            <p className="mt-1 text-sm text-foreground/70">{copy.demoNotice}</p>
+          ) : (
+            <>
+              <p className="mt-1 text-sm text-foreground/70">
+                {hasActiveSubscription ? copy.subscriptionActive : copy.subscriptionFree}
+              </p>
+              <div className="mt-4">
+                {hasActiveSubscription ? (
+                  <ManageSubscriptionLink
+                    copy={{
+                      manageSubscription: dashboardCopy.manageSubscription,
+                      openingPortal: dashboardCopy.openingPortal,
+                      portalError: dashboardCopy.portalError,
+                    }}
+                  />
+                ) : (
+                  <SettingsUpgradeButton language={language} />
+                )}
+              </div>
+            </>
+          )}
         </section>
 
         <section className="mb-6 rounded-md border-2 border-border bg-card p-6 shadow-[4px_4px_0_0_var(--border)]">
