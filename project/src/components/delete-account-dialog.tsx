@@ -46,8 +46,12 @@ export function DeleteAccountDialog({ language = "en" }: { language?: AppLanguag
         setError({ message: result.error.message, recovery: result.error.recovery });
         return;
       }
-      const supabase = createClient();
-      await supabase.auth.signOut();
+      try {
+        const supabase = createClient();
+        await supabase.auth.signOut();
+      } catch (error) {
+        console.error("deleteAccount: client-side signOut failed", error);
+      }
       toast.success(copy.deleteAccountSuccessToast);
       router.push("/");
     });
