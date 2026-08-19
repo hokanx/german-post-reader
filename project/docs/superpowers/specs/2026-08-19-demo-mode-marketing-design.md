@@ -38,6 +38,8 @@ New route: `src/app/welcome/page.tsx` (+ `loading.tsx`, no `error.tsx` needed �
 
 Content: *"You're in. We'll email you the moment Papkram fully launches."* + a share block: *"Know someone who gets confusing German mail?"* with three share actions — X/Twitter (pre-filled tweet text + landing page URL via `https://x.com/intent/tweet?text=...&url=...`), WhatsApp (`https://wa.me/?text=...`), and Copy link (clipboard write of the landing page URL, toast confirmation). Copy stays factual and reassuring — no exclamation-heavy hype language, consistent with the locked "calm and clinical, reassuring" brand voice.
 
+This is an organic loop, not a tracked referral program (per §10 — no referral codes or attribution): share → friend clicks → friend sees the landing page → friend signs up → friend gets their own `/welcome` share moment. To still measure whether sharing drives signups in aggregate, the shared URL carries lightweight query params — `https://papkram.de/?src=share&via=twitter|whatsapp|copy_link` — read by the landing page and attached as properties on its Posthog pageview event. This gives a funnel (`share_link_clicked` → landing pageview with `src=share` → `signup`) without per-user attribution or new schema.
+
 Posthog event: `share_link_clicked` with a `platform: "twitter" | "whatsapp" | "copy_link"` property.
 
 ## 4. Landing page — social proof counter
@@ -48,9 +50,18 @@ Rendered on the landing page (Server Component, so it's always fresh per request
 
 The count excludes the fixed seed/demo account (`demo@germanpostreader.app`, created by `lib/seed/seed.ts`) so internal testing doesn't inflate a number that's supposed to represent real signups.
 
-## 5. Landing page — pricing section replaced
+The landing page also reads the `src`/`via` query params described in §3 (when present, from a shared link) and attaches them as properties on its Posthog pageview event — this is the other half of the share funnel.
 
-When `DEMO_MODE` is `true`, the existing pricing/value-stack/Founder's-Circle-bonuses section (from the "landing offer rewrite" work) is swapped for a simpler section: the counter from §4, a short demo pitch (*"Free demo, no card needed. Try 4 real letters. We're not selling yet — sign up and we'll email you the moment Papkram fully launches."*), and the same `/signup` CTA used elsewhere on the page. The old pricing section's JSX and copy are not deleted — gated behind `DEMO_MODE` the same way the rest of the UI is, so turning selling back on later restores it unchanged.
+## 5. Landing page — pricing section replaced; core promise and demo workflow stay
+
+When `DEMO_MODE` is `true`, only the pricing/value-stack/Founder's-Circle-bonuses section (from the "landing offer rewrite" work) is swapped for a simpler section: the counter from §4, a short demo pitch (*"Free demo, no card needed. Try 4 real letters. We're not selling yet — sign up and we'll email you the moment Papkram fully launches."*), and the same `/signup` CTA used elsewhere on the page. The old pricing section's JSX and copy are not deleted — gated behind `DEMO_MODE` the same way the rest of the UI is, so turning selling back on later restores it unchanged.
+
+Everything else on the landing page is explicitly untouched:
+- The **hero** (core promise headline + subhead + the sample "Analysis complete" card) stays exactly as-is.
+- The **"Three steps. That's it."** section (Upload → We read it → You reply, each with its own mini preview) already *is* the demo workflow — it stays exactly as-is.
+- The **"We tell you when we're not sure"** trust section stays exactly as-is.
+
+So a demo-mode visitor still gets the full pitch — what Papkram does and how it works — before ever reaching the (now demo-pitch) section that used to be pricing.
 
 ## 6. Hitting the 4-letter cap
 
