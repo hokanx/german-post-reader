@@ -1,4 +1,5 @@
 import { ImageResponse } from "next/og";
+import { DEMO_MODE } from "@/lib/constants";
 
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
@@ -57,7 +58,9 @@ export default function OpengraphImage() {
             fontWeight: 500,
           }}
         >
-          Plain-language summaries, deadlines, and reply drafts.
+          {DEMO_MODE
+            ? "Free demo now. We'll email you when we fully launch."
+            : "Plain-language summaries, deadlines, and reply drafts."}
         </span>
       </div>
     ),
