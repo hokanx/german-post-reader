@@ -27,8 +27,8 @@ export default async function PrivacyPage() {
                 {i === copy.sections.length - 1 && (
                   <>
                     {" "}
-                    <a href="mailto:hello@germanpostreader.app" className="text-primary underline underline-offset-4">
-                      hello@germanpostreader.app
+                    <a href="mailto:hello@papkram.de" className="text-primary underline underline-offset-4">
+                      hello@papkram.de
                     </a>
                     .
                   </>

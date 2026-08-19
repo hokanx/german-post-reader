@@ -28,7 +28,7 @@ export function LandingFooter() {
             {copy.footer.terms}
           </Link>
           <Link
-            href="mailto:hello@germanpostreader.app"
+            href="mailto:hello@papkram.de"
             className="-my-3.5 flex h-11 items-center rounded-sm transition-colors hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
           >
             {copy.footer.contact}

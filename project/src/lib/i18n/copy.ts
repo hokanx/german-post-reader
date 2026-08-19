@@ -534,17 +534,17 @@ export const APP_COPY: Record<AppLanguage, AppCopy> = {
           {
             heading: "Right of withdrawal (Widerrufsrecht)",
             body: () =>
-              "If you're subscribing as a consumer, you can withdraw from your subscription within 14 days of subscribing, without giving a reason. Email [operator email] with a clear, dated statement that you wish to withdraw — no form is required, though a model form is below. Unlimited access starts immediately when you subscribe, at your request; if you withdraw before the 14 days are up, you'll owe a proportionate amount for the days of access you already used, and we'll refund the rest.",
+              "If you're subscribing as a consumer, you can withdraw from your subscription within 14 days of subscribing, without giving a reason. Email hello@papkram.de with a clear, dated statement that you wish to withdraw — no form is required, though a model form is below. Unlimited access starts immediately when you subscribe, at your request; if you withdraw before the 14 days are up, you'll owe a proportionate amount for the days of access you already used, and we'll refund the rest.",
           },
           {
             heading: "Model withdrawal form (Muster-Widerrufsformular)",
             body: () =>
-              "To: [Operator legal name], [Operator address], [Operator email]\nI/We hereby give notice that I/we withdraw from my/our contract for the Papkram subscription.\nOrdered on: __________\nName of consumer(s): __________\nAddress of consumer(s): __________\nDate: __________",
+              "To: [Operator legal name], [Operator address], hello@papkram.de\nI/We hereby give notice that I/we withdraw from my/our contract for the Papkram subscription.\nOrdered on: __________\nName of consumer(s): __________\nAddress of consumer(s): __________\nDate: __________",
           },
           {
             heading: "Account termination",
             body: () =>
-              "You can request account deletion at any time by emailing [operator email]. We may suspend accounts used to abuse the service (e.g. uploading non-letter content at scale).",
+              "You can request account deletion at any time by emailing hello@papkram.de, or delete it yourself any time from Settings. We may suspend accounts used to abuse the service (e.g. uploading non-letter content at scale).",
           },
           {
             heading: "Liability",
@@ -858,17 +858,17 @@ export const APP_COPY: Record<AppLanguage, AppCopy> = {
           {
             heading: "حق الانسحاب (Widerrufsrecht)",
             body: () =>
-              "إذا كنت تشترك بصفتك مستهلكًا، يمكنك الانسحاب من اشتراكك خلال 14 يومًا من الاشتراك، دون إبداء أي سبب. أرسل بريدًا إلكترونيًا إلى [البريد الإلكتروني للمشغّل] يتضمن بيانًا واضحًا ومؤرخًا برغبتك في الانسحاب — لا حاجة لنموذج محدد، وإن كان النموذج المعياري أدناه متاحًا. يبدأ الوصول غير المحدود فور الاشتراك، بناءً على طلبك؛ فإذا انسحبت قبل انتهاء الـ14 يومًا، ستكون مدينًا بمبلغ متناسب مقابل أيام الوصول التي استخدمتها بالفعل، وسنرد الباقي.",
+              "إذا كنت تشترك بصفتك مستهلكًا، يمكنك الانسحاب من اشتراكك خلال 14 يومًا من الاشتراك، دون إبداء أي سبب. أرسل بريدًا إلكترونيًا إلى hello@papkram.de يتضمن بيانًا واضحًا ومؤرخًا برغبتك في الانسحاب — لا حاجة لنموذج محدد، وإن كان النموذج المعياري أدناه متاحًا. يبدأ الوصول غير المحدود فور الاشتراك، بناءً على طلبك؛ فإذا انسحبت قبل انتهاء الـ14 يومًا، ستكون مدينًا بمبلغ متناسب مقابل أيام الوصول التي استخدمتها بالفعل، وسنرد الباقي.",
           },
           {
             heading: "النموذج المعياري للانسحاب (Muster-Widerrufsformular)",
             body: () =>
-              "إلى: [الاسم القانوني للمشغّل]، [عنوان المشغّل]، [البريد الإلكتروني للمشغّل]\nأُعلن/نُعلن بموجب هذا عن انسحابي/انسحابنا من عقد اشتراك Papkram.\nتاريخ الطلب: __________\nاسم المستهلك (المستهلكين): __________\nعنوان المستهلك (المستهلكين): __________\nالتاريخ: __________",
+              "إلى: [الاسم القانوني للمشغّل]، [عنوان المشغّل]، hello@papkram.de\nأُعلن/نُعلن بموجب هذا عن انسحابي/انسحابنا من عقد اشتراك Papkram.\nتاريخ الطلب: __________\nاسم المستهلك (المستهلكين): __________\nعنوان المستهلك (المستهلكين): __________\nالتاريخ: __________",
           },
           {
             heading: "إنهاء الحساب",
             body: () =>
-              "يمكنك طلب حذف حسابك في أي وقت عبر إرسال بريد إلكتروني إلى [البريد الإلكتروني للمشغّل]. قد نعلّق الحسابات التي تُستخدم لإساءة استخدام الخدمة (مثل رفع محتوى ليس خطابات على نطاق واسع).",
+              "يمكنك طلب حذف حسابك في أي وقت عبر إرسال بريد إلكتروني إلى hello@papkram.de، أو حذفه بنفسك في أي وقت من الإعدادات. قد نعلّق الحسابات التي تُستخدم لإساءة استخدام الخدمة (مثل رفع محتوى ليس خطابات على نطاق واسع).",
           },
           {
             heading: "المسؤولية",
@@ -1184,17 +1184,17 @@ export const APP_COPY: Record<AppLanguage, AppCopy> = {
           {
             heading: "Cayma hakkı (Widerrufsrecht)",
             body: () =>
-              "Tüketici olarak abone oluyorsanız, abone olduktan sonra 14 gün içinde, herhangi bir gerekçe göstermeden aboneliğinizden cayabilirsiniz. [operatör e-postası] adresine cayma isteğinizi açıkça belirten, tarihli bir e-posta gönderin — belirli bir form gerekmez, ancak aşağıda örnek bir form bulunmaktadır. Sınırsız erişim, talebiniz üzerine abone olduğunuzda hemen başlar; 14 gün dolmadan cayarsanız, o ana kadar kullandığınız erişim günleri için orantılı bir tutar borçlanırsınız ve kalan kısmı iade ederiz.",
+              "Tüketici olarak abone oluyorsanız, abone olduktan sonra 14 gün içinde, herhangi bir gerekçe göstermeden aboneliğinizden cayabilirsiniz. hello@papkram.de adresine cayma isteğinizi açıkça belirten, tarihli bir e-posta gönderin — belirli bir form gerekmez, ancak aşağıda örnek bir form bulunmaktadır. Sınırsız erişim, talebiniz üzerine abone olduğunuzda hemen başlar; 14 gün dolmadan cayarsanız, o ana kadar kullandığınız erişim günleri için orantılı bir tutar borçlanırsınız ve kalan kısmı iade ederiz.",
           },
           {
             heading: "Örnek cayma formu (Muster-Widerrufsformular)",
             body: () =>
-              "Kime: [Operatörün yasal adı], [Operatörün adresi], [Operatörün e-postası]\nİşbu belgeyle Papkram aboneliği sözleşmemden/sözleşmemizden caydığımı/caydığımızı bildiririm/bildiririz.\nSipariş tarihi: __________\nTüketici(ler)in adı: __________\nTüketici(ler)in adresi: __________\nTarih: __________",
+              "Kime: [Operatörün yasal adı], [Operatörün adresi], hello@papkram.de\nİşbu belgeyle Papkram aboneliği sözleşmemden/sözleşmemizden caydığımı/caydığımızı bildiririm/bildiririz.\nSipariş tarihi: __________\nTüketici(ler)in adı: __________\nTüketici(ler)in adresi: __________\nTarih: __________",
           },
           {
             heading: "Hesap sonlandırma",
             body: () =>
-              "[operatör e-postası] adresine e-posta göndererek hesabınızın silinmesini istediğiniz zaman talep edebilirsiniz. Hizmeti kötüye kullanmak için kullanılan hesapları askıya alabiliriz (örneğin, büyük ölçekte mektup olmayan içerik yükleme).",
+              "hello@papkram.de adresine e-posta göndererek ya da istediğiniz zaman Ayarlar'dan kendiniz hesabınızın silinmesini talep edebilirsiniz. Hizmeti kötüye kullanmak için kullanılan hesapları askıya alabiliriz (örneğin, büyük ölçekte mektup olmayan içerik yükleme).",
           },
           {
             heading: "Sorumluluk",
