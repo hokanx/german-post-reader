@@ -11,7 +11,7 @@ import {
   Section,
   Text,
 } from "@react-email/components";
-import { FREE_LETTER_LIMIT, SUBSCRIPTION_PRICE_EUR } from "@/lib/constants";
+import { DEMO_MODE, FREE_LETTER_LIMIT, SUBSCRIPTION_PRICE_EUR } from "@/lib/constants";
 import { formatEur } from "@/lib/format-currency";
 import type { AppLanguage } from "@/lib/letters/types";
 import { WELCOME_EMAIL_COPY } from "./copy";
@@ -39,8 +39,10 @@ export function WelcomeEmail({ language = "en" }: { language?: AppLanguage }) {
           </Section>
 
           <Section style={{ ...styles.body_section, textAlign: align }}>
-            <span style={styles.pill}>{copy.pill}</span>
-            <Heading style={{ ...styles.heading, textAlign: align }}>{copy.heading}</Heading>
+            <span style={styles.pill}>{DEMO_MODE ? copy.pillDemo : copy.pill}</span>
+            <Heading style={{ ...styles.heading, textAlign: align }}>
+              {DEMO_MODE ? copy.headingDemo : copy.heading}
+            </Heading>
             <Text style={{ ...styles.text, textAlign: align }}>
               {copy.intro(FREE_LETTER_LIMIT)}
             </Text>
@@ -54,7 +56,7 @@ export function WelcomeEmail({ language = "en" }: { language?: AppLanguage }) {
 
             <Text style={{ ...styles.muted, textAlign: align }}>{copy.riskNote}</Text>
             <Text style={{ ...styles.muted, textAlign: align }}>
-              {copy.priceNote(formatEur(SUBSCRIPTION_PRICE_EUR))}
+              {DEMO_MODE ? copy.demoNote : copy.priceNote(formatEur(SUBSCRIPTION_PRICE_EUR))}
             </Text>
 
             <Button href="https://papkram.de/upload" style={styles.button}>

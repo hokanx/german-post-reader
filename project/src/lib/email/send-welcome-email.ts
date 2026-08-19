@@ -1,6 +1,6 @@
 import { Resend } from "resend";
 import { env } from "@/lib/env";
-import { FREE_LETTER_LIMIT, SUBSCRIPTION_PRICE_EUR } from "@/lib/constants";
+import { DEMO_MODE, FREE_LETTER_LIMIT, SUBSCRIPTION_PRICE_EUR } from "@/lib/constants";
 import { formatEur } from "@/lib/format-currency";
 import { WelcomeEmail } from "@/emails/WelcomeEmail";
 import { WELCOME_EMAIL_COPY } from "@/emails/copy";
@@ -9,14 +9,14 @@ import type { AppLanguage } from "@/lib/letters/types";
 function plainTextBody(language: AppLanguage) {
   const copy = WELCOME_EMAIL_COPY[language];
   const lines = [
-    copy.heading,
+    DEMO_MODE ? copy.headingDemo : copy.heading,
     "",
     copy.intro(FREE_LETTER_LIMIT),
     "",
     ...copy.features.map((f) => `${f.label}: ${f.text}`),
     "",
     copy.riskNote,
-    copy.priceNote(formatEur(SUBSCRIPTION_PRICE_EUR)),
+    DEMO_MODE ? copy.demoNote : copy.priceNote(formatEur(SUBSCRIPTION_PRICE_EUR)),
     "",
     `${copy.cta}: https://papkram.de/upload`,
     "",

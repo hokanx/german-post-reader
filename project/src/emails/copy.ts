@@ -10,6 +10,9 @@ type WelcomeEmailCopy = {
   features: { label: string; text: string }[];
   riskNote: string;
   priceNote: (price: string) => string;
+  pillDemo: string;
+  headingDemo: string;
+  demoNote: string;
   cta: string;
   footer: string;
 };
@@ -31,6 +34,9 @@ export const WELCOME_EMAIL_COPY: Record<AppLanguage, WelcomeEmailCopy> = {
     riskNote:
       "If a letter mentions an amount or date we're not fully sure about, we'll say so plainly rather than guess.",
     priceNote: (price) => `After your free letters, unlocking unlimited letters is ${price} per year.`,
+    pillDemo: "Demo ready",
+    headingDemo: "Your free demo is ready",
+    demoNote: "We're not selling yet — once Papkram fully launches, we'll email you.",
     cta: "Upload your first letter",
     footer: "Papkram — plain-language summaries, deadlines, and reply drafts for German mail.",
   },
@@ -48,6 +54,9 @@ export const WELCOME_EMAIL_COPY: Record<AppLanguage, WelcomeEmailCopy> = {
     ],
     riskNote: "إذا ذكر الخطاب مبلغًا أو تاريخًا لسنا متأكدين منه تمامًا، سنوضح ذلك بصراحة بدلاً من التخمين.",
     priceNote: (price) => `بعد خطاباتك المجانية، فتح خطابات غير محدودة يكلف ${price} سنويًا.`,
+    pillDemo: "التجربة جاهزة",
+    headingDemo: "تجربتك المجانية جاهزة الآن",
+    demoNote: "لسنا نبيع بعد — بمجرد إطلاق Papkram رسميًا، سنراسلك بالبريد الإلكتروني.",
     cta: "ارفع خطابك الأول",
     footer: "Papkram — ملخصات بلغة واضحة، مواعيد نهائية، ومسودات ردود للبريد الألماني.",
   },
@@ -65,6 +74,9 @@ export const WELCOME_EMAIL_COPY: Record<AppLanguage, WelcomeEmailCopy> = {
     ],
     riskNote: "Bir mektupta emin olmadığımız bir tutar veya tarih varsa, tahmin etmek yerine bunu açıkça belirtiriz.",
     priceNote: (price) => `Ücretsiz mektuplarınızdan sonra sınırsız mektubun kilidini açmak yılda ${price}.`,
+    pillDemo: "Demo hazır",
+    headingDemo: "Ücretsiz demonuz hazır",
+    demoNote: "Henüz satış yapmıyoruz — Papkram tam olarak yayına girdiğinde size e-posta göndereceğiz.",
     cta: "İlk mektubunuzu yükleyin",
     footer: "Papkram — Almanca postalar için sade özetler, son tarihler ve yanıt taslakları.",
   },
