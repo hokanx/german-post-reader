@@ -511,15 +511,23 @@ export const APP_COPY: Record<AppLanguage, AppCopy> = {
           },
           {
             heading: "How your letter is processed",
-            body: "The contents of an uploaded letter are sent to Google's Gemini API to generate the analysis. We do not use your letters to train any model. We never display the raw extracted text back to you or anyone else — only the structured summary, deadlines, and reply draft.",
+            body: "The contents of an uploaded letter are sent to Google's Gemini API to generate the analysis. Google participates in the EU-US Data Privacy Framework, which is the legal basis for this transfer. We do not use your letters to train any model. We never display the raw extracted text back to you or anyone else — only the structured summary, deadlines, and reply draft.",
+          },
+          {
+            heading: "Who else handles your data",
+            body: "A few specialized providers process data on our behalf, each for one specific purpose: Supabase (database and file storage), Resend (sending emails), PostHog (product analytics, only if you accepted the cookie banner), Sentry (error tracking), and Vercel (hosting). None of them can use your data for anything beyond providing their service to us.",
           },
           {
             heading: "Payments",
             body: "Subscription billing is handled by Stripe. We never see or store your card details — Stripe processes and stores that directly.",
           },
           {
+            heading: "How long we keep your data",
+            body: "We keep your account and letters until you delete your account (instantly, from Settings) or ask us to delete it by email. There's currently no automatic deletion after a period of inactivity.",
+          },
+          {
             heading: "Your rights",
-            body: "You can request deletion of your account and all associated letters at any time by contacting",
+            body: "You can delete your account and all associated letters any time from Settings — this is immediate and cannot be undone. If you'd rather not do it yourself, or have any other question about your data, email us at",
           },
         ],
       },
@@ -846,15 +854,23 @@ export const APP_COPY: Record<AppLanguage, AppCopy> = {
           },
           {
             heading: "كيف تتم معالجة خطابك",
-            body: "تُرسَل محتويات الخطاب المرفوع إلى واجهة Gemini من Google لإنشاء التحليل. لا نستخدم خطاباتك لتدريب أي نموذج. لا نعرض أبدًا النص المستخرج الخام لك أو لأي شخص آخر — فقط الملخص المنظم والمواعيد النهائية ومسودة الرد.",
+            body: "تُرسَل محتويات الخطاب المرفوع إلى واجهة Gemini من Google لإنشاء التحليل. تشارك Google في إطار خصوصية البيانات بين الاتحاد الأوروبي والولايات المتحدة (EU-US Data Privacy Framework)، وهو الأساس القانوني لهذا النقل. لا نستخدم خطاباتك لتدريب أي نموذج. لا نعرض أبدًا النص المستخرج الخام لك أو لأي شخص آخر — فقط الملخص المنظم والمواعيد النهائية ومسودة الرد.",
+          },
+          {
+            heading: "من غيرنا يتعامل مع بياناتك",
+            body: "يعالج عدد قليل من مزوّدي الخدمات المتخصصين بياناتك نيابةً عنا، كل منهم لغرض محدد واحد: Supabase (قاعدة البيانات وتخزين الملفات)، Resend (إرسال الرسائل الإلكترونية)، PostHog (تحليلات المنتج، فقط إذا وافقت على شريط ملفات تعريف الارتباط)، Sentry (تتبع الأخطاء)، وVercel (الاستضافة). لا يمكن لأي منهم استخدام بياناتك لأي غرض يتجاوز تقديم خدمته لنا.",
           },
           {
             heading: "المدفوعات",
             body: "تُدار فوترة الاشتراك عبر Stripe. لا نرى أو نخزّن أبدًا تفاصيل بطاقتك — تُعالجها Stripe وتخزّنها مباشرةً.",
           },
           {
+            heading: "المدة التي نحتفظ فيها ببياناتك",
+            body: "نحتفظ بحسابك وخطاباتك حتى تحذف حسابك (فورًا، من الإعدادات) أو تطلب منا حذفه عبر البريد الإلكتروني. لا يوجد حاليًا حذف تلقائي بعد فترة من عدم النشاط.",
+          },
+          {
             heading: "حقوقك",
-            body: "يمكنك طلب حذف حسابك وجميع الخطابات المرتبطة به في أي وقت عبر التواصل معنا على",
+            body: "يمكنك حذف حسابك وجميع الخطابات المرتبطة به في أي وقت من الإعدادات — هذا فوري ولا يمكن التراجع عنه. إذا كنت تفضل عدم القيام بذلك بنفسك، أو لديك أي سؤال آخر بشأن بياناتك، راسلنا على",
           },
         ],
       },
@@ -1183,15 +1199,23 @@ export const APP_COPY: Record<AppLanguage, AppCopy> = {
           },
           {
             heading: "Mektubunuz nasıl işlenir",
-            body: "Yüklenen bir mektubun içeriği, analizi oluşturmak için Google'ın Gemini API'sine gönderilir. Mektuplarınızı herhangi bir modeli eğitmek için kullanmayız. Ham çıkarılan metni asla size veya başka birine göstermeyiz — yalnızca yapılandırılmış özeti, son tarihleri ve yanıt taslağını gösteririz.",
+            body: "Yüklenen bir mektubun içeriği, analizi oluşturmak için Google'ın Gemini API'sine gönderilir. Google, AB-ABD Veri Gizliliği Çerçevesi'ne (EU-US Data Privacy Framework) katılmaktadır; bu, bu aktarımın yasal dayanağıdır. Mektuplarınızı herhangi bir modeli eğitmek için kullanmayız. Ham çıkarılan metni asla size veya başka birine göstermeyiz — yalnızca yapılandırılmış özeti, son tarihleri ve yanıt taslağını gösteririz.",
+          },
+          {
+            heading: "Verilerinizle başka kimler ilgileniyor",
+            body: "Birkaç uzman sağlayıcı, bizim adımıza, her biri tek bir amaç için veri işler: Supabase (veritabanı ve dosya depolama), Resend (e-posta gönderimi), PostHog (ürün analitiği, yalnızca çerez bildirimini kabul ettiyseniz), Sentry (hata izleme) ve Vercel (barındırma). Hiçbiri verilerinizi bize hizmet sağlamanın ötesinde bir amaçla kullanamaz.",
           },
           {
             heading: "Ödemeler",
             body: "Abonelik faturalandırması Stripe tarafından yönetilir. Kart bilgilerinizi asla görmez veya saklamayız — Stripe bunu doğrudan işler ve saklar.",
           },
           {
+            heading: "Verilerinizi ne kadar süre saklıyoruz",
+            body: "Hesabınızı silene kadar (Ayarlar'dan anında) veya e-posta ile silmemizi isteyene kadar hesabınızı ve mektuplarınızı saklarız. Şu anda hareketsizlik süresinden sonra otomatik silme bulunmamaktadır.",
+          },
+          {
             heading: "Haklarınız",
-            body: "İstediğiniz zaman hesabınızın ve ilişkili tüm mektupların silinmesini talep etmek için bize ulaşın:",
+            body: "Hesabınızı ve ilişkili tüm mektupları istediğiniz zaman Ayarlar'dan silebilirsiniz — bu anında gerçekleşir ve geri alınamaz. Bunu kendiniz yapmak istemiyorsanız veya verileriniz hakkında başka bir sorunuz varsa, bize şu adresten ulaşın:",
           },
         ],
       },
