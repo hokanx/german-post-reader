@@ -53,7 +53,7 @@ export function DemoPitch({ registeredCount }: { registeredCount: number | null 
           className="rounded-lg border-2 border-border bg-card p-8 shadow-[6px_6px_0_0_var(--border)]"
         >
           {liveCount !== null && (
-            <span className="rounded-full border-2 border-border bg-accent px-4 py-1.5 text-xs font-bold uppercase tracking-[0.06em] text-accent-foreground">
+            <span className="inline-block rounded-full border-2 border-border bg-accent px-4 py-1.5 text-xs font-bold uppercase tracking-[0.06em] text-accent-foreground">
               {copy.demoPitch.counter(liveCount)}
             </span>
           )}
