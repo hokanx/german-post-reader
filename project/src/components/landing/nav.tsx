@@ -20,7 +20,10 @@ export function LandingNav() {
   const copy = MARKETING_COPY[locale];
 
   return (
-    <header dir={copy.dir} className="sticky top-0 z-40 border-b-2 border-border bg-background/95 backdrop-blur">
+    <header
+      dir={copy.dir}
+      className="sticky top-0 z-40 border-b-2 border-border bg-background/95 pt-[env(safe-area-inset-top)] backdrop-blur"
+    >
       <div className="mx-auto flex max-w-6xl items-center justify-between gap-2 px-4 py-3 sm:px-6 sm:py-4">
         <Link
           href="/"
