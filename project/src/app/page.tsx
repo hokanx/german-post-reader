@@ -2,10 +2,13 @@ import { LocaleProvider } from "@/components/landing/locale-context";
 import { LandingNav } from "@/components/landing/nav";
 import { Hero } from "@/components/landing/hero";
 import { HowItWorks } from "@/components/landing/how-it-works";
-import { TrustCallout } from "@/components/landing/trust-callout";
+import { RealLetterCompare } from "@/components/landing/real-letter-compare";
+import { PrivacySection } from "@/components/landing/privacy-section";
 import { ValueStack } from "@/components/landing/value-stack";
 import { Bonuses } from "@/components/landing/bonuses";
 import { DemoPitch } from "@/components/landing/demo-pitch";
+import { FaqSection } from "@/components/landing/faq-section";
+import { PassItOn } from "@/components/landing/pass-it-on";
 import { ShareSourceTracker } from "@/components/landing/share-source-tracker";
 import { CtaBand } from "@/components/landing/cta-band";
 import { LandingFooter } from "@/components/landing/footer";
@@ -46,7 +49,8 @@ export default async function Home({
       <main className="flex-1">
         <Hero />
         <HowItWorks />
-        <TrustCallout />
+        <RealLetterCompare />
+        <PrivacySection />
         {DEMO_MODE ? (
           <DemoPitch registeredCount={registeredCount} />
         ) : (
@@ -55,6 +59,8 @@ export default async function Home({
             <Bonuses />
           </>
         )}
+        <FaqSection />
+        <PassItOn />
         <CtaBand />
       </main>
       <LandingFooter />

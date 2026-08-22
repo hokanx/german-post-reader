@@ -68,7 +68,7 @@ export function ShareButtons({ copy }: { copy: ShareButtonsCopy }) {
 
     let file: File;
     try {
-      const response = await fetch("/api/poster");
+      const response = await fetch("/share-cards/story.png");
       if (!response.ok) throw new Error(`poster fetch failed: ${response.status}`);
       const blob = await response.blob();
       file = new File([blob], "papkram-story.png", { type: "image/png" });

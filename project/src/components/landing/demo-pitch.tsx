@@ -4,7 +4,6 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { motion, useReducedMotion } from "framer-motion";
 import { buttonVariants } from "@/components/ui/button";
-import { ShareButtons } from "@/components/share-buttons";
 import { FREE_LETTER_LIMIT } from "@/lib/constants";
 import { useMarketingLocale } from "./locale-context";
 import { MARKETING_COPY } from "./copy";
@@ -69,26 +68,6 @@ export function DemoPitch({ registeredCount }: { registeredCount: number | null 
           >
             {copy.demoPitch.cta}
           </Link>
-
-          <div className="mt-6 border-t-2 border-border pt-6">
-            <p className="mb-3 text-sm font-bold text-foreground">{copy.demoPitch.share.heading}</p>
-            <ShareButtons
-              copy={{
-                shareTwitter: copy.demoPitch.share.twitter,
-                shareWhatsapp: copy.demoPitch.share.whatsapp,
-                shareCopyLink: copy.demoPitch.share.copyLink,
-                sharePoster: copy.demoPitch.share.poster,
-                shareTweetText: copy.demoPitch.share.tweetText,
-                shareWhatsappText: copy.demoPitch.share.whatsappText,
-                posterCaptionText: copy.demoPitch.share.posterCaptionText,
-                posterPreparingToast: copy.demoPitch.share.posterPreparingToast,
-                linkCopiedToast: copy.demoPitch.share.linkCopiedToast,
-                linkCopyFailed: copy.demoPitch.share.linkCopyFailed,
-                posterShareFailed: copy.demoPitch.share.posterShareFailed,
-                posterFallbackToast: copy.demoPitch.share.posterFallbackToast,
-              }}
-            />
-          </div>
         </motion.div>
       </div>
     </section>

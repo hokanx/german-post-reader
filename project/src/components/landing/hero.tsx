@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { motion, useReducedMotion } from "framer-motion";
-import { CalendarClock } from "lucide-react";
+import { CalendarClock, Lock, ShieldCheck, Server } from "lucide-react";
 import { buttonVariants } from "@/components/ui/button";
 import { FREE_LETTER_LIMIT } from "@/lib/constants";
 import { StampBadge } from "./stamp-badge";
@@ -84,6 +84,21 @@ export function Hero() {
           {mockup.reply}
         </div>
       </motion.div>
+
+      <motion.ul
+        dir={copy.dir}
+        initial={shouldReduceMotion ? false : { opacity: 0, y: 12 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.4, delay: shouldReduceMotion ? 0 : 0.4 }}
+        className="col-span-full mt-4 flex flex-wrap items-center justify-center gap-x-6 gap-y-2 md:justify-start"
+      >
+        {[Lock, ShieldCheck, Server].map((Icon, i) => (
+          <li key={copy.hero.trustBadges[i]} className="flex items-center gap-1.5 text-xs font-medium text-foreground/60">
+            <Icon className="size-4 shrink-0" strokeWidth={1.5} aria-hidden="true" />
+            {copy.hero.trustBadges[i]}
+          </li>
+        ))}
+      </motion.ul>
     </section>
   );
 }
