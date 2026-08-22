@@ -41,10 +41,11 @@ function TelegramIcon({ className }: { className?: string }) {
   );
 }
 
-function shareUrl(base: string, via: SharePlatform) {
+function shareUrl(base: string, via: SharePlatform, locale: string) {
   const url = new URL(base);
   url.searchParams.set("src", "share");
   url.searchParams.set("via", via);
+  url.searchParams.set("lang", locale);
   return url.toString();
 }
 
@@ -68,7 +69,7 @@ export function PassItOn() {
 
   function landingUrl(via: SharePlatform) {
     const origin = typeof window !== "undefined" ? window.location.origin : "https://papkram.de";
-    return shareUrl(origin, via);
+    return shareUrl(origin, via, locale);
   }
 
   // Every "send it in" button first tries to hand the OS share sheet the

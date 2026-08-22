@@ -1,4 +1,5 @@
 import { LocaleProvider } from "@/components/landing/locale-context";
+import type { MarketingLocale } from "@/components/landing/locale-context";
 import { LandingNav } from "@/components/landing/nav";
 import { Hero } from "@/components/landing/hero";
 import { TrustBadgeStrip } from "@/components/landing/trust-badge-strip";
@@ -17,13 +18,21 @@ import { DEMO_MODE } from "@/lib/constants";
 import { createServiceClient } from "@/lib/supabase/service";
 import { countRegisteredUsers } from "@/lib/profile/count-registered";
 
+const VALID_LOCALES: readonly MarketingLocale[] = ["en", "ar", "tr"];
+
 export default async function Home({
   searchParams,
 }: {
-  searchParams: Promise<{ src?: string; via?: string }>;
+  searchParams: Promise<{ src?: string; via?: string; lang?: string }>;
 }) {
-  const language = await getPreAuthLanguage();
-  const { src, via } = await searchParams;
+  const cookieLanguage = await getPreAuthLanguage();
+  const { src, via, lang } = await searchParams;
+
+  // A share link (`?lang=...`) carries the sharer's own language, so the
+  // page opens in that language even for a visitor with no marketing_locale
+  // cookie of their own yet — takes priority over the cookie default.
+  const sharedLocale = VALID_LOCALES.includes(lang as MarketingLocale) ? (lang as MarketingLocale) : null;
+  const language = sharedLocale ?? cookieLanguage;
 
   // Absence of a count (query failure, or createServiceClient() throwing —
   // e.g. SUPABASE_SERVICE_ROLE_KEY unset) must render as "no counter shown",
@@ -44,7 +53,7 @@ export default async function Home({
 
   return (
     <LocaleProvider initialLocale={language}>
-      <ShareSourceTracker src={src} via={via} />
+      <ShareSourceTracker src={src} via={via} sharedLocale={sharedLocale} />
       <LandingNav />
       <main className="flex-1">
         <Hero registeredCount={registeredCount} />

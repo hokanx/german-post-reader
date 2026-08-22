@@ -41,7 +41,7 @@ export default async function WelcomePage() {
 
             <div className="mt-10 rounded-md border-2 border-border bg-card p-6 text-start shadow-[4px_4px_0_0_var(--border)]">
               <p className="mb-4 text-center text-sm font-bold text-foreground">{copy.shareHeading}</p>
-              <ShareButtons copy={copy} />
+              <ShareButtons copy={copy} language={language} />
             </div>
 
             <Link
