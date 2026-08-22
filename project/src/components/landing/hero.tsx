@@ -4,8 +4,8 @@ import Link from "next/link";
 import { motion, useReducedMotion } from "framer-motion";
 import { buttonVariants } from "@/components/ui/button";
 import { PapkramLogo } from "@/components/papkram-logo";
-import { DEMO_MODE, FREE_LETTER_LIMIT } from "@/lib/constants";
-import { StampBadge } from "./stamp-badge";
+import { DEMO_MODE } from "@/lib/constants";
+import { HeroFlowGraphic } from "./hero-flow-graphic";
 import { LiveCounter } from "./live-counter";
 import { useMarketingLocale } from "./locale-context";
 import { MARKETING_COPY } from "./copy";
@@ -41,12 +41,8 @@ export function Hero({ registeredCount }: { registeredCount: number | null }) {
             Papkram
           </span>
         </motion.div>
-        <motion.div variants={fadeRise} className="relative mb-8 w-fit">
-          <StampBadge
-            label={copy.hero.stampBadge(FREE_LETTER_LIMIT)}
-            className="rotate-[-4deg]"
-            dir={copy.dir}
-          />
+        <motion.div variants={fadeRise}>
+          <HeroFlowGraphic label={copy.hero.graphicLabel} />
         </motion.div>
         <motion.h1
           variants={fadeRise}

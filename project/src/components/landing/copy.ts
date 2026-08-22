@@ -30,6 +30,7 @@ export type MarketingCopy = {
     trustBadges: [string, string, string];
     counterLabel: string;
     demoStatus: string;
+    graphicLabel: string;
   };
   howItWorks: {
     eyebrow: string;
@@ -114,6 +115,7 @@ export const MARKETING_COPY: Record<MarketingLocale, MarketingCopy> = {
       counterLabel: "people signed up for early access",
       demoStatus:
         "Papkram is still in demo. We open it to everyone once enough people have signed up — every sign-up brings the launch closer.",
+      graphicLabel: "A German letter processed by Papkram into a plain summary with a deadline",
     },
     howItWorks: {
       eyebrow: "How it works",
@@ -313,6 +315,7 @@ export const MARKETING_COPY: Record<MarketingLocale, MarketingCopy> = {
       counterLabel: "شخصًا سجلوا للوصول المبكر",
       demoStatus:
         "لا يزال Papkram في مرحلة العرض التجريبي. سنفتحه للجميع عندما يسجل عدد كافٍ من الأشخاص — كل تسجيل يقرّب موعد الإطلاق.",
+      graphicLabel: "خطاب ألماني تتم معالجته بواسطة Papkram إلى ملخص واضح مع موعد نهائي",
     },
     howItWorks: {
       eyebrow: "كيف يعمل",
@@ -512,6 +515,7 @@ export const MARKETING_COPY: Record<MarketingLocale, MarketingCopy> = {
       counterLabel: "kişi erken erişim için kaydoldu",
       demoStatus:
         "Papkram henüz demo aşamasında. Yeterli sayıda kişi kaydolduğunda herkesin kullanımına açıyoruz — her yeni kayıt lansmanı yakınlaştırıyor.",
+      graphicLabel: "Papkram tarafından işlenen bir Alman mektubunun sade bir özete ve son tarihe dönüştürülmesi",
     },
     howItWorks: {
       eyebrow: "Nasıl çalışır",
