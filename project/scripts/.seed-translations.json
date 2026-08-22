@@ -1,0 +1,776 @@
+{
+  "ar": [
+    {
+      "summary": "يُظهر كشف حساب الكهرباء السنوي لعام 2025 أنك استهلكت طاقة أكثر مما غطته مدفوعاتك الشهرية. أنت مدين بمبلغ إضافي قدره 187,42 يورو.",
+      "deadlines": [
+        {
+          "date": "2026-02-28",
+          "description": "دفع الرصيد المتبقي وقدره 187,42 يورو إلى Stadtwerke München"
+        }
+      ],
+      "riskFlags": [],
+      "payments": [
+        {
+          "description": "المبلغ المستحق عليك",
+          "amount": "187,42 €",
+          "source_quote": "Nachzahlung: 187,42 €"
+        }
+      ],
+      "appointments": [],
+      "keyFacts": [
+        {
+          "label": "الموعد النهائي للدفع",
+          "value": "28. Februar 2026",
+          "source_quote": "fällig zum 28.02.2026"
+        }
+      ],
+      "replyDraftTranslation": "السادة Stadtwerke München المحترمون،\n\nأكتب إليكم لتأكيد استلام تسوية الكهرباء الخاصة بكم والمؤرخة في 15 يناير 2026. سأقوم بتحويل المبلغ المستحق وقدره 187,42 يورو إلى الحساب الموضح قبل تاريخ الاستحقاق.\n\nمع خالص التحيات،"
+    },
+    {
+      "summary": "تؤكد شركة التأمين الصحي الخاصة بك زيادة اشتراكك الشهري اعتبارًا من 1 مارس 2026 بسبب تغير الدخل الذي أبلغت عنه.",
+      "deadlines": [
+        {
+          "date": "2026-03-01",
+          "description": "يبدأ سريان مبلغ الاشتراك الجديد"
+        }
+      ],
+      "riskFlags": [],
+      "payments": [],
+      "appointments": [],
+      "keyFacts": [
+        {
+          "label": "تاريخ السريان",
+          "value": "1. März 2026",
+          "source_quote": "mit Wirkung zum 01.03.2026"
+        }
+      ],
+      "replyDraftTranslation": "عزيزتي Techniker Krankenkasse،\n\nشكرًا لإبلاغي بمبلغ الاشتراك المحدث الساري اعتبارًا من 1 مارس 2026. ليس لدي أي اعتراض وسأستمر في السداد عبر الخصم المباشر الحالي.\n\nمع أطيب التحيات،"
+    },
+    {
+      "summary": "يطلب مكتب الضرائب مستندات إقرار ضريبة الدخل الخاص بك لعام 2025. إذا لم تقم بالرد، فقد يقومون بتقدير الضريبة المستحقة عليك بأنفسهم — وعادة ما يكون هذا التقدير أعلى من المبلغ الفعلي.",
+      "deadlines": [
+        {
+          "date": "2026-04-15",
+          "description": "تقديم مستندات الإقرار الضريبي لعام 2025"
+        }
+      ],
+      "riskFlags": [
+        "يشير الخطاب إلى رقم مرجعي كان غير مقروء جزئياً في الصورة — يُرجى التحقق جيداً من مطابقته لمراسلاتك السابقة مع مصلحة الضرائب (Finanzamt)."
+      ],
+      "payments": [],
+      "appointments": [],
+      "keyFacts": [
+        {
+          "label": "الموعد النهائي للتقديم",
+          "value": "15 أبريل 2026",
+          "source_quote": "Frist: 15.04.2026"
+        },
+        {
+          "label": "السنة الضريبية",
+          "value": "2025",
+          "source_quote": "Einkommensteuererklärung 2025"
+        }
+      ],
+      "replyDraftTranslation": "السادة مصلحة الضرائب في ميونيخ المحترمون،\n\nأقوم حالياً بإعداد إقرار ضريبة الدخل الخاص بي لعام 2025 وسأقوم بتقديمه قبل الموعد النهائي المحدد في 15 أبريل 2026. يُرجى إبلاغي إذا كانت هناك أي مستندات إضافية مطلوبة في هذه الأثناء.\n\nوتفضلوا بقبول فائق الاحترام والتقدير،"
+    },
+    {
+      "summary": "تُخطرك شركة إدارة العقارات التابعة لمالك العقار بإجراء فحص روتيني لنظام التدفئة بالغاز في المبنى الخاص بك.",
+      "deadlines": [],
+      "riskFlags": [],
+      "payments": [],
+      "appointments": [
+        {
+          "description": "فحص نظام التدفئة",
+          "date": "2026-02-10",
+          "source_quote": "Die Überprüfung findet am 10.02.2026 statt"
+        }
+      ],
+      "keyFacts": [],
+      "replyDraftTranslation": "عزيزي/عزيزتي Hausverwaltung Schmidt،\n\nشكرًا لك على الإشعار المتعلق بفحص نظام التدفئة في 10 فبراير 2026. أؤكد أنني سأكون متواجدًا للسماح بالدخول.\n\nمع أطيب التحيات،"
+    },
+    {
+      "summary": "يطلب منك مكتب الهجرة حجز موعد لتجديد تصريح إقامتك قبل انتهاء صلاحيته.",
+      "deadlines": [
+        {
+          "date": "2026-05-20",
+          "description": "ينتهي تصريح الإقامة — يجب التجديد قبل هذا التاريخ"
+        }
+      ],
+      "riskFlags": [
+        "كان تاريخ انتهاء الصلاحية واضحاً، لكن الخطاب يشير أيضاً إلى رابط بوابة حجز المواعيد الذي تعذر قراءته من الصورة — يرجى التحقق من الخطاب الورقي لمعرفة الرابط الصحيح."
+      ],
+      "payments": [],
+      "appointments": [],
+      "keyFacts": [
+        {
+          "label": "تاريخ انتهاء تصريح الإقامة",
+          "value": "20 مايو 2026",
+          "source_quote": "Ihr Aufenthaltstitel läuft am 20.05.2026 ab"
+        }
+      ],
+      "replyDraftTranslation": "عزيزي مكتب شؤون الأجانب في برلين،\n\nأكتب إليكم بخصوص تصريح إقامتي الذي تنتهي صلاحيته في 20 مايو 2026. أود حجز موعد لبدء إجراءات التجديد في أقرب وقت ممكن.\n\nمع خالص التحيات،"
+    },
+    {
+      "summary": "هذا إشعار بشأن رسوم البث الإذاعي والتلفزيوني الألمانية الإلزامية (Rundfunkbeitrag) لتأكيد تسجيلك ومبلغ الدفع ربع السنوي.",
+      "deadlines": [
+        {
+          "date": "2026-02-15",
+          "description": "موعد استحقاق دفع رسوم البث ربع السنوية"
+        }
+      ],
+      "riskFlags": [],
+      "payments": [
+        {
+          "description": "رسوم البث ربع السنوية",
+          "amount": "18,36 €",
+          "source_quote": "vierteljährlicher Beitrag: 18,36 €"
+        }
+      ],
+      "appointments": [],
+      "keyFacts": [
+        {
+          "label": "الموعد النهائي للدفع",
+          "value": "15 فبراير 2026",
+          "source_quote": "fällig am 15.02.2026"
+        }
+      ],
+      "replyDraftTranslation": "عزيزي Beitragsservice،\n\nأؤكد استلام تسجيل رسوم البث (Rundfunkbeitrag) وسأقوم بترتيب دفع المبلغ ربع السنوي قبل 15 فبراير 2026.\n\nمع أطيب التحيات،"
+    },
+    {
+      "summary": "كشف اشتراكاتك التقاعدية السنوي — هذا الخطاب للعلم فقط ويوضح المبالغ المدفوعة في حسابك التقاعدي حتى الآن. لا يلزم اتخاذ أي إجراء.",
+      "deadlines": [],
+      "riskFlags": [],
+      "payments": [],
+      "appointments": [],
+      "keyFacts": [],
+      "replyDraftTranslation": "السادة التأمين التقاعدي الألماني (Deutsche Rentenversicherung) المحترمون،\n\nشكراً لكم على الكشف السنوي لاشتراكات التقاعد الخاصة بي. لقد اطلعت عليه وليس لدي أي استفسارات في الوقت الحالي.\n\nمع أطيب التحيات،"
+    },
+    {
+      "summary": "يحتاج مركز التوظيف (Jobcenter) إلى إثبات محدّث لحالتك الوظيفية الحالية لمواصلة معالجة ملفك.",
+      "deadlines": [
+        {
+          "date": "2026-02-20",
+          "description": "تقديم مستندات التوظيف المحدثة"
+        }
+      ],
+      "riskFlags": [],
+      "payments": [],
+      "appointments": [],
+      "keyFacts": [
+        {
+          "label": "الموعد النهائي للتقديم",
+          "value": "20 فبراير 2026",
+          "source_quote": "bis zum 20.02.2026 einzureichen"
+        }
+      ],
+      "replyDraftTranslation": "السادة Jobcenter Berlin Mitte المحترمون،\n\nأؤكد بهذا أنني سأقوم بتقديم مستندات التوظيف الحالية المطلوبة بحلول 20 فبراير 2026. سأوفر الأوراق المطلوبة في أقرب وقت ممكن.\n\nمع خالص التحيات،"
+    },
+    {
+      "summary": "تأكيد بأن تسجيل عنوانك (Anmeldung) قد تمت معالجته بنجاح. يُرجى الاحتفاظ بهذا لسجلاتك.",
+      "deadlines": [],
+      "riskFlags": [],
+      "payments": [],
+      "appointments": [],
+      "keyFacts": [],
+      "replyDraftTranslation": "السادة مكتب الأحوال المدنية (Bürgeramt) المحترمون،\n\nأشكركم على تأكيد تسجيل عنواني. لا حاجة لأي إجراء إضافي من جانبي.\n\nمع خالص التحيات،"
+    },
+    {
+      "summary": "يُخطرك بنكك بتغيير في جدول رسوم الحساب سيبدأ سريانه اعتباراً من الربع القادم.",
+      "deadlines": [
+        {
+          "date": "2026-04-01",
+          "description": "دخول رسوم الحساب الجديدة حيز التنفيذ"
+        }
+      ],
+      "riskFlags": [
+        "كان مبلغ الرسم الشهري الجديد مطبوعاً بخط صغير ومحجوباً جزئياً بسبب طية في الخطاب — يُرجى تأكيد الرقم الدقيق مباشرة مع فرعك."
+      ],
+      "payments": [
+        {
+          "description": "رسم الحساب الشهري الجديد",
+          "amount": "4,90 €",
+          "source_quote": "neue monatliche Kontoführungsgebühr: 4,90 €"
+        }
+      ],
+      "appointments": [],
+      "keyFacts": [
+        {
+          "label": "تاريخ السريان",
+          "value": "1 أبريل 2026",
+          "source_quote": "gültig ab dem 01.04.2026"
+        }
+      ],
+      "replyDraftTranslation": "السادة Sparkasse Berlin المحترمون،\n\nأحيط علماً بجدول الرسوم الجديد الساري اعتباراً من 1 أبريل 2026، وليس لدي أي اعتراض.\n\nمع خالص التحيات،"
+    },
+    {
+      "summary": "فشلت محاولة تسليم طرد بينما كنت خارج المنزل. يتم الاحتفاظ به في نقطة استلام DHL محلية لمدة 7 أيام.",
+      "deadlines": [
+        {
+          "date": "2026-02-06",
+          "description": "استلام الطرد من نقطة استلام DHL"
+        }
+      ],
+      "riskFlags": [],
+      "payments": [],
+      "appointments": [],
+      "keyFacts": [
+        {
+          "label": "الموعد النهائي للاستلام",
+          "value": "6 فبراير 2026",
+          "source_quote": "Abholung bis 06.02.2026 möglich"
+        }
+      ],
+      "replyDraftTranslation": "لا يلزم الرد على هذا الإشعار. يُرجى إحضار بطاقة الاستلام وبطاقة هوية إلى محطة DHL Packstation بحلول 6 فبراير 2026."
+    },
+    {
+      "summary": "تُبلغك مدرسة طفلك باجتماع أولياء الأمور والمعلمين القادم وتطلب منك تأكيد موعد.",
+      "deadlines": [
+        {
+          "date": "2026-02-12",
+          "description": "تأكيد موعد اجتماع أولياء الأمور والمعلمين"
+        }
+      ],
+      "riskFlags": [],
+      "payments": [],
+      "appointments": [],
+      "keyFacts": [
+        {
+          "label": "الموعد النهائي للتأكيد",
+          "value": "12 فبراير 2026",
+          "source_quote": "Bitte bestätigen Sie bis zum 12.02.2026"
+        }
+      ],
+      "replyDraftTranslation": "السادة مدرسة Grundschule am Rathaus المحترمون،\n\nأشكركم على الدعوة لاجتماع أولياء الأمور والمعلمين. أود تأكيد حضوري وأطلب تحديد موعد مناسب بحلول 12 فبراير 2026.\n\nمع خالص التحيات،"
+    },
+    {
+      "summary": "إشعار تجديد تأمين سيارتك — يرتفع القسط السنوي قليلاً بسبب تعديل في السعر الإقليمي.",
+      "deadlines": [
+        {
+          "date": "2026-03-15",
+          "description": "دخول التجديد حيز التنفيذ وتطبيق القسط الجديد"
+        }
+      ],
+      "riskFlags": [],
+      "payments": [
+        {
+          "description": "القسط السنوي الجديد",
+          "amount": "412,50 €",
+          "source_quote": "neue Jahresprämie: 412,50 €"
+        }
+      ],
+      "appointments": [],
+      "keyFacts": [
+        {
+          "label": "تاريخ التجديد",
+          "value": "15 مارس 2026",
+          "source_quote": "Verlängerung zum 15.03.2026"
+        }
+      ],
+      "replyDraftTranslation": "السادة HUK-COBURG المحترمون،\n\nأحيط علماً بالقسط الجديد لتجديد الوثيقة اعتباراً من 15 مارس 2026 وسأستمر في الخطة الحالية.\n\nمع خالص التحيات،"
+    },
+    {
+      "summary": "يُخطرك مزود خدمة الإنترنت بانتهاء الخصم الترويجي، وستزداد فاتورتك الشهرية.",
+      "deadlines": [
+        {
+          "date": "2026-03-01",
+          "description": "بدء التسعير القياسي بعد انتهاء الفترة الترويجية"
+        }
+      ],
+      "riskFlags": [],
+      "payments": [
+        {
+          "description": "السعر الشهري الجديد بعد انتهاء العرض الترويجي",
+          "amount": "39,99 €",
+          "source_quote": "regulärer monatlicher Preis: 39,99 €"
+        }
+      ],
+      "appointments": [],
+      "keyFacts": [
+        {
+          "label": "بداية التسعير القياسي",
+          "value": "1 مارس 2026",
+          "source_quote": "ab dem 01.03.2026"
+        }
+      ],
+      "replyDraftTranslation": "السادة Vodafone المحترمون،\n\nأشكركم على إبلاغي بانتهاء الخصم الترويجي على باقة الإنترنت الخاصة بي قبل 1 مارس 2026. يُرجى إعلامي في حال توفر أي عروض حالية للاحتفاظ بالعميل.\n\nمع خالص التحيات،"
+    },
+    {
+      "summary": "فاتورة عن أعمال إصلاح كهربائية تم تنفيذها في شقتك الشهر الماضي.",
+      "deadlines": [
+        {
+          "date": "2026-02-25",
+          "description": "دفع فاتورة الأعمال الكهربائية المكتملة"
+        }
+      ],
+      "riskFlags": [],
+      "payments": [
+        {
+          "description": "المبلغ المستحق للفاتورة",
+          "amount": "245,80 €",
+          "source_quote": "Rechnungsbetrag: 245,80 €"
+        }
+      ],
+      "appointments": [],
+      "keyFacts": [
+        {
+          "label": "الموعد النهائي للفاتورة",
+          "value": "25 فبراير 2026",
+          "source_quote": "Zahlbar bis 25.02.2026"
+        }
+      ],
+      "replyDraftTranslation": "السادة Elektro Meier المحترمون،\n\nأشكركم على إتمام أعمال الإصلاح. أؤكد استلام الفاتورة وسأقوم بالدفع قبل 25 فبراير 2026.\n\nمع خالص التحيات،"
+    },
+    {
+      "summary": "إشعار بزيادة طفيفة في رسم جمع النفايات السنوي، تسري اعتباراً من فاتورتك القادمة.",
+      "deadlines": [],
+      "riskFlags": [],
+      "payments": [
+        {
+          "description": "رسم جمع النفايات السنوي الجديد",
+          "amount": "186,00 €",
+          "source_quote": "neue Jahresgebühr: 186,00 €"
+        }
+      ],
+      "appointments": [],
+      "keyFacts": [],
+      "replyDraftTranslation": "السادة BSR المحترمون،\n\nأحيط علماً بالرسم الجديد لجمع النفايات وليس لدي أي استفسارات في الوقت الحالي.\n\nمع خالص التحيات،"
+    },
+    {
+      "summary": "يدعوك مزود التأمين الصحي الخاص بك إلى فحص صحي وقائي مجاني متاح مرة كل عامين.",
+      "deadlines": [],
+      "riskFlags": [],
+      "payments": [],
+      "appointments": [],
+      "keyFacts": [],
+      "replyDraftTranslation": "السادة AOK Nordost المحترمون،\n\nأشكركم على الدعوة للفحص الصحي الوقائي. أود تحديد موعد حسب التوفر.\n\nمع خالص التحيات،"
+    },
+    {
+      "summary": "يُطلب منك المثول كشاهد في قضية مدنية بسيطة. هذا استدعاء قضائي رسمي، وليس غرامة أو اتهاماً موجهاً إليك.",
+      "deadlines": [],
+      "riskFlags": [
+        "هذا استدعاء قانوني رسمي — كان رقم قاعة المحكمة صعب القراءة من الصورة. يُرجى تأكيد رقم القاعة قبل موعد المثول."
+      ],
+      "payments": [],
+      "appointments": [
+        {
+          "description": "المثول كشاهد",
+          "date": "2026-03-10",
+          "source_quote": "Sie werden geladen für den 10.03.2026"
+        }
+      ],
+      "keyFacts": [],
+      "replyDraftTranslation": "السادة محكمة Amtsgericht Berlin-Mitte المحترمون،\n\nأؤكد استلام استدعاء الشهادة الخاص بتاريخ 10 مارس 2026 وسأحضر كما هو مطلوب. يُرجى إعلامي في حال وجود مستندات يجب إحضارها.\n\nمع خالص التحيات،"
+    },
+    {
+      "summary": "كشف حساب تكلفة التدفئة السنوي من شركة قياس عدادات المبنى. هذا للعلم فقط ويُظهر حصتك من تكاليف تدفئة المبنى.",
+      "deadlines": [],
+      "riskFlags": [],
+      "payments": [
+        {
+          "description": "حصتك من تكاليف التدفئة",
+          "amount": "312,45 €",
+          "source_quote": "Ihr Anteil: 312,45 €"
+        }
+      ],
+      "appointments": [],
+      "keyFacts": [],
+      "replyDraftTranslation": "السادة Techem المحترمون،\n\nأشكركم على كشف حساب تكلفة التدفئة السنوي. راجعت الأرقام وليس لدي أي استفسارات.\n\nمع خالص التحيات،"
+    },
+    {
+      "summary": "تأكيد بأن طلب إعادة توجيه بريدك إلى عنوانك الجديد قد تم إعداده بنجاح.",
+      "deadlines": [],
+      "riskFlags": [],
+      "payments": [],
+      "appointments": [],
+      "keyFacts": [],
+      "replyDraftTranslation": "السادة Deutsche Post المحترمون،\n\nأشكركم على تأكيد طلب إعادة توجيه بريدي. لا حاجة لأي إجراء إضافي.\n\nمع خالص التحيات،"
+    }
+  ],
+  "tr": [
+    {
+      "summary": "2025 yılı elektrik yıllık hesap özetiniz, aylık ödemelerinizin karşıladığından daha fazla enerji tükettiğinizi gösteriyor. 187,42 € ek ödeme borcunuz bulunuyor.",
+      "deadlines": [
+        {
+          "date": "2026-02-28",
+          "description": "187,42 € bakiyeyi Stadtwerke München'e ödeyin"
+        }
+      ],
+      "riskFlags": [],
+      "payments": [
+        {
+          "description": "Borçlu olduğunuz tutar",
+          "amount": "187,42 €",
+          "source_quote": "Nachzahlung: 187,42 €"
+        }
+      ],
+      "appointments": [],
+      "keyFacts": [
+        {
+          "label": "Ödeme son tarihi",
+          "value": "28 Şubat 2026",
+          "source_quote": "fällig zum 28.02.2026"
+        }
+      ],
+      "replyDraftTranslation": "Sayın Stadtwerke München yetkilileri,\n\n15 Ocak 2026 tarihli elektrik faturanızın alındığını bu yazıyla onaylıyorum. Belirtilen hesaba 187,42 € tutarındaki bakiyeyi son ödeme tarihinden önce göndereceğim.\n\nSaygılarımla,"
+    },
+    {
+      "summary": "Sağlık sigortanız, bildirdiğiniz gelirde değişiklik olduğu için aylık katkı payınızın 1 Mart 2026 tarihinden itibaren artacağını onaylıyor.",
+      "deadlines": [
+        {
+          "date": "2026-03-01",
+          "description": "Yeni katkı payı tutarı yürürlüğe girer"
+        }
+      ],
+      "riskFlags": [],
+      "payments": [],
+      "appointments": [],
+      "keyFacts": [
+        {
+          "label": "Yürürlük tarihi",
+          "value": "1 Mart 2026",
+          "source_quote": "mit Wirkung zum 01.03.2026"
+        }
+      ],
+      "replyDraftTranslation": "Sayın Techniker Krankenkasse yetkilileri,\n\n1 Mart 2026 tarihinden itibaren geçerli olacak yeni katkı payı oranı hakkındaki bilgilendirme için teşekkür ederim. Herhangi bir itirazım yok ve ödemeye mevcut otomatik ödeme talimatıyla devam edeceğim.\n\nSaygılarımla,"
+    },
+    {
+      "summary": "Vergi dairesi, 2025 yılı gelir vergisi beyannamenize ait belgeleri talep ediyor. Yanıt vermezseniz, ödemeniz gereken vergiyi kendileri tahmin edebilir — bu tahmin genellikle gerçek tutardan daha yüksek olur.",
+      "deadlines": [
+        {
+          "date": "2026-04-15",
+          "description": "2025 vergi beyannamesi belgelerini gönderin"
+        }
+      ],
+      "riskFlags": [
+        "Mektupta kısmen okunaksız olan bir referans numarasından bahsediliyor — bunun Finanzamt ile önceki yazışmalarınızla eşleştiğini kontrol edin."
+      ],
+      "payments": [],
+      "appointments": [],
+      "keyFacts": [
+        {
+          "label": "Gönderim son tarihi",
+          "value": "15 Nisan 2026",
+          "source_quote": "Frist: 15.04.2026"
+        },
+        {
+          "label": "Vergi yılı",
+          "value": "2025",
+          "source_quote": "Einkommensteuererklärung 2025"
+        }
+      ],
+      "replyDraftTranslation": "Sayın Finanzamt München yetkilileri,\n\n2025 yılına ait gelir vergisi beyannamemi hazırlamaktayım ve 15 Nisan 2026 son tarihine kadar göndereceğim. Bu süre zarfında ek belge gerekirse lütfen bana bildirin.\n\nSaygılarımla,"
+    },
+    {
+      "summary": "Ev sahibinizin yönetim şirketi, binanızda yapılacak rutin bir gaz kaloriferi denetimi hakkında sizi bilgilendiriyor.",
+      "deadlines": [],
+      "riskFlags": [],
+      "payments": [],
+      "appointments": [
+        {
+          "description": "Kalorifer denetimi",
+          "date": "2026-02-10",
+          "source_quote": "Die Überprüfung findet am 10.02.2026 statt"
+        }
+      ],
+      "keyFacts": [],
+      "replyDraftTranslation": "Sayın Hausverwaltung Schmidt yetkilileri,\n\n10 Şubat 2026 tarihindeki kalorifer denetimi bildirimi için teşekkür ederim. Girişe izin vermek üzere evde bulunacağımı onaylıyorum.\n\nSaygılarımla,"
+    },
+    {
+      "summary": "Göçmenlik dairesi, oturma izninizin süresi dolmadan önce yenileme için randevu almanızı istiyor.",
+      "deadlines": [
+        {
+          "date": "2026-05-20",
+          "description": "Oturma izni süresi doluyor — bu tarihten önce yenileyin"
+        }
+      ],
+      "riskFlags": [
+        "Son geçerlilik tarihi netti, ancak mektupta fotoğraftan okunamayan bir randevu alma portalı bağlantısına da atıfta bulunuluyor — doğru URL için orijinal mektubu kontrol edin."
+      ],
+      "payments": [],
+      "appointments": [],
+      "keyFacts": [
+        {
+          "label": "Oturma izni bitiş tarihi",
+          "value": "20 Mayıs 2026",
+          "source_quote": "Ihr Aufenthaltstitel läuft am 20.05.2026 ab"
+        }
+      ],
+      "replyDraftTranslation": "Sayın Ausländerbehörde Berlin yetkilileri,\n\n20 Mayıs 2026 tarihinde sona erecek oturma iznim hakkında yazıyorum. Yenileme sürecini başlatmak için mümkün olan en kısa sürede bir randevu almak istiyorum.\n\nSaygılarımla,"
+    },
+    {
+      "summary": "Bu, zorunlu Alman yayın ücretinizin (Rundfunkbeitrag) kaydınızı ve üç aylık ödeme tutarınızı onaylayan resmi bildirimdir.",
+      "deadlines": [
+        {
+          "date": "2026-02-15",
+          "description": "Üç aylık yayın ücreti ödemesi son tarihi"
+        }
+      ],
+      "riskFlags": [],
+      "payments": [
+        {
+          "description": "Üç aylık yayın ücreti",
+          "amount": "18,36 €",
+          "source_quote": "vierteljährlicher Beitrag: 18,36 €"
+        }
+      ],
+      "appointments": [],
+      "keyFacts": [
+        {
+          "label": "Ödeme son tarihi",
+          "value": "15 Şubat 2026",
+          "source_quote": "fällig am 15.02.2026"
+        }
+      ],
+      "replyDraftTranslation": "Sayın Beitragsservice yetkilileri,\n\nRundfunkbeitrag kaydımın onay yazısını aldığımı bildiririm ve üç aylık tutarın ödemesini 15 Şubat 2026 tarihinden önce gerçekleştireceğim.\n\nSaygılarımla,"
+    },
+    {
+      "summary": "Yıllık emeklilik katkı payı bildiriminiz — bu yalnızca bilgilendirme amaçlıdır ve şimdiye kadar emekliliğinize ne kadar ödendiğini gösterir. Herhangi bir işlem gerekmiyor.",
+      "deadlines": [],
+      "riskFlags": [],
+      "payments": [],
+      "appointments": [],
+      "keyFacts": [],
+      "replyDraftTranslation": "Sayın Deutsche Rentenversicherung yetkilileri,\n\nYıllık emeklilik katkı payı bildirimi için teşekkür ederim. Bilgileri inceledim ve şu an için herhangi bir sorum bulunmuyor.\n\nSaygılarımla,"
+    },
+    {
+      "summary": "Jobcenter, davanızın işlenmeye devam edebilmesi için güncel istihdam durumunuza dair güncellenmiş bir kanıt talep ediyor.",
+      "deadlines": [
+        {
+          "date": "2026-02-20",
+          "description": "Güncellenmiş istihdam belgelerini gönderin"
+        }
+      ],
+      "riskFlags": [],
+      "payments": [],
+      "appointments": [],
+      "keyFacts": [
+        {
+          "label": "Gönderim son tarihi",
+          "value": "20 Şubat 2026",
+          "source_quote": "bis zum 20.02.2026 einzureichen"
+        }
+      ],
+      "replyDraftTranslation": "Sayın Jobcenter Berlin Mitte yetkilileri,\n\nTalep edilen güncel istihdam belgelerini 20 Şubat 2026 tarihine kadar göndereceğimi bu yazıyla onaylıyorum. Belgeleri mümkün olan en kısa sürede sağlayacağım.\n\nSaygılarımla,"
+    },
+    {
+      "summary": "Adres kaydınızın (Anmeldung) başarıyla işlendiğine dair onay. Bunu kayıtlarınız için saklayın.",
+      "deadlines": [],
+      "riskFlags": [],
+      "payments": [],
+      "appointments": [],
+      "keyFacts": [],
+      "replyDraftTranslation": "Sayın Bürgeramt yetkilileri,\n\nAdres kaydımın onaylandığı için teşekkür ederim. Benim tarafımdan başka bir işlem gerekmemektedir.\n\nSaygılarımla,"
+    },
+    {
+      "summary": "Bankanız, gelecek çeyrekten itibaren geçerli olacak hesap ücret tarifesindeki bir değişikliği size bildiriyor.",
+      "deadlines": [
+        {
+          "date": "2026-04-01",
+          "description": "Yeni hesap ücretleri yürürlüğe girer"
+        }
+      ],
+      "riskFlags": [
+        "Yeni aylık ücret tutarı küçük punto ile basılmış ve mektuptaki bir katlanma nedeniyle kısmen görünmüyordu — kesin rakamı doğrudan şubenizle teyit edin."
+      ],
+      "payments": [
+        {
+          "description": "Yeni aylık hesap ücreti",
+          "amount": "4,90 €",
+          "source_quote": "neue monatliche Kontoführungsgebühr: 4,90 €"
+        }
+      ],
+      "appointments": [],
+      "keyFacts": [
+        {
+          "label": "Yürürlük tarihi",
+          "value": "1 Nisan 2026",
+          "source_quote": "gültig ab dem 01.04.2026"
+        }
+      ],
+      "replyDraftTranslation": "Sayın Sparkasse Berlin yetkilileri,\n\n1 Nisan 2026 tarihinden itibaren geçerli olacak yeni ücret tarifesini not ettim ve herhangi bir itirazım bulunmuyor.\n\nSaygılarımla,"
+    },
+    {
+      "summary": "Siz evde yokken bir paket teslimat denemesi başarısız oldu. Paket, 7 gün boyunca yerel bir DHL teslim alma noktasında bekletiliyor.",
+      "deadlines": [
+        {
+          "date": "2026-02-06",
+          "description": "Paketi DHL teslim alma noktasından teslim alın"
+        }
+      ],
+      "riskFlags": [],
+      "payments": [],
+      "appointments": [],
+      "keyFacts": [
+        {
+          "label": "Teslim alma son tarihi",
+          "value": "6 Şubat 2026",
+          "source_quote": "Abholung bis 06.02.2026 möglich"
+        }
+      ],
+      "replyDraftTranslation": "Bu yazışma için bir yanıt gerekmemektedir. Teslim alma kartını ve kimliğinizi 6 Şubat 2026 tarihine kadar DHL Packstation'a götürün."
+    },
+    {
+      "summary": "Çocuğunuzun okulu, yaklaşan veli-öğretmen görüşmesi hakkında sizi bilgilendiriyor ve bir zaman dilimini onaylamanızı istiyor.",
+      "deadlines": [
+        {
+          "date": "2026-02-12",
+          "description": "Veli-öğretmen görüşmesi zaman dilimini onaylayın"
+        }
+      ],
+      "riskFlags": [],
+      "payments": [],
+      "appointments": [],
+      "keyFacts": [
+        {
+          "label": "Onay son tarihi",
+          "value": "12 Şubat 2026",
+          "source_quote": "Bitte bestätigen Sie bis zum 12.02.2026"
+        }
+      ],
+      "replyDraftTranslation": "Sayın Grundschule am Rathaus yetkilileri,\n\nVeli-öğretmen görüşmesine davetiniz için teşekkür ederim. Katılımımı onaylamak istiyor ve 12 Şubat 2026 tarihine kadar uygun bir randevu rica ediyorum.\n\nSaygılarımla,"
+    },
+    {
+      "summary": "Araç sigortası yenileme bildiriminiz — bölgesel oran ayarlaması nedeniyle yıllık priminiz hafifçe artıyor.",
+      "deadlines": [
+        {
+          "date": "2026-03-15",
+          "description": "Yenileme yürürlüğe girer, yeni prim uygulanır"
+        }
+      ],
+      "riskFlags": [],
+      "payments": [
+        {
+          "description": "Yeni yıllık prim",
+          "amount": "412,50 €",
+          "source_quote": "neue Jahresprämie: 412,50 €"
+        }
+      ],
+      "appointments": [],
+      "keyFacts": [
+        {
+          "label": "Yenileme tarihi",
+          "value": "15 Mart 2026",
+          "source_quote": "Verlängerung zum 15.03.2026"
+        }
+      ],
+      "replyDraftTranslation": "Sayın HUK-COBURG yetkilileri,\n\n15 Mart 2026 tarihinden itibaren geçerli olacak poliçe yenileme priminin güncellendiğini not ettim ve mevcut plan ile devam edeceğim.\n\nSaygılarımla,"
+    },
+    {
+      "summary": "İnternet sağlayıcınız, promosyon indiriminizin sona erdiğini ve aylık faturanızın artacağını bildiriyor.",
+      "deadlines": [
+        {
+          "date": "2026-03-01",
+          "description": "Promosyon dönemi sona erdikten sonra standart fiyatlandırma başlar"
+        }
+      ],
+      "riskFlags": [],
+      "payments": [
+        {
+          "description": "Promosyon sona erdikten sonra yeni aylık ücret",
+          "amount": "39,99 €",
+          "source_quote": "regulärer monatlicher Preis: 39,99 €"
+        }
+      ],
+      "appointments": [],
+      "keyFacts": [
+        {
+          "label": "Standart fiyatlandırma başlangıcı",
+          "value": "1 Mart 2026",
+          "source_quote": "ab dem 01.03.2026"
+        }
+      ],
+      "replyDraftTranslation": "Sayın Vodafone yetkilileri,\n\nİnternet tarifemdeki promosyon indiriminin 1 Mart 2026 tarihinden önce sona erdiği bilgisi için teşekkür ederim. Şu anda geçerli sözleşme yenileme teklifleri olup olmadığını bildirmenizi rica ederim.\n\nSaygılarımla,"
+    },
+    {
+      "summary": "Geçen ay dairenizde tamamlanan elektrik onarım işi için bir fatura.",
+      "deadlines": [
+        {
+          "date": "2026-02-25",
+          "description": "Tamamlanan elektrik işi için faturayı ödeyin"
+        }
+      ],
+      "riskFlags": [],
+      "payments": [
+        {
+          "description": "Ödenecek fatura tutarı",
+          "amount": "245,80 €",
+          "source_quote": "Rechnungsbetrag: 245,80 €"
+        }
+      ],
+      "appointments": [],
+      "keyFacts": [
+        {
+          "label": "Fatura son ödeme tarihi",
+          "value": "25 Şubat 2026",
+          "source_quote": "Zahlbar bis 25.02.2026"
+        }
+      ],
+      "replyDraftTranslation": "Sayın Elektro Meier yetkilileri,\n\nOnarım işini tamamladığınız için teşekkür ederim. Faturayı onaylıyorum ve ödemeyi 25 Şubat 2026 tarihinden önce gerçekleştireceğim.\n\nSaygılarımla,"
+    },
+    {
+      "summary": "Yıllık atık toplama ücretinizde, bir sonraki faturanızla birlikte geçerli olacak küçük bir artış bildirimi.",
+      "deadlines": [],
+      "riskFlags": [],
+      "payments": [
+        {
+          "description": "Yeni yıllık atık toplama ücreti",
+          "amount": "186,00 €",
+          "source_quote": "neue Jahresgebühr: 186,00 €"
+        }
+      ],
+      "appointments": [],
+      "keyFacts": [],
+      "replyDraftTranslation": "Sayın BSR yetkilileri,\n\nGüncellenen atık toplama ücretini not ettim ve şu an için herhangi bir sorum bulunmuyor.\n\nSaygılarımla,"
+    },
+    {
+      "summary": "Sağlık sigortanız, her iki yılda bir sunulan ücretsiz koruyucu sağlık kontrolüne sizi davet ediyor.",
+      "deadlines": [],
+      "riskFlags": [],
+      "payments": [],
+      "appointments": [],
+      "keyFacts": [],
+      "replyDraftTranslation": "Sayın AOK Nordost yetkilileri,\n\nKoruyucu sağlık kontrolüne davetiniz için teşekkür ederim. Uygun bir zamanda randevu almak istiyorum.\n\nSaygılarımla,"
+    },
+    {
+      "summary": "Küçük bir hukuk davasında tanık olarak hazır bulunmanız isteniyor. Bu resmi bir mahkeme celbidir, size karşı bir ceza veya suçlama değildir.",
+      "deadlines": [],
+      "riskFlags": [
+        "Bu resmi bir hukuki celptir — fotoğraftan tam mahkeme salonu numarasını okumak zordu. Duruşma tarihinden önce salon numarasını teyit edin."
+      ],
+      "payments": [],
+      "appointments": [
+        {
+          "description": "Tanık olarak hazır bulunun",
+          "date": "2026-03-10",
+          "source_quote": "Sie werden geladen für den 10.03.2026"
+        }
+      ],
+      "keyFacts": [],
+      "replyDraftTranslation": "Sayın Amtsgericht Berlin-Mitte yetkilileri,\n\n10 Mart 2026 tarihli tanık celbinin alındığını onaylıyorum ve talep edildiği şekilde hazır bulunacağım. Getirilmesi gereken belgeler varsa lütfen bana bildirin.\n\nSaygılarımla,"
+    },
+    {
+      "summary": "Binanızın sayaç okuma şirketinden yıllık ısıtma maliyeti hesap özetiniz. Bu bilgilendirme amaçlıdır ve binanın ısıtma maliyetlerindeki payınızı gösterir.",
+      "deadlines": [],
+      "riskFlags": [],
+      "payments": [
+        {
+          "description": "Isıtma maliyetlerindeki payınız",
+          "amount": "312,45 €",
+          "source_quote": "Ihr Anteil: 312,45 €"
+        }
+      ],
+      "appointments": [],
+      "keyFacts": [],
+      "replyDraftTranslation": "Sayın Techem yetkilileri,\n\nYıllık ısıtma maliyeti hesap özeti için teşekkür ederim. Rakamları inceledim ve herhangi bir sorum bulunmuyor.\n\nSaygılarımla,"
+    },
+    {
+      "summary": "Yeni adresinize posta yönlendirme talimatınızın başarıyla ayarlandığına dair onay.",
+      "deadlines": [],
+      "riskFlags": [],
+      "payments": [],
+      "appointments": [],
+      "keyFacts": [],
+      "replyDraftTranslation": "Sayın Deutsche Post yetkilileri,\n\nPosta yönlendirme talimatımın onaylandığı için teşekkür ederim. Benim tarafımdan başka bir işlem gerekmemektedir.\n\nSaygılarımla,"
+    }
+  ]
+}
