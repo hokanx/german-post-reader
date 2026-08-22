@@ -104,3 +104,22 @@
     @apply font-heading font-extrabold tracking-[-0.02em];
   }
 }
+
+/* Sweeps down over the active "how it works" screenshot while it's being
+   "read" — landing/how-it-works.tsx restarts it per step via a reflow. */
+@keyframes pk-scan {
+  0% {
+    opacity: 0;
+    transform: translateY(-100%);
+  }
+  12% {
+    opacity: 1;
+  }
+  88% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(430%);
+  }
+}

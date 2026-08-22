@@ -3,7 +3,9 @@ import type { MarketingLocale } from "./locale-context";
 type MockupCopy = {
   chip: string;
   summary: string;
+  deadlineLabel: string;
   deadline: string;
+  replyLabel: string;
   reply: string;
   dir: "ltr" | "rtl";
 };
@@ -26,10 +28,15 @@ export type MarketingCopy = {
     ctaNote: string;
     mockup: MockupCopy;
     trustBadges: [string, string, string];
+    counterLabel: string;
+    demoStatus: string;
   };
   howItWorks: {
+    eyebrow: string;
     heading: string;
     steps: { title: string; description: string; mockup: StepMockup }[];
+    demoCaption: string;
+    shotAlts: [string, string, string];
   };
   realLetter: {
     eyebrow: string;
@@ -61,6 +68,10 @@ export type MarketingCopy = {
     eyebrow: string;
     heading: string;
     cards: { heading: string; body: string }[];
+    sureHeading: string;
+    sureBody: string;
+    priceChip: (freeLetterLimit: number) => string;
+    priceLine: string;
   };
   faq: {
     eyebrow: string;
@@ -101,12 +112,6 @@ export type MarketingCopy = {
     heading: string;
     items: { name: string; badge?: string; description: (price: string) => string }[];
   };
-  demoPitch: {
-    counter: (registeredCount: number) => string;
-    heading: string;
-    body: (freeLetterLimit: number) => string;
-    cta: string;
-  };
   cta: { badge: string; heading: string; button: string };
   footer: { privacy: string; terms: string; contact: string };
 };
@@ -116,7 +121,7 @@ export const MARKETING_COPY: Record<MarketingLocale, MarketingCopy> = {
     dir: "ltr",
     nav: { logIn: "Log in", startFreeTrial: "Start free trial" },
     hero: {
-      stampBadge: (n) => `${n} FREE LETTERS`,
+      stampBadge: (n) => `${n} letters free`,
       headlineLine1: "Know what it says.",
       headlineLine2: "Know what to do.",
       subhead:
@@ -126,8 +131,10 @@ export const MARKETING_COPY: Record<MarketingLocale, MarketingCopy> = {
       mockup: {
         chip: "Analysis complete",
         summary: "Stadtwerke München is asking for an extra 187,42 € from your 2025 electricity bill.",
+        deadlineLabel: "Deadline",
         deadline: "Pay by 28 Feb 2026",
-        reply: "\u201CI am writing to confirm the payment of 187,42 € was transferred on\u2026\u201D",
+        replyLabel: "Reply draft",
+        reply: "“I am writing to confirm the payment of 187,42 € was transferred on…”",
         dir: "ltr",
       },
       trustBadges: [
@@ -135,8 +142,12 @@ export const MARKETING_COPY: Record<MarketingLocale, MarketingCopy> = {
         "Never used to train AI models",
         "Stored on servers in Germany",
       ],
+      counterLabel: "people signed up for early access",
+      demoStatus:
+        "Papkram is still in demo. We open it to everyone once enough people have signed up — every sign-up brings the launch closer.",
     },
     howItWorks: {
+      eyebrow: "How it works",
       heading: "Three steps. That's it.",
       steps: [
         {
@@ -155,12 +166,18 @@ export const MARKETING_COPY: Record<MarketingLocale, MarketingCopy> = {
           mockup: { label: "Your reply, in German", detail: "Copy reply" },
         },
       ],
+      demoCaption: "Real screens from the app",
+      shotAlts: [
+        "Papkram upload screen",
+        "Papkram plain-language summary with the amount and its source line",
+        "Ready-to-send German reply draft",
+      ],
     },
     realLetter: {
-      eyebrow: "A REAL LETTER",
+      eyebrow: "A real letter",
       heading: "Drag to read your post in plain English.",
       body: "A Bürgergeld decision from the Jobcenter: six paragraphs of SGB II on the left, what it actually means for you on the right.",
-      letterLabel: "THE LETTER YOU RECEIVED",
+      letterLabel: "The letter you received",
       letterSender: "JOBCENTER MÜNCHEN",
       letterRecipient: "Frau A. Osei · Lindwurmstr. 42 · 80337 München",
       letterSubject: "Bescheid über die Bewilligung von Bürgergeld",
@@ -173,21 +190,21 @@ export const MARKETING_COPY: Record<MarketingLocale, MarketingCopy> = {
         "Gegen diesen Bescheid können Sie innerhalb eines Monats nach Bekanntgabe schriftlich oder zur Niederschrift Widerspruch einlegen.",
       letterClosing: "Mit freundlichen Grüßen",
       letterSignature: "i. A. Weber",
-      analysisChip: "ANALYSIS COMPLETE",
+      analysisChip: "Analysis complete",
       analysisHeading: "Your Bürgergeld was approved.",
       analysisBody:
         "Jobcenter München approved the application you sent on 14 January. From 1 February to 31 July 2026 you receive 563,00 € a month — the standard rate plus your accepted rent and heating costs.",
-      deadlineLabel: "ONE DEADLINE",
+      deadlineLabel: "One deadline",
       deadlineBody: "Return the attached Anlage EK form by 28 February 2026.",
       deadlineNote: "If it arrives late, the office can reduce or stop the payments.",
-      rightLabel: "YOUR RIGHT",
+      rightLabel: "Your right",
       rightBody: "You can appeal this decision within one month of receiving it.",
       replyDraftedHeading: "Reply drafted in German",
       replyDraftedBody: "Copy and send — you don't write a word of German.",
       dragHint: "Drag the handle across the letter",
     },
     privacy: {
-      eyebrow: "PRIVACY",
+      eyebrow: "Privacy",
       heading: "Your post is the most private mail you own.",
       cards: [
         {
@@ -202,14 +219,15 @@ export const MARKETING_COPY: Record<MarketingLocale, MarketingCopy> = {
           heading: "German servers",
           body: "Your documents are stored on servers inside Germany, under EU data protection law.",
         },
-        {
-          heading: "We tell you when we're not sure",
-          body: "German bureaucratic letters are dense — amounts and dates matter. If anything in a letter is ambiguous, we flag it plainly instead of guessing. Never a silent guess on a number that could cost you.",
-        },
       ],
+      sureHeading: "We tell you when we're not sure",
+      sureBody:
+        "German bureaucratic letters are dense — amounts and dates matter. If anything in a letter is ambiguous, we flag it plainly instead of guessing. Never a silent guess on a number that could cost you.",
+      priceChip: (n) => `${n} letters free`,
+      priceLine: "No card to start. A paid plan takes over once your free letters are used — cancel any time.",
     },
     faq: {
-      eyebrow: "QUESTIONS",
+      eyebrow: "Questions",
       heading: "The four things people ask.",
       items: [
         {
@@ -235,14 +253,14 @@ export const MARKETING_COPY: Record<MarketingLocale, MarketingCopy> = {
       ],
     },
     passItOn: {
-      eyebrow: "PASS IT ON",
+      eyebrow: "Pass it on",
       heading: "Someone you know has an unopened letter.",
       body: "Send Papkram to the person who forwards you their post to translate. One message saves them a week of worrying.",
       instagramStory: "Instagram Story",
       whatsappStory: "WhatsApp Story",
       imageShareNote:
         "Shares this card as an image, so Instagram Story and WhatsApp Status appear in your phone's share sheet. On desktop it downloads the card instead.",
-      orSendItIn: "OR SEND IT IN",
+      orSendItIn: "Or send it in",
       whatsapp: "WhatsApp",
       messenger: "Messenger",
       telegram: "Telegram",
@@ -252,13 +270,6 @@ export const MARKETING_COPY: Record<MarketingLocale, MarketingCopy> = {
       shareCardHeadline: "Stop guessing what your German post says.",
       posterPreparingToast: "Preparing your card…",
       moreAppsFailed: "Couldn't open the share sheet — try one of the apps above instead.",
-    },
-    demoPitch: {
-      counter: (registeredCount) => `${registeredCount} people signed up for early access`,
-      heading: "Free demo, no card needed.",
-      body: (freeLetterLimit) =>
-        `Try ${freeLetterLimit} real letters. We're not selling yet — sign up and we'll email you the moment Papkram fully launches.`,
-      cta: "Start free demo",
     },
     offer: {
       heading: "Everything you get.",
@@ -335,7 +346,7 @@ export const MARKETING_COPY: Record<MarketingLocale, MarketingCopy> = {
       ],
     },
     cta: {
-      badge: "START TODAY",
+      badge: "Start today",
       heading: "Stop guessing what your mail says.",
       button: "Start free trial",
     },
@@ -345,9 +356,9 @@ export const MARKETING_COPY: Record<MarketingLocale, MarketingCopy> = {
     dir: "rtl",
     nav: { logIn: "تسجيل الدخول", startFreeTrial: "ابدأ تجربتك المجانية" },
     hero: {
-      stampBadge: (n) => `${n} خطابات مجانية`,
-      headlineLine1: "اعرف ماذا يقول.",
-      headlineLine2: "اعرف ماذا تفعل.",
+      stampBadge: (n) => `${n.toLocaleString("ar-EG")} خطابات مجانية`,
+      headlineLine1: "اعرف ما يقوله.",
+      headlineLine2: "واعرف ما عليك فعله.",
       subhead:
         "ترجمة جوجل تمنحك الكلمات. أما Papkram فيمنحك المعنى — ملخص بلغة واضحة، مواعيدك النهائية، ورد جاهز للإرسال، بالإنجليزية أو العربية أو التركية.",
       ctaPrimary: "ابدأ تجربتك المجانية",
@@ -355,17 +366,23 @@ export const MARKETING_COPY: Record<MarketingLocale, MarketingCopy> = {
       mockup: {
         chip: "تم التحليل",
         summary: "شركة كهرباء ميونخ تطلب مبلغاً إضافياً قدره 187,42 € من فاتورة الكهرباء لعام 2025.",
+        deadlineLabel: "الموعد النهائي",
         deadline: "الدفع قبل 28 فبراير 2026",
-        reply: "\u00ABأكتب لأؤكد أن مبلغ 187,42 € تم تحويله بتاريخ...\u00bb",
+        replyLabel: "مسودة الرد",
+        reply: "«أكتب لأؤكد أن مبلغ 187,42 € تم تحويله بتاريخ...»",
         dir: "rtl",
       },
       trustBadges: [
-        "مشفّرة — أنت فقط من يمكنه فتح خطاباتك",
+        "مشفّرة — لا يمكن لأحد غيرك فتح خطاباتك",
         "لا تُستخدم أبدًا لتدريب نماذج الذكاء الاصطناعي",
-        "محفوظة على خوادم في ألمانيا",
+        "مخزّنة على سيرفرات في ألمانيا",
       ],
+      counterLabel: "شخصًا سجلوا للوصول المبكر",
+      demoStatus:
+        "لا يزال Papkram في مرحلة العرض التجريبي. سنفتحه للجميع عندما يسجل عدد كافٍ من الأشخاص — كل تسجيل يقرّب موعد الإطلاق.",
     },
     howItWorks: {
+      eyebrow: "كيف يعمل",
       heading: "ثلاث خطوات. هذا كل شيء.",
       steps: [
         {
@@ -384,11 +401,17 @@ export const MARKETING_COPY: Record<MarketingLocale, MarketingCopy> = {
           mockup: { label: "ردك، بالألمانية", detail: "نسخ الرد" },
         },
       ],
+      demoCaption: "شاشات حقيقية من التطبيق",
+      shotAlts: [
+        "شاشة رفع الخطاب في Papkram",
+        "ملخص بلغة واضحة مع المبلغ ومصدره",
+        "مسودة رد بالألمانية جاهزة للإرسال",
+      ],
     },
     realLetter: {
       eyebrow: "خطاب حقيقي",
-      heading: "اسحب لتقرأ بريدك بلغة عربية واضحة.",
-      body: "قرار بورغرغيلد (Bürgergeld) من مركز التوظيف: فقرات معقدة من قانون SGB II الألماني، مقابل ما تعنيه فعليًا لك بلغة واضحة.",
+      heading: "اسحب لتقرأ بريدك بلغة واضحة.",
+      body: "قرار بشأن إعانة Bürgergeld من الـ Jobcenter: ست فقرات من قانون SGB II على جانب، وما تعنيه فعلاً لك على الجانب الآخر.",
       letterLabel: "الخطاب الذي استلمته",
       letterSender: "JOBCENTER MÜNCHEN",
       letterRecipient: "Frau A. Osei · Lindwurmstr. 42 · 80337 München",
@@ -403,91 +426,85 @@ export const MARKETING_COPY: Record<MarketingLocale, MarketingCopy> = {
       letterClosing: "Mit freundlichen Grüßen",
       letterSignature: "i. A. Weber",
       analysisChip: "تم التحليل",
-      analysisHeading: "تمت الموافقة على طلب البورغرغيلد الخاص بك.",
+      analysisHeading: "تم اعتماد إعانة Bürgergeld الخاصة بك.",
       analysisBody:
-        "وافق مركز التوظيف في ميونخ على الطلب الذي أرسلته في 14 يناير. من 1 فبراير إلى 31 يوليو 2026 ستحصل على 563,00 € شهريًا — المعدل الأساسي بالإضافة إلى تكاليف الإيجار والتدفئة المعتمدة.",
+        "وافق Jobcenter München على الطلب الذي أرسلته في 14 يناير. من 1 فبراير إلى 31 يوليو 2026 ستستلم 563,00 € شهريًا — المبلغ الأساسي إضافة إلى تكاليف الإيجار والتدفئة المعتمدة.",
       deadlineLabel: "موعد نهائي واحد",
-      deadlineBody: "أعد نموذج Anlage EK المرفق بحلول 28 فبراير 2026.",
-      deadlineNote: "إذا وصل متأخرًا، يمكن للمكتب تخفيض المدفوعات أو إيقافها.",
+      deadlineBody: "أعِد نموذج Anlage EK المرفق قبل 28 فبراير 2026.",
+      deadlineNote: "إذا وصل متأخرًا، يمكن للمكتب تقليل الدفعات أو إيقافها.",
       rightLabel: "حقك",
-      rightBody: "يمكنك الطعن في هذا القرار خلال شهر واحد من استلامه.",
-      replyDraftedHeading: "تمت صياغة الرد بالألمانية",
+      rightBody: "يمكنك الاعتراض على هذا القرار خلال شهر واحد من استلامه.",
+      replyDraftedHeading: "رد مُصاغ بالألمانية",
       replyDraftedBody: "انسخه وأرسله — لن تكتب كلمة واحدة بالألمانية.",
       dragHint: "اسحب المقبض عبر الخطاب",
     },
     privacy: {
       eyebrow: "الخصوصية",
-      heading: "بريدك هو أكثر مراسلاتك خصوصية.",
+      heading: "بريدك هو أكثر ما تملكه خصوصية.",
       cards: [
         {
           heading: "تخزين مشفّر",
-          body: "خطاباتك مشفّرة أثناء التخزين. حسابك فقط هو من يمكنه فتحها.",
+          body: "خطاباتك مشفّرة أثناء التخزين. حسابك وحده يمكنه فتحها.",
         },
         {
-          heading: "لا تُدرّب الذكاء الاصطناعي أبدًا",
-          body: "تتم معالجة الملفات المرفوعة فقط لإنشاء ملخصك وردك — ولا شيء غير ذلك. لا يتم تدريب أي نموذج على بريدك.",
+          heading: "لا تدريب للذكاء الاصطناعي",
+          body: "تُعالَج الملفات المرفوعة لإنشاء ملخصك وردك فقط، لا شيء غير ذلك. لا يُدرَّب أي نموذج على بريدك.",
         },
         {
-          heading: "خوادم ألمانية",
-          body: "تُحفظ مستنداتك على خوادم داخل ألمانيا، بموجب قانون حماية البيانات الأوروبي.",
-        },
-        {
-          heading: "نخبرك عندما لا نكون متأكدين",
-          body: "الخطابات الألمانية الرسمية معقدة — المبالغ والتواريخ مهمة. إذا كان أي شيء في الخطاب غامضًا، نشير إليه بوضوح بدلاً من التخمين. لا تخمين صامت لرقم قد يكلفك المال.",
+          heading: "سيرفرات في ألمانيا",
+          body: "تُخزَّن مستنداتك على سيرفرات داخل ألمانيا، بموجب قانون حماية البيانات الأوروبي.",
         },
       ],
+      sureHeading: "نخبرك عندما لا نكون متأكدين",
+      sureBody:
+        "الخطابات الألمانية الرسمية معقدة — المبالغ والتواريخ مهمة. إذا كان أي شيء في الخطاب غامضًا، نشير إليه بوضوح بدلاً من التخمين. لا تخمين صامت لرقم قد يكلفك المال.",
+      priceChip: (n) => `${n.toLocaleString("ar-EG")} خطابات مجانية`,
+      priceLine: "لا بطاقة للبدء. تبدأ الخطة المدفوعة بعد انتهاء خطاباتك المجانية — ألغِ في أي وقت.",
     },
     faq: {
       eyebrow: "أسئلة",
-      heading: "الأسئلة الأربعة الأكثر شيوعًا.",
+      heading: "الأسئلة الأربعة الأكثر تكرارًا.",
       items: [
         {
           question: "ما أنواع الخطابات التي يمكنه قراءتها؟",
           answer:
-            "أي شيء يصل في مظروف ألماني — مكتب الضرائب، مركز التوظيف، رسوم البث، التأمين الصحي، صاحب العقار، شركات المرافق، شركات التأمين، المحاكم. صورة أو ملف PDF، كلاهما يعمل.",
+            "كل ما يأتي في مظروف ألماني — مكتب الضرائب، الـ Jobcenter، رسوم البث، التأمين الصحي، المالك، شركات الخدمات، شركات التأمين، المحاكم. صورة أو ملف PDF، كلاهما يعمل.",
         },
         {
           question: "ما مدى دقته؟",
           answer:
-            "تُؤخذ المبالغ والتواريخ مباشرة من الخطاب وتُعرض بجانب السطر الذي وردت فيه، حتى تتمكن من التحقق منها بنفسك. وحين يكون الخطاب غامضًا فعليًا، يخبرك Papkram بذلك بدلاً من التخمين.",
+            "تُؤخذ المبالغ والتواريخ مباشرة من الخطاب وتُعرض بجانب السطر الذي وردت فيه، لتتحقق منها بنفسك. وإذا كان شيء ما غامضًا فعلاً، يقول Papkram ذلك بدلاً من التخمين.",
         },
         {
           question: "هل يمكنني إرسال الرد الذي يصيغه؟",
           answer:
-            "نعم. المسودة مكتوبة بألمانية صحيحة رسميًا، جاهزة للنسخ في بريد إلكتروني أو خطاب أو نموذج إلكتروني لجهة رسمية. لن تكتب كلمة واحدة بالألمانية بنفسك.",
+            "نعم. المسودة بألمانية رسمية صحيحة، جاهزة للنسخ في بريد إلكتروني أو خطاب أو نموذج إلكتروني لجهة رسمية. لن تكتب كلمة واحدة بالألمانية بنفسك.",
         },
         {
           question: "ماذا يحدث لخطابي بعد التحليل؟",
           answer:
-            "يبقى في حسابك، مشفّرًا، على خوادم في ألمانيا. لا يُستخدم أبدًا لتدريب أي نموذج ذكاء اصطناعي، ويمكنك حذفه في أي وقت من إعداداتك.",
+            "يبقى في حسابك، مشفّرًا، على سيرفرات في ألمانيا. لا يُستخدم أبدًا لتدريب أي نموذج ذكاء اصطناعي، ويمكنك حذفه في أي وقت من الإعدادات.",
         },
       ],
     },
     passItOn: {
-      eyebrow: "شارك التطبيق",
-      heading: "هل تعرف شخصًا لديه خطاب لم يفتحه بعد؟",
-      body: "أرسل Papkram إلى الشخص الذي يرسل لك بريده لترجمته. رسالة واحدة توفر عليه أسبوعًا من القلق.",
+      eyebrow: "انشر الخبر",
+      heading: "شخص تعرفه لديه خطاب لم يفتحه.",
+      body: "أرسل Papkram للشخص الذي يحوّل لك بريده لتترجمه. رسالة واحدة تعفيه من أسبوع من القلق.",
       instagramStory: "ستوري إنستغرام",
-      whatsappStory: "ستوري واتساب",
+      whatsappStory: "حالة واتساب",
       imageShareNote:
-        "يشارك هذه البطاقة كصورة، لذا يظهر ستوري إنستغرام وحالة واتساب في قائمة المشاركة على هاتفك. على الحاسوب، يتم تنزيل البطاقة بدلاً من ذلك.",
+        "يشارك هذه البطاقة كصورة، ليظهر ستوري إنستغرام وحالة واتساب في قائمة المشاركة. على الكمبيوتر يتم تنزيل البطاقة.",
       orSendItIn: "أو أرسله عبر",
       whatsapp: "واتساب",
       messenger: "ماسنجر",
-      telegram: "تيليجرام",
+      telegram: "تليجرام",
       moreApps: "تطبيقات أخرى",
-      copyLink: "نسخ الرابط",
-      linkCopiedToast: "تم نسخ الرابط.",
-      shareCardHeadline: "توقف عن التخمين بشأن ما يقوله بريدك الألماني.",
+      copyLink: "انسخ الرابط",
+      linkCopiedToast: "تم النسخ",
+      shareCardHeadline: "لا تخمّن ما يقوله بريدك الألماني.",
       posterPreparingToast: "جارٍ تجهيز البطاقة…",
       moreAppsFailed: "تعذر فتح قائمة المشاركة — جرّب أحد التطبيقات أعلاه بدلاً من ذلك.",
-    },
-    demoPitch: {
-      counter: (registeredCount) => `${registeredCount} شخصًا سجلوا للوصول المبكر`,
-      heading: "تجربة مجانية، بدون بطاقة.",
-      body: (freeLetterLimit) =>
-        `جرّب ${freeLetterLimit} خطابات حقيقية. لسنا نبيع بعد — سجّل وسنراسلك بالبريد الإلكتروني بمجرد إطلاق Papkram رسميًا.`,
-      cta: "ابدأ التجربة المجانية",
     },
     offer: {
       heading: "كل ما تحصل عليه.",
@@ -574,7 +591,7 @@ export const MARKETING_COPY: Record<MarketingLocale, MarketingCopy> = {
     dir: "ltr",
     nav: { logIn: "Giriş yap", startFreeTrial: "Ücretsiz denemeyi başlat" },
     hero: {
-      stampBadge: (n) => `${n} ÜCRETSİZ MEKTUP`,
+      stampBadge: (n) => `${n} mektup ücretsiz`,
       headlineLine1: "Ne dediğini bilin.",
       headlineLine2: "Ne yapacağınızı bilin.",
       subhead:
@@ -584,17 +601,23 @@ export const MARKETING_COPY: Record<MarketingLocale, MarketingCopy> = {
       mockup: {
         chip: "Analiz tamamlandı",
         summary: "Stadtwerke München, 2025 elektrik faturanız için 187,42 € ek ödeme talep ediyor.",
+        deadlineLabel: "Son tarih",
         deadline: "Son ödeme: 28 Şubat 2026",
-        reply: "\u201C187,42 € tutarındaki ödemenin yapıldığını onaylamak için yazıyorum\u2026\u201D",
+        replyLabel: "Yanıt taslağı",
+        reply: "“187,42 € tutarındaki ödemenin yapıldığını onaylamak için yazıyorum…”",
         dir: "ltr",
       },
       trustBadges: [
-        "Şifrelenir — mektuplarınızı yalnızca siz açabilirsiniz",
+        "Şifreli — mektuplarınızı yalnızca siz açabilirsiniz",
         "Yapay zeka modellerini eğitmek için asla kullanılmaz",
         "Almanya'daki sunucularda saklanır",
       ],
+      counterLabel: "kişi erken erişim için kaydoldu",
+      demoStatus:
+        "Papkram henüz demo aşamasında. Yeterli sayıda kişi kaydolduğunda herkesin kullanımına açıyoruz — her yeni kayıt lansmanı yakınlaştırıyor.",
     },
     howItWorks: {
+      eyebrow: "Nasıl çalışır",
       heading: "Üç adım. Hepsi bu.",
       steps: [
         {
@@ -613,12 +636,18 @@ export const MARKETING_COPY: Record<MarketingLocale, MarketingCopy> = {
           mockup: { label: "Yanıtınız, Almanca", detail: "Yanıtı kopyala" },
         },
       ],
+      demoCaption: "Uygulamadan gerçek ekranlar",
+      shotAlts: [
+        "Papkram mektup yükleme ekranı",
+        "Tutarı ve kaynağını gösteren sade dilde özet",
+        "Gönderime hazır Almanca yanıt taslağı",
+      ],
     },
     realLetter: {
-      eyebrow: "GERÇEK BİR MEKTUP",
-      heading: "Mektubunuzu sade Türkçe okumak için sürükleyin.",
-      body: "Jobcenter'dan bir Bürgergeld kararı: karmaşık SGB II Almancası, karşısında sizin için gerçekte ne anlama geldiği.",
-      letterLabel: "ALDIĞINIZ MEKTUP",
+      eyebrow: "Gerçek bir mektup",
+      heading: "Postanızı sade bir dille okumak için sürükleyin.",
+      body: "Jobcenter'dan bir Bürgergeld kararı: bir yanda altı paragraf SGB II metni, diğer yanda bunun sizin için gerçekte ne anlama geldiği.",
+      letterLabel: "Aldığınız mektup",
       letterSender: "JOBCENTER MÜNCHEN",
       letterRecipient: "Frau A. Osei · Lindwurmstr. 42 · 80337 München",
       letterSubject: "Bescheid über die Bewilligung von Bürgergeld",
@@ -634,46 +663,47 @@ export const MARKETING_COPY: Record<MarketingLocale, MarketingCopy> = {
       analysisChip: "Analiz tamamlandı",
       analysisHeading: "Bürgergeld başvurunuz onaylandı.",
       analysisBody:
-        "Jobcenter München, 14 Ocak'ta gönderdiğiniz başvuruyu onayladı. 1 Şubat'tan 31 Temmuz 2026'ya kadar ayda 563,00 € alacaksınız — standart tutar artı kabul edilen kira ve ısıtma giderleri.",
-      deadlineLabel: "TEK SON TARİH",
-      deadlineBody: "Ekli Anlage EK formunu 28 Şubat 2026'ya kadar geri gönderin.",
-      deadlineNote: "Geç gelirse, kurum ödemeleri azaltabilir veya durdurabilir.",
-      rightLabel: "HAKKINIZ",
-      rightBody: "Bu kararı aldığınız tarihten itibaren bir ay içinde itiraz edebilirsiniz.",
-      replyDraftedHeading: "Yanıt Almanca olarak hazırlandı",
-      replyDraftedBody: "Kopyalayıp gönderin — tek kelime Almanca yazmanıza gerek yok.",
-      dragHint: "Tutamacı mektubun üzerinde sürükleyin",
+        "Jobcenter München, 14 Ocak'ta gönderdiğiniz başvuruyu onayladı. 1 Şubat – 31 Temmuz 2026 arasında ayda 563,00 € alacaksınız — standart tutar ile kabul edilen kira ve ısınma masraflarınız.",
+      deadlineLabel: "Tek son tarih",
+      deadlineBody: "Ekteki Anlage EK formunu 28 Şubat 2026'ya kadar geri gönderin.",
+      deadlineNote: "Geç ulaşırsa kurum ödemeleri azaltabilir veya durdurabilir.",
+      rightLabel: "Hakkınız",
+      rightBody: "Bu karara, aldığınız tarihten itibaren bir ay içinde itiraz edebilirsiniz.",
+      replyDraftedHeading: "Almanca yanıt hazırlandı",
+      replyDraftedBody: "Kopyalayıp gönderin — Almanca tek kelime yazmanıza gerek yok.",
+      dragHint: "Tutamacı mektup üzerinde sürükleyin",
     },
     privacy: {
-      eyebrow: "GİZLİLİK",
-      heading: "Postanız sahip olduğunuz en özel mektuptur.",
+      eyebrow: "Gizlilik",
+      heading: "Postanız, sahip olduğunuz en özel şeydir.",
       cards: [
         {
-          heading: "Şifreli depolama",
-          body: "Mektuplarınız beklemede şifrelenir. Yalnızca hesabınız onları açabilir.",
+          heading: "Şifreli saklama",
+          body: "Mektuplarınız saklanırken şifrelenir. Yalnızca sizin hesabınız açabilir.",
         },
         {
-          heading: "Yapay zekayı asla eğitmez",
-          body: "Yüklemeler yalnızca özetinizi ve yanıtınızı oluşturmak için işlenir, başka hiçbir şey için değil. Hiçbir model postanız üzerinde eğitilmez.",
+          heading: "Yapay zekayı eğitmez",
+          body: "Yüklemeler yalnızca özetinizi ve yanıtınızı oluşturmak için işlenir, başka hiçbir şey için. Postanızla hiçbir model eğitilmez.",
         },
         {
-          heading: "Alman sunucular",
-          body: "Belgeleriniz, AB veri koruma kanunu kapsamında Almanya içindeki sunucularda saklanır.",
-        },
-        {
-          heading: "Emin olmadığımızda size söyleriz",
-          body: "Alman resmi mektupları yoğun içeriklidir — tutarlar ve tarihler önemlidir. Bir mektupta belirsiz bir şey varsa, tahmin etmek yerine açıkça belirtiriz. Size zarar verebilecek bir rakamda asla sessizce tahmin yürütmeyiz.",
+          heading: "Alman sunucuları",
+          body: "Belgeleriniz, AB veri koruma hukuku kapsamında Almanya içindeki sunucularda saklanır.",
         },
       ],
+      sureHeading: "Emin olmadığımızda size söyleriz",
+      sureBody:
+        "Alman resmi mektupları yoğun içeriklidir — tutarlar ve tarihler önemlidir. Bir mektupta belirsiz bir şey varsa, tahmin etmek yerine açıkça belirtiriz. Size zarar verebilecek bir rakamda asla sessizce tahmin yürütmeyiz.",
+      priceChip: (n) => `${n} mektup ücretsiz`,
+      priceLine: "Başlamak için kart gerekmez. Ücretsiz mektuplarınız bitince ücretli plan devralır — istediğiniz zaman iptal edin.",
     },
     faq: {
-      eyebrow: "SORULAR",
-      heading: "En çok sorulan dört şey.",
+      eyebrow: "Sorular",
+      heading: "İnsanların sorduğu dört şey.",
       items: [
         {
-          question: "Hangi mektup türlerini okuyabilir?",
+          question: "Hangi mektup türlerini okuyabiliyor?",
           answer:
-            "Alman zarfıyla gelen her şey — Finanzamt, Jobcenter, Rundfunkbeitrag, sağlık sigortası, ev sahibiniz, hizmet şirketleri, sigortacılar, mahkemeler. Fotoğraf ya da PDF, ikisi de çalışır.",
+            "Alman zarfıyla gelen her şey — Finanzamt, Jobcenter, Rundfunkbeitrag, sağlık sigortası, ev sahibiniz, faturalar, sigortacılar, mahkemeler. Fotoğraf da PDF de olur.",
         },
         {
           question: "Ne kadar doğru?",
@@ -683,40 +713,33 @@ export const MARKETING_COPY: Record<MarketingLocale, MarketingCopy> = {
         {
           question: "Hazırladığı yanıtı gönderebilir miyim?",
           answer:
-            "Evet. Taslak, resmi olarak doğru Almanca olup bir e-postaya, mektuba veya bir kurumun web formuna kopyalamaya hazırdır. Almanca tek kelime bile yazmanıza gerek yoktur.",
+            "Evet. Taslak, resmi olarak doğru Almancadır; bir e-postaya, mektuba veya kurumun web formuna kopyalamaya hazırdır. Almanca tek kelime yazmanıza gerek yok.",
         },
         {
-          question: "Analizden sonra mektubuma ne olur?",
+          question: "Analizden sonra mektubuma ne oluyor?",
           answer:
-            "Hesabınızda, şifreli olarak, Almanya'daki sunucularda kalır. Hiçbir yapay zeka modelini eğitmek için kullanılmaz ve istediğiniz zaman ayarlarınızdan silebilirsiniz.",
+            "Hesabınızda, şifreli olarak, Almanya'daki sunucularda kalır. Hiçbir yapay zeka modelini eğitmek için kullanılmaz ve ayarlarınızdan istediğiniz zaman silebilirsiniz.",
         },
       ],
     },
     passItOn: {
-      eyebrow: "PAYLAŞIN",
-      heading: "Tanıdığınız birinin açılmamış bir mektubu mu var?",
-      body: "Papkram'ı, postasını çevirmeniz için size ileten kişiye gönderin. Tek bir mesaj, onlara bir haftalık endişeyi önler.",
-      instagramStory: "Instagram Hikayesi",
-      whatsappStory: "WhatsApp Hikayesi",
+      eyebrow: "Paylaş",
+      heading: "Tanıdığınız birinin açılmamış bir mektubu var.",
+      body: "Postasını size çevirmeniz için gönderen kişiye Papkram'ı iletin. Tek bir mesaj, bir haftalık endişeyi ortadan kaldırır.",
+      instagramStory: "Instagram Story",
+      whatsappStory: "WhatsApp Durum",
       imageShareNote:
-        "Bu kartı görsel olarak paylaşır, böylece Instagram Hikayesi ve WhatsApp Durumu telefonunuzun paylaşım menüsünde görünür. Masaüstünde bunun yerine kart indirilir.",
-      orSendItIn: "YA DA ŞURADAN GÖNDERİN",
+        "Bu kartı görsel olarak paylaşır; böylece paylaşım menüsünde Instagram Story ve WhatsApp Durum görünür. Masaüstünde kart indirilir.",
+      orSendItIn: "Ya da şununla gönder",
       whatsapp: "WhatsApp",
       messenger: "Messenger",
       telegram: "Telegram",
       moreApps: "Diğer uygulamalar",
       copyLink: "Bağlantıyı kopyala",
-      linkCopiedToast: "Bağlantı kopyalandı.",
-      shareCardHeadline: "Alman postanızın ne dediğini tahmin etmeyi bırakın.",
+      linkCopiedToast: "Kopyalandı",
+      shareCardHeadline: "Almanca postanızın ne dediğini tahmin etmeyi bırakın.",
       posterPreparingToast: "Kartınız hazırlanıyor…",
       moreAppsFailed: "Paylaşım menüsü açılamadı — bunun yerine yukarıdaki uygulamalardan birini deneyin.",
-    },
-    demoPitch: {
-      counter: (registeredCount) => `${registeredCount} kişi erken erişim için kaydoldu`,
-      heading: "Ücretsiz demo, kart gerekmez.",
-      body: (freeLetterLimit) =>
-        `${freeLetterLimit} gerçek mektubu deneyin. Henüz satış yapmıyoruz — kaydolun, Papkram tam olarak yayına girer girmez size e-posta gönderelim.`,
-      cta: "Ücretsiz demoyu başlat",
     },
     offer: {
       heading: "Elde ettiğiniz her şey.",
@@ -793,7 +816,7 @@ export const MARKETING_COPY: Record<MarketingLocale, MarketingCopy> = {
       ],
     },
     cta: {
-      badge: "BUGÜN BAŞLA",
+      badge: "Bugün başla",
       heading: "Postanızın ne dediğini tahmin etmeyi bırakın.",
       button: "Ücretsiz denemeyi başlat",
     },

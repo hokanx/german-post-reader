@@ -4,7 +4,9 @@ import Image from "next/image";
 import { motion, useReducedMotion } from "framer-motion";
 import { toast } from "sonner";
 import { Send, Share2, Copy } from "lucide-react";
+import { buttonVariants } from "@/components/ui/button";
 import { trackEvent } from "@/lib/analytics/track-event";
+import { cn } from "@/lib/utils";
 import { useMarketingLocale } from "./locale-context";
 import { MARKETING_COPY } from "./copy";
 
@@ -15,26 +17,28 @@ type SharePlatform = "instagram_story" | "whatsapp_story" | "whatsapp" | "messen
 // a second icon library (still Lucide for every generic icon here).
 function InstagramIcon({ className }: { className?: string }) {
   return (
-    <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.8} aria-hidden="true">
-      <rect x="3" y="3" width="18" height="18" rx="5" />
+    <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} aria-hidden="true">
+      <rect x="3.5" y="3.5" width="17" height="17" rx="5" />
       <circle cx="12" cy="12" r="4" />
-      <circle cx="17.2" cy="6.8" r="0.9" fill="currentColor" stroke="none" />
+      <circle cx="17" cy="7" r="1.1" fill="currentColor" stroke="none" />
     </svg>
   );
 }
 
 function WhatsappIcon({ className }: { className?: string }) {
   return (
-    <svg className={className} viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-      <path d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38a9.9 9.9 0 0 0 4.74 1.21h.004c5.46 0 9.9-4.45 9.9-9.91 0-2.65-1.03-5.14-2.9-7.01A9.82 9.82 0 0 0 12.04 2m0 1.67c2.2 0 4.26.86 5.82 2.42a8.19 8.19 0 0 1 2.41 5.82c0 4.54-3.7 8.23-8.24 8.23a8.2 8.2 0 0 1-4.19-1.15l-.3-.17-3.12.82.83-3.04-.19-.32a8.18 8.18 0 0 1-1.26-4.37c0-4.54 3.7-8.24 8.24-8.24m-4.53 4.71c-.16 0-.42.06-.64.3-.22.24-.85.83-.85 2.02s.87 2.35.99 2.51c.12.16 1.7 2.71 4.21 3.7 2.08.83 2.5.66 2.96.62.45-.04 1.45-.6 1.66-1.17.2-.58.2-1.08.14-1.18-.06-.1-.22-.16-.46-.28-.24-.12-1.45-.71-1.67-.8-.22-.08-.39-.12-.55.12-.16.24-.63.79-.77.96-.14.16-.28.18-.52.06-.24-.12-1.02-.38-1.94-1.2-.72-.64-1.2-1.43-1.35-1.67-.14-.24-.02-.37.1-.49.11-.11.24-.28.36-.42.12-.14.16-.24.24-.4.08-.16.04-.3-.02-.42-.06-.12-.55-1.36-.77-1.85-.2-.48-.4-.42-.55-.42z" />
+    <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} aria-hidden="true">
+      <path d="M20 12a8 8 0 0 1-11.7 7.1L4 20l1-4.2A8 8 0 1 1 20 12z" />
+      <path d="M9 9.5c0 3 2.5 5.5 5.5 5.5" />
     </svg>
   );
 }
 
 function TelegramIcon({ className }: { className?: string }) {
   return (
-    <svg className={className} viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-      <path d="M21.9 4.36 18.6 20.2c-.25 1.1-.9 1.37-1.83.85l-5.06-3.73-2.44 2.35c-.27.27-.5.5-1.02.5l.36-5.16 9.4-8.5c.41-.36-.09-.56-.63-.2L6.06 12.8 1.06 11.24c-1.08-.34-1.1-1.08.23-1.6L20.5 3.05c.9-.33 1.69.2 1.4 1.31z" />
+    <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} aria-hidden="true">
+      <path d="M21 4L3 11l5 2 2 6 3-4 5 3z" />
+      <path d="M8 13l9-6" />
     </svg>
   );
 }
@@ -175,106 +179,98 @@ export function PassItOn() {
     }
   }
 
+  const outlinePill = cn(buttonVariants({ variant: "outline" }), "h-11 gap-2 rounded-full px-4 text-sm font-bold");
+
   return (
-    <section dir={copy.dir} className="mx-auto max-w-6xl px-6 py-20">
-      <motion.div
-        initial={shouldReduceMotion ? false : { opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.4 }}
-        className="grid items-center gap-12 md:grid-cols-2"
-      >
-        <div>
-          <span className="rounded-full border-2 border-border bg-accent px-4 py-1.5 text-xs font-bold uppercase tracking-[0.06em] text-accent-foreground">
+    <section dir={copy.dir} className="border-t-2 border-border bg-background">
+      <div className="mx-auto grid max-w-6xl items-center gap-16 px-6 py-24 md:grid-cols-[repeat(auto-fit,minmax(min(100%,340px),1fr))] md:py-26">
+        <motion.div
+          initial={shouldReduceMotion ? false : { opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.4 }}
+        >
+          <span className="rounded-full border-2 border-border bg-muted px-4 py-1.5 text-xs font-bold uppercase tracking-[0.07em] text-muted-foreground">
             {t.eyebrow}
           </span>
-          <h2 className="mt-4 text-3xl font-extrabold tracking-[-0.02em] text-foreground md:text-4xl">
+          <h2
+            className="mt-5 max-w-[18em] font-heading font-extrabold tracking-[-0.025em] text-foreground"
+            style={{ fontSize: "clamp(34px,4vw,52px)", lineHeight: 1.02 }}
+          >
             {t.heading}
           </h2>
-          <p className="mt-3 text-base text-foreground/70">{t.body}</p>
+          <p className="mt-4 max-w-[40em] text-[17px] leading-relaxed text-foreground/72 [text-wrap:pretty]">{t.body}</p>
 
-          <div className="mt-6 flex flex-wrap gap-3">
+          <div className="mt-8.5 flex flex-wrap gap-3.5">
             <button
               type="button"
               onClick={() => sharePosterImage("instagram_story")}
-              className="flex h-12 items-center gap-2.5 rounded-full border-2 border-border bg-primary px-5 text-sm font-bold text-primary-foreground transition-colors hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+              className={cn(buttonVariants(), "h-13 gap-2.5 rounded-full px-5 text-sm font-bold")}
             >
-              <InstagramIcon className="size-4" />
+              <InstagramIcon className="size-[18px]" />
               {t.instagramStory}
             </button>
             <button
               type="button"
               onClick={() => sharePosterImage("whatsapp_story")}
-              className="flex h-12 items-center gap-2.5 rounded-full border-2 border-border bg-accent px-5 text-sm font-bold text-accent-foreground transition-colors hover:bg-accent/80 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+              className={cn(buttonVariants({ variant: "outline" }), "h-13 gap-2.5 rounded-full px-5 text-sm font-bold")}
             >
-              <WhatsappIcon className="size-4" />
+              <WhatsappIcon className="size-[18px]" />
               {t.whatsappStory}
             </button>
           </div>
-          <p className="mt-3 max-w-md text-xs text-foreground/60">{t.imageShareNote}</p>
+          <p className="mt-3.5 max-w-[36em] text-[13.5px] leading-relaxed text-foreground/55 [text-wrap:pretty]">{t.imageShareNote}</p>
 
-          <p className="mt-6 text-xs font-bold uppercase tracking-[0.06em] text-muted-foreground">{t.orSendItIn}</p>
-          <div className="mt-3 flex flex-wrap gap-3">
-            <button
-              type="button"
-              onClick={handleWhatsapp}
-              className="flex h-11 items-center gap-2 rounded-full border-2 border-border bg-card px-4 text-sm font-bold text-foreground transition-colors hover:bg-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
-            >
+          <p className="mt-7.5 font-mono text-[11px] tracking-[0.14em] text-foreground/50 uppercase">{t.orSendItIn}</p>
+          <div className="mt-3.5 flex flex-wrap gap-2.5">
+            <button type="button" onClick={handleWhatsapp} className={outlinePill}>
               <WhatsappIcon className="size-4" />
               {t.whatsapp}
             </button>
-            <button
-              type="button"
-              onClick={handleMessenger}
-              className="flex h-11 items-center gap-2 rounded-full border-2 border-border bg-card px-4 text-sm font-bold text-foreground transition-colors hover:bg-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
-            >
+            <button type="button" onClick={handleMessenger} className={outlinePill}>
               <Send className="size-4" strokeWidth={1.5} aria-hidden="true" />
               {t.messenger}
             </button>
-            <button
-              type="button"
-              onClick={handleTelegram}
-              className="flex h-11 items-center gap-2 rounded-full border-2 border-border bg-card px-4 text-sm font-bold text-foreground transition-colors hover:bg-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
-            >
+            <button type="button" onClick={handleTelegram} className={outlinePill}>
               <TelegramIcon className="size-4" />
               {t.telegram}
             </button>
             <button
               type="button"
               onClick={handleMoreApps}
-              className="flex h-11 items-center gap-2 text-sm font-bold text-foreground underline underline-offset-4 transition-colors hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+              className={cn(buttonVariants({ variant: "ghost" }), "h-11 gap-2 rounded-full px-3 text-sm font-bold")}
             >
               <Share2 className="size-4" strokeWidth={1.5} aria-hidden="true" />
               {t.moreApps}
             </button>
           </div>
 
-          <div className="mt-6 flex items-center gap-3 border-t-2 border-border pt-6">
-            <span className="rounded-full border-2 border-border bg-muted px-4 py-2 font-mono text-sm text-foreground">
-              papkram.de
-            </span>
+          <div className="mt-7.5 flex flex-wrap items-center gap-3 border-t-2 border-border pt-6.5">
+            <code className="rounded-full border-2 border-border bg-card px-4.5 py-2.5 font-mono text-sm">papkram.de</code>
             <button
               type="button"
               onClick={handleCopyLink}
-              className="flex h-10 items-center gap-1.5 text-sm font-bold text-foreground underline underline-offset-4 transition-colors hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+              className={cn(buttonVariants({ variant: "ghost" }), "h-11 gap-1.5 rounded-full px-3 text-sm font-bold")}
             >
               <Copy className="size-4" strokeWidth={1.5} aria-hidden="true" />
               {t.copyLink}
             </button>
           </div>
-        </div>
+        </motion.div>
 
-        <div className="mx-auto w-full max-w-[280px] rounded-[2.5rem] border-2 border-border bg-foreground p-3 shadow-[8px_8px_0_0_var(--border)]">
-          <div className="relative aspect-[9/16] w-full overflow-hidden rounded-[1.75rem]">
-            <Image
-              src="/share-cards/story.png"
-              alt={t.shareCardHeadline}
-              fill
-              sizes="280px"
-              className="object-cover"
-            />
+        <div className="flex justify-center">
+          <div className="w-full max-w-[300px] rotate-[1.5deg] overflow-hidden rounded-[34px] border-2 border-border bg-background shadow-[10px_10px_0_0_var(--border)]">
+            <div className="relative aspect-[9/16] w-full">
+              <Image
+                src="/share-cards/story.png"
+                alt={t.shareCardHeadline}
+                fill
+                sizes="300px"
+                className="object-cover"
+              />
+            </div>
           </div>
         </div>
-      </motion.div>
+      </div>
     </section>
   );
 }

@@ -2,16 +2,17 @@
 
 import Link from "next/link";
 import { motion, useReducedMotion } from "framer-motion";
-import { CalendarClock, Lock, ShieldCheck, Server } from "lucide-react";
 import { buttonVariants } from "@/components/ui/button";
-import { FREE_LETTER_LIMIT } from "@/lib/constants";
+import { PapkramLogo } from "@/components/papkram-logo";
+import { DEMO_MODE, FREE_LETTER_LIMIT } from "@/lib/constants";
 import { StampBadge } from "./stamp-badge";
+import { LiveCounter } from "./live-counter";
 import { useMarketingLocale } from "./locale-context";
 import { MARKETING_COPY } from "./copy";
 
 const easeOut: [number, number, number, number] = [0.22, 1, 0.36, 1];
 
-export function Hero() {
+export function Hero({ registeredCount }: { registeredCount: number | null }) {
   const shouldReduceMotion = useReducedMotion();
   const { locale } = useMarketingLocale();
   const copy = MARKETING_COPY[locale];
@@ -27,14 +28,20 @@ export function Hero() {
   return (
     <section
       dir={copy.dir}
-      className="mx-auto grid max-w-6xl gap-12 px-6 pt-16 pb-20 md:grid-cols-2 md:items-center md:pt-24 md:pb-28"
+      className="mx-auto grid max-w-6xl gap-14 px-6 pt-16 pb-20 md:grid-cols-2 md:items-center md:pt-24 md:pb-22"
     >
       <motion.div
         initial={shouldReduceMotion ? false : "hidden"}
         animate="show"
         variants={{ show: { transition: { staggerChildren: 0.08 } } }}
       >
-        <motion.div variants={fadeRise} className="relative mb-6 w-fit">
+        <motion.div variants={fadeRise} className="mb-7 flex items-center gap-3.5">
+          <PapkramLogo className="size-[52px]" />
+          <span className="font-heading text-[34px] leading-none font-extrabold tracking-[-0.03em] text-foreground">
+            Papkram
+          </span>
+        </motion.div>
+        <motion.div variants={fadeRise} className="relative mb-8 w-fit">
           <StampBadge
             label={copy.hero.stampBadge(FREE_LETTER_LIMIT)}
             className="rotate-[-4deg]"
@@ -43,24 +50,32 @@ export function Hero() {
         </motion.div>
         <motion.h1
           variants={fadeRise}
-          className="text-5xl font-extrabold tracking-[-0.02em] text-foreground md:text-7xl"
+          className="font-heading font-extrabold tracking-[-0.03em] text-foreground [text-wrap:balance]"
+          style={{ fontSize: "clamp(46px,6.2vw,84px)", lineHeight: 0.95 }}
         >
-          {copy.hero.headlineLine1}
-          <br />
-          {copy.hero.headlineLine2}
+          <span className="block">{copy.hero.headlineLine1}</span>
+          <span className="block text-primary">{copy.hero.headlineLine2}</span>
         </motion.h1>
-        <motion.p variants={fadeRise} className="mt-6 max-w-md text-lg text-foreground/80">
+        <motion.p variants={fadeRise} className="mt-7 max-w-[33em] text-lg leading-relaxed text-foreground/78 [text-wrap:pretty]">
           {copy.hero.subhead}
         </motion.p>
-        <motion.div variants={fadeRise} className="mt-8 flex flex-wrap items-center gap-4">
+        <motion.div variants={fadeRise} className="mt-9 flex flex-wrap items-center gap-[18px]">
           <Link
             href="/signup"
-            className={buttonVariants({ className: "h-12 rounded-sm px-6 text-base font-bold" })}
+            className={buttonVariants({ className: "h-[54px] rounded-sm px-6 text-base font-bold" })}
           >
             {copy.hero.ctaPrimary}
           </Link>
           <span className="text-sm text-foreground/60">{copy.hero.ctaNote}</span>
         </motion.div>
+        {DEMO_MODE && (
+          <motion.div variants={fadeRise} className="mt-7">
+            <LiveCounter registeredCount={registeredCount} label={copy.hero.counterLabel} />
+            <p className="mt-4 max-w-[34em] text-sm leading-relaxed text-foreground/60 [text-wrap:pretty]">
+              {copy.hero.demoStatus}
+            </p>
+          </motion.div>
+        )}
       </motion.div>
 
       <motion.div
@@ -68,37 +83,23 @@ export function Hero() {
         animate={{ opacity: 1, y: 0, rotate: -2 }}
         transition={{ duration: 0.5, ease: easeOut, delay: 0.15 }}
         dir={mockup.dir}
-        className="mx-auto w-[88%] max-w-sm rounded-md border-2 border-border bg-card p-6 shadow-[8px_8px_0_0_var(--border)] sm:w-full"
+        className="mx-auto w-[88%] max-w-sm rounded-sm border-2 border-border bg-card p-6 shadow-[8px_8px_0_0_var(--border)] sm:w-full"
       >
-        <span className="rounded-full border-2 border-border bg-muted px-3 py-1 text-xs font-bold uppercase tracking-[0.06em] text-muted-foreground">
+        <span className="rounded-full border-2 border-border bg-muted px-3.5 py-1.5 text-[11px] font-bold uppercase tracking-[0.06em] text-muted-foreground">
           {mockup.chip}
         </span>
-        <p className="mt-4 text-base font-medium leading-snug text-foreground">
+        <p className="mt-5 text-lg leading-snug font-medium text-foreground [text-wrap:pretty]">
           {mockup.summary}
         </p>
-        <div className="mt-4 flex items-center gap-2 rounded-sm border-2 border-border bg-muted px-3 py-2">
-          <CalendarClock className="size-4 shrink-0 text-primary" strokeWidth={1.5} aria-hidden="true" />
-          <span className="text-sm text-foreground">{mockup.deadline}</span>
+        <div className="mt-5 rounded-sm border-2 border-border bg-muted p-3.5">
+          <div className="text-[10px] font-bold tracking-[0.08em] text-muted-foreground uppercase">{mockup.deadlineLabel}</div>
+          <div className="mt-0.5 text-[15px] font-semibold text-foreground">{mockup.deadline}</div>
         </div>
-        <div className="mt-4 rounded-sm border-2 border-border bg-background px-3 py-2 text-sm text-foreground/80">
-          {mockup.reply}
+        <div className="mt-3 rounded-sm border-2 border-border bg-background p-3.5">
+          <div className="text-[10px] font-bold tracking-[0.08em] text-muted-foreground uppercase">{mockup.replyLabel}</div>
+          <div className="mt-0.5 text-sm leading-relaxed text-foreground/80">{mockup.reply}</div>
         </div>
       </motion.div>
-
-      <motion.ul
-        dir={copy.dir}
-        initial={shouldReduceMotion ? false : { opacity: 0, y: 12 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.4, delay: shouldReduceMotion ? 0 : 0.4 }}
-        className="col-span-full mt-4 flex flex-wrap items-center justify-center gap-x-6 gap-y-2 md:justify-start"
-      >
-        {[Lock, ShieldCheck, Server].map((Icon, i) => (
-          <li key={copy.hero.trustBadges[i]} className="flex items-center gap-1.5 text-xs font-medium text-foreground/60">
-            <Icon className="size-4 shrink-0" strokeWidth={1.5} aria-hidden="true" />
-            {copy.hero.trustBadges[i]}
-          </li>
-        ))}
-      </motion.ul>
     </section>
   );
 }

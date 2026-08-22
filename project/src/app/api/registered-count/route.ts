@@ -4,7 +4,7 @@ import { createServiceClient } from "@/lib/supabase/service";
 import { countRegisteredUsers } from "@/lib/profile/count-registered";
 
 /**
- * Backs the landing page's live signup counter (DemoPitch polls this on an
+ * Backs the landing page's live signup counter (LiveCounter polls this on an
  * interval). Public and unauthenticated by design — it returns only a
  * count, the same number already rendered server-side on first page load.
  */
