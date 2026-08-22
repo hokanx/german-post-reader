@@ -1,35 +1,33 @@
 "use client";
 
-import Image from "next/image";
 import { motion, useReducedMotion } from "framer-motion";
 import { toast } from "sonner";
-import { Send, Share2, Copy } from "lucide-react";
+import { Share2, Copy } from "lucide-react";
 import { buttonVariants } from "@/components/ui/button";
 import { trackEvent } from "@/lib/analytics/track-event";
 import { cn } from "@/lib/utils";
 import { useMarketingLocale } from "./locale-context";
 import { MARKETING_COPY } from "./copy";
 
-type SharePlatform = "instagram_story" | "whatsapp_story" | "whatsapp" | "messenger" | "telegram" | "more_apps" | "copy_link";
+type SharePlatform = "whatsapp" | "messenger" | "telegram" | "more_apps" | "copy_link";
 
 // lucide-react ships no brand/logo icons (trademark reasons) — same as
 // share-buttons.tsx's X_LOGO_PATH, these are hand-traced brand glyphs, not
 // a second icon library (still Lucide for every generic icon here).
-function InstagramIcon({ className }: { className?: string }) {
-  return (
-    <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} aria-hidden="true">
-      <rect x="3.5" y="3.5" width="17" height="17" rx="5" />
-      <circle cx="12" cy="12" r="4" />
-      <circle cx="17" cy="7" r="1.1" fill="currentColor" stroke="none" />
-    </svg>
-  );
-}
-
 function WhatsappIcon({ className }: { className?: string }) {
   return (
     <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} aria-hidden="true">
       <path d="M20 12a8 8 0 0 1-11.7 7.1L4 20l1-4.2A8 8 0 1 1 20 12z" />
       <path d="M9 9.5c0 3 2.5 5.5 5.5 5.5" />
+    </svg>
+  );
+}
+
+function MessengerIcon({ className }: { className?: string }) {
+  return (
+    <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} aria-hidden="true">
+      <path d="M12 3c5 0 9 3.7 9 8.4 0 4.6-4 8.4-9 8.4a10 10 0 0 1-2.6-.3L5 21l1-3.6A8.2 8.2 0 0 1 3 11.4C3 6.7 7 3 12 3z" />
+      <path d="M7.5 14l3-4.5 2.5 2 2.5-3" />
     </svg>
   );
 }
@@ -59,46 +57,6 @@ export function PassItOn() {
   function landingUrl(via: SharePlatform) {
     const origin = typeof window !== "undefined" ? window.location.origin : "https://papkram.de";
     return shareUrl(origin, via);
-  }
-
-  async function sharePosterImage(platform: "instagram_story" | "whatsapp_story") {
-    trackEvent("share_link_clicked", { platform });
-    const loadingId = toast.loading(t.posterPreparingToast);
-
-    let file: File;
-    try {
-      const response = await fetch("/share-cards/story.png");
-      if (!response.ok) throw new Error(`poster fetch failed: ${response.status}`);
-      const blob = await response.blob();
-      file = new File([blob], "papkram-story.png", { type: "image/png" });
-    } catch (error) {
-      console.error("poster fetch failed", error);
-      toast.error(t.moreAppsFailed, { id: loadingId });
-      return;
-    }
-    toast.dismiss(loadingId);
-
-    const canShareFiles = typeof navigator.canShare === "function" && navigator.canShare({ files: [file] });
-    if (canShareFiles && typeof navigator.share === "function") {
-      try {
-        await navigator.share({ files: [file] });
-      } catch (error) {
-        if ((error as { name?: string }).name !== "AbortError") {
-          console.error("navigator.share failed (poster)", error);
-          toast.error(t.moreAppsFailed);
-        }
-      }
-      return;
-    }
-
-    const objectUrl = URL.createObjectURL(file);
-    const anchor = document.createElement("a");
-    anchor.href = objectUrl;
-    anchor.download = "papkram-story.png";
-    document.body.appendChild(anchor);
-    anchor.click();
-    anchor.remove();
-    URL.revokeObjectURL(objectUrl);
   }
 
   function handleWhatsapp() {
@@ -183,7 +141,7 @@ export function PassItOn() {
 
   return (
     <section dir={copy.dir} className="border-t-2 border-border bg-background">
-      <div className="mx-auto grid max-w-6xl items-center gap-16 px-6 py-24 md:grid-cols-[repeat(auto-fit,minmax(min(100%,340px),1fr))] md:py-26">
+      <div className="mx-auto max-w-2xl px-6 py-24 md:py-26">
         <motion.div
           initial={shouldReduceMotion ? false : { opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -200,34 +158,14 @@ export function PassItOn() {
           </h2>
           <p className="mt-4 max-w-[40em] text-[17px] leading-relaxed text-foreground/72 [text-wrap:pretty]">{t.body}</p>
 
-          <div className="mt-8.5 flex flex-wrap gap-3.5">
-            <button
-              type="button"
-              onClick={() => sharePosterImage("instagram_story")}
-              className={cn(buttonVariants(), "h-13 gap-2.5 rounded-full px-5 text-sm font-bold")}
-            >
-              <InstagramIcon className="size-[18px]" />
-              {t.instagramStory}
-            </button>
-            <button
-              type="button"
-              onClick={() => sharePosterImage("whatsapp_story")}
-              className={cn(buttonVariants({ variant: "outline" }), "h-13 gap-2.5 rounded-full px-5 text-sm font-bold")}
-            >
-              <WhatsappIcon className="size-[18px]" />
-              {t.whatsappStory}
-            </button>
-          </div>
-          <p className="mt-3.5 max-w-[36em] text-[13.5px] leading-relaxed text-foreground/55 [text-wrap:pretty]">{t.imageShareNote}</p>
-
-          <p className="mt-7.5 font-mono text-[11px] tracking-[0.14em] text-foreground/50 uppercase">{t.orSendItIn}</p>
+          <p className="mt-8.5 font-mono text-[11px] tracking-[0.14em] text-foreground/50 uppercase">{t.orSendItIn}</p>
           <div className="mt-3.5 flex flex-wrap gap-2.5">
             <button type="button" onClick={handleWhatsapp} className={outlinePill}>
               <WhatsappIcon className="size-4" />
               {t.whatsapp}
             </button>
             <button type="button" onClick={handleMessenger} className={outlinePill}>
-              <Send className="size-4" strokeWidth={1.5} aria-hidden="true" />
+              <MessengerIcon className="size-4" />
               {t.messenger}
             </button>
             <button type="button" onClick={handleTelegram} className={outlinePill}>
@@ -256,20 +194,6 @@ export function PassItOn() {
             </button>
           </div>
         </motion.div>
-
-        <div className="flex justify-center">
-          <div className="w-full max-w-[300px] rotate-[1.5deg] overflow-hidden rounded-[34px] border-2 border-border bg-background shadow-[10px_10px_0_0_var(--border)]">
-            <div className="relative aspect-[9/16] w-full">
-              <Image
-                src="/share-cards/story.png"
-                alt={t.shareCardHeadline}
-                fill
-                sizes="300px"
-                className="object-cover"
-              />
-            </div>
-          </div>
-        </div>
       </div>
     </section>
   );

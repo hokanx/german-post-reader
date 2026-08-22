@@ -97,81 +97,75 @@ export function HowItWorks() {
         {copy.howItWorks.heading}
       </h2>
 
-      <div className="mt-13 grid items-center gap-13 md:grid-cols-2">
-        <motion.div
-          initial={shouldReduceMotion ? false : "hidden"}
-          animate="show"
-          variants={{ show: { transition: { staggerChildren: 0.08 } } }}
-          className="flex flex-col gap-4"
-        >
-          {copy.howItWorks.steps.map((step, i) => (
-            <motion.div
-              key={step.title}
-              variants={
-                shouldReduceMotion ? undefined : { hidden: { opacity: 0, y: 20 }, show: { opacity: 1, y: 0 } }
-              }
-              className="rounded-sm border-2 border-border bg-card p-6"
-            >
-              <div className="flex items-baseline gap-3">
-                <span className="font-heading text-sm font-extrabold text-primary">
-                  {String(i + 1).padStart(2, "0")}
-                </span>
-                <h3 className="font-heading text-2xl font-extrabold tracking-[-0.02em] text-foreground">
-                  {step.title}
-                </h3>
-              </div>
-              <p className="mt-2 text-[15px] leading-relaxed text-foreground/72 [text-wrap:pretty]">
-                {step.description}
-              </p>
-              <div className="mt-4 h-[3px] overflow-hidden rounded-full bg-foreground/12">
-                <div
-                  ref={(el) => {
-                    barRefs.current[i] = el;
-                  }}
-                  className="h-full w-0 bg-primary"
-                />
-              </div>
-            </motion.div>
-          ))}
-        </motion.div>
-
-        <div className="flex flex-col items-center gap-4">
-          <div
-            onPointerEnter={() => {
-              pausedRef.current = true;
-            }}
-            onPointerLeave={() => {
-              pausedRef.current = false;
-            }}
-            className="relative w-full max-w-[420px] overflow-hidden rounded-xl border-2 border-border bg-background shadow-[8px_8px_0_0_var(--border)]"
-            style={{ aspectRatio: "1000 / 1150" }}
+      <motion.div
+        initial={shouldReduceMotion ? false : "hidden"}
+        animate="show"
+        variants={{ show: { transition: { staggerChildren: 0.08 } } }}
+        className="mt-10 grid grid-cols-3 gap-3 sm:gap-4"
+      >
+        {copy.howItWorks.steps.map((step, i) => (
+          <motion.div
+            key={step.title}
+            variants={shouldReduceMotion ? undefined : { hidden: { opacity: 0, y: 20 }, show: { opacity: 1, y: 0 } }}
+            className="rounded-sm border-2 border-border bg-card p-3.5 sm:p-4.5"
           >
-            {shots.map((src, i) => (
+            <div className="flex items-baseline gap-1.5 sm:gap-2">
+              <span className="font-heading text-xs font-extrabold text-primary sm:text-sm">
+                {String(i + 1).padStart(2, "0")}
+              </span>
+              <h3 className="font-heading text-sm font-extrabold tracking-[-0.02em] text-foreground sm:text-base">
+                {step.title}
+              </h3>
+            </div>
+            <p className="mt-1.5 hidden text-[13px] leading-snug text-foreground/72 sm:block">{step.description}</p>
+            <div className="mt-2.5 h-[3px] overflow-hidden rounded-full bg-foreground/12 sm:mt-3">
               <div
-                key={src}
                 ref={(el) => {
-                  shotRefs.current[i] = el;
+                  barRefs.current[i] = el;
                 }}
-                className="absolute top-0 left-0 w-full transition-opacity duration-500"
-                style={{ opacity: i === 0 ? 1 : 0 }}
-              >
-                <Image
-                  src={src}
-                  alt={copy.howItWorks.shotAlts[i]}
-                  width={1000}
-                  height={2168}
-                  className="block w-full"
-                  priority={i === 0}
-                />
-              </div>
-            ))}
+                className="h-full w-0 bg-primary"
+              />
+            </div>
+          </motion.div>
+        ))}
+      </motion.div>
+
+      <div className="mt-10 flex flex-col items-center gap-4">
+        <div
+          onPointerEnter={() => {
+            pausedRef.current = true;
+          }}
+          onPointerLeave={() => {
+            pausedRef.current = false;
+          }}
+          className="relative w-full max-w-[420px] overflow-hidden rounded-xl border-2 border-border bg-background shadow-[8px_8px_0_0_var(--border)]"
+          style={{ aspectRatio: "1000 / 1150" }}
+        >
+          {shots.map((src, i) => (
             <div
-              ref={scanRef}
-              className="pointer-events-none absolute top-0 right-0 left-0 h-[110px] bg-gradient-to-b from-primary/0 via-primary/22 to-primary/0 opacity-0"
-            />
-          </div>
-          <span className="text-[13px] text-foreground/55">{copy.howItWorks.demoCaption}</span>
+              key={src}
+              ref={(el) => {
+                shotRefs.current[i] = el;
+              }}
+              className="absolute top-0 left-0 w-full transition-opacity duration-500"
+              style={{ opacity: i === 0 ? 1 : 0 }}
+            >
+              <Image
+                src={src}
+                alt={copy.howItWorks.shotAlts[i]}
+                width={1000}
+                height={2168}
+                className="block w-full"
+                priority={i === 0}
+              />
+            </div>
+          ))}
+          <div
+            ref={scanRef}
+            className="pointer-events-none absolute top-0 right-0 left-0 h-[110px] bg-gradient-to-b from-primary/0 via-primary/22 to-primary/0 opacity-0"
+          />
         </div>
+        <span className="text-[13px] text-foreground/55">{copy.howItWorks.demoCaption}</span>
       </div>
     </section>
   );

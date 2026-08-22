@@ -3,7 +3,6 @@ import { LandingNav } from "@/components/landing/nav";
 import { Hero } from "@/components/landing/hero";
 import { TrustBadgeStrip } from "@/components/landing/trust-badge-strip";
 import { HowItWorks } from "@/components/landing/how-it-works";
-import { RealLetterCompare } from "@/components/landing/real-letter-compare";
 import { PrivacySection } from "@/components/landing/privacy-section";
 import { ValueStack } from "@/components/landing/value-stack";
 import { Bonuses } from "@/components/landing/bonuses";
@@ -11,6 +10,7 @@ import { FaqSection } from "@/components/landing/faq-section";
 import { PassItOn } from "@/components/landing/pass-it-on";
 import { ShareSourceTracker } from "@/components/landing/share-source-tracker";
 import { CtaBand } from "@/components/landing/cta-band";
+import { FloatingCta } from "@/components/landing/floating-cta";
 import { LandingFooter } from "@/components/landing/footer";
 import { getPreAuthLanguage } from "@/lib/i18n/get-locale";
 import { DEMO_MODE } from "@/lib/constants";
@@ -50,7 +50,6 @@ export default async function Home({
         <Hero registeredCount={registeredCount} />
         <TrustBadgeStrip />
         <HowItWorks />
-        <RealLetterCompare />
         <PrivacySection />
         {!DEMO_MODE && (
           <>
@@ -63,6 +62,7 @@ export default async function Home({
         <CtaBand registeredCount={registeredCount} />
       </main>
       <LandingFooter />
+      <FloatingCta />
     </LocaleProvider>
   );
 }

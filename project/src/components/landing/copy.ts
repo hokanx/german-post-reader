@@ -38,32 +38,6 @@ export type MarketingCopy = {
     demoCaption: string;
     shotAlts: [string, string, string];
   };
-  realLetter: {
-    eyebrow: string;
-    heading: string;
-    body: string;
-    letterLabel: string;
-    letterSender: string;
-    letterRecipient: string;
-    letterSubject: string;
-    letterGreeting: string;
-    letterBody1: string;
-    letterBody2: string;
-    letterBody3: string;
-    letterClosing: string;
-    letterSignature: string;
-    analysisChip: string;
-    analysisHeading: string;
-    analysisBody: string;
-    deadlineLabel: string;
-    deadlineBody: string;
-    deadlineNote: string;
-    rightLabel: string;
-    rightBody: string;
-    replyDraftedHeading: string;
-    replyDraftedBody: string;
-    dragHint: string;
-  };
   privacy: {
     eyebrow: string;
     heading: string;
@@ -82,9 +56,6 @@ export type MarketingCopy = {
     eyebrow: string;
     heading: string;
     body: string;
-    instagramStory: string;
-    whatsappStory: string;
-    imageShareNote: string;
     orSendItIn: string;
     whatsapp: string;
     messenger: string;
@@ -92,8 +63,6 @@ export type MarketingCopy = {
     moreApps: string;
     copyLink: string;
     linkCopiedToast: string;
-    shareCardHeadline: string;
-    posterPreparingToast: string;
     moreAppsFailed: string;
   };
   offer: {
@@ -173,36 +142,6 @@ export const MARKETING_COPY: Record<MarketingLocale, MarketingCopy> = {
         "Ready-to-send German reply draft",
       ],
     },
-    realLetter: {
-      eyebrow: "A real letter",
-      heading: "Drag to read your post in plain English.",
-      body: "A Bürgergeld decision from the Jobcenter: six paragraphs of SGB II on the left, what it actually means for you on the right.",
-      letterLabel: "The letter you received",
-      letterSender: "JOBCENTER MÜNCHEN",
-      letterRecipient: "Frau A. Osei · Lindwurmstr. 42 · 80337 München",
-      letterSubject: "Bescheid über die Bewilligung von Bürgergeld",
-      letterGreeting: "Sehr geehrte Frau Osei,",
-      letterBody1:
-        "auf Ihren Antrag vom 14.01.2026 hin wird Ihnen für die Zeit vom 01.02.2026 bis 31.07.2026 Bürgergeld nach dem Zweiten Buch Sozialgesetzbuch (SGB II) in Höhe von monatlich 563,00 € bewilligt. Die Leistung setzt sich zusammen aus dem Regelbedarf sowie den anerkannten Aufwendungen für Unterkunft und Heizung.",
-      letterBody2:
-        "Sie sind verpflichtet, uns jede Änderung Ihrer persönlichen und wirtschaftlichen Verhältnisse unverzüglich mitzuteilen. Bitte reichen Sie die beigefügte Anlage EK bis zum 28.02.2026 vollständig ausgefüllt nach. Andernfalls kann die Leistung nach § 66 SGB I ganz oder teilweise entzogen werden.",
-      letterBody3:
-        "Gegen diesen Bescheid können Sie innerhalb eines Monats nach Bekanntgabe schriftlich oder zur Niederschrift Widerspruch einlegen.",
-      letterClosing: "Mit freundlichen Grüßen",
-      letterSignature: "i. A. Weber",
-      analysisChip: "Analysis complete",
-      analysisHeading: "Your Bürgergeld was approved.",
-      analysisBody:
-        "Jobcenter München approved the application you sent on 14 January. From 1 February to 31 July 2026 you receive 563,00 € a month — the standard rate plus your accepted rent and heating costs.",
-      deadlineLabel: "One deadline",
-      deadlineBody: "Return the attached Anlage EK form by 28 February 2026.",
-      deadlineNote: "If it arrives late, the office can reduce or stop the payments.",
-      rightLabel: "Your right",
-      rightBody: "You can appeal this decision within one month of receiving it.",
-      replyDraftedHeading: "Reply drafted in German",
-      replyDraftedBody: "Copy and send — you don't write a word of German.",
-      dragHint: "Drag the handle across the letter",
-    },
     privacy: {
       eyebrow: "Privacy",
       heading: "Your post is the most private mail you own.",
@@ -256,10 +195,6 @@ export const MARKETING_COPY: Record<MarketingLocale, MarketingCopy> = {
       eyebrow: "Pass it on",
       heading: "Someone you know has an unopened letter.",
       body: "Send Papkram to the person who forwards you their post to translate. One message saves them a week of worrying.",
-      instagramStory: "Instagram Story",
-      whatsappStory: "WhatsApp Story",
-      imageShareNote:
-        "Shares this card as an image, so Instagram Story and WhatsApp Status appear in your phone's share sheet. On desktop it downloads the card instead.",
       orSendItIn: "Or send it in",
       whatsapp: "WhatsApp",
       messenger: "Messenger",
@@ -267,8 +202,6 @@ export const MARKETING_COPY: Record<MarketingLocale, MarketingCopy> = {
       moreApps: "More apps",
       copyLink: "Copy link",
       linkCopiedToast: "Link copied.",
-      shareCardHeadline: "Stop guessing what your German post says.",
-      posterPreparingToast: "Preparing your card…",
       moreAppsFailed: "Couldn't open the share sheet — try one of the apps above instead.",
     },
     offer: {
@@ -408,36 +341,6 @@ export const MARKETING_COPY: Record<MarketingLocale, MarketingCopy> = {
         "مسودة رد بالألمانية جاهزة للإرسال",
       ],
     },
-    realLetter: {
-      eyebrow: "خطاب حقيقي",
-      heading: "اسحب لتقرأ بريدك بلغة واضحة.",
-      body: "قرار بشأن إعانة Bürgergeld من الـ Jobcenter: ست فقرات من قانون SGB II على جانب، وما تعنيه فعلاً لك على الجانب الآخر.",
-      letterLabel: "الخطاب الذي استلمته",
-      letterSender: "JOBCENTER MÜNCHEN",
-      letterRecipient: "Frau A. Osei · Lindwurmstr. 42 · 80337 München",
-      letterSubject: "Bescheid über die Bewilligung von Bürgergeld",
-      letterGreeting: "Sehr geehrte Frau Osei,",
-      letterBody1:
-        "auf Ihren Antrag vom 14.01.2026 hin wird Ihnen für die Zeit vom 01.02.2026 bis 31.07.2026 Bürgergeld nach dem Zweiten Buch Sozialgesetzbuch (SGB II) in Höhe von monatlich 563,00 € bewilligt. Die Leistung setzt sich zusammen aus dem Regelbedarf sowie den anerkannten Aufwendungen für Unterkunft und Heizung.",
-      letterBody2:
-        "Sie sind verpflichtet, uns jede Änderung Ihrer persönlichen und wirtschaftlichen Verhältnisse unverzüglich mitzuteilen. Bitte reichen Sie die beigefügte Anlage EK bis zum 28.02.2026 vollständig ausgefüllt nach. Andernfalls kann die Leistung nach § 66 SGB I ganz oder teilweise entzogen werden.",
-      letterBody3:
-        "Gegen diesen Bescheid können Sie innerhalb eines Monats nach Bekanntgabe schriftlich oder zur Niederschrift Widerspruch einlegen.",
-      letterClosing: "Mit freundlichen Grüßen",
-      letterSignature: "i. A. Weber",
-      analysisChip: "تم التحليل",
-      analysisHeading: "تم اعتماد إعانة Bürgergeld الخاصة بك.",
-      analysisBody:
-        "وافق Jobcenter München على الطلب الذي أرسلته في 14 يناير. من 1 فبراير إلى 31 يوليو 2026 ستستلم 563,00 € شهريًا — المبلغ الأساسي إضافة إلى تكاليف الإيجار والتدفئة المعتمدة.",
-      deadlineLabel: "موعد نهائي واحد",
-      deadlineBody: "أعِد نموذج Anlage EK المرفق قبل 28 فبراير 2026.",
-      deadlineNote: "إذا وصل متأخرًا، يمكن للمكتب تقليل الدفعات أو إيقافها.",
-      rightLabel: "حقك",
-      rightBody: "يمكنك الاعتراض على هذا القرار خلال شهر واحد من استلامه.",
-      replyDraftedHeading: "رد مُصاغ بالألمانية",
-      replyDraftedBody: "انسخه وأرسله — لن تكتب كلمة واحدة بالألمانية.",
-      dragHint: "اسحب المقبض عبر الخطاب",
-    },
     privacy: {
       eyebrow: "الخصوصية",
       heading: "بريدك هو أكثر ما تملكه خصوصية.",
@@ -491,10 +394,6 @@ export const MARKETING_COPY: Record<MarketingLocale, MarketingCopy> = {
       eyebrow: "انشر الخبر",
       heading: "شخص تعرفه لديه خطاب لم يفتحه.",
       body: "أرسل Papkram للشخص الذي يحوّل لك بريده لتترجمه. رسالة واحدة تعفيه من أسبوع من القلق.",
-      instagramStory: "ستوري إنستغرام",
-      whatsappStory: "حالة واتساب",
-      imageShareNote:
-        "يشارك هذه البطاقة كصورة، ليظهر ستوري إنستغرام وحالة واتساب في قائمة المشاركة. على الكمبيوتر يتم تنزيل البطاقة.",
       orSendItIn: "أو أرسله عبر",
       whatsapp: "واتساب",
       messenger: "ماسنجر",
@@ -502,8 +401,6 @@ export const MARKETING_COPY: Record<MarketingLocale, MarketingCopy> = {
       moreApps: "تطبيقات أخرى",
       copyLink: "انسخ الرابط",
       linkCopiedToast: "تم النسخ",
-      shareCardHeadline: "لا تخمّن ما يقوله بريدك الألماني.",
-      posterPreparingToast: "جارٍ تجهيز البطاقة…",
       moreAppsFailed: "تعذر فتح قائمة المشاركة — جرّب أحد التطبيقات أعلاه بدلاً من ذلك.",
     },
     offer: {
@@ -643,36 +540,6 @@ export const MARKETING_COPY: Record<MarketingLocale, MarketingCopy> = {
         "Gönderime hazır Almanca yanıt taslağı",
       ],
     },
-    realLetter: {
-      eyebrow: "Gerçek bir mektup",
-      heading: "Postanızı sade bir dille okumak için sürükleyin.",
-      body: "Jobcenter'dan bir Bürgergeld kararı: bir yanda altı paragraf SGB II metni, diğer yanda bunun sizin için gerçekte ne anlama geldiği.",
-      letterLabel: "Aldığınız mektup",
-      letterSender: "JOBCENTER MÜNCHEN",
-      letterRecipient: "Frau A. Osei · Lindwurmstr. 42 · 80337 München",
-      letterSubject: "Bescheid über die Bewilligung von Bürgergeld",
-      letterGreeting: "Sehr geehrte Frau Osei,",
-      letterBody1:
-        "auf Ihren Antrag vom 14.01.2026 hin wird Ihnen für die Zeit vom 01.02.2026 bis 31.07.2026 Bürgergeld nach dem Zweiten Buch Sozialgesetzbuch (SGB II) in Höhe von monatlich 563,00 € bewilligt. Die Leistung setzt sich zusammen aus dem Regelbedarf sowie den anerkannten Aufwendungen für Unterkunft und Heizung.",
-      letterBody2:
-        "Sie sind verpflichtet, uns jede Änderung Ihrer persönlichen und wirtschaftlichen Verhältnisse unverzüglich mitzuteilen. Bitte reichen Sie die beigefügte Anlage EK bis zum 28.02.2026 vollständig ausgefüllt nach. Andernfalls kann die Leistung nach § 66 SGB I ganz oder teilweise entzogen werden.",
-      letterBody3:
-        "Gegen diesen Bescheid können Sie innerhalb eines Monats nach Bekanntgabe schriftlich oder zur Niederschrift Widerspruch einlegen.",
-      letterClosing: "Mit freundlichen Grüßen",
-      letterSignature: "i. A. Weber",
-      analysisChip: "Analiz tamamlandı",
-      analysisHeading: "Bürgergeld başvurunuz onaylandı.",
-      analysisBody:
-        "Jobcenter München, 14 Ocak'ta gönderdiğiniz başvuruyu onayladı. 1 Şubat – 31 Temmuz 2026 arasında ayda 563,00 € alacaksınız — standart tutar ile kabul edilen kira ve ısınma masraflarınız.",
-      deadlineLabel: "Tek son tarih",
-      deadlineBody: "Ekteki Anlage EK formunu 28 Şubat 2026'ya kadar geri gönderin.",
-      deadlineNote: "Geç ulaşırsa kurum ödemeleri azaltabilir veya durdurabilir.",
-      rightLabel: "Hakkınız",
-      rightBody: "Bu karara, aldığınız tarihten itibaren bir ay içinde itiraz edebilirsiniz.",
-      replyDraftedHeading: "Almanca yanıt hazırlandı",
-      replyDraftedBody: "Kopyalayıp gönderin — Almanca tek kelime yazmanıza gerek yok.",
-      dragHint: "Tutamacı mektup üzerinde sürükleyin",
-    },
     privacy: {
       eyebrow: "Gizlilik",
       heading: "Postanız, sahip olduğunuz en özel şeydir.",
@@ -726,10 +593,6 @@ export const MARKETING_COPY: Record<MarketingLocale, MarketingCopy> = {
       eyebrow: "Paylaş",
       heading: "Tanıdığınız birinin açılmamış bir mektubu var.",
       body: "Postasını size çevirmeniz için gönderen kişiye Papkram'ı iletin. Tek bir mesaj, bir haftalık endişeyi ortadan kaldırır.",
-      instagramStory: "Instagram Story",
-      whatsappStory: "WhatsApp Durum",
-      imageShareNote:
-        "Bu kartı görsel olarak paylaşır; böylece paylaşım menüsünde Instagram Story ve WhatsApp Durum görünür. Masaüstünde kart indirilir.",
       orSendItIn: "Ya da şununla gönder",
       whatsapp: "WhatsApp",
       messenger: "Messenger",
@@ -737,8 +600,6 @@ export const MARKETING_COPY: Record<MarketingLocale, MarketingCopy> = {
       moreApps: "Diğer uygulamalar",
       copyLink: "Bağlantıyı kopyala",
       linkCopiedToast: "Kopyalandı",
-      shareCardHeadline: "Almanca postanızın ne dediğini tahmin etmeyi bırakın.",
-      posterPreparingToast: "Kartınız hazırlanıyor…",
       moreAppsFailed: "Paylaşım menüsü açılamadı — bunun yerine yukarıdaki uygulamalardan birini deneyin.",
     },
     offer: {
