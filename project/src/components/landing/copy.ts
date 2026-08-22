@@ -125,7 +125,7 @@ export const MARKETING_COPY: Record<MarketingLocale, MarketingCopy> = {
           mockup: { label: "letter.jpg", detail: "Uploading…" },
         },
         {
-          title: "We read it",
+          title: "Papkram reads it",
           description: "We translate it, summarize it, and flag every deadline — in your language.",
           mockup: { label: "Analysis complete", detail: "1 deadline found" },
         },
@@ -324,7 +324,7 @@ export const MARKETING_COPY: Record<MarketingLocale, MarketingCopy> = {
           mockup: { label: "خطاب.jpg", detail: "جارٍ الرفع…" },
         },
         {
-          title: "نقرأه",
+          title: "تقرأه Papkram",
           description: "نترجمه، نلخصه، ونحدد كل موعد نهائي — بلغتك.",
           mockup: { label: "تم التحليل", detail: "تم العثور على موعد نهائي واحد" },
         },
@@ -523,7 +523,7 @@ export const MARKETING_COPY: Record<MarketingLocale, MarketingCopy> = {
           mockup: { label: "mektup.jpg", detail: "Yükleniyor…" },
         },
         {
-          title: "Biz okuyoruz",
+          title: "Papkram okuyor",
           description: "Onu çeviririz, özetleriz ve her son tarihi işaretleriz — sizin dilinizde.",
           mockup: { label: "Analiz tamamlandı", detail: "1 son tarih bulundu" },
         },

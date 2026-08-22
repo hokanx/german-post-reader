@@ -48,6 +48,18 @@ function shareUrl(base: string, via: SharePlatform) {
   return url.toString();
 }
 
+async function fetchShareCardFile(locale: string): Promise<File | null> {
+  try {
+    const response = await fetch(`/share-cards/${locale}.png`);
+    if (!response.ok) return null;
+    const blob = await response.blob();
+    return new File([blob], "papkram-share.png", { type: "image/png" });
+  } catch (error) {
+    console.error("share card fetch failed", error);
+    return null;
+  }
+}
+
 export function PassItOn() {
   const shouldReduceMotion = useReducedMotion();
   const { locale } = useMarketingLocale();
@@ -59,11 +71,40 @@ export function PassItOn() {
     return shareUrl(origin, via);
   }
 
+  // Every "send it in" button first tries to hand the OS share sheet the
+  // locale-matched card image together with the link — files.share is the
+  // only mechanism that can carry both at once (wa.me / fb-messenger:// /
+  // t.me's own deep-link schemes only accept text, never a file). Where
+  // file sharing isn't available (most desktop browsers), each button
+  // falls back to its own link-only deep link into that specific app —
+  // still functional, just without the image.
+  async function shareCardThenFallback(platform: SharePlatform, fallback: () => void) {
+    trackEvent("share_link_clicked", { platform });
+    const url = landingUrl(platform);
+
+    if (typeof navigator.share === "function") {
+      const file = await fetchShareCardFile(locale);
+      const canShareFiles = file && typeof navigator.canShare === "function" && navigator.canShare({ files: [file] });
+      if (canShareFiles) {
+        try {
+          await navigator.share({ files: [file as File], text: url });
+          return;
+        } catch (error) {
+          if ((error as { name?: string }).name === "AbortError") return;
+          console.error(`navigator.share failed (${platform})`, error);
+        }
+      }
+    }
+
+    fallback();
+  }
+
   function handleWhatsapp() {
-    trackEvent("share_link_clicked", { platform: "whatsapp" });
-    const url = new URL("https://wa.me/");
-    url.searchParams.set("text", landingUrl("whatsapp"));
-    window.open(url.toString(), "_blank", "noopener,noreferrer");
+    shareCardThenFallback("whatsapp", () => {
+      const url = new URL("https://wa.me/");
+      url.searchParams.set("text", landingUrl("whatsapp"));
+      window.open(url.toString(), "_blank", "noopener,noreferrer");
+    });
   }
 
   // Messenger's web share dialog (facebook.com/dialog/send) needs a
@@ -72,58 +113,31 @@ export function PassItOn() {
   // (no graceful desktop fallback, same category of limitation as any
   // app-only deep link).
   function handleMessenger() {
-    trackEvent("share_link_clicked", { platform: "messenger" });
-    const url = new URL("fb-messenger://share");
-    url.searchParams.set("link", landingUrl("messenger"));
-    window.location.href = url.toString();
+    shareCardThenFallback("messenger", () => {
+      const url = new URL("fb-messenger://share");
+      url.searchParams.set("link", landingUrl("messenger"));
+      window.location.href = url.toString();
+    });
   }
 
   function handleTelegram() {
-    trackEvent("share_link_clicked", { platform: "telegram" });
-    const url = new URL("https://t.me/share/url");
-    url.searchParams.set("url", landingUrl("telegram"));
-    window.open(url.toString(), "_blank", "noopener,noreferrer");
+    shareCardThenFallback("telegram", () => {
+      const url = new URL("https://t.me/share/url");
+      url.searchParams.set("url", landingUrl("telegram"));
+      window.open(url.toString(), "_blank", "noopener,noreferrer");
+    });
   }
 
-  // Prefers attaching the locale-matched card image (the "SEND THIS TO
-  // SOMEONE WHO CAN'T READ THEIR GERMAN LETTER" cards) over a bare link,
-  // since the native share sheet supports files here — falls back to a
-  // link-only share, then to copying the link, as file support narrows.
   async function handleMoreApps() {
-    trackEvent("share_link_clicked", { platform: "more_apps" });
-    const url = landingUrl("more_apps");
-
-    if (typeof navigator.share === "function") {
-      let file: File | null = null;
+    await shareCardThenFallback("more_apps", async () => {
       try {
-        const response = await fetch(`/share-cards/${locale}.png`);
-        if (response.ok) {
-          const blob = await response.blob();
-          file = new File([blob], "papkram-share.png", { type: "image/png" });
-        }
+        await navigator.clipboard.writeText(landingUrl("more_apps"));
+        toast.success(t.linkCopiedToast);
       } catch (error) {
-        console.error("share card fetch failed", error);
+        console.error("navigator.clipboard.writeText failed", error);
+        toast.error(t.moreAppsFailed);
       }
-
-      const canShareFiles = file && typeof navigator.canShare === "function" && navigator.canShare({ files: [file] });
-      try {
-        await navigator.share(canShareFiles ? { files: [file as File], url } : { url });
-      } catch (error) {
-        if ((error as { name?: string }).name !== "AbortError") {
-          console.error("navigator.share failed (more apps)", error);
-          toast.error(t.moreAppsFailed);
-        }
-      }
-      return;
-    }
-
-    try {
-      await navigator.clipboard.writeText(url);
-      toast.success(t.linkCopiedToast);
-    } catch (error) {
-      console.error("navigator.clipboard.writeText failed", error);
-      toast.error(t.moreAppsFailed);
-    }
+    });
   }
 
   async function handleCopyLink() {
