@@ -77,10 +77,15 @@ export function DemoPitch({ registeredCount }: { registeredCount: number | null 
                 shareTwitter: copy.demoPitch.share.twitter,
                 shareWhatsapp: copy.demoPitch.share.whatsapp,
                 shareCopyLink: copy.demoPitch.share.copyLink,
+                sharePoster: copy.demoPitch.share.poster,
                 shareTweetText: copy.demoPitch.share.tweetText,
                 shareWhatsappText: copy.demoPitch.share.whatsappText,
+                posterCaptionText: copy.demoPitch.share.posterCaptionText,
+                posterPreparingToast: copy.demoPitch.share.posterPreparingToast,
                 linkCopiedToast: copy.demoPitch.share.linkCopiedToast,
                 linkCopyFailed: copy.demoPitch.share.linkCopyFailed,
+                posterShareFailed: copy.demoPitch.share.posterShareFailed,
+                posterFallbackToast: copy.demoPitch.share.posterFallbackToast,
               }}
             />
           </div>

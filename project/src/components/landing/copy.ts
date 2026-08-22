@@ -57,10 +57,15 @@ export type MarketingCopy = {
       twitter: string;
       whatsapp: string;
       copyLink: string;
+      poster: string;
       tweetText: string;
       whatsappText: string;
+      posterCaptionText: string;
+      posterPreparingToast: string;
       linkCopiedToast: string;
       linkCopyFailed: string;
+      posterShareFailed: string;
+      posterFallbackToast: string;
     };
   };
   cta: { badge: string; heading: string; button: string };
@@ -128,11 +133,17 @@ export const MARKETING_COPY: Record<MarketingLocale, MarketingCopy> = {
         twitter: "Share on X",
         whatsapp: "Share on WhatsApp",
         copyLink: "Copy link",
+        poster: "Share a poster",
         tweetText:
           "Papkram translates confusing German mail into plain language, with deadlines and a ready-to-send reply.",
         whatsappText: "Papkram translates confusing German mail into plain language — worth a look:",
+        posterCaptionText:
+          "I stopped dreading German mail. Papkram reads the letter, tells me what it actually says, flags the deadline, and drafts my reply — first 4 letters free.",
+        posterPreparingToast: "Preparing your poster…",
         linkCopiedToast: "Link copied.",
         linkCopyFailed: "Couldn't copy the link — select and copy it manually instead.",
+        posterShareFailed: "Couldn't share the poster — try again, or copy the link instead.",
+        posterFallbackToast: "Poster downloaded and caption copied — ready to paste into Instagram, TikTok, or WhatsApp.",
       },
     },
     offer: {
@@ -276,10 +287,16 @@ export const MARKETING_COPY: Record<MarketingLocale, MarketingCopy> = {
         twitter: "شارك على X",
         whatsapp: "شارك على واتساب",
         copyLink: "نسخ الرابط",
+        poster: "شارك ملصقًا",
         tweetText: "يترجم Papkram البريد الألماني المربك إلى لغة واضحة، مع المواعيد النهائية ورد جاهز للإرسال.",
         whatsappText: "يترجم Papkram البريد الألماني المربك إلى لغة واضحة — يستحق نظرة:",
+        posterCaptionText:
+          "توقفت عن الخوف من البريد الألماني. تطبيق Papkram يقرأ الخطاب، يشرح لي ما يعنيه فعليًا، ينبهني للموعد النهائي، ويكتب لي ردًا جاهزًا — أول 4 خطابات مجانًا.",
+        posterPreparingToast: "جارٍ تجهيز الملصق…",
         linkCopiedToast: "تم نسخ الرابط.",
         linkCopyFailed: "تعذر نسخ الرابط — حدده وانسخه يدويًا بدلاً من ذلك.",
+        posterShareFailed: "تعذّرت مشاركة الملصق — حاول مجددًا، أو انسخ الرابط بدلاً من ذلك.",
+        posterFallbackToast: "تم تنزيل الملصق ونسخ النص — جاهز للصقه في إنستغرام أو تيك توك أو واتساب.",
       },
     },
     offer: {
@@ -423,11 +440,17 @@ export const MARKETING_COPY: Record<MarketingLocale, MarketingCopy> = {
         twitter: "X'te paylaş",
         whatsapp: "WhatsApp'ta paylaş",
         copyLink: "Bağlantıyı kopyala",
+        poster: "Bir poster paylaş",
         tweetText:
           "Papkram, kafa karıştırıcı Almanca mektupları anlaşılır bir dile, son tarihlerle ve gönderime hazır bir yanıtla birlikte çeviriyor.",
         whatsappText: "Papkram, kafa karıştırıcı Almanca mektupları anlaşılır bir dile çeviriyor — göz atmaya değer:",
+        posterCaptionText:
+          "Almanca mektuplardan artık korkmuyorum. Papkram mektubu okuyor, gerçekte ne dediğini anlatıyor, son tarihi hatırlatıyor ve yanıtımı yazıyor — ilk 4 mektup ücretsiz.",
+        posterPreparingToast: "Posteriniz hazırlanıyor…",
         linkCopiedToast: "Bağlantı kopyalandı.",
         linkCopyFailed: "Bağlantı kopyalanamadı — bunun yerine seçip elle kopyalayın.",
+        posterShareFailed: "Poster paylaşılamadı — tekrar deneyin veya bunun yerine bağlantıyı kopyalayın.",
+        posterFallbackToast: "Poster indirildi ve metin kopyalandı — Instagram, TikTok veya WhatsApp'a yapıştırmaya hazır.",
       },
     },
     offer: {

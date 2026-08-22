@@ -294,10 +294,15 @@ export type AppCopy = {
     shareTwitter: string;
     shareWhatsapp: string;
     shareCopyLink: string;
+    sharePoster: string;
     linkCopiedToast: string;
     linkCopyFailed: string;
     shareTweetText: string;
     shareWhatsappText: string;
+    posterCaptionText: string;
+    posterPreparingToast: string;
+    posterShareFailed: string;
+    posterFallbackToast: string;
     continueButton: string;
   };
 };
@@ -664,10 +669,16 @@ export const APP_COPY: Record<AppLanguage, AppCopy> = {
       shareTwitter: "Share on X",
       shareWhatsapp: "Share on WhatsApp",
       shareCopyLink: "Copy link",
+      sharePoster: "Share a poster",
       linkCopiedToast: "Link copied.",
       linkCopyFailed: "Couldn't copy the link — select and copy it manually instead.",
       shareTweetText: "Papkram translates confusing German mail into plain language, with deadlines and a ready-to-send reply.",
       shareWhatsappText: "I've been using Papkram to make sense of confusing German mail — worth a look:",
+      posterCaptionText:
+        "I stopped dreading German mail. Papkram reads the letter, tells me what it actually says, flags the deadline, and drafts my reply — first 4 letters free.",
+      posterPreparingToast: "Preparing your poster…",
+      posterShareFailed: "Couldn't share the poster — try again, or copy the link instead.",
+      posterFallbackToast: "Poster downloaded and caption copied — ready to paste into Instagram, TikTok, or WhatsApp.",
       continueButton: "Continue to dashboard",
     },
   },
@@ -1030,10 +1041,16 @@ export const APP_COPY: Record<AppLanguage, AppCopy> = {
       shareTwitter: "شارك على X",
       shareWhatsapp: "شارك على واتساب",
       shareCopyLink: "نسخ الرابط",
+      sharePoster: "شارك ملصقًا",
       linkCopiedToast: "تم نسخ الرابط.",
       linkCopyFailed: "تعذر نسخ الرابط — حدده وانسخه يدويًا بدلاً من ذلك.",
       shareTweetText: "يترجم Papkram البريد الألماني المربك إلى لغة واضحة، مع المواعيد النهائية ورد جاهز للإرسال.",
       shareWhatsappText: "أستخدم Papkram لفهم البريد الألماني المربك — يستحق نظرة:",
+      posterCaptionText:
+        "توقفت عن الخوف من البريد الألماني. تطبيق Papkram يقرأ الخطاب، يشرح لي ما يعنيه فعليًا، ينبهني للموعد النهائي، ويكتب لي ردًا جاهزًا — أول 4 خطابات مجانًا.",
+      posterPreparingToast: "جارٍ تجهيز الملصق…",
+      posterShareFailed: "تعذّرت مشاركة الملصق — حاول مجددًا، أو انسخ الرابط بدلاً من ذلك.",
+      posterFallbackToast: "تم تنزيل الملصق ونسخ النص — جاهز للصقه في إنستغرام أو تيك توك أو واتساب.",
       continueButton: "الانتقال إلى لوحة التحكم",
     },
   },
@@ -1398,10 +1415,16 @@ export const APP_COPY: Record<AppLanguage, AppCopy> = {
       shareTwitter: "X'te paylaş",
       shareWhatsapp: "WhatsApp'ta paylaş",
       shareCopyLink: "Bağlantıyı kopyala",
+      sharePoster: "Bir poster paylaş",
       linkCopiedToast: "Bağlantı kopyalandı.",
       linkCopyFailed: "Bağlantı kopyalanamadı — bunun yerine seçip elle kopyalayın.",
       shareTweetText: "Papkram, kafa karıştırıcı Almanca mektupları anlaşılır bir dile, son tarihlerle ve gönderime hazır bir yanıtla birlikte çeviriyor.",
       shareWhatsappText: "Kafa karıştırıcı Almanca mektupları anlamak için Papkram kullanıyorum — göz atmaya değer:",
+      posterCaptionText:
+        "Almanca mektuplardan artık korkmuyorum. Papkram mektubu okuyor, gerçekte ne dediğini anlatıyor, son tarihi hatırlatıyor ve yanıtımı yazıyor — ilk 4 mektup ücretsiz.",
+      posterPreparingToast: "Posteriniz hazırlanıyor…",
+      posterShareFailed: "Poster paylaşılamadı — tekrar deneyin veya bunun yerine bağlantıyı kopyalayın.",
+      posterFallbackToast: "Poster indirildi ve metin kopyalandı — Instagram, TikTok veya WhatsApp'a yapıştırmaya hazır.",
       continueButton: "Panele devam et",
     },
   },
