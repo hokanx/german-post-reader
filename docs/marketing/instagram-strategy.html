@@ -1,0 +1,645 @@
+<title>Papkram on Instagram</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Noto+Sans+Arabic:wght@400;600&display=swap">
+
+<style>
+  :root {
+    --bg:        #fff7ed;
+    --surface:   #fffdf8;
+    --surface-2: #fef3c7;
+    --ink:       #1a0a2e;
+    --ink-soft:  #574269;
+    --primary:   #7c3aed;
+    --accent:    #fb923c;
+    --line:      #1a0a2e;
+    --hairline:  #e6d9c4;
+    --shadow:    #1a0a2e;
+    --good:      #15803d;
+    --warn:      #b45309;
+    --crit:      #be123c;
+    --r-sm: 12px; --r-md: 18px; --r-lg: 28px;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg:        #16101f;
+      --surface:   #1e1730;
+      --surface-2: #2a2040;
+      --ink:       #f6efe6;
+      --ink-soft:  #b7a8c9;
+      --primary:   #c0a1ff;
+      --accent:    #fdb572;
+      --line:      #4a3a63;
+      --hairline:  #362a4c;
+      --shadow:    #0b0713;
+      --good:      #6ee7a8;
+      --warn:      #fbbf5c;
+      --crit:      #ff8fa8;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg:        #16101f;
+    --surface:   #1e1730;
+    --surface-2: #2a2040;
+    --ink:       #f6efe6;
+    --ink-soft:  #b7a8c9;
+    --primary:   #c0a1ff;
+    --accent:    #fdb572;
+    --line:      #4a3a63;
+    --hairline:  #362a4c;
+    --shadow:    #0b0713;
+    --good:      #6ee7a8;
+    --warn:      #fbbf5c;
+    --crit:      #ff8fa8;
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--ink);
+    font-family: Inter, system-ui, -apple-system, "Segoe UI", sans-serif;
+    font-size: 17px;
+    line-height: 1.62;
+    margin: 0;
+    padding: 0 20px 96px;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .wrap { max-width: 760px; margin: 0 auto; }
+
+  h1, h2, h3, .display {
+    font-family: "Bricolage Grotesque", "Bricolage Grotesque Fallback", system-ui, sans-serif;
+    font-weight: 800;
+    letter-spacing: -0.025em;
+    line-height: 1.02;
+    text-wrap: balance;
+    margin: 0;
+  }
+
+  /* ---------- masthead ---------- */
+  header.mast {
+    padding: 64px 0 40px;
+    border-bottom: 2px solid var(--line);
+    display: flex; flex-direction: column; gap: 22px;
+  }
+  .brandline { display: flex; align-items: center; gap: 12px; }
+  .mark {
+    width: 40px; height: 40px; border-radius: var(--r-sm);
+    background: var(--accent); border: 2px solid var(--line);
+    box-shadow: 3px 3px 0 0 var(--shadow);
+    display: grid; place-items: center; flex: none;
+  }
+  .mark svg { width: 21px; height: 21px; display: block; }
+  .brandname {
+    font-family: "Bricolage Grotesque", system-ui, sans-serif;
+    font-weight: 800; font-size: 21px; letter-spacing: -0.03em;
+  }
+  h1 { font-size: clamp(40px, 9vw, 68px); }
+  h1 em { font-style: normal; color: var(--primary); }
+  .standfirst {
+    font-size: clamp(17px, 2.4vw, 20px);
+    color: var(--ink-soft); max-width: 60ch; margin: 0;
+  }
+  .metaline {
+    font-family: "JetBrains Mono", ui-monospace, monospace;
+    font-size: 12px; letter-spacing: 0.04em; color: var(--ink-soft);
+    text-transform: uppercase;
+    display: flex; flex-wrap: wrap; gap: 8px 18px;
+  }
+
+  /* ---------- chips / eyebrows ---------- */
+  .chip {
+    display: inline-block;
+    font-family: "JetBrains Mono", ui-monospace, monospace;
+    font-size: 11px; font-weight: 500;
+    text-transform: uppercase; letter-spacing: 0.09em;
+    padding: 5px 13px; border-radius: 999px;
+    border: 2px solid var(--line);
+    background: var(--surface-2); color: var(--ink);
+  }
+  .chip.solid  { background: var(--primary); color: #fff; border-color: var(--primary); }
+  .chip.accent { background: var(--accent); color: #1a0a2e; border-color: var(--line); }
+
+  /* ---------- sections ---------- */
+  section { padding-top: 60px; }
+  .sec-head { display: flex; flex-direction: column; gap: 14px; margin-bottom: 26px; }
+  h2 { font-size: clamp(27px, 4.6vw, 38px); }
+  h3 {
+    font-size: 19px; font-weight: 700; letter-spacing: -0.015em;
+    margin: 34px 0 10px;
+  }
+  p { margin: 0 0 16px; max-width: 66ch; }
+  a { color: var(--primary); text-underline-offset: 3px; }
+  a:focus-visible, button:focus-visible {
+    outline: 3px solid var(--primary); outline-offset: 3px; border-radius: 4px;
+  }
+  strong { font-weight: 700; }
+
+  /* ---------- the five decisions ---------- */
+  .decisions { display: flex; flex-direction: column; gap: 14px; }
+  .decision {
+    display: grid; grid-template-columns: auto 1fr; gap: 18px; align-items: start;
+    background: var(--surface);
+    border: 2px solid var(--line); border-radius: var(--r-md);
+    box-shadow: 5px 5px 0 0 var(--shadow);
+    padding: 20px 22px;
+  }
+  .decision .k {
+    font-family: "Bricolage Grotesque", system-ui, sans-serif;
+    font-weight: 800; font-size: 15px; letter-spacing: 0.02em;
+    color: var(--primary);
+    text-transform: uppercase;
+    padding-top: 2px; white-space: nowrap;
+  }
+  .decision p { margin: 0; font-size: 16px; }
+
+  /* ---------- cards ---------- */
+  .card {
+    background: var(--surface);
+    border: 2px solid var(--line); border-radius: var(--r-md);
+    padding: 22px 24px; margin: 22px 0;
+  }
+  .card.hard { box-shadow: 6px 6px 0 0 var(--shadow); }
+  .card > :last-child { margin-bottom: 0; }
+  .card-label {
+    font-family: "JetBrains Mono", monospace; font-size: 11px;
+    text-transform: uppercase; letter-spacing: 0.09em;
+    color: var(--ink-soft); margin-bottom: 10px;
+  }
+  .quote {
+    font-family: "Bricolage Grotesque", system-ui, sans-serif;
+    font-size: clamp(20px, 3.2vw, 26px); font-weight: 700;
+    letter-spacing: -0.02em; line-height: 1.25; margin: 0;
+  }
+
+  /* ---------- tables ---------- */
+  .scroller { overflow-x: auto; margin: 20px 0; border-radius: var(--r-md); }
+  table {
+    width: 100%; min-width: 560px; border-collapse: collapse;
+    font-size: 15px; background: var(--surface);
+    border: 2px solid var(--line); border-radius: var(--r-md);
+    overflow: hidden;
+  }
+  th, td { text-align: left; padding: 12px 15px; vertical-align: top; border-bottom: 1px solid var(--hairline); }
+  th {
+    font-family: "JetBrains Mono", monospace; font-size: 11px;
+    text-transform: uppercase; letter-spacing: 0.07em; font-weight: 500;
+    background: var(--surface-2); color: var(--ink);
+    border-bottom: 2px solid var(--line);
+  }
+  tbody tr:last-child td { border-bottom: 0; }
+  td strong { display: block; }
+  .lvl-hi   { color: var(--crit); font-weight: 700; }
+  .lvl-mid  { color: var(--warn); font-weight: 700; }
+  .lvl-low  { color: var(--good); font-weight: 700; }
+
+  /* ---------- lists ---------- */
+  ul.plain { list-style: none; padding: 0; margin: 0 0 16px; display: flex; flex-direction: column; gap: 10px; }
+  ul.plain li { padding-left: 22px; position: relative; max-width: 66ch; }
+  ul.plain li::before {
+    content: ""; position: absolute; left: 0; top: 10px;
+    width: 9px; height: 9px; border-radius: 3px;
+    background: var(--accent); border: 1.5px solid var(--line);
+  }
+  ul.ban li::before { background: var(--crit); border-color: var(--crit); border-radius: 999px; }
+
+  /* ---------- calendar ---------- */
+  .weeks { display: grid; gap: 14px; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); margin: 22px 0; }
+  .week {
+    border: 2px solid var(--line); border-radius: var(--r-md);
+    background: var(--surface); padding: 18px 19px;
+    display: flex; flex-direction: column; gap: 9px;
+  }
+  .week h4 {
+    margin: 0; font-family: "Bricolage Grotesque", system-ui, sans-serif;
+    font-size: 17px; font-weight: 800; letter-spacing: -0.02em;
+  }
+  .week ol { margin: 0; padding-left: 18px; font-size: 14.5px; color: var(--ink-soft); display: flex; flex-direction: column; gap: 6px; }
+  .week ol strong { color: var(--ink); }
+
+  /* ---------- hook tabs ---------- */
+  .tabs { display: flex; gap: 10px; margin: 22px 0 16px; flex-wrap: wrap; }
+  .tab {
+    font-family: "JetBrains Mono", monospace; font-size: 12px;
+    text-transform: uppercase; letter-spacing: 0.08em;
+    padding: 10px 18px; min-height: 44px;
+    border: 2px solid var(--line); border-radius: 999px;
+    background: var(--surface); color: var(--ink);
+    cursor: pointer; transition: transform .12s ease, background .12s ease;
+  }
+  .tab[aria-selected="true"] { background: var(--primary); color: #fff; border-color: var(--primary); }
+  .tab:hover { transform: translateY(-1px); }
+  .hooks { display: flex; flex-direction: column; gap: 12px; }
+  .hook {
+    background: var(--surface); border: 2px solid var(--line);
+    border-left-width: 7px; border-left-color: var(--accent);
+    border-radius: var(--r-sm); padding: 13px 17px;
+    font-size: 16.5px;
+  }
+  [dir="rtl"] .hook { border-left-width: 2px; border-right-width: 7px; border-right-color: var(--accent); }
+  [dir="rtl"] { font-family: "Noto Sans Arabic", Inter, sans-serif; }
+  [hidden] { display: none !important; }
+
+  /* ---------- risk rows ---------- */
+  .risk { display: grid; grid-template-columns: 1fr; gap: 6px; padding: 16px 0; border-bottom: 1px solid var(--hairline); }
+  .risk:last-child { border-bottom: 0; }
+  .risk .r-top { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+  .risk .r-name { font-weight: 700; }
+  .risk .r-fix { color: var(--ink-soft); font-size: 15.5px; max-width: 66ch; }
+  .sev {
+    font-family: "JetBrains Mono", monospace; font-size: 10.5px;
+    text-transform: uppercase; letter-spacing: 0.08em;
+    padding: 3px 10px; border-radius: 999px; border: 1.5px solid currentColor;
+  }
+  .sev.high { color: var(--crit); }
+  .sev.med  { color: var(--warn); }
+
+  footer {
+    margin-top: 68px; padding-top: 26px;
+    border-top: 2px solid var(--line);
+    font-family: "JetBrains Mono", monospace; font-size: 12px;
+    color: var(--ink-soft); letter-spacing: 0.03em;
+    display: flex; flex-wrap: wrap; gap: 8px 20px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    * { transition: none !important; animation: none !important; }
+  }
+</style>
+
+<div class="wrap">
+
+  <header class="mast">
+    <div class="brandline">
+      <span class="mark" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#1a0a2e" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="2" y="5" width="20" height="14" rx="3"></rect><path d="m3 7 9 6 9-6"></path>
+        </svg>
+      </span>
+      <span class="brandname">Papkram</span>
+      <span class="chip">Strategy brief</span>
+    </div>
+    <h1>Instagram: the <em>Arabic-first</em> wedge.</h1>
+    <p class="standfirst">Papkram isn't in the translation niche — it's in bureaucratic anxiety relief. Every direct competitor found is English-only. That gap, plus a calm voice in a loud category, is the whole plan.</p>
+    <div class="metaline">
+      <span>22 Aug 2026</span><span>Niche · Competitors · Positioning · 30 days</span><span>Solo-founder execution</span>
+    </div>
+  </header>
+
+  <section>
+    <div class="sec-head"><span class="chip solid">Start here</span><h2>Five decisions</h2></div>
+    <div class="decisions">
+      <div class="decision"><span class="k">Niche</span><p>Bureaucratic anxiety relief, not translation. The job isn't "translate this" — it's <strong>"am I in trouble, and by when?"</strong> Lead with the deadline, always.</p></div>
+      <div class="decision"><span class="k">Wedge</span><p><strong>Arabic first, English second, Turkish third.</strong> Every direct competitor anchors on "plain English." The RTL work is already shipped — that's a moat nobody else has paid for.</p></div>
+      <div class="decision"><span class="k">Voice</span><p><strong>Loud design, quiet words.</strong> The playful identity stops the scroll; the calm copy earns the trust. Be the account that lowers the reader's heart rate.</p></div>
+      <div class="decision"><span class="k">Engine</span><p>Two Reels + one carousel per week. "One German word" Reels for reach, "Brief der Woche" carousels for saves. Batched in one Sunday session. Nothing else until something breaks out.</p></div>
+      <div class="decision"><span class="k">Guardrail</span><p>Never legal advice, never a real user's letter, never a machine-translated caption. Each of the three is fatal in a different way.</p></div>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-head"><span class="chip">Evidence note</span><h2>What's verified, what isn't</h2></div>
+    <p>Instagram.com is blocked from the environment this research ran in, so <strong>every follower count below comes from third-party write-ups, not from the profiles themselves.</strong> Market sizing, the direct-competitor list and platform mechanics are solid — they come from official statistics, live product pages and 2026 platform studies. Treat the account-level numbers as leads to verify, not facts. There's a 40-minute phone audit at the end that closes the gap.</p>
+  </section>
+
+  <section>
+    <div class="sec-head"><span class="chip">01 · The niche</span><h2>Three markets, one product</h2></div>
+    <p>They share a product. They do <em>not</em> share a feed, a language, a creator set, or a purchase psychology. The asymmetry is the whole strategy: the segment with the most pain and the least competition is the one every competitor ignores.</p>
+    <div class="scroller">
+      <table>
+        <thead><tr><th>Segment</th><th>Size in Germany</th><th>Pain</th><th>Pays?</th><th>IG competition</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><strong>Arabic-speaking</strong>Syrian, Iraqi, Lebanese, Egyptian</td>
+            <td>~1.7% speak Arabic at home · ~970k Syrian nationals, ~1.28M with Syrian background</td>
+            <td class="lvl-hi">Highest</td>
+            <td>Medium at €3.99/mo</td>
+            <td class="lvl-low">Thin — news pages, no letter-specific accounts</td>
+          </tr>
+          <tr>
+            <td><strong>Turkish-speaking</strong></td>
+            <td>~2.6% speak Turkish at home · ~1.52M citizens, ~3M Turkish-origin</td>
+            <td class="lvl-mid">High</td>
+            <td>Medium</td>
+            <td class="lvl-mid">Crowded but adjacent — jobs &amp; citizenship, not letters</td>
+          </tr>
+          <tr>
+            <td><strong>English-speaking internationals</strong></td>
+            <td>Millions — tech workers, students, Blue Card</td>
+            <td class="lvl-mid">Medium</td>
+            <td class="lvl-low">Highest</td>
+            <td class="lvl-hi">Most crowded — Simple Germany, ExpatEase, Handbook Germany</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="card hard">
+      <div class="card-label">Why Arabic wins the first slot</div>
+      <p>Highest legal jeopardy per letter (Jobcenter, Sozialamt, Ausländerbehörde, BAMF), the strongest sharing behaviour of the three communities, and the thinnest competition — because trustworthy Arabic RTL output is real work, and Papkram has already done it.</p>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-head"><span class="chip">02 · Competitors</span><h2>The category got crowded in 2026</h2></div>
+    <h3>Tier 1 — same promise, same mechanic</h3>
+    <div class="scroller">
+      <table>
+        <thead><tr><th>Product</th><th>Their promise</th><th>The weakness to attack</th></tr></thead>
+        <tbody>
+          <tr><td><strong>BriefEasy</strong></td><td>"Understand every letter from the Amt" — Jobcenter to landlords. Monthly/yearly premium.</td><td>Price hidden until in-app — reads as untrustworthy to an anxious, low-income audience</td></tr>
+          <tr><td><strong>Amtli</strong></td><td>"Understand any German letter <em>in plain English</em>"</td><td>English in the headline = zero pull for Arabic or Turkish speakers</td></tr>
+          <tr><td><strong>Behörden-Klartext</strong></td><td>"One photo, one explanation, one date in the calendar." Sharp — same argument as ours.</td><td>Lives on a <code>*.lovable.app</code> subdomain. Signals weekend build, not a company you trust with Jobcenter mail.</td></tr>
+          <tr><td><strong>expat.fyi</strong></td><td>Free sender + subject identification, plus guides</td><td>Never reads the actual letter — no deadline extraction, no reply</td></tr>
+          <tr><td><strong>mika / Texthelfer</strong></td><td>Free German → plain German</td><td>Wrong direction entirely: simplifies German into German</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="card hard">
+      <div class="card-label">Two gaps nobody is filling</div>
+      <ul class="plain">
+        <li><strong>Nobody leads with Arabic or Turkish.</strong> Every single one anchors on "plain English."</li>
+        <li><strong>Nobody offers the reply loop</strong> — a German draft <em>plus</em> a translation of that draft, so you know what you're about to send. Harder to copy than the summary.</li>
+        <li>The category is at the many-identical-wrappers stage, which means <strong>distribution and trust decide it, not features.</strong> Hence Instagram.</li>
+      </ul>
+    </div>
+
+    <h3>Tier 2 — content competitors, i.e. your distribution</h3>
+    <p>They have the audience and no product. You have the product and no audience. These are collab targets, not enemies. Reported sizes, unverified: <strong>Simple Germany</strong> ~42k (the polished English benchmark), <strong>Handbook Germany</strong> ~24k (9 languages, institutional, closest to an incumbent in your multilingual lane), <strong>ExpatEase</strong> ~11k, <strong>isteyim.official</strong> ~171k (Turkish, jobs). On the Arabic side: germanyarabic.de and arab-deutschland.com — news-and-guides pages with a heavy Facebook and Telegram tilt.</p>
+
+    <h3>Tier 3 — what people actually do today</h3>
+    <p>Ranked by real usage. Each one is a content angle:</p>
+    <ul class="plain">
+      <li><strong>Ask a bilingual relative.</strong> Free, trusted, slow, embarrassing — and sometimes wrong.</li>
+      <li><strong>Photo → Google Translate or ChatGPT.</strong> Gives words, not consequence. Hallucinates the deadline.</li>
+      <li><strong>Post it in a Facebook group.</strong> Free, fast, and a privacy disaster. <em>Your single best content angle.</em></li>
+      <li><strong>Caritas / Diakonie / Migrationsberatung.</strong> Free, correct, booked out three weeks.</li>
+      <li><strong>Nothing — until it becomes a Mahnung.</strong></li>
+    </ul>
+  </section>
+
+  <section>
+    <div class="sec-head"><span class="chip solid">03 · Positioning</span><h2>The calm second opinion for German post</h2></div>
+    <div class="card hard">
+      <p class="quote">Papkram reads the letter, tells you plainly what it wants, what happens if you ignore it, and by when — then writes the German reply, with a translation so you know what you're sending.</p>
+    </div>
+    <p>Unlike translation apps, it gives meaning and a deadline, not words. Unlike the group chat, nobody else sees your letter.</p>
+
+    <h3>Message hierarchy — always in this order</h3>
+    <ul class="plain">
+      <li><strong>Is this urgent?</strong> → deadline extraction. The #1 anxiety, so the #1 hook.</li>
+      <li><strong>What do they actually want?</strong> → plain summary, payments, appointments.</li>
+      <li><strong>What do I write back?</strong> → German reply + translation. The moat.</li>
+    </ul>
+
+    <h3>Loud design, quiet words</h3>
+    <p>The identity is saturated, chunky, sticker-accented. The voice is calm and clinical. Running both at once is the advantage — this audience is already being shouted at by immigration-lawyer ads and scaremongering news pages. Nobody is occupying <em>calm</em>.</p>
+    <div class="card">
+      <p style="color:var(--good);font-weight:600;margin-bottom:8px">✓ "This letter isn't a fine. It's a request for a document. You have until 14 March."</p>
+      <p style="color:var(--crit);font-weight:600;margin:0">✗ "⚠️ DON'T IGNORE THIS OR YOU'LL BE DEPORTED 😱"</p>
+    </div>
+
+    <h3>Never say these — legal, not stylistic</h3>
+    <p>Germany's Rechtsdienstleistungsgesetz makes case-specific legal assessment a licensed activity, and the <em>Smartlaw</em> ruling punished marketing claims like "cheaper and faster than a lawyer." General information published without reference to an individual case stays outside the RDG — that's where all content must live.</p>
+    <ul class="plain ban">
+      <li>"legal advice" · "Rechtsberatung" · "استشارة قانونية" · "hukuki danışmanlık"</li>
+      <li>"cheaper than a lawyer" · "instead of a lawyer" · "Anwalt sparen"</li>
+      <li>"we'll object for you" · "we'll fight the Bescheid"</li>
+      <li>Any outcome promise or guarantee — already cut from the offer. Keep it cut.</li>
+    </ul>
+  </section>
+
+  <section>
+    <div class="sec-head"><span class="chip">04 · Accounts</span><h2>Two now, three later</h2></div>
+    <p>Instagram's distribution is language-modelled — a trilingual feed gets shown to nobody properly. But three half-fed accounts lose to one well-fed one, so don't open all three.</p>
+    <div class="weeks">
+      <div class="week">
+        <span class="chip accent">Now</span>
+        <h4>@papkram + @papkram.ar</h4>
+        <p style="margin:0;font-size:15px;color:var(--ink-soft)">Arabic is the wedge. English is the brand, press and partner story — and the EN carousel already exists.</p>
+      </div>
+      <div class="week">
+        <span class="chip">Week ~8</span>
+        <h4>@papkram.tr</h4>
+        <p style="margin:0;font-size:15px;color:var(--ink-soft)">Turkish incumbents are stronger. Enter with a format that already works instead of experimenting there.</p>
+      </div>
+    </div>
+    <div class="card hard">
+      <div class="card-label">Two things to do this week, both free</div>
+      <ul class="plain">
+        <li>Register <code>papkram</code>, <code>papkram.ar</code>, <code>papkram.tr</code>, <code>papkram.app</code>, <code>getpapkram</code> on Instagram <em>and</em> TikTok, defensively. Five minutes.</li>
+        <li><strong>Run a DPMA trademark search</strong> (classes 9 and 42). <code>papierkram.de</code> is an established German invoicing SaaS and the names are close. Free check, expensive miss.</li>
+      </ul>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-head"><span class="chip">05 · Content</span><h2>Three formats, run until they break</h2></div>
+    <p>Consistency of <em>format</em> beats consistency of topic. Pillar mix stays fixed: 40% decode a letter, 25% deadline literacy, 20% quiet reassurance, 15% product proof. Never post scare content, deportation-news commentary, or immigration-politics takes — all of it draws the wrong audience and burns the calm position.</p>
+
+    <div class="card hard">
+      <div class="card-label">A · flagship — 1× per week</div>
+      <h3 style="margin-top:0">"Brief der Woche" carousel</h3>
+      <p>Six slides, same skeleton every time: the letter with a red <em>Frist?</em> sticker → what it actually is → what they want → the deadline, huge → what happens if you ignore it → CTA. The existing card1 design already does slide one.</p>
+      <p style="color:var(--crit);font-weight:600;margin:0">Synthetic letters only. Generate from the app's own seed letters — never a real user's mail, even blurred, even with permission.</p>
+    </div>
+
+    <div class="card hard">
+      <div class="card-label">B · the likely breakout — 2× per week</div>
+      <h3 style="margin-top:0">"One German word" Reels, 12–20 seconds</h3>
+      <p>One bureaucratic word per Reel: <em>Frist, Widerspruch, Bescheid, Mahnung, Nachzahlung, Säumniszuschlag, Anhörung, Rückforderung.</em> Word on screen → "if you see this, you have X days" → the sentence it hides inside, in real letter German → done.</p>
+      <p style="margin:0">Cheap, infinitely repeatable, extremely saveable — and it teaches the exact vocabulary that makes people trust the product.</p>
+    </div>
+
+    <div class="card hard">
+      <div class="card-label">C · no face needed — 1× per week</div>
+      <h3 style="margin-top:0">"The table"</h3>
+      <p style="margin:0">Overhead shot of a kitchen table. A hand drops an unopened letter. Text overlay carries the internal monologue. Phone comes in, scans, anxiety resolves. Fifteen seconds — the product demo disguised as a feeling.</p>
+    </div>
+
+    <p><strong>Cadence per account:</strong> 2 Reels + 1 carousel + 3–4 Story frames a week. That's it. Reels carry roughly double the reach of carousels; carousels collect the most saves. Batch the whole week in one three-hour Sunday session.</p>
+  </section>
+
+  <section>
+    <div class="sec-head"><span class="chip">06 · Hooks</span><h2>Hook bank</h2></div>
+    <p>The hook is 80% of the outcome. All of these lead with the anxiety and resolve it calmly. Captions must be written natively — a translation product with machine-translated captions kills itself.</p>
+    <div class="tabs" role="tablist" aria-label="Hook language">
+      <button class="tab" role="tab" id="t-en" aria-controls="p-en" aria-selected="true">English</button>
+      <button class="tab" role="tab" id="t-ar" aria-controls="p-ar" aria-selected="false">العربية</button>
+      <button class="tab" role="tab" id="t-tr" aria-controls="p-tr" aria-selected="false">Türkçe</button>
+    </div>
+    <div class="hooks" role="tabpanel" id="p-en" aria-labelledby="t-en">
+      <div class="hook">"You don't have to open it right now. But you do have to know the date on it."</div>
+      <div class="hook">"Three German words that mean <em>this is urgent</em>."</div>
+      <div class="hook">"A letter from the Ausländerbehörde usually isn't bad news. Here's how to tell."</div>
+      <div class="hook">"The most expensive thing you can do with German post is nothing."</div>
+      <div class="hook">"Stop posting your letters in Facebook groups. Here's what you're showing strangers."</div>
+      <div class="hook">"Google Translate translated it. You still don't know what to do. Here's why."</div>
+      <div class="hook">"This letter looks terrifying. It's asking for one document."</div>
+      <div class="hook">"Your nephew shouldn't have to read your mail."</div>
+    </div>
+    <div class="hooks" role="tabpanel" id="p-ar" aria-labelledby="t-ar" dir="rtl" hidden>
+      <div class="hook">«ثلاث كلمات ألمانية معناها: هذه الرسالة عاجلة.»</div>
+      <div class="hook">«رسالة من الجوب سنتر لا تعني دائمًا مشكلة. إليك كيف تعرف.»</div>
+      <div class="hook">«أخطر شيء تفعله برسالة ألمانية هو أن تتجاهلها.»</div>
+      <div class="hook">«لا تنشر رسالتك في مجموعات فيسبوك — هذا ما يراه الغرباء فيها.»</div>
+      <div class="hook">«ترجمتها بجوجل، وما زلت لا تعرف ماذا تفعل. هذا هو السبب.»</div>
+      <div class="hook">«إذا رأيت كلمة Frist، عندك مهلة محددة. اعرف كم.»</div>
+      <div class="hook">«الرسالة تبدو مخيفة، لكنها تطلب ورقة واحدة فقط.»</div>
+      <div class="hook">«ما هي الـ Mahnung، وكم تكلفك فعليًا؟»</div>
+    </div>
+    <div class="hooks" role="tabpanel" id="p-tr" aria-labelledby="t-tr" hidden>
+      <div class="hook">"Bu üç Almanca kelimeyi görürsen: mektup acil."</div>
+      <div class="hook">"Jobcenter'dan mektup gelmesi kötü haber demek değil. Nasıl anlarsın?"</div>
+      <div class="hook">"Alman postasıyla yapabileceğin en pahalı şey: hiçbir şey yapmamak."</div>
+      <div class="hook">"Mektubunu Facebook grubuna atma. Yabancılara ne gösterdiğini bir gör."</div>
+      <div class="hook">"Google Translate çevirdi ama hâlâ ne yapacağını bilmiyorsun. İşte nedeni."</div>
+      <div class="hook">"Mektubunda 'Frist' yazıyorsa, sayılı günün var."</div>
+      <div class="hook">"Mahnung tam olarak ne kadara mal olur?"</div>
+      <div class="hook">"Yeğenin senin mektuplarını okumak zorunda kalmasın."</div>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-head"><span class="chip">07 · First 30 days</span><h2>The calendar</h2></div>
+    <div class="weeks">
+      <div class="week">
+        <span class="chip accent">Week 0 — build</span>
+        <h4>No posting</h4>
+        <ol>
+          <li>Register handles, write bios, set the link to <strong>papkram.de/?src=ig</strong></li>
+          <li><strong>Render the AR and TR carousels.</strong> The HTML sources exist; only English was exported to PNG. Highest-leverage asset task on the list.</li>
+          <li>Record 8 word-Reels in one sitting</li>
+          <li>Write the pinned-comment template</li>
+        </ol>
+      </div>
+      <div class="week">
+        <span class="chip">Week 1 — establish</span>
+        <h4>Set the format</h4>
+        <ol>
+          <li><strong>Mon</strong> the existing 8-card Jobcenter carousel — already on-brand, perfect first post</li>
+          <li><strong>Tue</strong> Reel: <em>Frist</em></li>
+          <li><strong>Thu</strong> Reel: "The table"</li>
+          <li><strong>Fri</strong> Brief der Woche #1 — Stadtwerke Nachzahlung</li>
+        </ol>
+      </div>
+      <div class="week">
+        <span class="chip">Week 2 — teach</span>
+        <h4>Own the vocabulary</h4>
+        <ol>
+          <li><strong>Mon</strong> carousel: Bescheid vs Mahnung vs Anhörung</li>
+          <li><strong>Tue</strong> Reel: <em>Widerspruch</em></li>
+          <li><strong>Thu</strong> Reel: "Stop posting your letters in Facebook groups" — highest share potential in the plan</li>
+          <li><strong>Fri</strong> Brief der Woche #2 — Ausländerbehörde</li>
+        </ol>
+      </div>
+      <div class="week">
+        <span class="chip">Week 3 — proof</span>
+        <h4>Earn the trust</h4>
+        <ol>
+          <li><strong>Mon</strong> 20-second screen recording, upload → analysis, no voiceover</li>
+          <li><strong>Tue</strong> Reel: <em>Nachzahlung</em></li>
+          <li><strong>Thu</strong> founder on camera, 30 seconds, why you built it — <strong>pin this one</strong></li>
+          <li><strong>Fri</strong> Brief der Woche #3 — Krankenkasse</li>
+        </ol>
+      </div>
+      <div class="week">
+        <span class="chip">Week 4 — convert</span>
+        <h4>Then decide with data</h4>
+        <ol>
+          <li><strong>Mon</strong> carousel: what Papkram does that Google Translate can't — side by side</li>
+          <li><strong>Tue</strong> Reel: <em>Säumniszuschlag</em></li>
+          <li><strong>Thu</strong> remake the best of the first 7 Reels, changing only the hook</li>
+          <li><strong>Fri</strong> Story series → link sticker → "4 letters free"</li>
+        </ol>
+      </div>
+      <div class="week" style="background:var(--surface-2)">
+        <span class="chip solid">End of month</span>
+        <h4>The two forks</h4>
+        <ol>
+          <li>Word-Reels beating carousels 2:1 on reach → shift to <strong>3 Reels + 1 carousel</strong></li>
+          <li>Arabic beating English on engagement rate (likely) → <strong>move Turkish forward, deprioritize English</strong></li>
+        </ol>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-head"><span class="chip">08 · Loops</span><h2>Growth</h2></div>
+    <ul class="plain">
+      <li><strong>Use the loop you already shipped.</strong> Poster sharing to Story and WhatsApp is live. Two small changes make it a real loop: put <em>@papkram</em> on the poster image itself, and prefill the share caption with the handle.</li>
+      <li><strong>Collabs, not shoutouts</strong> — the fastest path to the first 5,000. Offer free lifetime access plus a co-branded Brief der Woche posted as a Collab to both feeds. Target order: mid-size Arabic and Turkish Germany accounts at 10k–80k, where a collab is a favour rather than an invoice → multilingual info accounts → English creators last, they're the most professionalized and slowest.</li>
+      <li><strong>Comment-to-DM.</strong> Pin "Comment BRIEF and I'll send you the free link" on the highest-reach Reel. DM volume is itself a ranking signal. Keep the reply to one sentence and a link — never let a DM become case-specific advice.</li>
+      <li><strong>Mirror everything to TikTok.</strong> 23M+ German monthly users, cheaper reach, and both diaspora communities are heavily active there. The vertical video already exists — don't throw the asset away.</li>
+    </ul>
+    <div class="card hard">
+      <div class="card-label">The pinned comment — post it first on every letter post</div>
+      <p style="margin:0">ℹ️ Papkram explains what a letter says — it isn't legal advice and we can't advise on your individual case. For that: Migrationsberatung, Caritas/Diakonie, or a lawyer. Questions about how the app works: DM anytime.</p>
+    </div>
+    <p>That one comment is your RDG shield, your comment-moderation policy, and — because it points people to free help — a trust signal. It does all three at once.</p>
+  </section>
+
+  <section>
+    <div class="sec-head"><span class="chip">09 · Metrics</span><h2>Five numbers, weekly</h2></div>
+    <ul class="plain">
+      <li><strong>Reach per format</strong> — decides next week's mix</li>
+      <li><strong>Saves + shares</strong> — the true signal in an information niche; a save means "I'll need this"</li>
+      <li><strong>Profile visits → link taps</strong> — target above 8%</li>
+      <li><strong>PostHog signups tagged <code>src=ig</code></strong> — the only number that actually matters. The landing page already reads this param, so it's zero engineering.</li>
+      <li><strong>Follower growth</strong> — the vanity one. Check it last.</li>
+    </ul>
+    <p>Kill any format that hasn't produced a top-3 post within three weeks of trying it.</p>
+  </section>
+
+  <section>
+    <div class="sec-head"><span class="chip">10 · Risks</span><h2>What could break this</h2></div>
+    <div class="card">
+      <div class="risk"><div class="r-top"><span class="sev high">High</span><span class="r-name">RDG exposure via comments and DMs</span></div><div class="r-fix">Pinned comment on every post, no outcome promises, "not legal advice" in all three bios.</div></div>
+      <div class="risk"><div class="r-top"><span class="sev high">High</span><span class="r-name">Privacy optics</span></div><div class="r-fix">A product that ingests Jobcenter mail asks for enormous trust. Synthetic letters only; make "never used to train AI" a recurring post, not fine print.</div></div>
+      <div class="risk"><div class="r-top"><span class="sev high">High</span><span class="r-name">Machine-translated captions</span></div><div class="r-fix">Native writers or nothing. A translation product with clumsy translations kills itself.</div></div>
+      <div class="risk"><div class="r-top"><span class="sev med">Medium</span><span class="r-name">Trademark collision with papierkram.de</span></div><div class="r-fix">DPMA search before any paid spend or print run.</div></div>
+      <div class="risk"><div class="r-top"><span class="sev med">Medium</span><span class="r-name">Anti-immigration pile-ons in comments</span></div><div class="r-fix">Keyword filters from day one; restrict comments on politically adjacent posts; never post immigration politics.</div></div>
+      <div class="risk"><div class="r-top"><span class="sev med">Medium</span><span class="r-name">Category commoditizing</span></div><div class="r-fix">Compete on languages, reply drafts and calm voice — not features. Distribution is the moat here.</div></div>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-head"><span class="chip accent">Before anything else</span><h2>The 40-minute phone audit</h2></div>
+    <p>Instagram was unreachable from where this research ran. Do this on your phone and write the answers back into the strategy doc:</p>
+    <ul class="plain">
+      <li>Search Instagram for <strong>briefeasy, amtli, behördenklartext, expat.fyi</strong> — and confirm <strong>papkram</strong> is free. For each: followers, last post, frequency, best format, and whether they post in any language other than English.</li>
+      <li>Search the hashtags <strong>#jobcenter</strong>, <strong>#auslaenderbehoerde</strong>, <strong>#الحياة_في_ألمانيا</strong>, <strong>#almanyadayasam</strong>. Screenshot the top 9 of each — the format of the top posts is your format answer, free.</li>
+      <li>Open <strong>@simplegermany, @handbookgermany, @expat_ease, @isteyim.official</strong>. Record followers and best recent post. That's your quality bar and your collab shortlist.</li>
+      <li>Find <strong>10 Arabic and Turkish accounts at 10k–80k</strong> posting practical bureaucracy content. That list is your week-2 outreach.</li>
+    </ul>
+    <div class="card hard">
+      <p style="margin:0"><strong>One finding would change the plan:</strong> a direct competitor already running an Arabic account with real traction. If the audit turns that up, the wedge gets re-cut.</p>
+    </div>
+  </section>
+
+  <footer>
+    <span>Papkram · Instagram strategy</span><span>22 Aug 2026</span><span>Full doc: docs/marketing/instagram-strategy.md</span>
+  </footer>
+</div>
+
+<script>
+  (function () {
+    var tabs = Array.prototype.slice.call(document.querySelectorAll('.tab'));
+    function select(tab) {
+      tabs.forEach(function (t) {
+        var panel = document.getElementById(t.getAttribute('aria-controls'));
+        var on = t === tab;
+        t.setAttribute('aria-selected', on ? 'true' : 'false');
+        if (panel) { panel.hidden = !on; }
+      });
+    }
+    tabs.forEach(function (t) {
+      t.addEventListener('click', function () { select(t); });
+      t.addEventListener('keydown', function (e) {
+        var i = tabs.indexOf(t);
+        if (e.key === 'ArrowRight') { tabs[(i + 1) % tabs.length].focus(); tabs[(i + 1) % tabs.length].click(); }
+        if (e.key === 'ArrowLeft') { tabs[(i - 1 + tabs.length) % tabs.length].focus(); tabs[(i - 1 + tabs.length) % tabs.length].click(); }
+      });
+    });
+  })();
+</script>
