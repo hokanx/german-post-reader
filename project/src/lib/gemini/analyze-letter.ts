@@ -1,3 +1,4 @@
+import * as Sentry from "@sentry/nextjs";
 import { Type } from "@google/genai";
 import { createGeminiClient, GEMINI_MODEL } from "./client";
 import {
@@ -272,6 +273,7 @@ export async function analyzeDocument(
     return parseResponse<LetterAnalysis>(response.text);
   } catch (error) {
     console.error("Gemini analysis failed", error);
+    Sentry.captureException(error, { tags: { geminiCall: "analyzeDocument" } });
     return {
       ok: false,
       error: {
@@ -449,6 +451,7 @@ export async function translateLetterContent(
     };
   } catch (error) {
     console.error("Gemini content translation failed", error);
+    Sentry.captureException(error, { tags: { geminiCall: "translateLetterContent" } });
     return {
       ok: false,
       error: {
@@ -505,6 +508,7 @@ export async function regenerateReplyDraft(
     return parseResponse<ReplyDraft>(response.text);
   } catch (error) {
     console.error("Gemini reply regeneration failed", error);
+    Sentry.captureException(error, { tags: { geminiCall: "regenerateReplyDraft" } });
     return {
       ok: false,
       error: {
