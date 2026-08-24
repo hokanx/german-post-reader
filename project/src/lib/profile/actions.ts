@@ -2,12 +2,22 @@
 
 import { revalidatePath } from "next/cache";
 import { cookies } from "next/headers";
+import { z } from "zod";
 import { createClient } from "@/lib/supabase/server";
 import type { Result } from "@/lib/result";
 import type { AppLanguage } from "@/lib/letters/types";
 import { APP_COPY } from "@/lib/i18n/copy";
 
 const LANGUAGES: AppLanguage[] = ["en", "ar", "tr"];
+
+// Generous enough for any real name/postal address (postal addresses run
+// multi-line with a name, street, and country) while capping the write —
+// there's no downstream length limit otherwise, since this goes straight
+// into a text column and back out into a reply-draft letterhead.
+const senderInfoSchema = z.object({
+  fullName: z.string().max(200),
+  postalAddress: z.string().max(500),
+});
 
 /** `currentLanguage` (still in effect since the switch hasn't succeeded yet) drives which language any error is shown in. */
 export async function changeLanguage(
@@ -60,6 +70,11 @@ export async function updateSenderInfo(
 ): Promise<Result<null>> {
   const copy = APP_COPY[language].settings;
 
+  const parsed = senderInfoSchema.safeParse({ fullName, postalAddress });
+  if (!parsed.success) {
+    return { ok: false, error: { code: "INVALID_INPUT", message: copy.senderInfoTooLong } };
+  }
+
   const supabase = await createClient();
   const {
     data: { user },
@@ -72,8 +87,8 @@ export async function updateSenderInfo(
   const { error } = await supabase
     .from("profiles")
     .update({
-      full_name: fullName.trim() || null,
-      postal_address: postalAddress.trim() || null,
+      full_name: parsed.data.fullName.trim() || null,
+      postal_address: parsed.data.postalAddress.trim() || null,
     })
     .eq("id", user.id);
 

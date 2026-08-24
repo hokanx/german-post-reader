@@ -75,5 +75,10 @@ export default withSentryConfig(nextConfig, {
   widenClientFileUpload: false,
   sourcemaps: {
     disable: !process.env.SENTRY_AUTH_TOKEN,
+    // Sentry's plugin defaults to leaving generated .js.map files in the
+    // public client build output after uploading them — deleting them here
+    // is what keeps full unminified source from being fetchable at
+    // /_next/static/**/*.js.map in production.
+    deleteSourcemapsAfterUpload: true,
   },
 });

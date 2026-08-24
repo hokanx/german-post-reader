@@ -54,6 +54,10 @@ export type AppCopy = {
       signupNoUserRecovery: string;
       accountSetupFailed: string;
       accountSetupFailedRecovery: string;
+      unexpectedError: string;
+      unexpectedErrorRecovery: string;
+      tooManyAttempts: string;
+      tooManyAttemptsRecovery: string;
     };
   };
   onboarding: {
@@ -137,6 +141,8 @@ export type AppCopy = {
     trialLimitReachedRecovery: (price: string) => string;
     dailyLimitReached: string;
     dailyLimitReachedRecovery: string;
+    tooManyAttempts: string;
+    tooManyAttemptsRecovery: string;
     letterSaveFailed: string;
     letterSaveFailedRecovery: string;
   };
@@ -270,6 +276,7 @@ export type AppCopy = {
     senderInfoSavedToast: string;
     senderInfoSaveFailed: string;
     senderInfoSaveFailedRecovery: string;
+    senderInfoTooLong: string;
     deleteAccountButton: string;
     deleteAccountTitle: string;
     deleteAccountWarning: string;
@@ -356,6 +363,10 @@ export const APP_COPY: Record<AppLanguage, AppCopy> = {
         signupNoUserRecovery: "Try again in a moment.",
         accountSetupFailed: "Your account was created but setup failed.",
         accountSetupFailedRecovery: "Try logging in — if this keeps happening, contact support.",
+        unexpectedError: "Something went wrong.",
+        unexpectedErrorRecovery: "Try again in a moment.",
+        tooManyAttempts: "Too many attempts.",
+        tooManyAttemptsRecovery: "Wait a few minutes and try again.",
       },
     },
     onboarding: {
@@ -444,6 +455,8 @@ export const APP_COPY: Record<AppLanguage, AppCopy> = {
       trialLimitReachedRecovery: (price) => `Unlock unlimited letters for ${price}/year.`,
       dailyLimitReached: "You've reached today's letter limit.",
       dailyLimitReachedRecovery: "Try again tomorrow, or contact us if you need more.",
+      tooManyAttempts: "Too many uploads too quickly.",
+      tooManyAttemptsRecovery: "Wait a few minutes and try again.",
       letterSaveFailed: "Your letter was analyzed but couldn't be saved.",
       letterSaveFailedRecovery: "Try uploading again.",
     },
@@ -644,6 +657,7 @@ export const APP_COPY: Record<AppLanguage, AppCopy> = {
       senderInfoSavedToast: "Saved",
       senderInfoSaveFailed: "Couldn't save your details.",
       senderInfoSaveFailedRecovery: "Try again.",
+      senderInfoTooLong: "That's too long — please shorten your name or address.",
       deleteAccountButton: "Delete account",
       deleteAccountTitle: "Delete your account?",
       deleteAccountWarning:
@@ -730,6 +744,10 @@ export const APP_COPY: Record<AppLanguage, AppCopy> = {
         signupNoUserRecovery: "حاول مرة أخرى بعد قليل.",
         accountSetupFailed: "تم إنشاء حسابك، لكن الإعداد فشل.",
         accountSetupFailedRecovery: "جرّب تسجيل الدخول — إذا استمر هذا، تواصل مع الدعم.",
+        unexpectedError: "حدث خطأ ما.",
+        unexpectedErrorRecovery: "حاول مرة أخرى بعد قليل.",
+        tooManyAttempts: "محاولات كثيرة جدًا.",
+        tooManyAttemptsRecovery: "انتظر بضع دقائق ثم حاول مرة أخرى.",
       },
     },
     onboarding: {
@@ -816,6 +834,8 @@ export const APP_COPY: Record<AppLanguage, AppCopy> = {
       trialLimitReachedRecovery: (price) => `افتح خطابات غير محدودة مقابل ${price} سنويًا.`,
       dailyLimitReached: "لقد وصلت إلى الحد الأقصى من الخطابات لهذا اليوم.",
       dailyLimitReachedRecovery: "حاول مرة أخرى غدًا، أو تواصل معنا إذا احتجت إلى المزيد.",
+      tooManyAttempts: "عدد كبير جدًا من التحميلات في وقت قصير.",
+      tooManyAttemptsRecovery: "انتظر بضع دقائق ثم حاول مرة أخرى.",
       letterSaveFailed: "تم تحليل خطابك لكن تعذر حفظه.",
       letterSaveFailedRecovery: "حاول الرفع مرة أخرى.",
     },
@@ -1016,6 +1036,7 @@ export const APP_COPY: Record<AppLanguage, AppCopy> = {
       senderInfoSavedToast: "تم الحفظ",
       senderInfoSaveFailed: "تعذر حفظ بياناتك.",
       senderInfoSaveFailedRecovery: "حاول مرة أخرى.",
+      senderInfoTooLong: "هذا طويل جدًا — يرجى اختصار اسمك أو عنوانك.",
       deleteAccountButton: "حذف الحساب",
       deleteAccountTitle: "هل تريد حذف حسابك؟",
       deleteAccountWarning:
@@ -1102,6 +1123,10 @@ export const APP_COPY: Record<AppLanguage, AppCopy> = {
         signupNoUserRecovery: "Biraz sonra tekrar deneyin.",
         accountSetupFailed: "Hesabınız oluşturuldu ama kurulum başarısız oldu.",
         accountSetupFailedRecovery: "Giriş yapmayı deneyin — bu devam ederse destekle iletişime geçin.",
+        unexpectedError: "Bir şeyler ters gitti.",
+        unexpectedErrorRecovery: "Biraz sonra tekrar deneyin.",
+        tooManyAttempts: "Çok fazla deneme yapıldı.",
+        tooManyAttemptsRecovery: "Birkaç dakika bekleyip tekrar deneyin.",
       },
     },
     onboarding: {
@@ -1190,6 +1215,8 @@ export const APP_COPY: Record<AppLanguage, AppCopy> = {
       trialLimitReachedRecovery: (price) => `Yılda ${price} karşılığında sınırsız mektubun kilidini açın.`,
       dailyLimitReached: "Bugünkü mektup sınırınıza ulaştınız.",
       dailyLimitReachedRecovery: "Yarın tekrar deneyin, ya da daha fazlasına ihtiyacınız varsa bize ulaşın.",
+      tooManyAttempts: "Kısa sürede çok fazla yükleme yapıldı.",
+      tooManyAttemptsRecovery: "Birkaç dakika bekleyip tekrar deneyin.",
       letterSaveFailed: "Mektubunuz analiz edildi ama kaydedilemedi.",
       letterSaveFailedRecovery: "Tekrar yüklemeyi deneyin.",
     },
@@ -1390,6 +1417,7 @@ export const APP_COPY: Record<AppLanguage, AppCopy> = {
       senderInfoSavedToast: "Kaydedildi",
       senderInfoSaveFailed: "Bilgileriniz kaydedilemedi.",
       senderInfoSaveFailedRecovery: "Tekrar deneyin.",
+      senderInfoTooLong: "Bu çok uzun — lütfen adınızı veya adresinizi kısaltın.",
       deleteAccountButton: "Hesabı sil",
       deleteAccountTitle: "Hesabınızı silmek istiyor musunuz?",
       deleteAccountWarning:

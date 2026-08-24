@@ -7,11 +7,18 @@ import { analyzeDocument } from "@/lib/gemini/analyze-letter";
 import { DAILY_LETTER_LIMIT, FREE_LETTER_LIMIT, MAX_UPLOAD_BYTES, SUBSCRIPTION_PRICE_EUR } from "@/lib/constants";
 import { matchesDeclaredType } from "@/lib/file-signature";
 import { formatEur } from "@/lib/format-currency";
+import { checkRateLimit, getClientIp } from "@/lib/rate-limit";
 import type { AppLanguage } from "@/lib/letters/types";
 import { APP_COPY } from "@/lib/i18n/copy";
 import type { Result } from "@/lib/result";
 
 const ACCEPTED_IMAGE_TYPES = new Set(["image/jpeg", "image/png"]);
+
+// Per-account trial/daily limits (below) assume one account per abuser —
+// this per-IP throttle is the backstop for scripted signup+upload loops,
+// since each new free account otherwise gets its own fresh Gemini quota.
+const UPLOAD_RATE_LIMIT = 20;
+const UPLOAD_RATE_WINDOW_SECONDS = 60 * 60;
 
 export async function uploadLetter(
   formData: FormData,
@@ -48,6 +55,15 @@ export async function uploadLetter(
     return {
       ok: false,
       error: { code: "UNKNOWN", message: copy.accountLoadFailed, recovery: copy.accountLoadFailedRecovery },
+    };
+  }
+
+  const ip = await getClientIp();
+  const { allowed } = await checkRateLimit(`upload:${ip}`, UPLOAD_RATE_LIMIT, UPLOAD_RATE_WINDOW_SECONDS);
+  if (!allowed) {
+    return {
+      ok: false,
+      error: { code: "RATE_LIMITED", message: copy.tooManyAttempts, recovery: copy.tooManyAttemptsRecovery },
     };
   }
 
