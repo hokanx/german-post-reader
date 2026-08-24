@@ -2,6 +2,7 @@ import { LocaleProvider } from "@/components/landing/locale-context";
 import type { MarketingLocale } from "@/components/landing/locale-context";
 import { LandingNav } from "@/components/landing/nav";
 import { Hero } from "@/components/landing/hero";
+import { WhatIsPapkram } from "@/components/landing/what-is-papkram";
 import { TrustBadgeStrip } from "@/components/landing/trust-badge-strip";
 import { HowItWorks } from "@/components/landing/how-it-works";
 import { PrivacySection } from "@/components/landing/privacy-section";
@@ -57,6 +58,7 @@ export default async function Home({
       <LandingNav />
       <main className="flex-1">
         <Hero registeredCount={registeredCount} />
+        <WhatIsPapkram />
         <TrustBadgeStrip />
         <HowItWorks />
         <PrivacySection />

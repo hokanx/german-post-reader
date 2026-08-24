@@ -32,6 +32,16 @@ export type MarketingCopy = {
     demoStatus: string;
     graphicLabel: string;
   };
+  whatIsPapkram: {
+    eyebrow: string;
+    heading: string;
+    mailboxLabel: string;
+    readInsteadLabel: string;
+    plainLanguageLabel: string;
+    summary: string;
+    deadline: string;
+    replyNote: string;
+  };
   howItWorks: {
     eyebrow: string;
     heading: string;
@@ -116,6 +126,16 @@ export const MARKETING_COPY: Record<MarketingLocale, MarketingCopy> = {
       demoStatus:
         "Papkram is still in demo. We open it to everyone once enough people have signed up — every sign-up brings the launch closer.",
       graphicLabel: "A German letter processed by Papkram into a plain summary with a deadline",
+    },
+    whatIsPapkram: {
+      eyebrow: "What is Papkram",
+      heading: "German paperwork, explained.",
+      mailboxLabel: "What lands in your mailbox",
+      readInsteadLabel: "What you read instead",
+      plainLanguageLabel: "In plain English",
+      summary: "The tax office says you underpaid. You owe 187,42 €.",
+      deadline: "Pay by 28 Feb 2026",
+      replyNote: "Reply drafted in German",
     },
     howItWorks: {
       eyebrow: "How it works",
@@ -317,6 +337,16 @@ export const MARKETING_COPY: Record<MarketingLocale, MarketingCopy> = {
         "لا يزال Papkram في مرحلة العرض التجريبي. سنفتحه للجميع عندما يسجل عدد كافٍ من الأشخاص — كل تسجيل يقرّب موعد الإطلاق.",
       graphicLabel: "خطاب ألماني تتم معالجته بواسطة Papkram إلى ملخص واضح مع موعد نهائي",
     },
+    whatIsPapkram: {
+      eyebrow: "ما هو Papkram",
+      heading: "الأوراق الألمانية، مشروحة.",
+      mailboxLabel: "ما يصل إلى بريدك",
+      readInsteadLabel: "ما تقرأه بدلاً منه",
+      plainLanguageLabel: "بلغة واضحة",
+      summary: "مكتب الضرائب يقول إن ما دفعته أقل من المطلوب. عليك 187,42 €.",
+      deadline: "الدفع قبل 28 فبراير 2026",
+      replyNote: "مسودة رد بالألمانية",
+    },
     howItWorks: {
       eyebrow: "كيف يعمل",
       heading: "ثلاث خطوات. هذا كل شيء.",
@@ -516,6 +546,16 @@ export const MARKETING_COPY: Record<MarketingLocale, MarketingCopy> = {
       demoStatus:
         "Papkram henüz demo aşamasında. Yeterli sayıda kişi kaydolduğunda herkesin kullanımına açıyoruz — her yeni kayıt lansmanı yakınlaştırıyor.",
       graphicLabel: "Papkram tarafından işlenen bir Alman mektubunun sade bir özete ve son tarihe dönüştürülmesi",
+    },
+    whatIsPapkram: {
+      eyebrow: "Papkram nedir",
+      heading: "Alman evrak işleri, açıklanmış.",
+      mailboxLabel: "Posta kutunuza düşen",
+      readInsteadLabel: "Onun yerine okuduğunuz",
+      plainLanguageLabel: "Sade dille",
+      summary: "Vergi dairesi eksik ödeme yaptığınızı söylüyor. 187,42 € borçlusunuz.",
+      deadline: "28 Şubat 2026'ya kadar ödeyin",
+      replyNote: "Almanca yanıt hazırlandı",
     },
     howItWorks: {
       eyebrow: "Nasıl çalışır",
