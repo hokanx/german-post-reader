@@ -8,4 +8,9 @@ export function createGeminiClient() {
   return new GoogleGenAI({ apiKey: env.GEMINI_API_KEY });
 }
 
-export const GEMINI_MODEL = "gemini-flash-latest";
+// Pinned to an explicit stable version, not "-latest" — an alias silently
+// repointed at gemini-3.7-flash, whose free-tier daily quota (20 requests)
+// broke production with no code change or deploy on our end. gemini-2.5-flash
+// was tried first but is no longer available to this project (404 from the
+// API); gemini-3.6-flash is confirmed reachable and GA (not preview).
+export const GEMINI_MODEL = "gemini-3.6-flash";
