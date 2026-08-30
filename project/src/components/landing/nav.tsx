@@ -2,9 +2,11 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { Globe, Menu, X } from "lucide-react";
+import { ChevronDown, Globe, Menu, X } from "lucide-react";
 import { buttonVariants } from "@/components/ui/button";
 import { PapkramLogo } from "@/components/papkram-logo";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import { LANGUAGE_NAMES, type AppLanguage } from "@/lib/letters/types";
 import { useMarketingLocale, type MarketingLocale } from "./locale-context";
 import { MARKETING_COPY } from "./copy";
 
@@ -18,8 +20,10 @@ const LANGUAGES: { code: MarketingLocale; label: string }[] = [
 
 export function LandingNav() {
   const [open, setOpen] = useState(false);
+  const [langOpen, setLangOpen] = useState(false);
   const { locale, setLocale } = useMarketingLocale();
   const copy = MARKETING_COPY[locale];
+  const currentLabel = LANGUAGES.find((lang) => lang.code === locale)?.label ?? locale.toUpperCase();
 
   return (
     <header
@@ -35,25 +39,40 @@ export function LandingNav() {
           Papkram
         </Link>
 
-        <div className="flex shrink-0 items-center gap-0.5 rounded-full border-2 border-border bg-card p-1">
-          <Globe className="ml-1 hidden size-4 text-muted-foreground sm:block" strokeWidth={1.5} aria-hidden="true" />
-          {LANGUAGES.map((lang) => (
-            <button
-              key={lang.code}
-              type="button"
-              onClick={() => setLocale(lang.code)}
-              aria-pressed={locale === lang.code}
-              aria-label={lang.label}
-              className={`flex h-11 min-w-11 items-center justify-center rounded-full px-2.5 text-xs font-bold uppercase tracking-[0.04em] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring sm:px-3 ${
-                locale === lang.code
-                  ? "bg-primary text-primary-foreground"
-                  : "text-muted-foreground hover:text-foreground"
-              }`}
-            >
-              {lang.label}
-            </button>
-          ))}
-        </div>
+        <Popover open={langOpen} onOpenChange={setLangOpen}>
+          <PopoverTrigger
+            aria-label="Language"
+            className="flex h-11 shrink-0 items-center gap-1.5 rounded-full border-2 border-border bg-card px-3 text-xs font-bold uppercase tracking-[0.04em] text-foreground transition-colors hover:bg-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+          >
+            <Globe className="size-4 text-muted-foreground" strokeWidth={1.5} aria-hidden="true" />
+            {currentLabel}
+            <ChevronDown className="size-3.5" strokeWidth={1.5} aria-hidden="true" />
+          </PopoverTrigger>
+          <PopoverContent align="center" className="w-48 p-1.5">
+            <div role="radiogroup" aria-label="Language" className="flex flex-col gap-0.5">
+              {LANGUAGES.map((lang) => (
+                <button
+                  key={lang.code}
+                  type="button"
+                  role="radio"
+                  aria-checked={locale === lang.code}
+                  onClick={() => {
+                    setLocale(lang.code);
+                    setLangOpen(false);
+                  }}
+                  className={`flex h-10 items-center gap-2.5 rounded-sm px-2.5 text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring ${
+                    locale === lang.code
+                      ? "bg-primary text-primary-foreground"
+                      : "text-foreground hover:bg-muted"
+                  }`}
+                >
+                  <span className="w-6 shrink-0 text-xs font-bold uppercase tracking-[0.04em]">{lang.label}</span>
+                  <span>{LANGUAGE_NAMES[lang.code as AppLanguage]}</span>
+                </button>
+              ))}
+            </div>
+          </PopoverContent>
+        </Popover>
 
         <div className="hidden items-center gap-4 md:flex">
           <Link
