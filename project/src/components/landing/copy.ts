@@ -941,7 +941,7 @@ export const MARKETING_COPY: Record<MarketingLocale, MarketingCopy> = {
     dir: "ltr",
     nav: { logIn: "Увійти", startFreeTrial: "Почати безкоштовну пробну версію" },
     hero: {
-      stampBadge: (n) => `${n} листів безкоштовно`,
+      stampBadge: (n) => `${n} листи безкоштовно`,
       headlineLine1: "Знайте, що там написано.",
       headlineLine2: "Знайте, що робити.",
       subhead:
@@ -1024,7 +1024,7 @@ export const MARKETING_COPY: Record<MarketingLocale, MarketingCopy> = {
       sureHeading: "Ми повідомляємо, коли не впевнені",
       sureBody:
         "Німецькі офіційні листи насичені деталями — суми й дати мають значення. Якщо щось у листі неоднозначне, ми чітко це позначаємо, а не вгадуємо. Жодних мовчазних припущень щодо цифри, яка може вам щось коштувати.",
-      priceChip: (n) => `${n} листів безкоштовно`,
+      priceChip: (n) => `${n} листи безкоштовно`,
       priceLine: "Для початку картка не потрібна. Платний план вступає в дію, коли закінчаться безкоштовні листи — скасувати можна будь-коли.",
     },
     faq: {
@@ -1068,7 +1068,7 @@ export const MARKETING_COPY: Record<MarketingLocale, MarketingCopy> = {
     },
     offer: {
       heading: "Усе, що ви отримуєте.",
-      trialBadge: (n) => `${n} безкоштовних листів, без картки`,
+      trialBadge: (n) => `${n} безкоштовні листи, без картки`,
       items: [
         {
           name: "Необмежений аналіз листів",

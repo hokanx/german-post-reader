@@ -1862,7 +1862,7 @@ export const APP_COPY: Record<AppLanguage, AppCopy> = {
         startTrialLink: "Почати безкоштовну пробну версію",
       },
       signup: {
-        heading: (n) => `${n} листів безкоштовно, картка не потрібна`,
+        heading: (n) => `${n} листи безкоштовно, картка не потрібна`,
         subhead: "Створіть акаунт, щоб почати читати вашу німецьку пошту зрозумілою мовою.",
         submitting: "Створення акаунта…",
         submit: "Почати безкоштовну пробну версію",
@@ -1973,7 +1973,7 @@ export const APP_COPY: Record<AppLanguage, AppCopy> = {
       chooseFileFirst: "Спершу виберіть файл для завантаження.",
       accountLoadFailed: "Не вдалося завантажити ваш акаунт.",
       accountLoadFailedRecovery: "Спробуйте ще раз.",
-      trialLimitReached: (limit) => `Ви використали всі ${limit} безкоштовних листів.`,
+      trialLimitReached: (limit) => `Ви використали всі ${limit} безкоштовні листи.`,
       trialLimitReachedRecovery: (price) => `Відкрийте необмежену кількість листів за ${price}/рік.`,
       dailyLimitReached: "Ви досягли сьогоднішнього ліміту листів.",
       dailyLimitReachedRecovery: "Спробуйте завтра, або зв'яжіться з нами, якщо потрібно більше.",
@@ -2052,7 +2052,7 @@ export const APP_COPY: Record<AppLanguage, AppCopy> = {
     },
     paywall: {
       badge: "Безкоштовний період завершено",
-      heading: (limit) => `Ви використали всі ${limit} безкоштовних листів`,
+      heading: (limit) => `Ви використали всі ${limit} безкоштовні листи`,
       description: (price, interval) =>
         `Відкрийте необмежену кількість листів за ${price}/${interval === "year" ? "рік" : "місяць"} — скасувати можна будь-коли в панелі керування.`,
       planToggle: { yearly: "Щорічно — найвигідніше", monthly: "Щомісяця" },
@@ -2065,7 +2065,7 @@ export const APP_COPY: Record<AppLanguage, AppCopy> = {
     },
     demoLimit: {
       badge: "Демоверсію завершено",
-      heading: (limit) => `Ви використали всі ${limit} демо-листів.`,
+      heading: (limit) => `Ви використали всі ${limit} демо-листи.`,
       body: "Це був повний досвід — завантаження, підсумок зрозумілою мовою, терміни, готова до надсилання відповідь. Ми напишемо вам на пошту, коли відбудеться запуск.",
       backToDashboard: "Назад до панелі",
     },
