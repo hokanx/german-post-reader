@@ -8,7 +8,7 @@ import type { Result } from "@/lib/result";
 import type { AppLanguage } from "@/lib/letters/types";
 import { APP_COPY } from "@/lib/i18n/copy";
 
-const LANGUAGES: AppLanguage[] = ["en", "ar", "tr"];
+const LANGUAGES: AppLanguage[] = ["en", "ar", "tr", "de", "uk"];
 
 // Generous enough for any real name/postal address (postal addresses run
 // multi-line with a name, street, and country) while capping the write —

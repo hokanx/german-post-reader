@@ -1,4 +1,4 @@
-export type AppLanguage = "en" | "ar" | "tr";
+export type AppLanguage = "en" | "ar" | "tr" | "de" | "uk";
 
 /** Broad category of who sent the letter — drives the dashboard card's icon. Not translated text; the DB stores this fixed slug and each locale supplies its own label (see SENDER_CATEGORY_ICONS / copy.ts). */
 export type SenderCategory = "authority" | "insurer" | "bank" | "landlord" | "utility" | "school" | "delivery" | "other";
@@ -48,6 +48,8 @@ export const LANGUAGE_NAMES: Record<AppLanguage, string> = {
   en: "English",
   ar: "العربية",
   tr: "Türkçe",
+  de: "Deutsch",
+  uk: "Українська",
 };
 
 export type ReplyTone = "confirm" | "request_time" | "object" | "clarify";
@@ -70,6 +72,18 @@ export const REPLY_TONE_LABELS: Record<AppLanguage, Record<ReplyTone, string>> =
     request_time: "Daha fazla süre iste",
     object: "İtiraz et / anlaşmazlık bildir",
     clarify: "Önce bir soru sor",
+  },
+  de: {
+    confirm: "Zustimmen / annehmen",
+    request_time: "Mehr Zeit erbitten",
+    object: "Widersprechen / anfechten",
+    clarify: "Erst eine Frage stellen",
+  },
+  uk: {
+    confirm: "Підтвердити / погодитися",
+    request_time: "Попросити більше часу",
+    object: "Заперечити / оскаржити",
+    clarify: "Спочатку поставити запитання",
   },
 };
 

@@ -9,7 +9,7 @@ import type { Result } from "@/lib/result";
 import type { AppLanguage } from "@/lib/letters/types";
 import { APP_COPY } from "@/lib/i18n/copy";
 
-const LANGUAGES: readonly AppLanguage[] = ["en", "ar", "tr"];
+const LANGUAGES: readonly AppLanguage[] = ["en", "ar", "tr", "de", "uk"];
 
 // Generous enough that a real user mistyping a password a few times never
 // notices — this exists to blunt scripted credential-stuffing, not to add

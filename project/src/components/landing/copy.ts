@@ -105,7 +105,7 @@ export const MARKETING_COPY: Record<MarketingLocale, MarketingCopy> = {
       headlineLine1: "Know what it says.",
       headlineLine2: "Know what to do.",
       subhead:
-        "Google Translate gives you the words. Papkram gives you the meaning — a plain-language summary, your deadlines, and a ready-to-send reply, in English, Arabic, or Turkish.",
+        "Google Translate gives you the words. Papkram gives you the meaning — a plain-language summary, your deadlines, and a ready-to-send reply, in English, Arabic, Turkish, German, or Ukrainian.",
       ctaPrimary: "Start free trial",
       ctaNote: "No credit card needed",
       mockup: {
@@ -315,7 +315,7 @@ export const MARKETING_COPY: Record<MarketingLocale, MarketingCopy> = {
       headlineLine1: "اعرف ما يقوله.",
       headlineLine2: "واعرف ما عليك فعله.",
       subhead:
-        "ترجمة جوجل تمنحك الكلمات. أما Papkram فيمنحك المعنى — ملخص بلغة واضحة، مواعيدك النهائية، ورد جاهز للإرسال، بالإنجليزية أو العربية أو التركية.",
+        "ترجمة جوجل تمنحك الكلمات. أما Papkram فيمنحك المعنى — ملخص بلغة واضحة، مواعيدك النهائية، ورد جاهز للإرسال، بالإنجليزية أو العربية أو التركية أو الألمانية أو الأوكرانية.",
       ctaPrimary: "ابدأ تجربتك المجانية",
       ctaNote: "لا حاجة لبطاقة ائتمان",
       mockup: {
@@ -525,7 +525,7 @@ export const MARKETING_COPY: Record<MarketingLocale, MarketingCopy> = {
       headlineLine1: "Ne dediğini bilin.",
       headlineLine2: "Ne yapacağınızı bilin.",
       subhead:
-        "Google Translate size kelimeleri verir. Papkram ise size anlamı verir — sade bir özet, son tarihleriniz ve gönderime hazır bir yanıt, İngilizce, Arapça veya Türkçe olarak.",
+        "Google Translate size kelimeleri verir. Papkram ise size anlamı verir — sade bir özet, son tarihleriniz ve gönderime hazır bir yanıt, İngilizce, Arapça, Türkçe, Almanca veya Ukraynaca olarak.",
       ctaPrimary: "Ücretsiz denemeyi başlat",
       ctaNote: "Kredi kartı gerekmez",
       mockup: {
@@ -726,5 +726,425 @@ export const MARKETING_COPY: Record<MarketingLocale, MarketingCopy> = {
       button: "Ücretsiz denemeyi başlat",
     },
     footer: { privacy: "Gizlilik", terms: "Şartlar", contact: "İletişim" },
+  },
+  de: {
+    dir: "ltr",
+    nav: { logIn: "Anmelden", startFreeTrial: "Kostenlos testen" },
+    hero: {
+      stampBadge: (n) => `${n} Briefe kostenlos`,
+      headlineLine1: "Wissen, was drinsteht.",
+      headlineLine2: "Wissen, was zu tun ist.",
+      subhead:
+        "Google Translate gibt Ihnen die Wörter. Papkram gibt Ihnen die Bedeutung — eine Zusammenfassung in klarer Sprache, Ihre Fristen und eine versandfertige Antwort, auf Englisch, Arabisch, Türkisch, Deutsch oder Ukrainisch.",
+      ctaPrimary: "Kostenlos testen",
+      ctaNote: "Keine Kreditkarte nötig",
+      mockup: {
+        chip: "Analyse abgeschlossen",
+        summary: "Die Stadtwerke München fordern 187,42 € Nachzahlung für Ihre Stromrechnung 2025.",
+        deadlineLabel: "Frist",
+        deadline: "Zahlbar bis 28. Feb. 2026",
+        replyLabel: "Antwortentwurf",
+        reply: "„Hiermit bestätige ich, dass die Zahlung von 187,42 € überwiesen wurde am…“",
+        dir: "ltr",
+      },
+      trustBadges: [
+        "Verschlüsselt — nur Sie können Ihre Briefe öffnen",
+        "Nie zum Trainieren von KI-Modellen verwendet",
+        "Gespeichert auf Servern in Deutschland",
+      ],
+      counterLabel: "Personen haben sich für den frühen Zugang angemeldet",
+      demoStatus:
+        "Papkram befindet sich noch in der Demophase. Wir öffnen es für alle, sobald genug Menschen sich angemeldet haben — jede Anmeldung bringt den Start näher.",
+      graphicLabel: "Ein deutscher Brief, von Papkram zu einer klaren Zusammenfassung mit Frist verarbeitet",
+    },
+    whatIsPapkram: {
+      eyebrow: "Was ist Papkram",
+      heading: "Deutscher Papierkram, erklärt.",
+      mailboxLabel: "Was in Ihrem Briefkasten landet",
+      readInsteadLabel: "Was Sie stattdessen lesen",
+      plainLanguageLabel: "In klarem Deutsch",
+      summary: "Das Finanzamt sagt, Sie haben zu wenig gezahlt. Sie schulden 187,42 €.",
+      deadline: "Zahlbar bis 28. Feb. 2026",
+      replyNote: "Antwort auf Deutsch entworfen",
+    },
+    howItWorks: {
+      eyebrow: "So funktioniert's",
+      heading: "Drei Schritte. Das war's.",
+      steps: [
+        {
+          title: "Hochladen",
+          description: "Machen Sie ein Foto oder laden Sie ein PDF des erhaltenen Briefs hoch.",
+          mockup: { label: "brief.jpg", detail: "Wird hochgeladen…" },
+        },
+        {
+          title: "Papkram liest ihn",
+          description: "Wir übersetzen, fassen zusammen und markieren jede Frist — in Ihrer Sprache.",
+          mockup: { label: "Analyse abgeschlossen", detail: "1 Frist gefunden" },
+        },
+        {
+          title: "Sie antworten",
+          description: "Kopieren Sie den versandfertigen Antwortentwurf, oder schreiben Sie Ihre eigene Antwort anhand der Zusammenfassung.",
+          mockup: { label: "Ihre Antwort, auf Deutsch", detail: "Antwort kopieren" },
+        },
+      ],
+      demoCaption: "Echte Ansichten aus der App",
+      shotAlts: [
+        "Papkram-Uploadbildschirm",
+        "Zusammenfassung von Papkram in klarer Sprache mit Betrag und Quellenzeile",
+        "Versandfertiger deutscher Antwortentwurf",
+      ],
+    },
+    privacy: {
+      eyebrow: "Datenschutz",
+      heading: "Ihre Post ist die privateste Sendung, die Sie besitzen.",
+      cards: [
+        {
+          heading: "Verschlüsselte Speicherung",
+          body: "Ihre Briefe werden verschlüsselt gespeichert. Nur Ihr Konto kann sie öffnen.",
+        },
+        {
+          heading: "Trainiert nie KI",
+          body: "Uploads werden nur verarbeitet, um Ihre Zusammenfassung und Ihre Antwort zu erstellen — nichts sonst. Kein Modell wird mit Ihrer Post trainiert.",
+        },
+        {
+          heading: "Deutsche Server",
+          body: "Ihre Dokumente werden auf Servern innerhalb Deutschlands gespeichert, nach EU-Datenschutzrecht.",
+        },
+      ],
+      sureHeading: "Wir sagen Ihnen, wenn wir uns nicht sicher sind",
+      sureBody:
+        "Deutsche Behördenbriefe sind dicht — Beträge und Daten sind entscheidend. Ist etwas in einem Brief mehrdeutig, weisen wir klar darauf hin, statt zu raten. Nie eine stille Vermutung bei einer Zahl, die Sie etwas kosten könnte.",
+      priceChip: (n) => `${n} Briefe kostenlos`,
+      priceLine: "Zum Start keine Karte nötig. Ein kostenpflichtiger Plan greift, sobald Ihre kostenlosen Briefe aufgebraucht sind — jederzeit kündbar.",
+    },
+    faq: {
+      eyebrow: "Fragen",
+      heading: "Die vier häufigsten Fragen.",
+      items: [
+        {
+          question: "Welche Brieftypen kann es lesen?",
+          answer:
+            "Alles, was in einem deutschen Umschlag ankommt — Finanzamt, Jobcenter, Rundfunkbeitrag, Krankenkasse, Ihr Vermieter, Versorger, Versicherungen, Gerichte. Ein Foto oder ein PDF, beides funktioniert.",
+        },
+        {
+          question: "Wie genau ist es?",
+          answer:
+            "Beträge und Daten werden direkt aus dem Brief übernommen und neben der Zeile angezeigt, aus der sie stammen, damit Sie sie selbst prüfen können. Ist ein Brief wirklich mehrdeutig, sagt Papkram das, statt zu raten.",
+        },
+        {
+          question: "Kann ich die entworfene Antwort tatsächlich senden?",
+          answer:
+            "Ja. Der Entwurf ist formal korrektes Deutsch, bereit zum Einfügen in eine E-Mail, einen Brief oder das Webformular einer Behörde. Sie schreiben nie selbst ein deutsches Wort.",
+        },
+        {
+          question: "Was passiert mit meinem Brief nach der Analyse?",
+          answer:
+            "Er bleibt verschlüsselt in Ihrem Konto, auf Servern in Deutschland. Er wird nie zum Trainieren eines KI-Modells verwendet, und Sie können ihn jederzeit in Ihren Einstellungen löschen.",
+        },
+      ],
+    },
+    passItOn: {
+      eyebrow: "Weitersagen",
+      heading: "Jemand, den Sie kennen, hat einen ungeöffneten Brief.",
+      body: "Schicken Sie Papkram an die Person, die Ihnen ihre Post zum Übersetzen weiterleitet. Eine Nachricht erspart ihr eine Woche voller Sorgen.",
+      orSendItIn: "Oder direkt senden über",
+      whatsapp: "WhatsApp",
+      messenger: "Messenger",
+      telegram: "Telegram",
+      moreApps: "Weitere Apps",
+      copyLink: "Link kopieren",
+      linkCopiedToast: "Link kopiert.",
+      moreAppsFailed: "Das Teilen-Menü konnte nicht geöffnet werden — probieren Sie stattdessen eine der obigen Apps.",
+    },
+    offer: {
+      heading: "Alles, was Sie bekommen.",
+      trialBadge: (n) => `${n} kostenlose Briefe, keine Karte`,
+      items: [
+        {
+          name: "Unbegrenzte Briefanalyse",
+          description:
+            "Laden Sie jeden deutschen Brief hoch — Foto oder PDF — und erhalten Sie eine Zusammenfassung in klarer Sprache, Fristen und eine versandfertige Antwort. Nach Ihrer kostenlosen Testphase ohne Limit.",
+          comparisonCost: "97,00 €",
+        },
+        {
+          name: "Sicherer Antwort-Composer",
+          description:
+            "Eine formal korrekte deutsche Antwort, bereit zum Kopieren und Senden. Sie schreiben nie selbst ein deutsches Wort.",
+          comparisonCost: "Inklusive",
+        },
+        {
+          name: "Fristenschutz",
+          description:
+            "Jedes im Brief versteckte Datum — Zahlungsfristen, Antwortfristen — klar markiert, damit Ihnen nichts entgeht.",
+          comparisonCost: "Inklusive",
+        },
+        {
+          name: "Dokumententresor",
+          description:
+            "Jeder hochgeladene Brief, jede Zusammenfassung, jede Antwort — an einem Ort gespeichert, bereit, wann immer Sie sie brauchen.",
+          comparisonCost: "Inklusive",
+        },
+      ],
+      bonuses: [
+        {
+          name: "Gründerkreis",
+          description: "Bevorzugter Support + Ihr Preis lebenslang festgeschrieben",
+          comparisonCost: "197,00 €",
+        },
+        {
+          name: "Behörden-Toolkit",
+          description: "Schritt-für-Schritt-Anleitungen für das, was nach dem Brief kommt",
+          comparisonCost: "47,00 €",
+        },
+        {
+          name: "Leitfaden für dringende Sätze",
+          description: "30 wichtige Sätze für Anrufe und persönliche Besuche",
+          comparisonCost: "27,00 €",
+        },
+      ],
+      totalComparisonLabel: "Was Sie anderswo zahlen würden",
+      totalComparisonValue: "368,00 €",
+      priceLabel: "Ihr Preis",
+      perYearLabel: "/ Jahr",
+      monthlyNote: (price) => `oder ${price}/Monat, jederzeit kündbar`,
+      cta: "Kostenlos testen",
+    },
+    bonuses: {
+      heading: "Boni, die gerade jetzt kostenlos inklusive sind.",
+      items: [
+        {
+          name: "Gründerkreis",
+          badge: "Erste 100 Gründungsmitglieder",
+          description: (price) =>
+            `Als Gründungsmitglied erhalten Sie direkten Zugang zu unserem Support-Team — kein Chatbot, ein echter Mensch. Ihr Preis bleibt lebenslang bei ${price} im Jahr, auch wenn er später für neue Mitglieder steigt. Jedes zukünftige Update wird automatisch, kostenlos und für immer zu Ihrem Konto hinzugefügt.`,
+        },
+        {
+          name: "Behörden-Toolkit",
+          description: () =>
+            "Den Brief zu verstehen ist der erste Schritt. Dieses Toolkit führt Sie durch den nächsten — eine Überweisung, ein Formular, ein Lastschriftmandat — jeweils eine klare Anleitung nach der anderen.",
+        },
+        {
+          name: "Leitfaden für dringende Sätze",
+          description: () =>
+            "Für die Momente, in denen die App nicht helfen kann — ein Telefonat, ein Behördengang — dreißig wichtige deutsche Sätze mit Aussprache, bereit, wenn Sie sie brauchen.",
+        },
+      ],
+    },
+    cta: {
+      badge: "Heute starten",
+      heading: "Hören Sie auf zu raten, was in Ihrer Post steht.",
+      button: "Kostenlos testen",
+    },
+    footer: { privacy: "Datenschutz", terms: "AGB", contact: "Kontakt" },
+  },
+  uk: {
+    dir: "ltr",
+    nav: { logIn: "Увійти", startFreeTrial: "Почати безкоштовну пробну версію" },
+    hero: {
+      stampBadge: (n) => `${n} листів безкоштовно`,
+      headlineLine1: "Знайте, що там написано.",
+      headlineLine2: "Знайте, що робити.",
+      subhead:
+        "Google Перекладач дає вам слова. Papkram дає вам сенс — підсумок зрозумілою мовою, ваші терміни та готову до надсилання відповідь, англійською, арабською, турецькою, німецькою або українською.",
+      ctaPrimary: "Почати безкоштовну пробну версію",
+      ctaNote: "Кредитна картка не потрібна",
+      mockup: {
+        chip: "Аналіз завершено",
+        summary: "Stadtwerke München просить доплатити 187,42 € за рахунок за електроенергію 2025 року.",
+        deadlineLabel: "Термін",
+        deadline: "Сплатити до 28 лют. 2026",
+        replyLabel: "Чернетка відповіді",
+        reply: "«Цим підтверджую, що платіж у розмірі 187,42 € був переказаний…»",
+        dir: "ltr",
+      },
+      trustBadges: [
+        "Зашифровано — відкрити ваші листи можете лише ви",
+        "Ніколи не використовується для навчання ШІ-моделей",
+        "Зберігається на серверах у Німеччині",
+      ],
+      counterLabel: "людей зареєструвалися для раннього доступу",
+      demoStatus:
+        "Papkram поки що в демоверсії. Ми відкриємо його для всіх, щойно зареєструється достатньо людей — кожна реєстрація наближає запуск.",
+      graphicLabel: "Німецький лист, оброблений Papkram у зрозумілий підсумок із терміном",
+    },
+    whatIsPapkram: {
+      eyebrow: "Що таке Papkram",
+      heading: "Німецька бюрократія, пояснена.",
+      mailboxLabel: "Що потрапляє у вашу поштову скриньку",
+      readInsteadLabel: "Що ви читаєте натомість",
+      plainLanguageLabel: "Зрозумілою мовою",
+      summary: "Податкова інспекція каже, що ви недоплатили. Ви винні 187,42 €.",
+      deadline: "Сплатити до 28 лют. 2026",
+      replyNote: "Відповідь підготовлена німецькою",
+    },
+    howItWorks: {
+      eyebrow: "Як це працює",
+      heading: "Три кроки. Оце і все.",
+      steps: [
+        {
+          title: "Завантажте",
+          description: "Сфотографуйте або додайте PDF отриманого листа.",
+          mockup: { label: "лист.jpg", detail: "Завантаження…" },
+        },
+        {
+          title: "Papkram читає його",
+          description: "Ми перекладаємо, підсумовуємо і позначаємо кожен термін — вашою мовою.",
+          mockup: { label: "Аналіз завершено", detail: "Знайдено 1 термін" },
+        },
+        {
+          title: "Ви відповідаєте",
+          description: "Скопіюйте готову до надсилання чернетку відповіді або напишіть власну на основі підсумку.",
+          mockup: { label: "Ваша відповідь німецькою", detail: "Копіювати відповідь" },
+        },
+      ],
+      demoCaption: "Реальні екрани застосунку",
+      shotAlts: [
+        "Екран завантаження листа в Papkram",
+        "Підсумок зрозумілою мовою із сумою та джерелом",
+        "Готова до надсилання чернетка відповіді німецькою",
+      ],
+    },
+    privacy: {
+      eyebrow: "Конфіденційність",
+      heading: "Ваша пошта — найособистіше, чим ви володієте.",
+      cards: [
+        {
+          heading: "Зашифроване зберігання",
+          body: "Ваші листи зберігаються в зашифрованому вигляді. Відкрити їх може лише ваш акаунт.",
+        },
+        {
+          heading: "Ніколи не навчає ШІ",
+          body: "Завантажені файли обробляються лише для створення вашого підсумку та вашої відповіді — і нічого більше. Жодна модель не навчається на вашій пошті.",
+        },
+        {
+          heading: "Німецькі сервери",
+          body: "Ваші документи зберігаються на серверах у Німеччині, відповідно до законодавства ЄС про захист даних.",
+        },
+      ],
+      sureHeading: "Ми повідомляємо, коли не впевнені",
+      sureBody:
+        "Німецькі офіційні листи насичені деталями — суми й дати мають значення. Якщо щось у листі неоднозначне, ми чітко це позначаємо, а не вгадуємо. Жодних мовчазних припущень щодо цифри, яка може вам щось коштувати.",
+      priceChip: (n) => `${n} листів безкоштовно`,
+      priceLine: "Для початку картка не потрібна. Платний план вступає в дію, коли закінчаться безкоштовні листи — скасувати можна будь-коли.",
+    },
+    faq: {
+      eyebrow: "Питання",
+      heading: "Чотири речі, які запитують найчастіше.",
+      items: [
+        {
+          question: "Які типи листів він може прочитати?",
+          answer:
+            "Усе, що приходить у німецькому конверті — Finanzamt, Jobcenter, Rundfunkbeitrag, медичне страхування, ваш орендодавець, комунальні служби, страхові компанії, суди. Підійде і фото, і PDF.",
+        },
+        {
+          question: "Наскільки це точно?",
+          answer:
+            "Суми й дати беруться прямо з листа і показуються поруч із рядком, звідки вони взяті, щоб ви могли перевірити їх самостійно. Якщо лист справді неоднозначний, Papkram так і каже, замість того щоб вгадувати.",
+        },
+        {
+          question: "Чи можу я надіслати підготовлену відповідь?",
+          answer:
+            "Так. Чернетка написана формально коректною німецькою, готова для копіювання в електронний лист, звичайний лист або вебформу установи. Вам не потрібно писати жодного слова німецькою самостійно.",
+        },
+        {
+          question: "Що станеться з моїм листом після аналізу?",
+          answer:
+            "Він залишається у вашому акаунті, зашифрований, на серверах у Німеччині. Він ніколи не використовується для навчання ШІ-моделі, і ви можете видалити його будь-коли в налаштуваннях.",
+        },
+      ],
+    },
+    passItOn: {
+      eyebrow: "Розкажіть іншим",
+      heading: "Хтось із ваших знайомих має нерозкритий лист.",
+      body: "Надішліть Papkram людині, яка пересилає вам свою пошту для перекладу. Одне повідомлення позбавляє її тижня хвилювань.",
+      orSendItIn: "Або надішліть через",
+      whatsapp: "WhatsApp",
+      messenger: "Messenger",
+      telegram: "Telegram",
+      moreApps: "Інші застосунки",
+      copyLink: "Копіювати посилання",
+      linkCopiedToast: "Посилання скопійовано.",
+      moreAppsFailed: "Не вдалося відкрити меню поширення — спробуйте один із застосунків вище.",
+    },
+    offer: {
+      heading: "Усе, що ви отримуєте.",
+      trialBadge: (n) => `${n} безкоштовних листів, без картки`,
+      items: [
+        {
+          name: "Необмежений аналіз листів",
+          description:
+            "Завантажте будь-який німецький лист — фото чи PDF — і отримайте підсумок зрозумілою мовою, терміни та готову до надсилання відповідь. Без обмежень після безкоштовного пробного періоду.",
+          comparisonCost: "97,00 €",
+        },
+        {
+          name: "Впевнений конструктор відповідей",
+          description:
+            "Формально коректна німецька відповідь, готова до копіювання й надсилання. Вам не потрібно писати жодного слова німецькою самостійно.",
+          comparisonCost: "Включено",
+        },
+        {
+          name: "Захист від пропущених термінів",
+          description:
+            "Кожна дата, прихована в листі, — платіжні вікна, терміни відповіді — чітко позначена, щоб ніщо не пройшло повз вас.",
+          comparisonCost: "Включено",
+        },
+        {
+          name: "Сховище документів",
+          description:
+            "Кожен завантажений лист, кожен підсумок, кожна відповідь — зберігаються в одному місці, готові будь-коли, коли вам знадобляться.",
+          comparisonCost: "Включено",
+        },
+      ],
+      bonuses: [
+        {
+          name: "Коло засновників",
+          description: "Пріоритетна підтримка + ваша ціна зафіксована назавжди",
+          comparisonCost: "197,00 €",
+        },
+        {
+          name: "Набір інструментів для бюрократії",
+          description: "Покрокові інструкції для того, що йде після листа",
+          comparisonCost: "47,00 €",
+        },
+        {
+          name: "Довідник термінових фраз",
+          description: "30 основних фраз для дзвінків та особистих візитів",
+          comparisonCost: "27,00 €",
+        },
+      ],
+      totalComparisonLabel: "Скільки ви заплатили б деінде",
+      totalComparisonValue: "368,00 €",
+      priceLabel: "Ваша ціна",
+      perYearLabel: "/ рік",
+      monthlyNote: (price) => `або ${price}/місяць, скасувати можна будь-коли`,
+      cta: "Почати безкоштовну пробну версію",
+    },
+    bonuses: {
+      heading: "Бонуси, які вже зараз включені безкоштовно.",
+      items: [
+        {
+          name: "Коло засновників",
+          badge: "Перші 100 засновників",
+          description: (price) =>
+            `Як засновник ви отримуєте прямий доступ до нашої команди підтримки — не чат-бота, а справжню людину. Ваша ціна залишається ${price} на рік назавжди, навіть якщо пізніше вона зросте для нових користувачів. Кожне майбутнє оновлення додається до вашого акаунта автоматично, безкоштовно, назавжди.`,
+        },
+        {
+          name: "Набір інструментів для бюрократії",
+          description: () =>
+            "Зрозуміти лист — це перший крок. Цей набір проведе вас через наступний — банківський переказ, форму, пряме дебетування — по одному зрозумілому інструктажу за раз.",
+        },
+        {
+          name: "Довідник термінових фраз",
+          description: () =>
+            "Для моментів, коли застосунок не може допомогти — телефонний дзвінок, візит до установи — тридцять основних німецьких фраз із вимовою, готові тоді, коли вони вам знадобляться.",
+        },
+      ],
+    },
+    cta: {
+      badge: "Почати сьогодні",
+      heading: "Перестаньте вгадувати, що написано у вашій пошті.",
+      button: "Почати безкоштовну пробну версію",
+    },
+    footer: { privacy: "Конфіденційність", terms: "Умови", contact: "Контакти" },
   },
 };

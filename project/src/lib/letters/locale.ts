@@ -4,5 +4,7 @@ import type { AppLanguage } from "./types";
 export function appLanguageToLocale(language: AppLanguage): string {
   if (language === "ar") return "ar-EG";
   if (language === "tr") return "tr-TR";
+  if (language === "de") return "de-DE";
+  if (language === "uk") return "uk-UA";
   return "en-GB";
 }

@@ -29,7 +29,7 @@ export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   title: "Papkram — Translate German Mail Instantly",
   description:
-    "Translate a German letter and understand your mail in minutes. Upload a photo or PDF of any Behörde, bank, or landlord letter and get a plain-language summary, deadline alerts, and a ready-to-send reply — in English, Arabic, or Turkish.",
+    "Translate a German letter and understand your mail in minutes. Upload a photo or PDF of any Behörde, bank, or landlord letter and get a plain-language summary, deadline alerts, and a ready-to-send reply — in English, Arabic, Turkish, German, or Ukrainian.",
   keywords: [
     "translate German letter",
     "read German mail for expats",
@@ -44,7 +44,7 @@ export const metadata: Metadata = {
     siteName: "Papkram",
     title: "Papkram — Translate German Mail Instantly",
     description:
-      "Upload a photo or PDF of any German letter and get a plain-language summary, deadlines, and a ready-to-send reply — in English, Arabic, or Turkish.",
+      "Upload a photo or PDF of any German letter and get a plain-language summary, deadlines, and a ready-to-send reply — in English, Arabic, Turkish, German, or Ukrainian.",
   },
   twitter: {
     card: "summary_large_image",
@@ -57,6 +57,8 @@ export const metadata: Metadata = {
       en: "/",
       ar: "/",
       tr: "/",
+      de: "/",
+      uk: "/",
     },
   },
   appleWebApp: {

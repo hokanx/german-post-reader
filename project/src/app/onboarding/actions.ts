@@ -7,7 +7,7 @@ import type { Result } from "@/lib/result";
 import { APP_COPY } from "@/lib/i18n/copy";
 import { DEMO_MODE } from "@/lib/constants";
 
-const LANGUAGES = ["en", "ar", "tr"] as const;
+const LANGUAGES = ["en", "ar", "tr", "de", "uk"] as const;
 type Language = (typeof LANGUAGES)[number];
 
 /** `uiLanguage` is whatever the picker itself is currently displayed in (pre-auth cookie), not `language` (the value being chosen) — drives which language an error is shown in. */

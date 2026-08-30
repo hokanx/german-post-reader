@@ -19,7 +19,7 @@ import { DEMO_MODE } from "@/lib/constants";
 import { createServiceClient } from "@/lib/supabase/service";
 import { countRegisteredUsers } from "@/lib/profile/count-registered";
 
-const VALID_LOCALES: readonly MarketingLocale[] = ["en", "ar", "tr"];
+const VALID_LOCALES: readonly MarketingLocale[] = ["en", "ar", "tr", "de", "uk"];
 
 export default async function Home({
   searchParams,

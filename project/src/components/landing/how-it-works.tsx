@@ -15,10 +15,13 @@ const DEMO: { from: number; to: number }[] = [
 const DEMO_DUR = 5400;
 const TICK_MS = 40;
 
-const SHOTS: Record<"en" | "ar" | "tr", [string, string, string]> = {
+// Placeholder screenshots (English UI) reused for de/uk pending real de/uk captures.
+const SHOTS: Record<"en" | "ar" | "tr" | "de" | "uk", [string, string, string]> = {
   en: ["/how-it-works/en-1-upload.png", "/how-it-works/en-2-analysis.png", "/how-it-works/en-3-reply.png"],
   ar: ["/how-it-works/ar-1-upload.png", "/how-it-works/ar-2-analysis.png", "/how-it-works/ar-3-reply.png"],
   tr: ["/how-it-works/tr-1-upload.png", "/how-it-works/tr-2-analysis.png", "/how-it-works/tr-3-reply.png"],
+  de: ["/how-it-works/en-1-upload.png", "/how-it-works/en-2-analysis.png", "/how-it-works/en-3-reply.png"],
+  uk: ["/how-it-works/en-1-upload.png", "/how-it-works/en-2-analysis.png", "/how-it-works/en-3-reply.png"],
 };
 
 export function HowItWorks() {

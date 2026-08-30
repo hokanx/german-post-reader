@@ -1,7 +1,7 @@
 import { cookies } from "next/headers";
 import type { AppLanguage } from "@/lib/letters/types";
 
-const VALID: readonly AppLanguage[] = ["en", "ar", "tr"];
+const VALID: readonly AppLanguage[] = ["en", "ar", "tr", "de", "uk"];
 
 /**
  * Resolves UI language for pages rendered before a `profiles` row exists

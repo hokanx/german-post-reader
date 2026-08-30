@@ -80,4 +80,48 @@ export const WELCOME_EMAIL_COPY: Record<AppLanguage, WelcomeEmailCopy> = {
     cta: "İlk mektubunuzu yükleyin",
     footer: "Papkram — Almanca postalar için sade özetler, son tarihler ve yanıt taslakları.",
   },
+  de: {
+    dir: "ltr",
+    subject: (limit) => `Willkommen — Ihre ersten ${limit} Briefe sind kostenlos`,
+    preview: (limit) => `Ihre ersten ${limit} Briefe sind kostenlos — keine Karte nötig`,
+    pill: "Konto bereit",
+    heading: "Ihr Konto ist bereit",
+    intro: (limit) =>
+      `Sie haben ${limit} kostenlose Brief-Analysen zum Start, keine Karte nötig.`,
+    features: [
+      { label: "Zusammenfassung", text: "Eine Zusammenfassung in klarer Sprache, was der Brief tatsächlich sagt." },
+      { label: "Fristen", text: "Alle Daten oder Fristen klar markiert, damit Ihnen nichts entgeht." },
+      { label: "Antwortentwurf", text: "Eine versandfertige Antwort auf Deutsch, mit Übersetzung, damit Sie genau wissen, was darinsteht." },
+    ],
+    riskNote:
+      "Wenn ein Brief einen Betrag oder ein Datum nennt, bei dem wir uns nicht ganz sicher sind, sagen wir das klar, statt zu raten.",
+    priceNote: (price) => `Nach Ihren kostenlosen Briefen kostet das Freischalten unbegrenzter Briefe ${price} pro Jahr.`,
+    pillDemo: "Demo bereit",
+    headingDemo: "Ihre kostenlose Demo ist bereit",
+    demoNote: "Wir verkaufen noch nicht — sobald Papkram vollständig startet, schreiben wir Ihnen.",
+    cta: "Laden Sie Ihren ersten Brief hoch",
+    footer: "Papkram — Zusammenfassungen in klarer Sprache, Fristen und Antwortentwürfe für deutsche Post.",
+  },
+  uk: {
+    dir: "ltr",
+    subject: (limit) => `Ласкаво просимо — ваші перші ${limit} листи безкоштовні`,
+    preview: (limit) => `Ваші перші ${limit} листи безкоштовні — картка не потрібна`,
+    pill: "Акаунт готовий",
+    heading: "Ваш акаунт готовий",
+    intro: (limit) =>
+      `У вас є ${limit} безкоштовних аналізів листів для початку, картка не потрібна.`,
+    features: [
+      { label: "Підсумок", text: "Підсумок зрозумілою мовою того, що насправді написано в листі." },
+      { label: "Терміни", text: "Усі дати чи терміни чітко позначені, щоб ніщо не пройшло повз вас." },
+      { label: "Чернетка відповіді", text: "Готова до надсилання відповідь німецькою, з перекладом, щоб ви точно знали, що в ній написано." },
+    ],
+    riskNote:
+      "Якщо в листі згадано суму чи дату, у якій ми не повністю впевнені, ми чітко про це скажемо, а не вгадуватимемо.",
+    priceNote: (price) => `Після безкоштовних листів відкриття необмеженої кількості листів коштує ${price} на рік.`,
+    pillDemo: "Демоверсія готова",
+    headingDemo: "Ваша безкоштовна демоверсія готова",
+    demoNote: "Ми поки що нічого не продаємо — щойно Papkram запуститься повністю, ми напишемо вам на пошту.",
+    cta: "Завантажте свій перший лист",
+    footer: "Papkram — підсумки зрозумілою мовою, терміни та чернетки відповідей для німецької пошти.",
+  },
 };

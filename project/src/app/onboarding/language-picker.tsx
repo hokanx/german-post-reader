@@ -11,6 +11,8 @@ const LANGUAGES = [
   { code: "en" as const, label: "English", native: "English" },
   { code: "ar" as const, label: "Arabic", native: "العربية" },
   { code: "tr" as const, label: "Turkish", native: "Türkçe" },
+  { code: "de" as const, label: "German", native: "Deutsch" },
+  { code: "uk" as const, label: "Ukrainian", native: "Українська" },
 ];
 
 export function LanguagePicker({ copy, uiLanguage }: { copy: AppCopy["onboarding"]; uiLanguage: AppLanguage }) {

@@ -13,7 +13,9 @@
  * sender_category, and dates are never touched — only the
  * language-dependent fields are swapped.
  *
- * Run with: npx tsx scripts/apply-demo-language.ts <en|ar|tr>
+ * Run with: npx tsx scripts/apply-demo-language.ts <en|ar|tr|de|uk>
+ * (de/uk require scripts/translate-seed-letters.ts to have cached
+ * translations for that language first — see the cache check below.)
  */
 import path from "node:path";
 import fs from "node:fs/promises";
@@ -41,8 +43,14 @@ type CacheFile = {
 
 async function main() {
   const targetLanguage = process.argv[2];
-  if (targetLanguage !== "en" && targetLanguage !== "ar" && targetLanguage !== "tr") {
-    throw new Error(`Usage: npx tsx scripts/apply-demo-language.ts <en|ar|tr> (got "${targetLanguage}")`);
+  if (
+    targetLanguage !== "en" &&
+    targetLanguage !== "ar" &&
+    targetLanguage !== "tr" &&
+    targetLanguage !== "de" &&
+    targetLanguage !== "uk"
+  ) {
+    throw new Error(`Usage: npx tsx scripts/apply-demo-language.ts <en|ar|tr|de|uk> (got "${targetLanguage}")`);
   }
 
   const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;

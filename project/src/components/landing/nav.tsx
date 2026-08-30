@@ -12,6 +12,8 @@ const LANGUAGES: { code: MarketingLocale; label: string }[] = [
   { code: "en", label: "EN" },
   { code: "ar", label: "AR" },
   { code: "tr", label: "TR" },
+  { code: "de", label: "DE" },
+  { code: "uk", label: "UK" },
 ];
 
 export function LandingNav() {

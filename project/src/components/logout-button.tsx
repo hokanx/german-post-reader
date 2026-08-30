@@ -9,6 +9,8 @@ const LOGOUT_LABEL: Record<AppLanguage, string> = {
   en: "Log out",
   ar: "تسجيل الخروج",
   tr: "Çıkış yap",
+  de: "Abmelden",
+  uk: "Вийти",
 };
 
 export function LogoutButton({ language = "en" }: { language?: AppLanguage }) {

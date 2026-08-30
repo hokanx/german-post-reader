@@ -2,7 +2,7 @@
 
 import { createContext, useContext, useState, type ReactNode } from "react";
 
-export type MarketingLocale = "en" | "ar" | "tr";
+export type MarketingLocale = "en" | "ar" | "tr" | "de" | "uk";
 
 type LocaleContextValue = {
   locale: MarketingLocale;
