@@ -3,7 +3,7 @@
 import { useEffect } from "react";
 import { ErrorState } from "@/components/error-state";
 
-export default function OnboardingError({
+export default function WelcomeError({
   error,
   reset,
 }: {
@@ -11,14 +11,14 @@ export default function OnboardingError({
   reset: () => void;
 }) {
   useEffect(() => {
-    console.error("Onboarding page error", error);
+    console.error("Welcome page error", error);
   }, [error]);
 
   return (
-    <main className="mx-auto flex max-w-lg flex-1 flex-col justify-center bg-background px-6 py-16">
-      <h1 className="sr-only">Choose your language</h1>
+    <main className="mx-auto flex max-w-md flex-1 flex-col justify-center bg-background px-6 py-16">
+      <h1 className="sr-only">You're in</h1>
       <ErrorState
-        message="Couldn't load the language picker"
+        message="Couldn't load this page"
         recovery="This is usually temporary. Try again in a moment."
         onRetry={reset}
       />
