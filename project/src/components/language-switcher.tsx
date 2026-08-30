@@ -48,7 +48,7 @@ export function LanguageSwitcher({ current }: { current: AppLanguage }) {
         {currentLabel}
         <ChevronDown className="size-3.5" strokeWidth={1.5} aria-hidden="true" />
       </PopoverTrigger>
-      <PopoverContent align="start" className="w-48 p-1.5">
+      <PopoverContent align="start" dir={current === "ar" ? "rtl" : "ltr"} className="w-48 p-1.5">
         <div role="radiogroup" aria-label={copy.ariaLabel} className="flex flex-col gap-0.5">
           {LANGUAGES.map((lang) => (
             <button

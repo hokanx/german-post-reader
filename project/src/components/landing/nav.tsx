@@ -48,7 +48,7 @@ export function LandingNav() {
             {currentLabel}
             <ChevronDown className="size-3.5" strokeWidth={1.5} aria-hidden="true" />
           </PopoverTrigger>
-          <PopoverContent align="center" className="w-48 p-1.5">
+          <PopoverContent align="center" dir={copy.dir} className="w-48 p-1.5">
             <div role="radiogroup" aria-label="Language" className="flex flex-col gap-0.5">
               {LANGUAGES.map((lang) => (
                 <button
