@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect } from "react";
+import * as Sentry from "@sentry/nextjs";
 import { ErrorState } from "@/components/error-state";
 
 export default function DeadlinesError({
@@ -12,6 +13,7 @@ export default function DeadlinesError({
 }) {
   useEffect(() => {
     console.error("Deadlines page error", error);
+    Sentry.captureException(error);
   }, [error]);
 
   return (

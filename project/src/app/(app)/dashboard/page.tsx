@@ -28,7 +28,7 @@ export default async function DashboardPage() {
     return null;
   }
 
-  const [{ data: profile }, { data: letters }] = await Promise.all([
+  const [{ data: profile, error: profileError }, { data: letters, error: lettersError }] = await Promise.all([
     supabase
       .from("profiles")
       .select("has_active_subscription, trial_letters_used, language")
@@ -40,6 +40,17 @@ export default async function DashboardPage() {
       .eq("user_id", user.id)
       .order("created_at", { ascending: false }),
   ]);
+
+  // Without this, a failed query rendered "No letters yet" to someone with a
+  // full history, and — worse — a failed profile read defaulted
+  // has_active_subscription to false and trial_letters_used to 0, showing a
+  // paying subscriber the upgrade banner and a fresh trial. Throwing reaches
+  // error.tsx (and Sentry). PGRST116 is an absent profile, not a failure.
+  if (lettersError || (profileError && profileError.code !== "PGRST116")) {
+    throw new Error(
+      `dashboard: load failed (letters: ${lettersError?.code ?? "ok"}, profile: ${profileError?.code ?? "ok"})`,
+    );
+  }
 
   const hasActiveSubscription = profile?.has_active_subscription ?? false;
   const trialUsed = profile?.trial_letters_used ?? 0;

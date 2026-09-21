@@ -3,6 +3,7 @@
 import { useEffect, type ReactNode } from "react";
 import posthog from "posthog-js";
 import { flushQueuedEvents } from "@/lib/analytics/track-event";
+import { setAnalyticsConsent } from "@/lib/profile/actions";
 
 const CONSENT_COOKIE = "consent_analytics";
 const CONSENT_GRANTED_EVENT = "papkram:consent-granted";
@@ -36,10 +37,17 @@ export function PosthogProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     if (hasAnalyticsConsent()) {
       initPosthog();
+      // Mirrors an already-granted cookie into the profile so server-side
+      // capture can honour it. Without this, anyone who consented before
+      // migration 0017 would keep a granted cookie and a `false` column, and
+      // their subscription/deletion events would be dropped for ever. No-ops
+      // for anonymous visitors.
+      void setAnalyticsConsent(true);
     }
 
     function handleGranted() {
       initPosthog();
+      void setAnalyticsConsent(true);
     }
 
     window.addEventListener(CONSENT_GRANTED_EVENT, handleGranted);

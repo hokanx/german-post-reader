@@ -44,14 +44,26 @@ export function AutoTranslateBanner({
     startedKeyRef.current = key;
 
     let cancelled = false;
-    translateLetter(letterId, targetLanguage).then((result) => {
-      if (cancelled) return;
-      if (!result.ok) {
+    translateLetter(letterId, targetLanguage)
+      .then((result) => {
+        if (cancelled) return;
+        if (!result.ok) {
+          setStatus("failed");
+          return;
+        }
+        router.refresh();
+      })
+      // translateLetter returns a Result for failures it handles, but the call
+      // itself can still reject — a dropped connection, a function timeout, or
+      // a deploy that invalidates the action id while the tab is open. Without
+      // this the promise rejects unhandled, `status` stays "translating", and
+      // the user is left with a spinner that never resolves and no retry
+      // button (which only renders in the "failed" state).
+      .catch((error) => {
+        if (cancelled) return;
+        console.error("auto-translate: translateLetter rejected", error);
         setStatus("failed");
-        return;
-      }
-      router.refresh();
-    });
+      });
     return () => {
       cancelled = true;
     };

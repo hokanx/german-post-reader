@@ -1,3 +1,4 @@
+import * as Sentry from "@sentry/nextjs";
 import { NextResponse, type NextRequest } from "next/server";
 import type Stripe from "stripe";
 import { createServiceClient } from "@/lib/supabase/service";
@@ -54,19 +55,33 @@ export async function POST(request: NextRequest) {
       .update({ has_active_subscription: hasActiveSubscription })
       .eq("stripe_customer_id", customerId)
       .select("id")
-      .single();
+      .maybeSingle();
 
+    // maybeSingle, not single: .single() errors when no profile matches this
+    // customer, which made the handler 500 and Stripe retry the same event for
+    // days. A Stripe customer with no profile row (created in the dashboard, a
+    // test clock, an abandoned checkout) is not our failure — acknowledge it
+    // so the retry loop ends, and record it so it is not invisible.
     if (error) {
       console.error("Failed to update has_active_subscription from webhook", error);
+      Sentry.captureException(error, { tags: { route: "stripe/webhook", eventType: event.type } });
       return NextResponse.json({ error: "Failed to update profile" }, { status: 500 });
     }
 
-    if (updated) {
-      if (hasActiveSubscription && event.type !== "customer.subscription.updated") {
-        await trackServerEvent(updated.id, "subscription_started");
-      } else if (!hasActiveSubscription) {
-        await trackServerEvent(updated.id, "subscription_canceled");
-      }
+    if (!updated) {
+      console.warn("Stripe webhook: no profile matches customer", customerId);
+      Sentry.captureMessage("Stripe webhook: no profile for customer", {
+        level: "warning",
+        tags: { route: "stripe/webhook", eventType: event.type },
+      });
+      return NextResponse.json({ received: true, matched: false });
+    }
+
+    // `updated` is non-null past the guard above.
+    if (hasActiveSubscription && event.type !== "customer.subscription.updated") {
+      await trackServerEvent(updated.id, "subscription_started");
+    } else if (!hasActiveSubscription) {
+      await trackServerEvent(updated.id, "subscription_canceled");
     }
   }
 

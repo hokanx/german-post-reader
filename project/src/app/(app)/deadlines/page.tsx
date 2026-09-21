@@ -26,10 +26,23 @@ export default async function DeadlinesPage() {
     return null;
   }
 
-  const [{ data: profile }, { data: letters }] = await Promise.all([
+  const [{ data: profile, error: profileError }, { data: letters, error: lettersError }] = await Promise.all([
     supabase.from("profiles").select("language").eq("id", user.id).single(),
     supabase.from("letters").select("id, summary, deadlines, language").eq("user_id", user.id),
   ]);
+
+  // supabase-js returns errors in the response rather than throwing, so
+  // without this a failed query fell through to `letters ?? []` and rendered
+  // the empty state — telling a user who has a Behörde payment deadline,
+  // calmly and in their own language, that they have none. Throwing reaches
+  // this route's error.tsx (and Sentry) instead.
+  // PGRST116 is "no rows" from .single(), which is a legitimately absent
+  // profile, not a failure — fall through to the defaults for that one.
+  if (lettersError || (profileError && profileError.code !== "PGRST116")) {
+    throw new Error(
+      `deadlines: load failed (letters: ${lettersError?.code ?? "ok"}, profile: ${profileError?.code ?? "ok"})`,
+    );
+  }
 
   const language = (profile?.language ?? "en") as AppLanguage;
   const copy = APP_COPY[language].deadlines;

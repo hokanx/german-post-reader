@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect } from "react";
+import * as Sentry from "@sentry/nextjs";
 import { ErrorState } from "@/components/error-state";
 
 export default function LetterError({
@@ -12,6 +13,7 @@ export default function LetterError({
 }) {
   useEffect(() => {
     console.error("Letter page error", error);
+    Sentry.captureException(error);
   }, [error]);
 
   return (

@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import { LANGUAGE_NAMES, REPLY_TONE_LABELS, type AppLanguage, type ReplyTone } from "@/lib/letters/types";
 import { APP_COPY } from "@/lib/i18n/copy";
 import { formatDate } from "@/lib/format-date";
+import { MAX_REPLY_ANSWER_CHARS } from "@/lib/constants";
 import { computeRequestTimeOptions, buildMailtoUrl, type RequestTimeOptionId } from "@/lib/letters/reply-wizard";
 import { CopyReplyButton } from "./copy-reply-button";
 import { regenerateReply } from "./actions";
@@ -231,6 +232,9 @@ export function ReplyWizardCard({
                 }}
                 placeholder={tone === "object" ? wizard.objectPlaceholder : wizard.clarifyPlaceholder}
                 rows={4}
+                // UX nicety only — regenerateReply enforces the same cap
+                // server-side, which is the real boundary.
+                maxLength={MAX_REPLY_ANSWER_CHARS}
                 className="mt-4 w-full rounded-sm border-2 border-border bg-background px-4 py-3 text-sm text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
               />
               {validationError && <p className="mt-2 text-sm text-destructive">{validationError}</p>}

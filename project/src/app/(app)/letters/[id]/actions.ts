@@ -2,8 +2,9 @@
 
 import { createClient } from "@/lib/supabase/server";
 import { regenerateReplyDraft, translateLetterContent, type TranslatableLetterContent } from "@/lib/gemini/analyze-letter";
-import type { AppLanguage, ReplyTone } from "@/lib/letters/types";
+import { isAppLanguage, isReplyTone, type AppLanguage, type ReplyTone } from "@/lib/letters/types";
 import { APP_COPY } from "@/lib/i18n/copy";
+import { MAX_REPLY_ANSWER_CHARS } from "@/lib/constants";
 import type { Result } from "@/lib/result";
 
 type Deadline = { date: string; description: string };
@@ -24,6 +25,36 @@ export async function regenerateReply(
   uiLanguage: AppLanguage,
   answer?: string,
 ): Promise<Result<ReplyDraftResult>> {
+  // Same reasoning as translateLetter: validate before any APP_COPY lookup.
+  // An unrecognised tone is worse than a throw — REPLY_TONE_INSTRUCTIONS[tone]
+  // stringifies `undefined` into the prompt and Gemini is asked to write a
+  // reply in a tone that says "undefined".
+  if (!isAppLanguage(uiLanguage) || !isReplyTone(tone)) {
+    return {
+      ok: false,
+      error: {
+        code: "INVALID_INPUT",
+        message: APP_COPY.en.letters.couldntFindLetter,
+        recovery: APP_COPY.en.dashboard.errorRecovery,
+      },
+    };
+  }
+
+  // The answer is interpolated straight into the Gemini prompt and the
+  // textarea has no maxLength, so without a server-side cap a single call can
+  // ship a multi-megabyte prompt (the Server Actions body limit is the only
+  // other bound). Generous for a real answer, bounded for everyone else.
+  if (answer && answer.length > MAX_REPLY_ANSWER_CHARS) {
+    return {
+      ok: false,
+      error: {
+        code: "INVALID_INPUT",
+        message: APP_COPY[uiLanguage].letters.couldntFindLetter,
+        recovery: APP_COPY[uiLanguage].dashboard.errorRecovery,
+      },
+    };
+  }
+
   const supabase = await createClient();
   const {
     data: { user },
@@ -144,6 +175,20 @@ function applyTranslation(content: CachedTranslation): TranslatableLetterContent
  * would also have been translating an already-translated text).
  */
 export async function translateLetter(letterId: string, targetLanguage: AppLanguage): Promise<Result<null>> {
+  // Validate before the first APP_COPY lookup: an unrecognised language makes
+  // APP_COPY[targetLanguage] undefined, so building even the error message
+  // would throw a TypeError and escape as a 500 instead of a Result.
+  if (!isAppLanguage(targetLanguage)) {
+    return {
+      ok: false,
+      error: {
+        code: "INVALID_INPUT",
+        message: APP_COPY.en.letters.couldntFindLetter,
+        recovery: APP_COPY.en.dashboard.errorRecovery,
+      },
+    };
+  }
+
   const supabase = await createClient();
   const {
     data: { user },

@@ -4,6 +4,7 @@ import { useState, useSyncExternalStore } from "react";
 import { Cookie } from "lucide-react";
 import type { AppLanguage } from "@/lib/letters/types";
 import { APP_COPY } from "@/lib/i18n/copy";
+import { setAnalyticsConsent } from "@/lib/profile/actions";
 
 const CONSENT_COOKIE = "consent_analytics";
 const CONSENT_GRANTED_EVENT = "papkram:consent-granted";
@@ -45,6 +46,10 @@ export function CookieConsentBanner({ language }: { language: AppLanguage }) {
   function respond(value: "granted" | "denied") {
     writeConsentCookie(value);
     setDismissed(true);
+    // Persist for the server too — "denied" matters as much as "granted"
+    // here, since it must also survive a later revocation, and the Stripe
+    // webhook has no cookie to read. No-ops for anonymous visitors.
+    void setAnalyticsConsent(value === "granted");
     if (value === "granted") {
       window.dispatchEvent(new Event(CONSENT_GRANTED_EVENT));
     }

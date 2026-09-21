@@ -200,7 +200,7 @@ stage status: `not started` (change to `shipped` once `/next-stage` finishes sta
 ## success metrics
 
 - 30 paying subscribers within 6 weeks of launch.
-- Subscription revenue covers Vercel + Supabase hosting costs within 8 weeks (Gemini's free tier covers the AI pipeline at v1 volume).
+- Subscription revenue covers Vercel + Supabase hosting costs within 8 weeks (Gemini runs on the paid tier — required, since the free tier permits human review of inputs for training, which is incompatible with the landing page's "never used to train AI models" promise and with handling official letters; per-letter cost is near-zero at v1 volume).
 - Letter analysis pipeline returns a result in under 30 seconds for 95% of uploads.
 - Free-trial to paid conversion rate reaches 15% within the first month.
 

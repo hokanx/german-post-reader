@@ -8,7 +8,10 @@
     "start": "next start",
     "lint": "eslint",
     "test:e2e": "playwright test",
-    "seed": "tsx src/lib/seed/seed.ts"
+    "seed": "tsx src/lib/seed/seed.ts",
+    "test:unit": "node scripts/run-unit-tests.mjs",
+    "test": "npm run test:unit",
+    "test:all": "npm run test:unit && npm run test:e2e"
   },
   "dependencies": {
     "@base-ui/react": "^1.6.0",

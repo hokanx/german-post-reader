@@ -97,3 +97,25 @@ export const REPLY_TONE_INSTRUCTIONS: Record<ReplyTone, string> = {
   clarify:
     "Write a reply that does not commit to anything yet, but asks the recipient exactly the question given in \"The user's answer to work into the reply\" above, phrased formally for an official German letter — do not invent a different clarifying question of your own.",
 };
+
+/**
+ * Runtime allowlists for the two union types above. The unions are erased at
+ * compile time, so a server action receiving `targetLanguage` or `tone` from
+ * a client gets no protection from them — `APP_COPY[bad]` is `undefined` and
+ * the next property access throws a raw TypeError instead of returning the
+ * Result envelope every other path returns.
+ *
+ * Production evidence: 5x `400 INVALID_ARGUMENT` from Gemini tagged
+ * `geminiCall: translateLetterContent`, plus `REPLY_TONE_INSTRUCTIONS[tone]`
+ * stringifying `undefined` straight into the prompt.
+ */
+export const APP_LANGUAGES: readonly AppLanguage[] = ["en", "ar", "tr", "de", "uk"];
+export const REPLY_TONES: readonly ReplyTone[] = ["confirm", "request_time", "object", "clarify"];
+
+export function isAppLanguage(value: unknown): value is AppLanguage {
+  return typeof value === "string" && (APP_LANGUAGES as readonly string[]).includes(value);
+}
+
+export function isReplyTone(value: unknown): value is ReplyTone {
+  return typeof value === "string" && (REPLY_TONES as readonly string[]).includes(value);
+}

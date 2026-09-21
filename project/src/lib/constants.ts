@@ -38,4 +38,22 @@ export const DAILY_LETTER_LIMIT = 30;
  * nicety only; the server check is the real boundary, since a request can
  * always bypass client-side JavaScript entirely.
  */
-export const MAX_UPLOAD_BYTES = 4 * 1024 * 1024;
+/**
+ * Must stay strictly BELOW next.config.ts's `serverActions.bodySizeLimit`
+ * ("4mb" = 4 MiB), not equal to it. A file at exactly the body limit still
+ * exceeds it once multipart form encoding adds its boundaries and headers, so
+ * Next rejects the whole request with a raw 413 *before* the server action
+ * runs — meaning our own size check never executes and the user gets a
+ * generic failure instead of `copy.fileTooLarge` and its recovery hint.
+ * The 256 KiB gap is headroom for that encoding overhead.
+ */
+export const MAX_UPLOAD_BYTES = 4 * 1024 * 1024 - 256 * 1024;
+
+/**
+ * Server-side cap on the free-text answer the reply wizard folds into the
+ * Gemini prompt. The textarea has no maxLength and the value is interpolated
+ * directly into the prompt, so without this the only bound was the 4MB Server
+ * Actions body limit — one signed-in user could loop multi-megabyte prompts
+ * against a paid model. Generous for a real answer to a Behörde letter.
+ */
+export const MAX_REPLY_ANSWER_CHARS = 2000;

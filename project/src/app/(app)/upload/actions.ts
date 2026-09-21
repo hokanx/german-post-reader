@@ -1,4 +1,5 @@
 "use server";
+import * as Sentry from "@sentry/nextjs";
 
 import { randomUUID } from "node:crypto";
 import { createClient } from "@/lib/supabase/server";
@@ -224,10 +225,38 @@ export async function uploadLetter(
     reply_draft_translation: analysis.reply_draft_translation,
   });
 
-  await service
+  // Guarded with the value this request read, so a concurrent upload that
+  // already incremented cannot be overwritten with a stale count — two
+  // parallel uploads reading 3 would otherwise both write 4 and one letter
+  // would be free. If the guard misses, the row moved under us: re-read and
+  // increment from the current value.
+  const { data: claimed, error: claimError } = await service
     .from("profiles")
     .update({ trial_letters_used: profile.trial_letters_used + 1 })
-    .eq("id", user.id);
+    .eq("id", user.id)
+    .eq("trial_letters_used", profile.trial_letters_used)
+    .select("trial_letters_used")
+    .maybeSingle();
+
+  if (claimError || !claimed) {
+    const { data: current } = await service
+      .from("profiles")
+      .select("trial_letters_used")
+      .eq("id", user.id)
+      .maybeSingle();
+
+    const { error: retryError } = await service
+      .from("profiles")
+      .update({ trial_letters_used: (current?.trial_letters_used ?? profile.trial_letters_used) + 1 })
+      .eq("id", user.id);
+
+    // A lost increment is a revenue leak that is otherwise completely silent:
+    // the user keeps a letter that was never counted against their trial.
+    if (retryError) {
+      console.error("uploadLetter: failed to increment trial_letters_used", retryError);
+      Sentry.captureException(retryError, { tags: { action: "uploadLetter", step: "increment_trial" } });
+    }
+  }
 
   return { ok: true, data: { letterId } };
 }

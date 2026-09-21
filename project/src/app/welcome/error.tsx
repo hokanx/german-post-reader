@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect } from "react";
+import * as Sentry from "@sentry/nextjs";
 import { ErrorState } from "@/components/error-state";
 
 export default function WelcomeError({
@@ -12,6 +13,7 @@ export default function WelcomeError({
 }) {
   useEffect(() => {
     console.error("Welcome page error", error);
+    Sentry.captureException(error);
   }, [error]);
 
   return (

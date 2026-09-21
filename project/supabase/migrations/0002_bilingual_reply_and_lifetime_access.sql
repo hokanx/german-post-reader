@@ -6,7 +6,7 @@ alter table public.letters add column reply_draft_translation text;
 alter table public.letters add column detected_language_confirmed boolean not null default true;
 
 -- Pricing moved from a monthly subscription to a one-time payment for
--- unlimited access (the app runs on Gemini's free tier, so there's no
+-- unlimited access (per-letter Gemini cost is near-zero, so there's no
 -- recurring cost to pass on). subscription_status's three-state enum
 -- (trialing/active/canceled) no longer applies — a one-time purchase can't
 -- be "canceled". Replaced with a single boolean, which also removes the bug

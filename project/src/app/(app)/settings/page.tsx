@@ -24,11 +24,18 @@ export default async function SettingsPage() {
     return null;
   }
 
-  const { data: profile } = await supabase
+  const { data: profile, error: profileError } = await supabase
     .from("profiles")
     .select("language, has_active_subscription, full_name, postal_address")
     .eq("id", user.id)
     .single();
+
+  // A failed read here silently showed a paying subscriber the upgrade
+  // prompt and reset their UI to English. PGRST116 is an absent profile,
+  // which the defaults below handle legitimately.
+  if (profileError && profileError.code !== "PGRST116") {
+    throw new Error(`settings: profile load failed (${profileError.code})`);
+  }
 
   const language = (profile?.language ?? "en") as AppLanguage;
   const hasActiveSubscription = profile?.has_active_subscription ?? false;

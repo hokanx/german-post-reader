@@ -183,16 +183,37 @@ Rules:
 - risk_flags: if any amount, date, or instruction is ambiguous or you are not fully confident you read it correctly, add a plain-language warning here instead of guessing. Never silently guess at a number or date you're unsure about. Written in ${LANGUAGE_NAMES[language]}.`;
 }
 
-const RETRYABLE_STATUSES = new Set([429, 503]);
-// gemini-flash-latest's free tier occasionally needs more than one retry to
-// ride out a demand spike (observed: two consecutive 503s before a third
-// attempt succeeded) — a third attempt with more backoff room turns more of
-// these into an automatic success instead of a user-facing failure.
+// 500 INTERNAL is documented by Google as retryable and is returned
+// transiently; it was previously the one transient status we gave up on.
+const RETRYABLE_STATUSES = new Set([429, 500, 503]);
+// Observed on the free tier: two consecutive 503s before a third attempt
+// succeeded. The paid tier gets higher-priority capacity so 503s should be
+// rarer, but they are still possible — a third attempt with more backoff
+// room turns more of these into an automatic success instead of a
+// user-facing failure.
 const RETRY_DELAYS_MS = [500, 1500, 3000];
+
+/**
+ * A transport-level failure (`TypeError: fetch failed`, ECONNRESET, DNS, a
+ * socket timeout) carries no `.status`, so matching on status alone gave up
+ * on exactly the failures most likely to succeed on a second attempt. These
+ * are safe to retry here because every Gemini call in this file is a pure
+ * read — nothing is persisted until the response comes back, so a retry
+ * cannot double-write.
+ */
+function isTransportError(error: unknown): boolean {
+  if (!(error instanceof Error)) return false;
+  if ((error as { status?: number }).status !== undefined) return false;
+  return (
+    error.name === "TypeError" ||
+    /fetch failed|network|socket|ECONNRESET|ETIMEDOUT|EAI_AGAIN|ENOTFOUND/i.test(error.message)
+  );
+}
 
 function isRetryableStatus(error: unknown): boolean {
   const status = (error as { status?: number } | null)?.status;
-  return typeof status === "number" && RETRYABLE_STATUSES.has(status);
+  if (typeof status === "number") return RETRYABLE_STATUSES.has(status);
+  return isTransportError(error);
 }
 
 function sleep(ms: number) {
@@ -224,8 +245,29 @@ async function withRetry<T>(fn: () => Promise<T>): Promise<T> {
   throw lastError;
 }
 
-function parseResponse<T>(text: string | undefined): Result<T> {
+/**
+ * Both failure branches here are reached on a *successful* HTTP 200, so the
+ * surrounding try/catch never sees them. Until these logged, a letter that
+ * failed to analyse produced no console line, no Sentry event and no
+ * finishReason anywhere — the user saw "analysis failed" and we had nothing
+ * to look at. `response.text` is undefined whenever the candidate carries no
+ * non-thought text part (a safety block, or a MAX_TOKENS stop), which is
+ * exactly the branch that was invisible.
+ *
+ * CLAUDE.md requires every Gemini failure to reach Sentry; these two were the
+ * gap.
+ */
+function parseResponse<T>(
+  text: string | undefined,
+  geminiCall: string,
+  diagnostics: Record<string, unknown> = {},
+): Result<T> {
   if (!text) {
+    console.error(`Gemini ${geminiCall} returned no text part`, diagnostics);
+    Sentry.captureException(new Error(`Gemini ${geminiCall} returned no text part`), {
+      tags: { geminiCall, failureMode: "empty_response" },
+      extra: diagnostics,
+    });
     return {
       ok: false,
       error: { code: "ANALYSIS_FAILED", message: "The analysis came back empty.", recovery: "Try again." },
@@ -234,7 +276,12 @@ function parseResponse<T>(text: string | undefined): Result<T> {
   try {
     const parsed = JSON.parse(text) as T;
     return { ok: true, data: parsed };
-  } catch {
+  } catch (error) {
+    console.error(`Gemini ${geminiCall} returned unparseable JSON`, diagnostics);
+    Sentry.captureException(error, {
+      tags: { geminiCall, failureMode: "unparseable_json" },
+      extra: { ...diagnostics, textLength: text.length, textHead: text.slice(0, 200) },
+    });
     return {
       ok: false,
       error: { code: "ANALYSIS_FAILED", message: "The analysis came back in an unexpected format.", recovery: "Try again." },
@@ -267,10 +314,22 @@ export async function analyzeDocument(
           systemInstruction: buildSystemInstruction(language, sender),
           responseMimeType: "application/json",
           responseSchema: RESPONSE_SCHEMA,
+          // This was the only one of the three Gemini calls still paying for
+          // thinking tokens. Extracting fields from a letter into a fixed
+          // schema is not a reasoning task, and on a dense multi-page letter
+          // the thinking budget could consume the response allowance — which
+          // returns a candidate with no text part and surfaces to the user as
+          // "analysis failed". translateLetterContent and regenerateReplyDraft
+          // already set this; analyzeDocument was the omission.
+          thinkingConfig: { thinkingBudget: 0 },
         },
       }),
     );
-    return parseResponse<LetterAnalysis>(response.text);
+    return parseResponse<LetterAnalysis>(response.text, "analyzeDocument", {
+      finishReason: response.candidates?.[0]?.finishReason,
+      promptFeedback: response.promptFeedback,
+      usageMetadata: response.usageMetadata,
+    });
   } catch (error) {
     console.error("Gemini analysis failed", error);
     Sentry.captureException(error, { tags: { geminiCall: "analyzeDocument" } });
@@ -408,7 +467,11 @@ export async function translateLetterContent(
       }),
     );
 
-    const parsed = parseResponse<TranslateContentResponse>(response.text);
+    const parsed = parseResponse<TranslateContentResponse>(response.text, "translateLetterContent", {
+      finishReason: response.candidates?.[0]?.finishReason,
+      promptFeedback: response.promptFeedback,
+      usageMetadata: response.usageMetadata,
+    });
     if (!parsed.ok) return parsed;
     const t = parsed.data;
 
@@ -467,7 +530,7 @@ export async function translateLetterContent(
  * Regenerates just the reply in a user-picked tone (confirm / request more
  * time / object / ask for clarification first). Reuses the letter's already
  * -extracted summary/deadlines/risk_flags as context instead of re-sending
- * the original image — cheaper on Gemini's free-tier daily request quota,
+ * the original image — far fewer tokens per call than re-sending a document,
  * and the structured analysis already captures everything a reply needs.
  */
 export async function regenerateReplyDraft(
@@ -505,7 +568,11 @@ export async function regenerateReplyDraft(
         },
       }),
     );
-    return parseResponse<ReplyDraft>(response.text);
+    return parseResponse<ReplyDraft>(response.text, "regenerateReplyDraft", {
+      finishReason: response.candidates?.[0]?.finishReason,
+      promptFeedback: response.promptFeedback,
+      usageMetadata: response.usageMetadata,
+    });
   } catch (error) {
     console.error("Gemini reply regeneration failed", error);
     Sentry.captureException(error, { tags: { geminiCall: "regenerateReplyDraft" } });

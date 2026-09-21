@@ -101,3 +101,39 @@ export async function updateSenderInfo(
 
   return { ok: true, data: null };
 }
+
+/**
+ * Persists the analytics consent decision so server-side capture can honour
+ * it. The cookie alone is not enough: the Stripe webhook and the
+ * account-deletion action run with no browser context, and before this
+ * existed they captured events for users who had pressed "deny" — contradicting
+ * the privacy policy in all five languages.
+ *
+ * Anonymous visitors have nothing to persist to; the cookie is the whole
+ * story for them, since no server-side event can name them anyway.
+ */
+export async function setAnalyticsConsent(granted: boolean): Promise<Result<null>> {
+  const supabase = await createClient();
+  const { data: { user } } = await supabase.auth.getUser();
+
+  if (!user) return { ok: true, data: null };
+
+  const { error } = await supabase
+    .from("profiles")
+    .update({ analytics_consent: granted })
+    .eq("id", user.id);
+
+  if (error) {
+    console.error("setAnalyticsConsent failed", error);
+    return {
+      ok: false,
+      error: {
+        code: "CONSENT_PERSIST_FAILED",
+        message: "Couldn't save that preference.",
+        recovery: "It will be asked again next visit.",
+      },
+    };
+  }
+
+  return { ok: true, data: null };
+}
