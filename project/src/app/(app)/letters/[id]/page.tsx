@@ -10,6 +10,11 @@ import { SENDER_CATEGORY_ICONS } from "@/lib/letters/sender-category";
 import { APP_COPY } from "@/lib/i18n/copy";
 import { formatDate, formatDateTime } from "@/lib/format-date";
 
+// The reply wizard and auto-translate both call Gemini from this route.
+// See upload/page.tsx for why this is not left on the platform default.
+export const maxDuration = 60;
+
+
 type Deadline = { date: string; description: string };
 type Payment = { description: string; amount: string; source_quote: string };
 type Appointment = { description: string; date: string; source_quote: string };

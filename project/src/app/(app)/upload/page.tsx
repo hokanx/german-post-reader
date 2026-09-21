@@ -3,6 +3,21 @@ import type { AppLanguage } from "@/lib/letters/types";
 import { APP_COPY } from "@/lib/i18n/copy";
 import { UploadForm } from "./upload-form";
 
+// The upload action runs client-side compression, a Gemini document call, a
+// Storage upload and three DB writes inside ONE serverless invocation. A clean
+// Gemini call was measured at 11.3s, and the retry ladder (3 delays on
+// 429/500/503) can push the worst case to ~50s.
+//
+// maxDuration was declared nowhere, so this ran on the platform default — at
+// or below the clean-path time. When it times out the user does NOT get the
+// localized "Analysis failed — try again" state this action carefully builds;
+// they get a raw platform 504, which is the worst possible failure for someone
+// holding a Behörde letter they cannot read.
+//
+// 60s is the ceiling on Vercel's Hobby plan and well within Pro's.
+export const maxDuration = 60;
+
+
 export const metadata = {
   title: "Upload a letter — Papkram",
   description: "Upload a photo or PDF of your German letter for a plain-language analysis.",
