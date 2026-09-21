@@ -482,6 +482,23 @@ export async function translateLetterContent(
       t.key_fact_labels.length !== content.keyFacts.length ||
       t.key_fact_values.length !== content.keyFacts.length
     ) {
+      // The third silent branch, and a gap in the parseResponse fix: this is
+      // reached on an HTTP 200 carrying parseable JSON, so neither the
+      // try/catch nor parseResponse ever sees it. The user got "Couldn't
+      // translate this letter" and we got nothing.
+      const shape = {
+        deadlines: [t.deadline_descriptions.length, content.deadlines.length],
+        payments: [t.payment_descriptions.length, content.payments.length],
+        appointments: [t.appointment_descriptions.length, content.appointments.length],
+        keyFactLabels: [t.key_fact_labels.length, content.keyFacts.length],
+        keyFactValues: [t.key_fact_values.length, content.keyFacts.length],
+      };
+      console.error("Gemini translateLetterContent returned mismatched array lengths", shape);
+      Sentry.captureException(new Error("Gemini translation array length mismatch"), {
+        tags: { geminiCall: "translateLetterContent", failureMode: "length_mismatch" },
+        // Counts only — never the translated content itself, which is letter PII.
+        extra: shape,
+      });
       return {
         ok: false,
         error: { code: "ANALYSIS_FAILED", message: "The translation came back in an unexpected shape.", recovery: "Try again." },

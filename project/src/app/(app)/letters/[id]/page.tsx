@@ -8,7 +8,7 @@ import { LetterMenu } from "./letter-menu";
 import { LANGUAGE_NAMES, type AppLanguage, type SenderCategory } from "@/lib/letters/types";
 import { SENDER_CATEGORY_ICONS } from "@/lib/letters/sender-category";
 import { APP_COPY } from "@/lib/i18n/copy";
-import { formatDate } from "@/lib/format-date";
+import { formatDate, formatDateTime } from "@/lib/format-date";
 
 type Deadline = { date: string; description: string };
 type Payment = { description: string; amount: string; source_quote: string };
@@ -38,7 +38,7 @@ export default async function LetterPage({
     return null;
   }
 
-  const [{ data: letter }, { data: profile }] = await Promise.all([
+  const [{ data: letter, error: letterError }, { data: profile, error: profileError }] = await Promise.all([
     supabase
       .from("letters")
       .select(
@@ -49,6 +49,20 @@ export default async function LetterPage({
       .single(),
     supabase.from("profiles").select("language").eq("id", user.id).single(),
   ]);
+
+  // The fourth instance of the pattern fixed in dashboard/deadlines/settings,
+  // missed at the time. `.single()` returns `data: null` both for a genuinely
+  // absent row AND for a transport failure or timeout — so without this a
+  // transient blip rendered "We can't find that letter — it may have been
+  // removed, or the link doesn't belong to your account" about a letter that
+  // exists. That message is worse than a generic error: it tells a user their
+  // document is gone. PGRST116 ("no rows") is the real not-found case.
+  if (letterError && letterError.code !== "PGRST116") {
+    throw new Error(`letter detail: load failed (${letterError.code})`);
+  }
+  if (profileError && profileError.code !== "PGRST116") {
+    throw new Error(`letter detail: profile load failed (${profileError.code})`);
+  }
 
   if (!letter) {
     notFound();
@@ -205,7 +219,7 @@ export default async function LetterPage({
                           {appointment.description}
                         </span>
                         <span className="shrink-0 rounded-full border-2 border-border bg-accent px-3 py-1 text-sm font-extrabold text-accent-foreground">
-                          {formatDate(appointment.date, uiLanguage)}
+                          {formatDateTime(appointment.date, uiLanguage)}
                         </span>
                       </div>
                       <p lang="de" dir="ltr" className="flex items-start gap-1.5 px-1 text-left text-xs italic text-foreground/60">

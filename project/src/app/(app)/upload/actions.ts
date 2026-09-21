@@ -239,22 +239,34 @@ export async function uploadLetter(
     .maybeSingle();
 
   if (claimError || !claimed) {
-    const { data: current } = await service
+    const { data: current, error: rereadError } = await service
       .from("profiles")
       .select("trial_letters_used")
       .eq("id", user.id)
       .maybeSingle();
 
-    const { error: retryError } = await service
-      .from("profiles")
-      .update({ trial_letters_used: (current?.trial_letters_used ?? profile.trial_letters_used) + 1 })
-      .eq("id", user.id);
+    // The re-read's own failure has to be caught here. Falling back to the
+    // stale `profile.trial_letters_used` — the value the guarded update just
+    // proved wrong — would write the same number back, losing the increment
+    // entirely while producing no write error, so the Sentry call below would
+    // never fire. A failed read is not a value to compute from.
+    if (rereadError || !current) {
+      console.error("uploadLetter: could not re-read trial_letters_used; increment lost", rereadError);
+      Sentry.captureException(rereadError ?? new Error("trial_letters_used re-read returned no row"), {
+        tags: { action: "uploadLetter", step: "reread_trial" },
+      });
+    } else {
+      const { error: retryError } = await service
+        .from("profiles")
+        .update({ trial_letters_used: current.trial_letters_used + 1 })
+        .eq("id", user.id);
 
-    // A lost increment is a revenue leak that is otherwise completely silent:
-    // the user keeps a letter that was never counted against their trial.
-    if (retryError) {
-      console.error("uploadLetter: failed to increment trial_letters_used", retryError);
-      Sentry.captureException(retryError, { tags: { action: "uploadLetter", step: "increment_trial" } });
+      // A lost increment is a revenue leak that is otherwise completely
+      // silent: the user keeps a letter never counted against their trial.
+      if (retryError) {
+        console.error("uploadLetter: failed to increment trial_letters_used", retryError);
+        Sentry.captureException(retryError, { tags: { action: "uploadLetter", step: "increment_trial" } });
+      }
     }
   }
 
