@@ -4,6 +4,7 @@ import { PosthogProvider } from "@/components/PosthogProvider";
 import { CookieConsentBanner } from "@/components/cookie-consent-banner";
 import { Toaster } from "@/components/ui/sonner";
 import { getPreAuthLanguage } from "@/lib/i18n/get-locale";
+import { textDirection } from "@/lib/letters/locale";
 // Self-hosted (bundled npm packages, not a live fonts.gstatic.com fetch at
 // build time) — next/font/google's live fetch was unreliable on Vercel's
 // build machines (consistent 404s on one Bricolage Grotesque file). The
@@ -86,7 +87,17 @@ export default async function RootLayout({
   const language = await getPreAuthLanguage();
 
   return (
-    <html lang={language} className="h-full antialiased" suppressHydrationWarning>
+    // `dir` belongs here, not only on each page's <main>. Sonner reads the
+    // document's dir to decide toast direction (getDocumentDirection), and
+    // <html> had none — so every toast rendered LTR for Arabic users,
+    // including the confirmation shown immediately after switching to Arabic.
+    // Per-page <main dir> cannot fix that: toasts are portalled to <body>.
+    <html
+      lang={language}
+      dir={textDirection(language)}
+      className="h-full antialiased"
+      suppressHydrationWarning
+    >
       <body className="min-h-full flex flex-col">
         <ThemeProvider
           attribute="class"

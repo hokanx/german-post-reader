@@ -8,6 +8,7 @@ import { LetterMenu } from "./letter-menu";
 import { LANGUAGE_NAMES, type AppLanguage, type SenderCategory } from "@/lib/letters/types";
 import { SENDER_CATEGORY_ICONS } from "@/lib/letters/sender-category";
 import { APP_COPY } from "@/lib/i18n/copy";
+import { formatDate } from "@/lib/format-date";
 
 type Deadline = { date: string; description: string };
 type Payment = { description: string; amount: string; source_quote: string };
@@ -204,7 +205,7 @@ export default async function LetterPage({
                           {appointment.description}
                         </span>
                         <span className="shrink-0 rounded-full border-2 border-border bg-accent px-3 py-1 text-sm font-extrabold text-accent-foreground">
-                          {appointment.date}
+                          {formatDate(appointment.date, uiLanguage)}
                         </span>
                       </div>
                       <p lang="de" dir="ltr" className="flex items-start gap-1.5 px-1 text-left text-xs italic text-foreground/60">
@@ -262,7 +263,7 @@ export default async function LetterPage({
                       {deadline.description}
                     </span>
                     <span className="shrink-0 rounded-full border-2 border-border bg-accent px-3 py-1 text-xs font-bold uppercase tracking-[0.06em] text-accent-foreground">
-                      {deadline.date}
+                      {formatDate(deadline.date, uiLanguage)}
                     </span>
                   </li>
                 ))}
