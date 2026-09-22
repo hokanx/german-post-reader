@@ -5,6 +5,49 @@ import { useEffect, useState } from "react";
 const POLL_INTERVAL_MS = 30_000;
 
 /**
+ * One shared poller for however many counters are on the page.
+ *
+ * LiveCounter is rendered twice on the landing page — once in the hero and
+ * once in the final CTA band — and each mount previously started its own
+ * 30s interval. That made one open tab issue 4 requests/minute, each an
+ * uncached serverless invocation running a service-role COUNT(*), all to
+ * show a number that changed 10 times in 53 days.
+ *
+ * The interval is ref-counted: it starts when the first counter mounts and
+ * stops when the last one unmounts, so nothing polls on a page with no
+ * counter (e.g. when DEMO_MODE is off and the CTA band hides its own).
+ */
+const listeners = new Set<(count: number) => void>();
+let timer: ReturnType<typeof setInterval> | null = null;
+
+async function pollOnce() {
+  try {
+    const response = await fetch("/api/registered-count");
+    if (!response.ok) return;
+    const data: { count: number | null } = await response.json();
+    if (data.count !== null) {
+      for (const listener of listeners) listener(data.count);
+    }
+  } catch (error) {
+    console.error("registered-count poll failed", error);
+  }
+}
+
+function subscribeToCount(listener: (count: number) => void) {
+  listeners.add(listener);
+  if (timer === null) {
+    timer = setInterval(pollOnce, POLL_INTERVAL_MS);
+  }
+  return () => {
+    listeners.delete(listener);
+    if (listeners.size === 0 && timer !== null) {
+      clearInterval(timer);
+      timer = null;
+    }
+  };
+}
+
+/**
  * The pulsing-dot signup counter shown in both the hero and the final CTA
  * band. `registeredCount` is `null` when the count couldn't be determined
  * (Supabase query error, service client failing to construct, etc.) —
@@ -23,21 +66,7 @@ export function LiveCounter({
 }) {
   const [liveCount, setLiveCount] = useState(registeredCount);
 
-  useEffect(() => {
-    const interval = setInterval(async () => {
-      try {
-        const response = await fetch("/api/registered-count");
-        if (!response.ok) return;
-        const data: { count: number | null } = await response.json();
-        if (data.count !== null) {
-          setLiveCount(data.count);
-        }
-      } catch (error) {
-        console.error("registered-count poll failed", error);
-      }
-    }, POLL_INTERVAL_MS);
-    return () => clearInterval(interval);
-  }, []);
+  useEffect(() => subscribeToCount(setLiveCount), []);
 
   if (liveCount === null) return null;
 

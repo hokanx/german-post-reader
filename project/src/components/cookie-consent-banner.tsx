@@ -3,7 +3,8 @@
 import { useState, useSyncExternalStore } from "react";
 import { Cookie } from "lucide-react";
 import type { AppLanguage } from "@/lib/letters/types";
-import { APP_COPY } from "@/lib/i18n/copy";
+import type { AppCopy } from "@/lib/i18n/copy";
+import { textDirection } from "@/lib/letters/locale";
 import { setAnalyticsConsent } from "@/lib/profile/actions";
 
 const CONSENT_COOKIE = "consent_analytics";
@@ -36,8 +37,13 @@ function getServerSnapshot(): "granted" | "denied" | null {
  * as opt-in, not opt-out, under §25 TTDSG. Rendered in the root layout so it
  * applies to every page, pre-auth and authenticated alike.
  */
-export function CookieConsentBanner({ language }: { language: AppLanguage }) {
-  const copy = APP_COPY[language].cookieConsent;
+export function CookieConsentBanner({
+  language,
+  copy,
+}: {
+  language: AppLanguage;
+  copy: AppCopy["cookieConsent"];
+}) {
   const [dismissed, setDismissed] = useState(false);
   const consent = useSyncExternalStore(subscribe, readConsentCookie, getServerSnapshot);
 
@@ -59,7 +65,7 @@ export function CookieConsentBanner({ language }: { language: AppLanguage }) {
     <div
       role="region"
       aria-label={copy.ariaLabel}
-      dir={language === "ar" ? "rtl" : "ltr"}
+      dir={textDirection(language)}
       className="fixed inset-x-0 bottom-0 z-50 border-t-2 border-border bg-card px-4 py-4 shadow-[0_-4px_0_0_var(--border)] sm:px-6"
     >
       <div className="mx-auto flex max-w-3xl flex-col items-start gap-3 sm:flex-row sm:items-center sm:justify-between">

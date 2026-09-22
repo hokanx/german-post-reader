@@ -1,8 +1,8 @@
 "use client";
 
 import { useEffect, type ReactNode } from "react";
-import posthog from "posthog-js";
 import { flushQueuedEvents } from "@/lib/analytics/track-event";
+import { loadPosthog } from "@/lib/analytics/posthog-client";
 import { setAnalyticsConsent } from "@/lib/profile/actions";
 
 const CONSENT_COOKIE = "consent_analytics";
@@ -12,9 +12,18 @@ function hasAnalyticsConsent() {
   return document.cookie.split("; ").includes(`${CONSENT_COOKIE}=granted`);
 }
 
-function initPosthog() {
+/**
+ * posthog-js is imported HERE, inside the consent branch, rather than at
+ * module scope — see posthog-client.ts. A static import put 62.5 KB brotli
+ * into the initial bundle of every route, including the legal and auth pages
+ * and every visitor who never grants consent.
+ */
+async function initPosthog() {
   const key = process.env.NEXT_PUBLIC_POSTHOG_KEY;
-  if (!key || posthog.__loaded) return;
+  if (!key) return;
+
+  const posthog = await loadPosthog();
+  if (posthog.__loaded) return;
 
   posthog.init(key, {
     api_host: process.env.NEXT_PUBLIC_POSTHOG_HOST ?? "https://us.i.posthog.com",
@@ -36,18 +45,23 @@ function initPosthog() {
 export function PosthogProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     if (hasAnalyticsConsent()) {
-      initPosthog();
+      void initPosthog();
       // Mirrors an already-granted cookie into the profile so server-side
       // capture can honour it. Without this, anyone who consented before
       // migration 0017 would keep a granted cookie and a `false` column, and
-      // their subscription/deletion events would be dropped for ever. No-ops
-      // for anonymous visitors.
-      void setAnalyticsConsent(true);
+      // their subscription/deletion events would be dropped for ever.
+      //
+      // Guarded by a session-scoped marker: the provider is in the root
+      // layout, so this previously fired a server action plus two Supabase
+      // round-trips on EVERY page load — including anonymous landing visits,
+      // where it does nothing but pay for an auth check. Once per tab is
+      // enough to close the migration gap.
+      void syncConsentOncePerSession();
     }
 
     function handleGranted() {
-      initPosthog();
-      void setAnalyticsConsent(true);
+      void initPosthog();
+      void syncConsentOncePerSession();
     }
 
     window.addEventListener(CONSENT_GRANTED_EVENT, handleGranted);
@@ -55,4 +69,20 @@ export function PosthogProvider({ children }: { children: ReactNode }) {
   }, []);
 
   return <>{children}</>;
+}
+
+const CONSENT_SYNCED_KEY = "papkram:consent-synced";
+
+async function syncConsentOncePerSession() {
+  try {
+    if (sessionStorage.getItem(CONSENT_SYNCED_KEY) === "1") return;
+  } catch {
+    // Private mode or blocked storage — fall through and just sync.
+  }
+  await setAnalyticsConsent(true);
+  try {
+    sessionStorage.setItem(CONSENT_SYNCED_KEY, "1");
+  } catch {
+    // Not being able to remember is harmless; worst case we sync again.
+  }
 }

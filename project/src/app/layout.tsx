@@ -4,6 +4,7 @@ import { PosthogProvider } from "@/components/PosthogProvider";
 import { CookieConsentBanner } from "@/components/cookie-consent-banner";
 import { Toaster } from "@/components/ui/sonner";
 import { getPreAuthLanguage } from "@/lib/i18n/get-locale";
+import { APP_COPY } from "@/lib/i18n/copy";
 import { textDirection } from "@/lib/letters/locale";
 // Self-hosted (bundled npm packages, not a live fonts.gstatic.com fetch at
 // build time) — next/font/google's live fetch was unreliable on Vercel's
@@ -108,7 +109,11 @@ export default async function RootLayout({
           <PosthogProvider>
             {children}
             <Toaster position="top-center" />
-            <CookieConsentBanner language={language} />
+            {/* Resolved strings, not the dictionary: importing APP_COPY into
+                this client component put all five languages (28.9 KB brotli)
+                into the initial bundle of every route, since the object is
+                keyed by locale and nothing tree-shakes. */}
+            <CookieConsentBanner language={language} copy={APP_COPY[language].cookieConsent} />
           </PosthogProvider>
         </ThemeProvider>
       </body>

@@ -1,6 +1,6 @@
 "use client";
 
-import posthog from "posthog-js";
+import { getPosthog } from "./posthog-client";
 
 type QueuedEvent = { name: string; properties?: Record<string, unknown> };
 
@@ -27,7 +27,8 @@ let queue: QueuedEvent[] = [];
  * generically correct fix, not just a consent-gating one.
  */
 export function trackEvent(name: string, properties?: Record<string, unknown>) {
-  if (posthog.__loaded) {
+  const posthog = getPosthog();
+  if (posthog?.__loaded) {
     posthog.capture(name, properties);
     return;
   }
@@ -39,7 +40,8 @@ export function trackEvent(name: string, properties?: Record<string, unknown>) {
 
 /** Replays any events queued before PostHog finished loading. Call once, immediately after `posthog.init()`. */
 export function flushQueuedEvents() {
-  if (!posthog.__loaded || queue.length === 0) return;
+  const posthog = getPosthog();
+  if (!posthog?.__loaded || queue.length === 0) return;
   const pending = queue;
   queue = [];
   for (const event of pending) {
